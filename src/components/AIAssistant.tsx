@@ -116,7 +116,7 @@ export default function AIAssistant(): React.JSX.Element {
             </Button>
 
             {isOpen && (
-                <Card className="fixed bottom-20 left-4 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50">
+                <Card className="fixed bottom-20 left-4 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 font-body">
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="flex items-center gap-2">
                             <Bot className="text-primary" /> AI Travel Assistant
