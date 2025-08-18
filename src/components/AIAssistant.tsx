@@ -9,6 +9,8 @@ import { handleQuery } from '@/app/actions';
 import { useToast } from "@/hooks/use-toast"
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -72,7 +74,7 @@ export default function AIAssistant(): React.JSX.Element {
   return (
     <>
       <Button
-        className="fixed bottom-4 right-4 h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
+        className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
         size="icon"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle AI Assistant"

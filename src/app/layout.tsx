@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import AIAssistant from "@/components/AIAssistant";
 import { ThemeProvider } from '@/components/ThemeProvider';
+import FloatingButtons from '@/components/FloatingButtons';
 
 export const metadata: Metadata = {
   title: 'BaliBlissed Journeys',
@@ -15,7 +16,7 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): React.JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -35,7 +36,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-          <AIAssistant />
+          <FloatingButtons />
           <Toaster />
         </ThemeProvider>
       </body>
