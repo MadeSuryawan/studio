@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -17,9 +18,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { CalendarIcon, MapPin, Search, Waves, Utensils, Users, BedDouble, Plane } from "lucide-react"
+import { CalendarIcon, MapPin, Search, Waves, Utensils, Users, BedDouble, Plane, Loader2 } from "lucide-react"
 import { TempleIcon } from "@/components/icons/TempleIcon"
 import { DanceIcon } from "@/components/icons/DanceIcon"
+import { handleItineraryRequest } from "./actions"
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 
 
 const HeroSection = (): React.JSX.Element => (
@@ -49,16 +52,40 @@ const HeroSection = (): React.JSX.Element => (
 const searchSchema = z.object({
   interests: z.string().min(1, "Please select an interest"),
   date: z.date().optional(),
+  budget: z.string().min(2, "Please provide a budget"),
 });
 
 const SearchSection = (): React.JSX.Element => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [itinerary, setItinerary] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
+    defaultValues: {
+      interests: "",
+      budget: "",
+    }
   });
 
-  function onSubmit(data: z.infer<typeof searchSchema>): void {
-    console.log(data);
-    // In a real app, this would trigger a search or navigation
+  async function onSubmit(data: z.infer<typeof searchSchema>): Promise<void> {
+    setIsLoading(true);
+    setError(null);
+    setItinerary(null);
+
+    const result = await handleItineraryRequest({
+      interests: data.interests,
+      travelDates: data.date ? format(data.date, "yyyy-MM-dd") : "any time",
+      budget: data.budget,
+    });
+
+    setIsLoading(false);
+
+    if (result.success && result.data) {
+      setItinerary(result.data.itinerary);
+    } else {
+      setError(result.error ?? "An unexpected error occurred.");
+    }
   }
   
   return (
@@ -67,7 +94,7 @@ const SearchSection = (): React.JSX.Element => {
         <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-2xl"><Search/> Find Your Perfect Trip</CardTitle>
-            <CardDescription>Filter by your interests and travel dates.</CardDescription>
+            <CardDescription>Fill out your preferences and let our AI create a custom itinerary just for you.</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -127,7 +154,7 @@ const SearchSection = (): React.JSX.Element => {
                             selected={field.value}
                             onSelect={field.onChange}
                             disabled={(date: Date) =>
-                              date < new Date() || date < new Date("1900-01-01")
+                              date < new Date(new Date().setHours(0,0,0,0))
                             }
                             initialFocus
                           />
@@ -137,12 +164,40 @@ const SearchSection = (): React.JSX.Element => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" size="lg" className="md:col-start-3 bg-primary hover:bg-primary/90">Search</Button>
+                 <FormField
+                  control={form.control}
+                  name="budget"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Budget (e.g., $1000)</FormLabel>
+                       <FormControl>
+                         <Input placeholder="Your budget" {...field} />
+                       </FormControl>
+                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" size="lg" className="md:col-start-3 bg-primary hover:bg-primary/90" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : "Create My Itinerary"}
+                </Button>
               </form>
             </Form>
           </CardContent>
         </Card>
       </div>
+      <AlertDialog open={!!itinerary || !!error} onOpenChange={() => { setItinerary(null); setError(null); }}>
+        <AlertDialogContent className="max-w-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>{error ? "Oh no!" : "Your Custom Itinerary"}</AlertDialogTitle>
+            <AlertDialogDescription className="whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto">
+              {error || itinerary}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => { setItinerary(null); setError(null); }}>Close</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   )
 };
