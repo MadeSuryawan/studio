@@ -20,7 +20,7 @@ export default function Header(): JSX.Element {
                 className="flex items-center justify-center"
                 prefetch={false}
             >
-                <LogoIcon className="h-10 w-auto text-primary" />
+                <LogoIcon className="mt-2 md:mt-5 h-[90px] w-[90px] md:h-[110px] md:w-[110px] text-primary"  />
                 <span className="sr-only">BaliBlissed</span>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">

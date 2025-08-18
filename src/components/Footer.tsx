@@ -33,7 +33,7 @@ export default function Footer(): JSX.Element {
                             href="/"
                             className="flex items-center gap-2 text-white"
                         >
-                            <LogoIcon className="h-10 w-auto text-primary" />
+                            <LogoIcon className="mt-2 md:mt-5 h-[90px] w-[90px] md:h-[110px] md:w-[110px] text-primary"  />
                         </Link>
                         <p className="max-w-md text-sm">
                             Crafting personalized and unforgettable travel
