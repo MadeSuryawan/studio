@@ -72,6 +72,26 @@ npm run genkit:watch
 
 Once both servers are running, you can open `http://localhost:9002` in your browser to see the application.
 
+## 5. Building and Previewing for Production
+
+To test the production-ready version of your application, you can build it and run the production server locally.
+
+1.  **Build the application:**
+    This command creates an optimized production build in the `.next` directory.
+
+    ```bash
+    npm run build
+    ```
+
+2.  **Start the production server:**
+    This command starts a local server to serve the files from your production build.
+
+    ```bash
+    npm run start
+    ```
+
+    You can then access the production preview at `http://localhost:3000`.
+
 ## Project Structure Overview
 
 Here's a quick look at the key folders:
