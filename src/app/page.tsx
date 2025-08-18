@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { CalendarIcon, MapPin, Search, Waves, Utensils, Users, BedDouble, Plane, Loader2 } from "lucide-react"
+import { CalendarIcon, Car, MapPin, Search, Waves, Utensils, Users, BedDouble, Plane, Loader2, ShieldCheck, Clock, UserCheck } from "lucide-react"
 import { TempleIcon } from "@/components/icons/TempleIcon"
 import { DanceIcon } from "@/components/icons/DanceIcon"
 import { handleItineraryRequest } from "./actions"
@@ -327,6 +327,59 @@ const PackagesSection = (): React.JSX.Element => (
   </section>
 );
 
+
+const CarCharterSection = (): React.JSX.Element => (
+  <section id="car-charter" className="w-full py-12 md:py-24 relative">
+    <Image 
+      src="https://placehold.co/1920x1080.png" 
+      alt="Road through Bali" 
+      fill 
+      className="object-cover brightness-[.25] -z-10"
+      data-ai-hint="bali road forest"
+    />
+    <div className="container px-4 md:px-6 text-center text-primary-foreground">
+      <div className="max-w-3xl mx-auto">
+        <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
+          Our Premier Service
+        </div>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Explore Bali Your Way</h2>
+        <p className="mt-4 text-lg md:text-xl text-primary-foreground/90">
+          Enjoy the ultimate freedom and flexibility with our private car charter service. Your personal driver, your custom itinerary.
+        </p>
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+            <div className="flex items-start gap-4">
+                <ShieldCheck className="w-12 h-12 text-accent flex-shrink-0" />
+                <div>
+                    <h3 className="font-bold">Safe & Reliable</h3>
+                    <p className="text-sm text-primary-foreground/80">Professional, experienced drivers and well-maintained vehicles for your peace of mind.</p>
+                </div>
+            </div>
+            <div className="flex items-start gap-4">
+                <Clock className="w-12 h-12 text-accent flex-shrink-0" />
+                <div>
+                    <h3 className="font-bold">Flexible Hours</h3>
+                    <p className="text-sm text-primary-foreground/80">Choose from half-day (6 hours) or full-day (10 hours) charters to suit your schedule.</p>
+                </div>
+            </div>
+            <div className="flex items-start gap-4">
+                <UserCheck className="w-12 h-12 text-accent flex-shrink-0" />
+                <div>
+                    <h3 className="font-bold">Expert Local Drivers</h3>
+                    <p className="text-sm text-primary-foreground/80">Our drivers are also your local guides, ready to share insights and hidden gems.</p>
+                </div>
+            </div>
+        </div>
+        <div className="mt-10">
+          <Button asChild size="lg" variant="secondary" className="bg-primary-foreground/10 border-border/50 border hover:bg-primary-foreground/20">
+            <Link href="/private-car-charter">Learn More & Book</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   email: z.string().email("Please enter a valid email address."),
@@ -409,6 +462,7 @@ export default function Home(): React.JSX.Element {
       <SearchSection />
       <DestinationsSection />
       <PackagesSection />
+      <CarCharterSection />
       <ContactSection />
     </>
   );

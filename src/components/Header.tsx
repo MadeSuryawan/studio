@@ -14,17 +14,20 @@ export default function Header(): JSX.Element {
         <span className="sr-only">BaliBlissed Journeys</span>
       </Link>
       <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
-        <Link href="#destinations" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
+        <Link href="/private-car-charter" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
+          Car Charter
+        </Link>
+        <Link href="/#destinations" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
           Destinations
         </Link>
-        <Link href="#packages" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
+        <Link href="/#packages" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
           Packages
         </Link>
-        <Link href="#contact" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
+        <Link href="/#contact" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
           Contact
         </Link>
          <Button asChild className="hidden sm:inline-flex bg-accent text-accent-foreground hover:bg-accent/90">
-          <Link href="#contact" prefetch={false}>
+          <Link href="/#contact" prefetch={false}>
             Book Now
           </Link>
         </Button>
@@ -50,21 +53,28 @@ export default function Header(): JSX.Element {
               <span className="sr-only">BaliBlissed Journeys</span>
             </Link>
             <Link
-              href="#destinations"
+              href="/private-car-charter"
+              className="text-muted-foreground hover:text-foreground"
+              prefetch={false}
+            >
+              Car Charter
+            </Link>
+            <Link
+              href="/#destinations"
               className="text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
               Destinations
             </Link>
             <Link
-              href="#packages"
+              href="/#packages"
               className="text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
               Packages
             </Link>
             <Link
-              href="#contact"
+              href="/#contact"
               className="text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
