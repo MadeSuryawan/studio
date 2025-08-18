@@ -27,6 +27,13 @@ export default function Header(): JSX.Element {
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
                 <Link
+                    href="/"
+                    className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                    prefetch={false}
+                >
+                    Home
+                </Link>
+                <Link
                     href="/private-car-charter"
                     className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
                     prefetch={false}
@@ -90,6 +97,13 @@ export default function Header(): JSX.Element {
                             <span className="sr-only">
                                 BaliBlissed
                             </span>
+                        </Link>
+                        <Link
+                            href="/"
+                            className="text-muted-foreground hover:text-foreground"
+                            prefetch={false}
+                        >
+                            Home
                         </Link>
                         <Link
                             href="/private-car-charter"
