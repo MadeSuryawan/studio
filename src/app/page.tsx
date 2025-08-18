@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { WHATSAPP_NUMBER } from "@/lib/config";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -162,8 +163,8 @@ const SearchSection = (): React.JSX.Element => {
         }
     }
 
-    const whatsappMessage = `Hello! I created an itinerary with your AI assistant and I'm interested in learning more. Here is the plan:\n\n${itinerary}`;
-    const whatsappUrl = `https://wa.me/1234567890?text=${encodeURIComponent(whatsappMessage)}`;
+    const whatsappMessage = `Hello! I created a custom Bali itinerary using your AI assistant and I would love to learn more about booking it. Here's the plan:\n\n${itinerary}`;
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
         <section className="w-full py-12 md:py-24 bg-background">
@@ -650,7 +651,7 @@ const CarCharterSection = (): React.JSX.Element => (
                 <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
                     Our Premier Service
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline text-white">
                     Explore Bali Your Way
                 </h2>
                 <p className="mt-4 text-lg md:text-xl text-white/90">
@@ -662,7 +663,7 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <ShieldCheck className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold">Safe & Reliable</h3>
+                            <h3 className="font-bold text-white">Safe & Reliable</h3>
                             <p className="text-sm text-white/80">
                                 Professional, experienced drivers and
                                 well-maintained vehicles for your peace of mind.
@@ -672,7 +673,7 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <Clock className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold">Flexible Hours</h3>
+                            <h3 className="font-bold text-white">Flexible Hours</h3>
                             <p className="text-sm text-white/80">
                                 Choose from half-day (6 hours) or full-day (10
                                 hours) charters to suit your schedule.
@@ -682,7 +683,7 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <UserCheck className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold">Expert Local Drivers</h3>
+                            <h3 className="font-bold text-white">Expert Local Drivers</h3>
                             <p className="text-sm text-white/80">
                                 Our drivers are also your local guides, ready to
                                 share insights and hidden gems.

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowUp, MessageSquare, Phone } from "lucide-react";
 import AIAssistant from "./AIAssistant";
+import { WHATSAPP_NUMBER } from "@/lib/config";
 
 const WhatsAppIcon = (): React.JSX.Element => (
     <svg
@@ -62,7 +63,7 @@ export default function FloatingButtons(): React.JSX.Element {
                     aria-label="Contact on WhatsApp"
                 >
                     <a
-                        href="https://wa.me/1234567890"
+                        href={`https://wa.me/${WHATSAPP_NUMBER}`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
