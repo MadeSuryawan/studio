@@ -21,7 +21,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { CalendarIcon, Car, MapPin, Search, Waves, Utensils, Users, BedDouble, Plane, Loader2, ShieldCheck, Clock, UserCheck } from "lucide-react"
 import { TempleIcon } from "@/components/icons/TempleIcon"
 import { DanceIcon } from "@/components/icons/DanceIcon"
-import { handleItineraryRequest } from "./actions"
+import { handleItineraryRequest, handleContactRequest } from "./actions"
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { type DateRange } from "react-day-picker"
 
@@ -408,14 +408,28 @@ const contactSchema = z.object({
 });
 
 const ContactSection = (): React.JSX.Element => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [dialogState, setDialogState] = React.useState<{title: string; description: string} | null>(null);
+
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", message: "" }
   });
 
-  function onSubmit(data: z.infer<typeof contactSchema>): void {
-    console.log("Form submitted:", data);
-    // Here you would typically send the data to a server
+  async function onSubmit(data: z.infer<typeof contactSchema>): Promise<void> {
+    setIsLoading(true);
+    setDialogState(null);
+
+    const result = await handleContactRequest(data);
+    
+    setIsLoading(false);
+    
+    if (result.success && result.data) {
+      setDialogState({ title: "Message Sent!", description: result.data.confirmation });
+      form.reset();
+    } else {
+      setDialogState({ title: "Oh no!", description: result.error ?? "An unexpected error occurred." });
+    }
   }
 
   return (
@@ -466,11 +480,26 @@ const ContactSection = (): React.JSX.Element => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">Send Message</Button>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? <Loader2 className="animate-spin" /> : "Send Message"}
+              </Button>
             </form>
           </Form>
         </div>
       </div>
+       <AlertDialog open={!!dialogState} onOpenChange={() => setDialogState(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{dialogState?.title}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {dialogState?.description}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setDialogState(null)}>Close</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   );
 };
@@ -488,5 +517,3 @@ export default function Home(): React.JSX.Element {
     </>
   );
 }
-
-    
