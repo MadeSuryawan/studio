@@ -1,5 +1,4 @@
-
-'use server';
+"use server";
 
 /**
  * @fileOverview Defines a Genkit flow for handling user contact inquiries.
@@ -9,32 +8,38 @@
  * - HandleContactInquiryOutput - The return type for the handleContactInquiry function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from "@/ai/genkit";
+import { z } from "genkit";
 
 const HandleContactInquiryInputSchema = z.object({
-  name: z.string().describe("The user's name."),
-  email: z.string().email().describe("The user's email address."),
-  message: z.string().describe("The user's message."),
+    name: z.string().describe("The user's name."),
+    email: z.string().email().describe("The user's email address."),
+    message: z.string().describe("The user's message."),
 });
-export type HandleContactInquiryInput = z.infer<typeof HandleContactInquiryInputSchema>;
+export type HandleContactInquiryInput = z.infer<
+    typeof HandleContactInquiryInputSchema
+>;
 
 const HandleContactInquiryOutputSchema = z.object({
-  confirmation: z.string().describe('A confirmation message to be shown to the user.'),
+    confirmation: z
+        .string()
+        .describe("A confirmation message to be shown to the user."),
 });
-export type HandleContactInquiryOutput = z.infer<typeof HandleContactInquiryOutputSchema>;
+export type HandleContactInquiryOutput = z.infer<
+    typeof HandleContactInquiryOutputSchema
+>;
 
 export async function handleContactInquiry(
-  input: HandleContactInquiryInput
+    input: HandleContactInquiryInput,
 ): Promise<HandleContactInquiryOutput> {
-  return handleContactInquiryFlow(input);
+    return handleContactInquiryFlow(input);
 }
 
 const prompt = ai.definePrompt({
-  name: 'handleContactInquiryPrompt',
-  input: {schema: HandleContactInquiryInputSchema},
-  output: {schema: HandleContactInquiryOutputSchema},
-  prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed Journeys.
+    name: "handleContactInquiryPrompt",
+    input: { schema: HandleContactInquiryInputSchema },
+    output: { schema: HandleContactInquiryOutputSchema },
+    prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed Journeys.
 
   A user has submitted the following inquiry through the contact form:
   
@@ -50,13 +55,13 @@ const prompt = ai.definePrompt({
 });
 
 const handleContactInquiryFlow = ai.defineFlow(
-  {
-    name: 'handleContactInquiryFlow',
-    inputSchema: HandleContactInquiryInputSchema,
-    outputSchema: HandleContactInquiryOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
+    {
+        name: "handleContactInquiryFlow",
+        inputSchema: HandleContactInquiryInputSchema,
+        outputSchema: HandleContactInquiryOutputSchema,
+    },
+    async (input) => {
+        const { output } = await prompt(input);
+        return output!;
+    },
 );
