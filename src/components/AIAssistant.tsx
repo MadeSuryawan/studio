@@ -18,19 +18,10 @@ import { cn } from "@/lib/utils";
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "./ui/dialog";
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "./ui/sheet";
 
 type Message = {
     role: "user" | "assistant";
@@ -102,26 +93,26 @@ export default function AIAssistant(): React.JSX.Element {
 
     return (
         <div className="fixed bottom-4 left-4 z-50">
-            <Button
-                className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
-                size="icon"
-                onClick={() => setIsOpen(!isOpen)}
-                aria-label="Toggle AI Assistant"
-            >
-                {isOpen ? (
-                    <X className="h-6 w-6" />
-                ) : (
-                    <MessageSquare className="h-6 w-6" />
-                )}
-            </Button>
-
-            {isOpen && (
-                <Card className="fixed bottom-20 left-4 w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 font-body">
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="flex items-center gap-2">
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                    <Button
+                        className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
+                        size="icon"
+                        aria-label="Toggle AI Assistant"
+                    >
+                        {isOpen ? (
+                            <X className="h-6 w-6" />
+                        ) : (
+                            <MessageSquare className="h-6 w-6" />
+                        )}
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 p-0 font-body">
+                    <DialogHeader className="p-4 border-b">
+                        <DialogTitle className="flex items-center gap-2">
                             <Bot className="text-primary" /> AI Travel Assistant
-                        </CardTitle>
-                    </CardHeader>
+                        </DialogTitle>
+                    </DialogHeader>
                     <CardContent className="flex-grow overflow-hidden p-0">
                         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
                             <div className="space-y-4">
@@ -178,7 +169,7 @@ export default function AIAssistant(): React.JSX.Element {
                             </div>
                         </ScrollArea>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="p-4 border-t">
                         <form
                             onSubmit={handleSubmit}
                             className="flex w-full items-center space-x-2"
@@ -199,8 +190,8 @@ export default function AIAssistant(): React.JSX.Element {
                             </Button>
                         </form>
                     </CardFooter>
-                </Card>
-            )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

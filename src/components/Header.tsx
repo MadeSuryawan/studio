@@ -10,9 +10,6 @@ import {
     Sheet,
     SheetContent,
     SheetTrigger,
-    SheetTitle,
-    SheetDescription,
-    SheetClose
 } from "@/components/ui/sheet";
 import LogoIcon from "./LogoIcon";
 
@@ -81,17 +78,12 @@ export default function Header(): JSX.Element {
                         variant="outline"
                         size="icon"
                         className="ml-auto md:hidden"
-                        onClick={() => setIsMenuOpen(true)}
                     >
                         <Menu className="h-6 w-6" />
                         <span className="sr-only">Toggle navigation menu</span>
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="right">
-                    <SheetTitle className="sr-only">Menu</SheetTitle>
-                    <SheetDescription className="sr-only">
-                        Main navigation menu
-                    </SheetDescription>
                     <nav className="grid gap-6 text-lg font-medium mt-12">
                         <Link
                             href="/"
