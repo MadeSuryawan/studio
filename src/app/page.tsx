@@ -8,6 +8,7 @@ import DestinationsSection from "@/components/home/DestinationsSection";
 import PackagesSection from "@/components/home/PackagesSection";
 import CarCharterSection from "@/components/home/CarCharterSection";
 import ContactSection from "@/components/home/ContactSection";
+import BlogSection from "@/components/home/BlogSection";
 
 type SectionWrapperProps = {
     children: React.ReactNode;
@@ -24,6 +25,7 @@ export default function Home(): React.JSX.Element {
         CarCharterSection,
         DestinationsSection,
         PackagesSection,
+        BlogSection,
         ContactSection,
     ];
 
@@ -35,7 +37,7 @@ export default function Home(): React.JSX.Element {
                     <SectionWrapper
                         key={index}
                         className={cn(
-                            index % 2 === 0 ? "bg-background" : "bg-secondary",
+                            index % 2 === 0 ? "bg-secondary" : "bg-background",
                         )}
                     >
                         <SectionComponent />
