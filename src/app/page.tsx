@@ -23,6 +23,7 @@ import { TempleIcon } from "@/components/icons/TempleIcon"
 import { DanceIcon } from "@/components/icons/DanceIcon"
 import { handleItineraryRequest } from "./actions"
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { type DateRange } from "react-day-picker"
 
 
 const HeroSection = (): React.JSX.Element => (
@@ -51,7 +52,10 @@ const HeroSection = (): React.JSX.Element => (
 
 const searchSchema = z.object({
   interests: z.string().min(1, "Please select an interest"),
-  date: z.date().optional(),
+  date: z.object({
+    from: z.date().optional(),
+    to: z.date().optional(),
+  }).optional(),
   budget: z.string().min(2, "Please provide a budget"),
 });
 
@@ -73,9 +77,18 @@ const SearchSection = (): React.JSX.Element => {
     setError(null);
     setItinerary(null);
 
+    let travelDates = "any time";
+    if (data.date?.from) {
+      if (data.date.to) {
+        travelDates = `${format(data.date.from, "yyyy-MM-dd")} to ${format(data.date.to, "yyyy-MM-dd")}`;
+      } else {
+        travelDates = format(data.date.from, "yyyy-MM-dd");
+      }
+    }
+
     const result = await handleItineraryRequest({
       interests: data.interests,
-      travelDates: data.date ? format(data.date, "yyyy-MM-dd") : "any time",
+      travelDates: travelDates,
       budget: data.budget,
     });
 
@@ -128,7 +141,7 @@ const SearchSection = (): React.JSX.Element => {
                   name="date"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Travel Date (Optional)</FormLabel>
+                      <FormLabel>Travel Dates (Optional)</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -136,13 +149,20 @@ const SearchSection = (): React.JSX.Element => {
                               variant={"outline"}
                               className={cn(
                                 "pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
+                                !field.value?.from && "text-muted-foreground"
                               )}
                             >
-                              {field.value ? (
-                                format(field.value, "PPP")
+                              {field.value?.from ? (
+                                field.value.to ? (
+                                  <>
+                                    {format(field.value.from, "LLL dd, y")} -{" "}
+                                    {format(field.value.to, "LLL dd, y")}
+                                  </>
+                                ) : (
+                                  format(field.value.from, "LLL dd, y")
+                                )
                               ) : (
-                                <span>Pick a date</span>
+                                <span>Pick a date range</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
@@ -150,13 +170,14 @@ const SearchSection = (): React.JSX.Element => {
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
-                            mode="single"
-                            selected={field.value}
+                            mode="range"
+                            selected={field.value as DateRange}
                             onSelect={field.onChange}
                             disabled={(date: Date) =>
                               date < new Date(new Date().setHours(0,0,0,0))
                             }
                             initialFocus
+                            numberOfMonths={2}
                           />
                         </PopoverContent>
                       </Popover>
@@ -467,3 +488,5 @@ export default function Home(): React.JSX.Element {
     </>
   );
 }
+
+    
