@@ -20,7 +20,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
     Select,
@@ -75,6 +74,7 @@ import { type DateRange } from "react-day-picker";
 import { TempleIcon } from "@/components/icons/TempleIcon";
 import { DanceIcon } from "@/components/icons/DanceIcon";
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 
 const HeroSection = (): React.JSX.Element => (
     <section className="relative w-full h-[80vh] min-h-[480px]">
@@ -173,12 +173,9 @@ const SearchSection = (): React.JSX.Element => {
     
     const handleCopyToClipboard = () => {
         if (!itinerary) return;
-        const subject = "My Bali Itinerary";
-        const body = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
-        navigator.clipboard.writeText(body).then(() => {
+        navigator.clipboard.writeText(itinerary).then(() => {
             toast({
-                title: "Copied to Clipboard!",
-                description: "You can now paste the itinerary into your email.",
+                title: "Itinerary copied",
             });
         }, (err) => {
             toast({
