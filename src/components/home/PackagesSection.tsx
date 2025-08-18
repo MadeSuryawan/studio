@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -23,7 +24,7 @@ const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 )
 
 const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 14.5a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5z"/><path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5zM17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z"/><path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6"/><path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 14.5a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5z"/><path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.M17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z"/><path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6"/><path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18"/></svg>
 )
 
 const packages = [
@@ -130,7 +131,8 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 border-0"
+                            style={{ backgroundColor: "#22272f" }}
                         >
                             <Image
                                 src={pkg.image}
@@ -141,15 +143,15 @@ export default function PackagesSection(): React.JSX.Element {
                                 sizes="(max-width: 768px) 100vw, 33vw"
                                 data-ai-hint={pkg.hint}
                             />
-                            <div className="flex flex-col p-6 justify-between flex-1">
+                            <div className="flex flex-col p-6 justify-between flex-1 text-gray-300">
                                 <div>
-                                    <CardDescription>
+                                    <CardDescription className="text-gray-400">
                                         {pkg.duration}
                                     </CardDescription>
-                                    <CardTitle className="mt-1">
+                                    <CardTitle className="mt-1 text-white">
                                         {pkg.title}
                                     </CardTitle>
-                                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                                    <ul className="mt-4 space-y-2 text-sm">
                                         {pkg.features.map((feature) => (
                                             <li
                                                 key={feature.text}
@@ -163,10 +165,10 @@ export default function PackagesSection(): React.JSX.Element {
                                 </div>
                                 <div className="flex items-end justify-between mt-6">
                                     <div>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-sm text-gray-400">
                                             From
                                         </p>
-                                        <p className="text-2xl font-bold">
+                                        <p className="text-2xl font-bold text-white">
                                             {pkg.price}
                                         </p>
                                     </div>
