@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardTitle,
 } from "@/components/ui/card";
 import {
@@ -30,10 +29,6 @@ const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const packages = [
     {
         title: "Cultural Heartbeat of Ubud",
-        duration: "5 Days / 4 Nights",
-        price: "$750",
-        image: "https://placehold.co/600x400.png",
-        hint: "bali temple",
         features: [
             {
                 icon: <TempleIcon className="w-5 h-5 text-accent" />,
@@ -48,13 +43,11 @@ const packages = [
                 text: "Cooking Class",
             },
         ],
+        image: "https://placehold.co/600x400.png",
+        hint: "bali temple",
     },
     {
         title: "Coastal Vibe & Surf",
-        duration: "7 Days / 6 Nights",
-        price: "$1200",
-        image: "https://placehold.co/600x400.png",
-        hint: "bali beach",
         features: [
             {
                 icon: <Waves className="w-5 h-5 text-accent" />,
@@ -69,13 +62,11 @@ const packages = [
                 text: "Yoga Sessions",
             },
         ],
+        image: "https://placehold.co/600x400.png",
+        hint: "bali beach",
     },
     {
         title: "Luxury & Relaxation",
-        duration: "4 Days / 3 Nights",
-        price: "$1500",
-        image: "https://placehold.co/600x400.png",
-        hint: "bali spa",
         features: [
             {
                 icon: <BedDouble className="w-5 h-5 text-accent" />,
@@ -90,13 +81,11 @@ const packages = [
                 text: "Fine Dining",
             },
         ],
+        image: "https://placehold.co/600x400.png",
+        hint: "bali spa",
     },
     {
         title: "The Ultimate Bali Adventure",
-        duration: "10 Days / 9 Nights",
-        price: "$2500",
-        image: "https://placehold.co/600x400.png",
-        hint: "bali volcano",
         features: [
             {
                 icon: <Plane className="w-5 h-5 text-accent" />,
@@ -111,6 +100,8 @@ const packages = [
                 text: "Scuba Diving",
             },
         ],
+        image: "https://placehold.co/600x400.png",
+        hint: "bali volcano",
     },
 ];
 
@@ -127,7 +118,7 @@ export default function PackagesSection(): React.JSX.Element {
                            Hand-picked experiences designed to give you the very best of Bali.
                         </p>
                     </div>
-                    <Button asChild variant="outline" className="hidden md:flex">
+                    <Button asChild className="hidden md:flex bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90">
                         <Link href="#">
                             View All Packages <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
@@ -182,7 +173,7 @@ export default function PackagesSection(): React.JSX.Element {
                     ))}
                 </div>
                  <div className="mt-8 text-center md:hidden">
-                     <Button asChild variant="outline">
+                     <Button asChild className="bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90">
                         <Link href="#">
                             View All Packages <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
