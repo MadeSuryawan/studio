@@ -360,16 +360,16 @@ const CarCharterSection = (): React.JSX.Element => (
       src="https://placehold.co/1920x1080.png" 
       alt="Road through Bali" 
       fill 
-      className="object-cover brightness-[.25] -z-10"
+      className="object-cover brightness-[.35] -z-10"
       data-ai-hint="bali road forest"
     />
-    <div className="container px-4 md:px-6 text-center text-white">
+    <div className="container px-4 md:px-6 text-center text-primary-foreground">
       <div className="max-w-3xl mx-auto">
         <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
           Our Premier Service
         </div>
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Explore Bali Your Way</h2>
-        <p className="mt-4 text-lg md:text-xl text-white/90">
+        <p className="mt-4 text-lg md:text-xl text-primary-foreground/90">
           Enjoy the ultimate freedom and flexibility with our private car charter service. Your personal driver, your custom itinerary.
         </p>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
@@ -377,21 +377,21 @@ const CarCharterSection = (): React.JSX.Element => (
                 <ShieldCheck className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Safe & Reliable</h3>
-                    <p className="text-sm text-white/80">Professional, experienced drivers and well-maintained vehicles for your peace of mind.</p>
+                    <p className="text-sm text-primary-foreground/80">Professional, experienced drivers and well-maintained vehicles for your peace of mind.</p>
                 </div>
             </div>
             <div className="flex items-start gap-4">
                 <Clock className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Flexible Hours</h3>
-                    <p className="text-sm text-white/80">Choose from half-day (6 hours) or full-day (10 hours) charters to suit your schedule.</p>
+                    <p className="text-sm text-primary-foreground/80">Choose from half-day (6 hours) or full-day (10 hours) charters to suit your schedule.</p>
                 </div>
             </div>
             <div className="flex items-start gap-4">
                 <UserCheck className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Expert Local Drivers</h3>
-                    <p className="text-sm text-white/80">Our drivers are also your local guides, ready to share insights and hidden gems.</p>
+                    <p className="text-sm text-primary-foreground/80">Our drivers are also your local guides, ready to share insights and hidden gems.</p>
                 </div>
             </div>
         </div>
@@ -538,5 +538,7 @@ export default function Home(): React.JSX.Element {
     </>
   );
 }
+
+    
 
     
