@@ -169,6 +169,13 @@ const SearchSection = (): React.JSX.Element => {
         }
     }
     
+    const handleSendEmail = () => {
+      const subject = "My Bali Itinerary";
+      const body = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary ?? ''}`;
+      const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoLink;
+    };
+
     const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
     const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello! I created a custom itinerary and would like to ask some questions.`)}`;
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
@@ -394,14 +401,8 @@ const SearchSection = (): React.JSX.Element => {
                         <div className="flex-1 flex flex-col sm:flex-row gap-2">
                            {!error && (
                              <>
-                               <Button asChild variant="outline" className="w-full">
-                                   <a 
-                                      href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                   >
-                                       <Mail /> Send to Email
-                                   </a>
+                               <Button variant="outline" className="w-full" onClick={handleSendEmail}>
+                                   <Mail /> Send to Email
                                </Button>
                                <Button
                                    variant="outline"
@@ -920,5 +921,3 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
-
-    
