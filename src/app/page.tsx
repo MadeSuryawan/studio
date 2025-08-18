@@ -58,8 +58,6 @@ import {
     Mail,
     MessageCircle,
 } from "lucide-react";
-import { TempleIcon } from "@/components/icons/TempleIcon";
-import { DanceIcon } from "@/components/icons/DanceIcon";
 import { handleItineraryRequest, handleContactRequest } from "./actions";
 import {
     AlertDialog,
@@ -71,6 +69,8 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { type DateRange } from "react-day-picker";
+import { TempleIcon } from "@/components/icons/TempleIcon";
+import { DanceIcon } from "@/components/icons/DanceIcon";
 
 const HeroSection = (): React.JSX.Element => (
     <section className="relative w-full h-[80vh] min-h-[480px]">
@@ -131,7 +131,7 @@ const SearchSection = (): React.JSX.Element => {
     const closeDialog = () => {
         setItinerary(null);
         setError(null);
-    }
+    };
 
     async function onSubmit(data: z.infer<typeof searchSchema>): Promise<void> {
         setIsLoading(true);
@@ -155,150 +155,246 @@ const SearchSection = (): React.JSX.Element => {
 
         setIsLoading(false);
 
-    if (result.success && result.data) {
-      setItinerary(result.data.itinerary);
-    } else {
-      setError(result.error ?? "An unexpected error occurred.");
+        if (result.success && result.data) {
+            setItinerary(result.data.itinerary);
+        } else {
+            setError(result.error ?? "An unexpected error occurred.");
+        }
     }
-  }
-  
-  return (
-    <section className="w-full py-12 md:py-24 bg-background">
-      <div className="container px-4 md:px-6">
-        <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl"><Search/> Find Your Perfect Trip</CardTitle>
-            <CardDescription>Fill out your preferences and let our AI create a custom itinerary just for you.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <FormField
-                  control={form.control}
-                  name="interests"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Interests</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="culture">Culture & Temples</SelectItem>
-                          <SelectItem value="adventure">Adventure & Nature</SelectItem>
-                          <SelectItem value="relaxation">Relaxation & Wellness</SelectItem>
-                          <SelectItem value="culinary">Culinary Delights</SelectItem>
-                          <SelectItem value="surfing">Surfing & Beaches</SelectItem>
-                        </SelectContent>
-                      </Select>
-                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Travel Dates (Optional)</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "pl-3 text-left font-normal",
-                                !field.value?.from && "text-muted-foreground"
-                              )}
+
+    const whatsappMessage = `Hello! I created an itinerary with your AI assistant and I'm interested in learning more. Here is the plan:\n\n${itinerary}`;
+    const whatsappUrl = `https://wa.me/1234567890?text=${encodeURIComponent(whatsappMessage)}`;
+
+    return (
+        <section className="w-full py-12 md:py-24 bg-background">
+            <div className="container px-4 md:px-6">
+                <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <Search /> Find Your Perfect Trip
+                        </CardTitle>
+                        <CardDescription>
+                            Fill out your preferences and let our AI create a
+                            custom itinerary just for you.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"
                             >
-                              {field.value?.from ? (
-                                field.value.to ? (
-                                  <>
-                                    {format(field.value.from, "LLL dd, y")} -{" "}
-                                    {format(field.value.to, "LLL dd, y")}
-                                  </>
-                                ) : (
-                                  format(field.value.from, "LLL dd, y")
-                                )
-                              ) : (
-                                <span>Pick a date range</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                <FormField
+                                    control={form.control}
+                                    name="interests"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Interests</FormLabel>
+                                            <Select
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="culture">
+                                                        Culture & Temples
+                                                    </SelectItem>
+                                                    <SelectItem value="adventure">
+                                                        Adventure & Nature
+                                                    </SelectItem>
+                                                    <SelectItem value="relaxation">
+                                                        Relaxation & Wellness
+                                                    </SelectItem>
+                                                    <SelectItem value="culinary">
+                                                        Culinary Delights
+                                                    </SelectItem>
+                                                    <SelectItem value="surfing">
+                                                        Surfing & Beaches
+                                                    </SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="date"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-col">
+                                            <FormLabel>
+                                                Travel Dates (Optional)
+                                            </FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant={"outline"}
+                                                            className={cn(
+                                                                "pl-3 text-left font-normal",
+                                                                !field.value
+                                                                    ?.from &&
+                                                                    "text-muted-foreground",
+                                                            )}
+                                                        >
+                                                            {field.value
+                                                                ?.from ? (
+                                                                field.value
+                                                                    .to ? (
+                                                                    <>
+                                                                        {format(
+                                                                            field.value.from,
+                                                                            "LLL dd, y",
+                                                                        )}{" "}
+                                                                        -{" "}
+                                                                        {format(
+                                                                            field.value.to,
+                                                                            "LLL dd, y",
+                                                                        )}
+                                                                    </>
+                                                                ) : (
+                                                                    format(
+                                                                        field.value.from,
+                                                                        "LLL dd, y",
+                                                                    )
+                                                                )
+                                                            ) : (
+                                                                <span>
+                                                                    Pick a date
+                                                                    range
+                                                                </span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent
+                                                    className="w-auto p-0"
+                                                    align="start"
+                                                >
+                                                    <Calendar
+                                                        mode="range"
+                                                        selected={
+                                                            field.value as DateRange
+                                                        }
+                                                        onSelect={
+                                                            field.onChange
+                                                        }
+                                                        disabled={(
+                                                            date: Date,
+                                                        ) =>
+                                                            date <
+                                                            new Date(
+                                                                new Date().setHours(
+                                                                    0,
+                                                                    0,
+                                                                    0,
+                                                                    0,
+                                                                ),
+                                                            )
+                                                        }
+                                                        initialFocus
+                                                        numberOfMonths={2}
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="budget"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Budget (e.g., $1000)
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="Your budget"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    className="md:col-start-3 bg-primary hover:bg-primary/90"
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? (
+                                        <>
+                                            <Loader2 className="animate-spin" />
+                                            Processing...
+                                        </>
+                                    ) : (
+                                        "Create My Itinerary"
+                                    )}
+                                </Button>
+                            </form>
+                        </Form>
+                    </CardContent>
+                </Card>
+            </div>
+            <AlertDialog
+                open={!!itinerary || !!error}
+                onOpenChange={closeDialog}
+            >
+                <AlertDialogContent className="max-w-2xl">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            {error
+                                ? "Oh no!"
+                                : "Your Custom Itinerary"}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto">
+                            {error || itinerary}
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                        <div className="flex-1 flex flex-col sm:flex-row gap-2">
+                            <Button asChild variant="outline" className="w-full">
+                                <a
+                                    href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(
+                                        itinerary ?? "",
+                                    )}`}
+                                >
+                                    <Mail /> Send to Email
+                                </a>
                             </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="range"
-                            selected={field.value as DateRange}
-                            onSelect={field.onChange}
-                            disabled={(date: Date) =>
-                              date < new Date(new Date().setHours(0,0,0,0))
-                            }
-                            initialFocus
-                            numberOfMonths={2}
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <FormField
-                  control={form.control}
-                  name="budget"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Budget (e.g., $1000)</FormLabel>
-                       <FormControl>
-                         <Input placeholder="Your budget" {...field} />
-                       </FormControl>
-                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" size="lg" className="md:col-start-3 bg-primary hover:bg-primary/90" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="animate-spin" />
-                      Processing...
-                    </>
-                  ) : "Create My Itinerary"}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </div>
-      <AlertDialog open={!!itinerary || !!error} onOpenChange={closeDialog}>
-        <AlertDialogContent className="max-w-2xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>{error ? "Oh no!" : "Your Custom Itinerary"}</AlertDialogTitle>
-            <AlertDialogDescription className="whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto">
-              {error || itinerary}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-            <div className="flex-1 flex flex-col sm:flex-row gap-2">
-                 <Button asChild variant="outline" className="w-full">
-                   <a href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}>
-                     <Mail/> Send to Email
-                   </a>
-                 </Button>
-                 <Button asChild variant="outline" className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white">
-                   <a href={`https://wa.me/?text=${encodeURIComponent(itinerary ?? "")}`} target="_blank" rel="noopener noreferrer">
-                     <MessageCircle/> Send via WhatsApp
-                   </a>
-                 </Button>
-             </div>
-            <AlertDialogAction onClick={closeDialog} className="w-full sm:w-auto">Close</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </section>
-  )
+                            <Button
+                                asChild
+                                variant="outline"
+                                className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white"
+                            >
+                                <a
+                                    href={whatsappUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <MessageCircle /> Send via WhatsApp
+                                </a>
+                            </Button>
+                        </div>
+                        <AlertDialogAction
+                            onClick={closeDialog}
+                            className="w-full sm:w-auto"
+                        >
+                            Close
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </section>
+    );
 };
 
 const destinations = [
