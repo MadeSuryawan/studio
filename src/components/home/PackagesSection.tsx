@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -131,8 +130,7 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 border-0"
-                            style={{ backgroundColor: "#22272f" }}
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
                         >
                             <Image
                                 src={pkg.image}
@@ -143,15 +141,12 @@ export default function PackagesSection(): React.JSX.Element {
                                 sizes="(max-width: 768px) 100vw, 33vw"
                                 data-ai-hint={pkg.hint}
                             />
-                            <div className="flex flex-col p-6 justify-between flex-1 text-gray-300">
+                            <div className="flex flex-col p-6 justify-between flex-1">
                                 <div>
-                                    <CardDescription className="text-gray-400">
-                                        {pkg.duration}
-                                    </CardDescription>
-                                    <CardTitle className="mt-1 text-white">
+                                    <CardTitle>
                                         {pkg.title}
                                     </CardTitle>
-                                    <ul className="mt-4 space-y-2 text-sm">
+                                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                                         {pkg.features.map((feature) => (
                                             <li
                                                 key={feature.text}
@@ -163,23 +158,15 @@ export default function PackagesSection(): React.JSX.Element {
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="flex items-end justify-between mt-6">
-                                    <div>
-                                        <p className="text-sm text-gray-400">
-                                            From
-                                        </p>
-                                        <p className="text-2xl font-bold text-white">
-                                            {pkg.price}
-                                        </p>
-                                    </div>
+                                <div className="flex items-end justify-end mt-6">
                                     <Button
                                         asChild
-                                        className="bg-accent text-accent-foreground hover:bg-accent/90"
+                                        variant="outline"
                                     >
                                         <Link
-                                            href={`/#contact?message=I'm interested in the "${pkg.title}" package.`}
+                                            href={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
                                         >
-                                            Book Now
+                                            View Details
                                         </Link>
                                     </Button>
                                 </div>
