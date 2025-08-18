@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { PT_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
@@ -12,10 +12,11 @@ export const metadata: Metadata = {
     description: "Crafting unforgettable travel experiences in Bali.",
 };
 
-const raleway = Raleway({
+const ptSans = PT_Sans({
     subsets: ["latin"],
+    weight: ["400", "700"],
     display: "swap",
-    variable: "--font-raleway",
+    variable: "--font-pt-sans",
 });
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>): React.JSX.Element {
     return (
-        <html lang="en" suppressHydrationWarning className={raleway.variable}>
+        <html lang="en" suppressHydrationWarning className={ptSans.variable}>
             <body className="font-body antialiased">
                 <ThemeProvider
                     attribute="class"
