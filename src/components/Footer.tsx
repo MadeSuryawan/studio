@@ -1,19 +1,22 @@
 import Link from "next/link";
-import { Mountain, Facebook, Twitter, Instagram } from "lucide-react";
+import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
+import LogoIcon from "./LogoIcon";
 
 const SocialLink = ({
     href,
     children,
+    "aria-label": ariaLabel,
 }: {
     href: string;
     children: React.ReactNode;
+    "aria-label": string;
 }) => (
     <Link
         href={href}
         className="text-gray-400 hover:text-white transition-colors"
-        aria-label={`Follow us on ${href}`}
+        aria-label={ariaLabel}
     >
         {children}
     </Link>
@@ -21,7 +24,7 @@ const SocialLink = ({
 
 export default function Footer(): JSX.Element {
     return (
-        <footer className="bg-[#1a1a1a] text-gray-400">
+        <footer className="bg-gray-900 text-gray-400">
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Company Info */}
@@ -30,10 +33,7 @@ export default function Footer(): JSX.Element {
                             href="/"
                             className="flex items-center gap-2 text-white"
                         >
-                            <Mountain className="h-6 w-6 text-primary" />
-                            <span className="text-xl font-bold">
-                                BaliBlissed
-                            </span>
+                            <LogoIcon className="h-10 w-auto text-primary" />
                         </Link>
                         <p className="max-w-md text-sm">
                             Crafting personalized and unforgettable travel
@@ -105,13 +105,13 @@ export default function Footer(): JSX.Element {
                             </p>
                         </div>
                         <div className="flex gap-4 mt-6">
-                            <SocialLink href="#">
+                            <SocialLink href="#" aria-label="Follow us on Facebook">
                                 <Facebook className="w-5 h-5" />
                             </SocialLink>
-                            <SocialLink href="#">
+                            <SocialLink href="#" aria-label="Follow us on Instagram">
                                 <Instagram className="w-5 h-5" />
                             </SocialLink>
-                            <SocialLink href="#">
+                            <SocialLink href="#" aria-label="Follow us on Twitter">
                                 <Twitter className="w-5 h-5" />
                             </SocialLink>
                         </div>
