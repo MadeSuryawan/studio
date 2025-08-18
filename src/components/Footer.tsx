@@ -1,34 +1,140 @@
 import Link from "next/link";
-import { Mountain } from "lucide-react";
+import { Mountain, Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
+import { WHATSAPP_NUMBER } from "@/lib/config";
+
+const SocialLink = ({
+    href,
+    children,
+}: {
+    href: string;
+    children: React.ReactNode;
+}) => (
+    <Link
+        href={href}
+        className="text-gray-400 hover:text-white transition-colors"
+        aria-label={`Follow us on ${href}`}
+    >
+        {children}
+    </Link>
+);
 
 export default function Footer(): JSX.Element {
     return (
         <footer className="bg-[#1a1a1a] text-gray-400">
-            <div className="container mx-auto py-8 px-4 md:px-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-2 text-white">
-                        <Mountain className="h-6 w-6 text-primary" />
-                        <span className="text-lg font-bold">
-                            BaliBlissed
-                        </span>
+            <div className="container mx-auto px-4 md:px-6 py-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    {/* Company Info */}
+                    <div className="col-span-1 md:col-span-2 space-y-4">
+                        <Link
+                            href="/"
+                            className="flex items-center gap-2 text-white"
+                        >
+                            <Mountain className="h-6 w-6 text-primary" />
+                            <span className="text-xl font-bold">
+                                BaliBlissed
+                            </span>
+                        </Link>
+                        <p className="max-w-md text-sm">
+                            Crafting personalized and unforgettable travel
+                            experiences on the Island of the Gods. Let us help
+                            you create your dream Bali vacation.
+                        </p>
                     </div>
-                    <p className="text-sm">
-                        &copy; {new Date().getFullYear()} BaliBlissed.
-                        All rights reserved.
+
+                    {/* Quick Links */}
+                    <div className="col-span-1">
+                        <h3 className="font-semibold text-white mb-4">
+                            Quick Links
+                        </h3>
+                        <nav className="flex flex-col gap-2">
+                            <Link
+                                href="/"
+                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                            >
+                                Home
+                            </Link>
+                            <Link
+                                href="/private-car-charter"
+                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                            >
+                                Car Charter
+                            </Link>
+                            <Link
+                                href="/#destinations"
+                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                            >
+                                Destinations
+                            </Link>
+                            <Link
+                                href="/#packages"
+                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                            >
+                                Packages
+                            </Link>
+                            <Link
+                                href="/#contact"
+                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                            >
+                                Contact
+                            </Link>
+                        </nav>
+                    </div>
+
+                    {/* Contact & Socials */}
+                    <div className="col-span-1">
+                        <h3 className="font-semibold text-white mb-4">
+                            Contact Us
+                        </h3>
+                        <div className="space-y-2 text-sm">
+                            <p>
+                                <a
+                                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                                    className="hover:text-white hover:underline"
+                                >
+                                    WhatsApp: +{WHATSAPP_NUMBER}
+                                </a>
+                            </p>
+                            <p>
+                                <a
+                                    href="mailto:hello@baliblissed.com"
+                                    className="hover:text-white hover:underline"
+                                >
+                                    hello@baliblissed.com
+                                </a>
+                            </p>
+                        </div>
+                        <div className="flex gap-4 mt-6">
+                            <SocialLink href="#">
+                                <Facebook className="w-5 h-5" />
+                            </SocialLink>
+                            <SocialLink href="#">
+                                <Instagram className="w-5 h-5" />
+                            </SocialLink>
+                            <SocialLink href="#">
+                                <Twitter className="w-5 h-5" />
+                            </SocialLink>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
+                    <p className="text-sm text-center sm:text-left mb-4 sm:mb-0">
+                        &copy; {new Date().getFullYear()} BaliBlissed. All
+                        rights reserved.
                     </p>
                     <nav className="flex gap-4 sm:gap-6">
                         <Link
                             href="#"
                             className="text-sm hover:text-white hover:underline underline-offset-4"
                         >
-                            Terms of Service
+                            Privacy Policy
                         </Link>
                         <Link
                             href="#"
                             className="text-sm hover:text-white hover:underline underline-offset-4"
                         >
-                            Privacy Policy
+                            Terms of Service
                         </Link>
                     </nav>
                 </div>
