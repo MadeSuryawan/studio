@@ -1,4 +1,3 @@
-// This file is machine-generated - edit with care!
 
 'use server';
 
@@ -10,8 +9,9 @@
  * - AnswerQueryOutput - The return type for the answerQuery function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { getPackages } from '@/services/package-service';
+import { z } from 'genkit';
 
 const AnswerQueryInputSchema = z.object({
   query: z.string().describe('The user query about Bali travel.'),
@@ -23,18 +23,48 @@ const AnswerQueryOutputSchema = z.object({
 });
 export type AnswerQueryOutput = z.infer<typeof AnswerQueryOutputSchema>;
 
-export async function answerQuery(input: AnswerQueryInput): Promise<AnswerQueryOutput> {
+export async function answerQuery(
+  input: AnswerQueryInput
+): Promise<AnswerQueryOutput> {
   return answerQueryFlow(input);
 }
 
+const getPackagesTool = ai.defineTool(
+  {
+    name: 'getTravelPackages',
+    description: 'Get a list of available travel packages for Bali.',
+    inputSchema: z.object({}),
+    outputSchema: z.array(
+      z.object({
+        title: z.string(),
+        duration: z.string(),
+        price: z.number(),
+        description: z.string(),
+        features: z.array(z.string()),
+      })
+    ),
+  },
+  async () => {
+    console.log('Fetching packages with tool');
+    return getPackages();
+  }
+);
+
+
 const prompt = ai.definePrompt({
   name: 'answerQueryPrompt',
-  input: {schema: AnswerQueryInputSchema},
-  output: {schema: AnswerQueryOutputSchema},
-  prompt: `You are a travel assistant specializing in Bali travel.
+  input: { schema: AnswerQueryInputSchema },
+  output: { schema: AnswerQueryOutputSchema },
+  tools: [getPackagesTool],
+  prompt: `You are a friendly and helpful travel assistant for a company called BaliBlissed Journeys.
+  
+  Your primary role is to answer user questions about traveling to Bali and the packages we offer.
+  
+  - If the user asks about available packages, prices, or what's included, use the 'getTravelPackages' tool to get the most up-to-date information and answer their question.
+  - For general questions about Bali (e.g., "what's the weather like in July?", "best places to see monkeys?"), answer them based on your general knowledge.
+  - Be conversational and helpful.
 
-  Answer the following user query about Bali travel:
-
+  User query:
   {{query}}`,
 });
 
@@ -44,8 +74,8 @@ const answerQueryFlow = ai.defineFlow(
     inputSchema: AnswerQueryInputSchema,
     outputSchema: AnswerQueryOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    const { output } = await prompt(input);
     return output!;
   }
 );
