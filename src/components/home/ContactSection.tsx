@@ -92,6 +92,7 @@ const ContactForm = (): React.JSX.Element => {
                                         <Input
                                             placeholder="Your Name"
                                             {...field}
+                                            className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -108,6 +109,7 @@ const ContactForm = (): React.JSX.Element => {
                                             type="email"
                                             placeholder="Your Email"
                                             {...field}
+                                            className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -122,7 +124,7 @@ const ContactForm = (): React.JSX.Element => {
                                     <FormControl>
                                         <Textarea
                                             placeholder="Your Message"
-                                            className="min-h-[120px]"
+                                            className="min-h-[120px] bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
                                             {...field}
                                         />
                                     </FormControl>
