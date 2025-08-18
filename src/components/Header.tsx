@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Mountain } from 'lucide-react';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export default function Header() {
   return (
@@ -25,6 +26,7 @@ export default function Header() {
             Book Now
           </Link>
         </Button>
+        <ThemeSwitcher />
       </nav>
     </header>
   );
