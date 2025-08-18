@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
         ],
     },
     productionBrowserSourceMaps: false,
+    webpack: (config) => {
+        config.ignoreWarnings = [
+            ...(config.ignoreWarnings || []),
+            /require.extensions is not supported by webpack/,
+        ];
+        return config;
+    },
 };
 
 export default nextConfig;
