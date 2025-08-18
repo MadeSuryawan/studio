@@ -9,6 +9,7 @@
  */
 
 import { ai } from "@/ai/genkit";
+import { WHATSAPP_NUMBER } from "@/lib/config";
 import { z } from "genkit";
 
 const SuggestItineraryInputSchema = z.object({
@@ -47,17 +48,22 @@ export async function suggestItinerary(
 
 const prompt = ai.definePrompt({
     name: "suggestItineraryPrompt",
-    input: { schema: SuggestItineraryInputSchema },
+    input: { schema: z.object({ ...SuggestItineraryInputSchema.shape, whatsappNumber: z.string() }) },
     output: { schema: SuggestItineraryOutputSchema },
     prompt: `You are a travel expert specializing in Bali itineraries. A user wants you to create a Bali itinerary for them.
 
-  Consider their interests, travel dates and budget, and create a detailed daily itinerary with specific locations and activities.   The itinerary should be tailored to Bali.
+  Consider their interests, travel dates and budget, and create a detailed daily itinerary with specific locations and activities. The itinerary should be tailored to Bali.
 
   Interests: {{{interests}}}
   Travel Dates: {{{travelDates}}}
   Budget: {{{budget}}}
 
-  Respond with a detailed itinerary:
+  Respond with a detailed itinerary.
+
+  At the end of the itinerary, ALWAYS include the following note, exactly as written:
+  "---
+  **A Friendly Note:** This itinerary is a great starting point, but remember that details like opening hours and prices can change. We recommend double-checking before you go! For the most up-to-date information and to customize this plan with one of our experts, please contact us on WhatsApp at +{{{whatsappNumber}}}. We'd love to help you create the perfect Bali journey!
+  ---"
 `,
 });
 
@@ -68,7 +74,10 @@ const suggestItineraryFlow = ai.defineFlow(
         outputSchema: SuggestItineraryOutputSchema,
     },
     async (input) => {
-        const { output } = await prompt(input);
+        const { output } = await prompt({
+            ...input,
+            whatsappNumber: WHATSAPP_NUMBER
+        });
         return output!;
     },
 );
