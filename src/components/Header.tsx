@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Mountain } from 'lucide-react';
+import { Mountain, Menu } from 'lucide-react';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-export default function Header() {
+export default function Header(): React.JSX.Element {
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm sticky top-0 z-40 border-b">
       <Link href="/" className="flex items-center justify-center" prefetch={false}>
@@ -11,7 +12,7 @@ export default function Header() {
         <span className="ml-2 text-lg font-bold font-headline">BaliBlissed Journeys</span>
         <span className="sr-only">BaliBlissed Journeys</span>
       </Link>
-      <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+      <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
         <Link href="#destinations" className="text-sm font-medium hover:text-primary transition-colors hover:underline underline-offset-4" prefetch={false}>
           Destinations
         </Link>
@@ -28,6 +29,50 @@ export default function Header() {
         </Button>
         <ThemeSwitcher />
       </nav>
+       <Sheet>
+        <SheetTrigger asChild>
+          <Button variant="outline" size="icon" className="ml-auto md:hidden">
+            <Menu className="h-6 w-6" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="right">
+          <nav className="grid gap-6 text-lg font-medium mt-12">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-lg font-semibold"
+              prefetch={false}
+            >
+              <Mountain className="h-6 w-6" />
+              <span className="sr-only">BaliBlissed Journeys</span>
+            </Link>
+            <Link
+              href="#destinations"
+              className="text-muted-foreground hover:text-foreground"
+              prefetch={false}
+            >
+              Destinations
+            </Link>
+            <Link
+              href="#packages"
+              className="text-muted-foreground hover:text-foreground"
+              prefetch={false}
+            >
+              Packages
+            </Link>
+            <Link
+              href="#contact"
+              className="text-muted-foreground hover:text-foreground"
+              prefetch={false}
+            >
+              Contact
+            </Link>
+            <div className="absolute bottom-4 left-4">
+              <ThemeSwitcher />
+            </div>
+          </nav>
+        </SheetContent>
+      </Sheet>
     </header>
   );
 }
