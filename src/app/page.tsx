@@ -200,7 +200,12 @@ const SearchSection = (): React.JSX.Element => {
                   )}
                 />
                 <Button type="submit" size="lg" className="md:col-start-3 bg-primary hover:bg-primary/90" disabled={isLoading}>
-                  {isLoading ? <Loader2 className="animate-spin" /> : "Create My Itinerary"}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      Processing...
+                    </>
+                  ) : "Create My Itinerary"}
                 </Button>
               </form>
             </Form>
@@ -538,5 +543,7 @@ export default function Home(): React.JSX.Element {
     </>
   );
 }
+
+    
 
     
