@@ -36,9 +36,9 @@ const HeroSection = (): React.JSX.Element => (
       priority
       data-ai-hint="bali rice paddies"
     />
-    <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
+    <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
       <h1 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">Discover Your Bali Bliss</h1>
-      <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">
+      <p className="max-w-2xl mt-4 text-lg md:text-xl text-white/90">
         We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us.
       </p>
       <div className="mt-8">
@@ -358,13 +358,13 @@ const CarCharterSection = (): React.JSX.Element => (
       className="object-cover brightness-[.25] -z-10"
       data-ai-hint="bali road forest"
     />
-    <div className="container px-4 md:px-6 text-center text-primary-foreground">
+    <div className="container px-4 md:px-6 text-center text-white">
       <div className="max-w-3xl mx-auto">
         <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
           Our Premier Service
         </div>
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Explore Bali Your Way</h2>
-        <p className="mt-4 text-lg md:text-xl text-primary-foreground/90">
+        <p className="mt-4 text-lg md:text-xl text-white/90">
           Enjoy the ultimate freedom and flexibility with our private car charter service. Your personal driver, your custom itinerary.
         </p>
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
@@ -372,26 +372,26 @@ const CarCharterSection = (): React.JSX.Element => (
                 <ShieldCheck className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Safe & Reliable</h3>
-                    <p className="text-sm text-primary-foreground/80">Professional, experienced drivers and well-maintained vehicles for your peace of mind.</p>
+                    <p className="text-sm text-white/80">Professional, experienced drivers and well-maintained vehicles for your peace of mind.</p>
                 </div>
             </div>
             <div className="flex items-start gap-4">
                 <Clock className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Flexible Hours</h3>
-                    <p className="text-sm text-primary-foreground/80">Choose from half-day (6 hours) or full-day (10 hours) charters to suit your schedule.</p>
+                    <p className="text-sm text-white/80">Choose from half-day (6 hours) or full-day (10 hours) charters to suit your schedule.</p>
                 </div>
             </div>
             <div className="flex items-start gap-4">
                 <UserCheck className="w-12 h-12 text-accent flex-shrink-0" />
                 <div>
                     <h3 className="font-bold">Expert Local Drivers</h3>
-                    <p className="text-sm text-primary-foreground/80">Our drivers are also your local guides, ready to share insights and hidden gems.</p>
+                    <p className="text-sm text-white/80">Our drivers are also your local guides, ready to share insights and hidden gems.</p>
                 </div>
             </div>
         </div>
         <div className="mt-10">
-          <Button asChild size="lg" variant="secondary" className="bg-primary-foreground/10 border-border/50 border hover:bg-primary-foreground/20">
+          <Button asChild size="lg" variant="secondary" className="bg-white/10 border-white/20 border hover:bg-white/20 text-white">
             <Link href="/private-car-charter">Learn More & Book</Link>
           </Button>
         </div>
