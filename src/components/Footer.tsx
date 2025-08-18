@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { Mountain } from 'lucide-react';
+import type { JSX } from 'react';
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <footer className="bg-secondary">
       <div className="container mx-auto py-8 px-4 md:px-6">

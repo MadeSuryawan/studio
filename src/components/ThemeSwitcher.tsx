@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher(): React.JSX.Element {
   const { setTheme } = useTheme()
 
   return (
