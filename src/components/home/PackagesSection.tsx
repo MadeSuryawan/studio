@@ -137,8 +137,7 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 text-gray-300 border-gray-700"
-                            style={{ backgroundColor: "#22272f" }}
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-special-card-bg text-special-card-fg border-border/20"
                         >
                             <Image
                                 src={pkg.image}
@@ -151,10 +150,10 @@ export default function PackagesSection(): React.JSX.Element {
                             />
                             <div className="flex flex-col p-6 justify-between flex-1">
                                 <div>
-                                    <CardTitle className="text-white">
+                                    <CardTitle className="text-special-card-fg">
                                         {pkg.title}
                                     </CardTitle>
-                                    <ul className="mt-4 space-y-2 text-sm text-gray-400">
+                                    <ul className="mt-4 space-y-2 text-sm text-special-card-fg/80">
                                         {pkg.features.map((feature) => (
                                             <li
                                                 key={feature.text}
