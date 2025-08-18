@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import * as React from "react";
 import type { JSX } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -9,10 +12,13 @@ import {
     SheetTrigger,
     SheetTitle,
     SheetDescription,
+    SheetClose
 } from "@/components/ui/sheet";
 import LogoIcon from "./LogoIcon";
 
 export default function Header(): JSX.Element {
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
     return (
         <header className="px-4 lg:px-6 h-16 flex items-center bg-background text-foreground sticky top-0 z-40 border-b">
             <Link
@@ -69,12 +75,13 @@ export default function Header(): JSX.Element {
                 </Button>
                 <ThemeSwitcher />
             </nav>
-            <Sheet>
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
                 <SheetTrigger asChild>
                     <Button
                         variant="outline"
                         size="icon"
                         className="ml-auto md:hidden"
+                        onClick={() => setIsMenuOpen(true)}
                     >
                         <Menu className="h-6 w-6" />
                         <span className="sr-only">Toggle navigation menu</span>
@@ -90,6 +97,7 @@ export default function Header(): JSX.Element {
                             href="/"
                             className="flex items-center gap-2 text-lg font-semibold"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             <LogoIcon className="h-10 w-auto" />
                             <span className="sr-only">
@@ -100,6 +108,7 @@ export default function Header(): JSX.Element {
                             href="/"
                             className="text-muted-foreground hover:text-foreground"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             Home
                         </Link>
@@ -107,6 +116,7 @@ export default function Header(): JSX.Element {
                             href="/private-car-charter"
                             className="text-muted-foreground hover:text-foreground"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             Car Charter
                         </Link>
@@ -114,6 +124,7 @@ export default function Header(): JSX.Element {
                             href="/#destinations"
                             className="text-muted-foreground hover:text-foreground"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             Destinations
                         </Link>
@@ -121,6 +132,7 @@ export default function Header(): JSX.Element {
                             href="/#packages"
                             className="text-muted-foreground hover:text-foreground"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             Packages
                         </Link>
@@ -128,6 +140,7 @@ export default function Header(): JSX.Element {
                             href="/#contact"
                             className="text-muted-foreground hover:text-foreground"
                             prefetch={false}
+                             onClick={() => setIsMenuOpen(false)}
                         >
                             Contact
                         </Link>
