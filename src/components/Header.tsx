@@ -13,7 +13,7 @@ import {
 
 export default function Header(): JSX.Element {
     return (
-        <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm sticky top-0 z-40 border-b">
+        <header className="px-4 lg:px-6 h-16 flex items-center bg-special-card-bg text-special-card-fg sticky top-0 z-40 border-b border-border/50">
             <Link
                 href="/"
                 className="flex items-center justify-center"
