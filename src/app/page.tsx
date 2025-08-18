@@ -21,6 +21,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
     Select,
@@ -400,7 +401,7 @@ const SearchSection = (): React.JSX.Element => {
                                </Button>
                                <Button
                                    variant="outline"
-                                   className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white"
+                                   className="w-full"
                                    onClick={() => setShowWhatsAppInput(true)}
                                >
                                    <MessageCircle /> Send to my WhatsApp
@@ -905,7 +906,9 @@ export default function Home(): React.JSX.Element {
     return (
         <>
             <HeroSection />
-            <SearchSection />
+            <React.Suspense>
+               <SearchSection />
+            </React.Suspense>
             <DestinationsSection />
             <PackagesSection />
             <CarCharterSection />
@@ -913,5 +916,3 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
-
-    
