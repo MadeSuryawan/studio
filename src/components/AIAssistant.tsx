@@ -16,12 +16,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { cn } from "@/lib/utils";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "./ui/dialog";
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetDescription,
+    SheetTrigger,
+} from "./ui/sheet";
 
 type Message = {
     role: "user" | "assistant";
@@ -93,8 +94,8 @@ export default function AIAssistant(): React.JSX.Element {
 
     return (
         <div className="fixed bottom-4 left-4 z-50">
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogTrigger asChild>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
                     <Button
                         className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
                         size="icon"
@@ -106,13 +107,16 @@ export default function AIAssistant(): React.JSX.Element {
                             <MessageSquare className="h-6 w-6" />
                         )}
                     </Button>
-                </DialogTrigger>
-                <DialogContent className="w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 p-0 font-body">
-                    <DialogHeader className="p-4 border-b">
-                        <DialogTitle className="flex items-center gap-2">
+                </SheetTrigger>
+                <SheetContent className="w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 p-0 font-body">
+                    <SheetHeader className="p-4 border-b">
+                        <SheetTitle className="flex items-center gap-2">
                             <Bot className="text-primary" /> AI Travel Assistant
-                        </DialogTitle>
-                    </DialogHeader>
+                        </SheetTitle>
+                        <SheetDescription className="sr-only">
+                            Chat with our AI assistant to get help with your travel plans.
+                        </SheetDescription>
+                    </SheetHeader>
                     <CardContent className="flex-grow overflow-hidden p-0">
                         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
                             <div className="space-y-4">
@@ -190,8 +194,8 @@ export default function AIAssistant(): React.JSX.Element {
                             </Button>
                         </form>
                     </CardFooter>
-                </DialogContent>
-            </Dialog>
+                </SheetContent>
+            </Sheet>
         </div>
     );
 }
