@@ -917,14 +917,27 @@ const ContactSection = (): React.JSX.Element => (
     </section>
 );
 
+const TestSection = (): React.JSX.Element => (
+    <section id="test" className="w-full py-12 md:py-24">
+        <div className="container px-4 md:px-6 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                Temporary Test Section
+            </h2>
+            <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
+                This section is for testing the alternating background colors. If
+                this has a dark blue background, the test is successful.
+            </p>
+        </div>
+    </section>
+);
+
+
 type SectionWrapperProps = {
     children: React.ReactNode;
     className?: string;
 };
 
 const SectionWrapper = ({ children, className }: SectionWrapperProps) => {
-    // This is a simple wrapper to apply the alternating background
-    // It keeps the individual section components clean
     return <div className={className}>{children}</div>;
 };
 
@@ -935,6 +948,7 @@ export default function Home(): React.JSX.Element {
         PackagesSection,
         CarCharterSection,
         ContactSection,
+        TestSection,
     ];
 
     return (
