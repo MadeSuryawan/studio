@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import type { JSX } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mountain, Menu } from 'lucide-react';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 
-export default function Header(): React.JSX.Element {
+export default function Header(): JSX.Element {
   return (
     <header className="px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm sticky top-0 z-40 border-b">
       <Link href="/" className="flex items-center justify-center" prefetch={false}>
@@ -37,6 +38,8 @@ export default function Header(): React.JSX.Element {
           </Button>
         </SheetTrigger>
         <SheetContent side="right">
+          <SheetTitle className="sr-only">Menu</SheetTitle>
+          <SheetDescription className="sr-only">Main navigation menu</SheetDescription>
           <nav className="grid gap-6 text-lg font-medium mt-12">
             <Link
               href="/"

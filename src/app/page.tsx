@@ -30,6 +30,7 @@ const HeroSection = (): React.JSX.Element => (
       alt="Lush rice paddies in Bali"
       fill
       className="object-cover brightness-50"
+      priority
       data-ai-hint="bali rice paddies"
     />
     <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
