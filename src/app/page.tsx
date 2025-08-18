@@ -21,9 +21,9 @@ const SectionWrapper = ({ children, className }: SectionWrapperProps) => {
 export default function Home(): React.JSX.Element {
     const pageSections = [
         SearchSection,
+        CarCharterSection,
         DestinationsSection,
         PackagesSection,
-        CarCharterSection,
         ContactSection,
     ];
 
