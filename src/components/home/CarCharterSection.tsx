@@ -9,7 +9,8 @@ export default function CarCharterSection(): React.JSX.Element {
     return (
         <section
             id="car-charter"
-            className="w-full py-12 md:py-24"
+            className="w-full py-12 md:py-24 text-white"
+            style={{ backgroundColor: "#22272f" }}
         >
             <div className="container grid md:grid-cols-2 items-center gap-12 px-4 md:px-6">
                 <div className="text-left space-y-4">
@@ -19,7 +20,7 @@ export default function CarCharterSection(): React.JSX.Element {
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
                         Explore Bali Your Way
                     </h2>
-                    <p className="mt-4 text-lg md:text-xl text-muted-foreground">
+                    <p className="mt-4 text-lg md:text-xl text-gray-300">
                         Discover the ultimate freedom with your own private car and
                         English-speaking driver. Create your custom itinerary and
                         explore Bali's hidden gems, famous landmarks, and
