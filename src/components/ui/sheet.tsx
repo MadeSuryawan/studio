@@ -1,23 +1,23 @@
 "use client";
 
 import * as React from "react";
-import * as SheetPrimitive from "@radix-ui/react-dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-const Sheet = SheetPrimitive.Root;
+const Sheet = DialogPrimitive.Root;
 
-const SheetTrigger = SheetPrimitive.Trigger;
+const SheetTrigger = DialogPrimitive.Trigger;
 
-const SheetClose = SheetPrimitive.Close;
+const SheetClose = DialogPrimitive.Close;
 
-const SheetPortal = SheetPrimitive.Portal;
+const SheetPortal = DialogPrimitive.Portal;
 
 const SheetOverlay = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Overlay>,
-    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
+    React.ElementRef<typeof DialogPrimitive.Overlay>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
     <SheetPrimitive.Overlay
         className={cn(
@@ -48,16 +48,16 @@ const sheetVariants = cva(
 );
 
 interface SheetContentProps
-    extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
         VariantProps<typeof sheetVariants> {}
 
 const SheetContent = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Content>,
+    React.ElementRef<typeof DialogPrimitive.Content>,
     SheetContentProps
 >(({ side = "right", className, children, ...props }, ref) => (
     <SheetPortal>
         <SheetOverlay />
-        <SheetPrimitive.Content
+        <DialogPrimitive.Content
             ref={ref}
             className={cn(sheetVariants({ side }), className)}
             {...props}
@@ -67,10 +67,10 @@ const SheetContent = React.forwardRef<
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
             </SheetPrimitive.Close>
-        </SheetPrimitive.Content>
+        </DialogPrimitive.Content>
     </SheetPortal>
 ));
-SheetContent.displayName = SheetPrimitive.Content.displayName;
+SheetContent.displayName = "SheetContent";
 
 const SheetHeader = ({
     className,
@@ -101,28 +101,26 @@ const SheetFooter = ({
 SheetFooter.displayName = "SheetFooter";
 
 const SheetTitle = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Title>,
-    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
->(({ className, ...props }, ref) => (
-    <SheetPrimitive.Title
+    React.ElementRef<typeof DialogPrimitive.Title>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>((props, ref) => (
+    <DialogPrimitive.Title
         ref={ref}
-        className={cn("text-lg font-semibold text-foreground", className)}
         {...props}
     />
 ));
-SheetTitle.displayName = SheetPrimitive.Title.displayName;
+SheetTitle.displayName = DialogPrimitive.Title.displayName;
 
 const SheetDescription = React.forwardRef<
-    React.ElementRef<typeof SheetPrimitive.Description>,
-    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
->(({ className, ...props }, ref) => (
-    <SheetPrimitive.Description
+    React.ElementRef<typeof DialogPrimitive.Description>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>((props, ref) => (
+    <DialogPrimitive.Description
         ref={ref}
-        className={cn("text-sm text-muted-foreground", className)}
         {...props}
     />
 ));
-SheetDescription.displayName = SheetPrimitive.Description.displayName;
+SheetDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {
     Sheet,

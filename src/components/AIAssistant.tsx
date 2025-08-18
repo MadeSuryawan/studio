@@ -108,7 +108,7 @@ export default function AIAssistant(): React.JSX.Element {
                         )}
                     </Button>
                 </SheetTrigger>
-                <SheetContent className="w-full max-w-sm h-[60vh] flex flex-col shadow-2xl z-50 p-0 font-body">
+                <SheetContent className="w-full max-w-sm h-auto flex flex-col shadow-2xl z-50 p-0 font-body bottom-20 rounded-lg">
                     <SheetHeader className="p-4 border-b">
                         <SheetTitle className="flex items-center gap-2">
                             <Bot className="text-primary" /> AI Travel Assistant
@@ -119,7 +119,7 @@ export default function AIAssistant(): React.JSX.Element {
                     </SheetHeader>
                     <CardContent className="flex-grow overflow-hidden p-0">
                         <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
-                            <div className="space-y-4">
+                            <div className="space-y-4 h-full">
                                 {messages.map((message, index) => (
                                     <div
                                         key={index}

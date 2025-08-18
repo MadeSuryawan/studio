@@ -9,6 +9,9 @@ import { ThemeSwitcher } from "./ThemeSwitcher";
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
 import LogoIcon from "./LogoIcon";
@@ -84,6 +87,10 @@ export default function Header(): JSX.Element {
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="right">
+                     <SheetHeader className="sr-only">
+                        <SheetTitle>Mobile Menu</SheetTitle>
+                        <SheetDescription>Navigation links for the BaliBlissed website.</SheetDescription>
+                    </SheetHeader>
                     <nav className="grid gap-6 text-lg font-medium mt-12">
                         <Link
                             href="/"
