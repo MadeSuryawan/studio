@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -120,6 +121,8 @@ const SearchSection = (): React.JSX.Element => {
     const [isLoading, setIsLoading] = React.useState(false);
     const [itinerary, setItinerary] = React.useState<string | null>(null);
     const [error, setError] = React.useState<string | null>(null);
+    const [showWhatsAppInput, setShowWhatsAppInput] = React.useState(false);
+    const [whatsAppNumber, setWhatsAppNumber] = React.useState("");
 
     const form = useForm<z.infer<typeof searchSchema>>({
         resolver: zodResolver(searchSchema),
@@ -132,6 +135,8 @@ const SearchSection = (): React.JSX.Element => {
     const closeDialog = () => {
         setItinerary(null);
         setError(null);
+        setShowWhatsAppInput(false);
+        setWhatsAppNumber("");
     };
 
     async function onSubmit(data: z.infer<typeof searchSchema>): Promise<void> {
@@ -162,9 +167,10 @@ const SearchSection = (): React.JSX.Element => {
             setError(result.error ?? "An unexpected error occurred.");
         }
     }
-
-    const whatsappMessage = `Hello! I created a custom Bali itinerary using your AI assistant and I would love to learn more about booking it. Here's the plan:\n\n${itinerary}`;
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+    const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
+    const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello! I created a custom itinerary and would like to ask some questions.`)}`;
+    const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
         <section className="w-full py-12 md:py-24 bg-background">
@@ -354,40 +360,67 @@ const SearchSection = (): React.JSX.Element => {
                         <AlertDialogTitle>
                             {error
                                 ? "Oh no!"
-                                : "Your Custom Itinerary"}
+                                : "Your Custom Bali Itinerary is Ready!"}
                         </AlertDialogTitle>
                         <AlertDialogDescription className="whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto">
                             {error || itinerary}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
+                    <div className="space-y-4">
+                        {!error && showWhatsAppInput && (
+                            <div className="space-y-2">
+                                <Label htmlFor="whatsapp-input">
+                                    Enter your WhatsApp number (with country code)
+                                </Label>
+                                <div className="flex gap-2">
+                                    <Input
+                                        id="whatsapp-input"
+                                        type="tel"
+                                        placeholder="e.g. 14155552671"
+                                        value={whatsAppNumber}
+                                        onChange={(e) => setWhatsAppNumber(e.target.value)}
+                                    />
+                                    <Button asChild disabled={!whatsAppNumber}>
+                                        <a href={userWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+                                            Send
+                                        </a>
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
                         <div className="flex-1 flex flex-col sm:flex-row gap-2">
-                            <Button asChild variant="outline" className="w-full">
-                                <a
-                                    href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(
-                                        itinerary ?? "",
-                                    )}`}
-                                >
-                                    <Mail /> Send to Email
-                                </a>
-                            </Button>
-                            <Button
-                                asChild
-                                variant="outline"
-                                className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white"
-                            >
-                                <a
-                                    href={whatsappUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <MessageCircle /> Send via WhatsApp
-                                </a>
-                            </Button>
+                           {!error && (
+                             <>
+                               <Button asChild variant="outline" className="w-full">
+                                   <a href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}>
+                                       <Mail /> Send to Email
+                                   </a>
+                               </Button>
+                               <Button
+                                   variant="outline"
+                                   className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white"
+                                   onClick={() => setShowWhatsAppInput(true)}
+                               >
+                                   <MessageCircle /> Send to my WhatsApp
+                               </Button>
+                             </>
+                           )}
                         </div>
+                        <Button
+                            asChild
+                            variant="default"
+                            className="w-full sm:w-auto"
+                        >
+                           <a href={businessWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+                             Contact Us
+                           </a>
+                        </Button>
                         <AlertDialogAction
                             onClick={closeDialog}
                             className="w-full sm:w-auto"
+                            variant="secondary"
                         >
                             Close
                         </AlertDialogAction>
@@ -880,3 +913,5 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
+
+    
