@@ -23,14 +23,13 @@ import { TempleIcon } from "@/components/icons/TempleIcon"
 import { DanceIcon } from "@/components/icons/DanceIcon"
 
 
-const HeroSection = () => (
+const HeroSection = (): React.JSX.Element => (
   <section className="relative w-full h-[80vh] min-h-[480px]">
     <Image
       src="https://placehold.co/1600x900.png"
       alt="Lush rice paddies in Bali"
-      layout="fill"
-      objectFit="cover"
-      className="brightness-50"
+      fill
+      className="object-cover brightness-50"
       data-ai-hint="bali rice paddies"
     />
     <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
@@ -52,12 +51,12 @@ const searchSchema = z.object({
   date: z.date().optional(),
 });
 
-const SearchSection = () => {
+const SearchSection = (): React.JSX.Element => {
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
   });
 
-  function onSubmit(data: z.infer<typeof searchSchema>) {
+  function onSubmit(data: z.infer<typeof searchSchema>): void {
     console.log(data);
     // In a real app, this would trigger a search or navigation
   }
@@ -127,7 +126,7 @@ const SearchSection = () => {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={(date) =>
+                            disabled={(date: Date) =>
                               date < new Date() || date < new Date("1900-01-01")
                             }
                             initialFocus
@@ -155,7 +154,7 @@ const destinations = [
   { name: "Nusa Penida", description: "A rugged island paradise offering dramatic cliffs, pristine beaches, and incredible diving spots.", image: "https://placehold.co/600x400.png", hint: "nusa penida" },
 ];
 
-const DestinationsSection = () => (
+const DestinationsSection = (): React.JSX.Element => (
   <section id="destinations" className="w-full py-12 md:py-24 bg-secondary">
     <div className="container px-4 md:px-6">
       <div className="text-center mb-12">
@@ -232,7 +231,7 @@ const packages = [
   },
 ];
 
-const PackagesSection = () => (
+const PackagesSection = (): React.JSX.Element => (
   <section id="packages" className="w-full py-12 md:py-24 bg-background">
      <div className="container px-4 md:px-6">
       <div className="text-center mb-12">
@@ -279,13 +278,13 @@ const contactSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters."),
 });
 
-const ContactSection = () => {
+const ContactSection = (): React.JSX.Element => {
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", message: "" }
   });
 
-  function onSubmit(data: z.infer<typeof contactSchema>) {
+  function onSubmit(data: z.infer<typeof contactSchema>): void {
     console.log("Form submitted:", data);
     // Here you would typically send the data to a server
   }
@@ -348,7 +347,7 @@ const ContactSection = () => {
 };
 
 
-export default function Home() {
+export default function Home(): React.JSX.Element {
   return (
     <>
       <HeroSection />
