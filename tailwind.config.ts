@@ -19,8 +19,8 @@ const config = {
         },
         extend: {
             fontFamily: {
-                body: ["Raleway", "sans-serif"],
-                headline: ["Raleway", "sans-serif"],
+                body: ["var(--font-raleway)", "sans-serif"],
+                headline: ["var(--font-raleway)", "sans-serif"],
                 code: ["monospace"],
             },
             colors: {
