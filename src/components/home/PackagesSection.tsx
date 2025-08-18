@@ -137,7 +137,8 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 text-gray-300 border-gray-700"
+                            style={{ backgroundColor: "#22272f" }}
                         >
                             <Image
                                 src={pkg.image}
@@ -150,10 +151,10 @@ export default function PackagesSection(): React.JSX.Element {
                             />
                             <div className="flex flex-col p-6 justify-between flex-1">
                                 <div>
-                                    <CardTitle>
+                                    <CardTitle className="text-white">
                                         {pkg.title}
                                     </CardTitle>
-                                    <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                                    <ul className="mt-4 space-y-2 text-sm text-gray-400">
                                         {pkg.features.map((feature) => (
                                             <li
                                                 key={feature.text}
@@ -168,7 +169,7 @@ export default function PackagesSection(): React.JSX.Element {
                                 <div className="flex items-end justify-end mt-6">
                                     <Button
                                         asChild
-                                        variant="outline"
+                                        variant="secondary"
                                     >
                                         <Link
                                             href={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
