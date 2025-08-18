@@ -199,9 +199,9 @@ const SearchSection = (): React.JSX.Element => {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
-        <section className="w-full py-12 md:py-24 bg-background">
+        <section id="search" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
-                <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20">
+                <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20 bg-card">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-2xl">
                             <Search /> Find Your Perfect Trip
@@ -487,7 +487,7 @@ const destinations = [
 ];
 
 const DestinationsSection = (): React.JSX.Element => (
-    <section id="destinations" className="w-full py-12 md:py-24 bg-secondary">
+    <section id="destinations" className="w-full py-12 md:py-24">
         <div className="container px-4 md:px-6">
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -619,7 +619,7 @@ const packages = [
 ];
 
 const PackagesSection = (): React.JSX.Element => (
-    <section id="packages" className="w-full py-12 md:py-24 bg-background">
+    <section id="packages" className="w-full py-12 md:py-24">
         <div className="container px-4 md:px-6">
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -694,7 +694,7 @@ const PackagesSection = (): React.JSX.Element => (
 );
 
 const CarCharterSection = (): React.JSX.Element => (
-    <section id="car-charter" className="w-full py-12 md:py-24 bg-secondary">
+    <section id="car-charter" className="w-full py-12 md:py-24">
         <div className="container px-4 md:px-6 text-center">
             <div className="max-w-3xl mx-auto">
                 <div className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-semibold mb-4">
@@ -899,7 +899,7 @@ const ContactForm = (): React.JSX.Element => {
 };
 
 const ContactSection = (): React.JSX.Element => (
-    <section id="contact" className="w-full py-12 md:py-24 bg-background">
+    <section id="contact" className="w-full py-12 md:py-24">
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -917,19 +917,41 @@ const ContactSection = (): React.JSX.Element => (
     </section>
 );
 
+type SectionWrapperProps = {
+    children: React.ReactNode;
+    className?: string;
+};
+
+const SectionWrapper = ({ children, className }: SectionWrapperProps) => {
+    // This is a simple wrapper to apply the alternating background
+    // It keeps the individual section components clean
+    return <div className={className}>{children}</div>;
+};
+
 export default function Home(): React.JSX.Element {
+    const pageSections = [
+        SearchSection,
+        DestinationsSection,
+        PackagesSection,
+        CarCharterSection,
+        ContactSection,
+    ];
+
     return (
         <>
             <HeroSection />
             <React.Suspense>
-               <SearchSection />
+                {pageSections.map((SectionComponent, index) => (
+                    <SectionWrapper
+                        key={index}
+                        className={cn(
+                            index % 2 === 0 ? "bg-background" : "bg-secondary",
+                        )}
+                    >
+                        <SectionComponent />
+                    </SectionWrapper>
+                ))}
             </React.Suspense>
-            <DestinationsSection />
-            <PackagesSection />
-            <CarCharterSection />
-            <ContactSection />
         </>
     );
 }
-
-    
