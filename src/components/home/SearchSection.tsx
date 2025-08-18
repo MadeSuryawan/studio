@@ -124,18 +124,21 @@ export default function SearchSection(): React.JSX.Element {
 
     const handleCopyToClipboard = () => {
         if (!itinerary) return;
-        navigator.clipboard.writeText(itinerary).then(() => {
-            toast({
-                title: "Itinerary copied",
-            });
-        }, (err) => {
-            toast({
-                variant: "destructive",
-                title: "Failed to copy",
-                description: "Could not copy itinerary to clipboard.",
-            });
-            console.error('Could not copy text: ', err);
-        });
+        navigator.clipboard.writeText(itinerary).then(
+            () => {
+                toast({
+                    title: "Itinerary copied",
+                });
+            },
+            (err) => {
+                toast({
+                    variant: "destructive",
+                    title: "Failed to copy",
+                    description: "Could not copy itinerary to clipboard.",
+                });
+                console.error("Could not copy text: ", err);
+            },
+        );
     };
 
     const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
@@ -224,18 +227,24 @@ export default function SearchSection(): React.JSX.Element {
                                                                     .to ? (
                                                                     <>
                                                                         {format(
-                                                                            field.value.from,
+                                                                            field
+                                                                                .value
+                                                                                .from,
                                                                             "LLL dd, y",
                                                                         )}{" "}
                                                                         -{" "}
                                                                         {format(
-                                                                            field.value.to,
+                                                                            field
+                                                                                .value
+                                                                                .to,
                                                                             "LLL dd, y",
                                                                         )}
                                                                     </>
                                                                 ) : (
                                                                     format(
-                                                                        field.value.from,
+                                                                        field
+                                                                            .value
+                                                                            .from,
                                                                         "LLL dd, y",
                                                                     )
                                                                 )
@@ -340,7 +349,8 @@ export default function SearchSection(): React.JSX.Element {
                         {!error && showWhatsAppInput && (
                             <div className="space-y-2">
                                 <Label htmlFor="whatsapp-input">
-                                    Enter your WhatsApp number (with country code)
+                                    Enter your WhatsApp number (with country
+                                    code)
                                 </Label>
                                 <div className="flex gap-2">
                                     <Input
@@ -348,10 +358,16 @@ export default function SearchSection(): React.JSX.Element {
                                         type="tel"
                                         placeholder="e.g. 14155552671"
                                         value={whatsAppNumber}
-                                        onChange={(e) => setWhatsAppNumber(e.target.value)}
+                                        onChange={(e) =>
+                                            setWhatsAppNumber(e.target.value)
+                                        }
                                     />
                                     <Button asChild disabled={!whatsAppNumber}>
-                                        <a href={userWhatsAppUrl} target="_blank" rel="noopener noreferrer">
+                                        <a
+                                            href={userWhatsAppUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             Send
                                         </a>
                                     </Button>
@@ -361,34 +377,43 @@ export default function SearchSection(): React.JSX.Element {
                     </div>
                     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
                         <div className="flex-1 flex flex-col sm:flex-row gap-2">
-                           {!error && (
-                             <>
-                               <Button variant="outline" className="w-full" onClick={handleCopyToClipboard}>
-                                   <Copy /> Copy Itinerary
-                               </Button>
-                               <Button
-                                   variant="outline"
-                                   className="w-full"
-                                   onClick={() => setShowWhatsAppInput(true)}
-                               >
-                                   <MessageCircle /> Send to my WhatsApp
-                               </Button>
-                             </>
-                           )}
+                            {!error && (
+                                <>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full"
+                                        onClick={handleCopyToClipboard}
+                                    >
+                                        <Copy /> Copy Itinerary
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full"
+                                        onClick={() =>
+                                            setShowWhatsAppInput(true)
+                                        }
+                                    >
+                                        <MessageCircle /> Send to my WhatsApp
+                                    </Button>
+                                </>
+                            )}
                         </div>
                         <Button
                             asChild
                             variant="default"
                             className="w-full sm:w-auto"
                         >
-                           <a href={businessWhatsAppUrl} target="_blank" rel="noopener noreferrer">
-                             Contact Us
-                           </a>
+                            <a
+                                href={businessWhatsAppUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Contact Us
+                            </a>
                         </Button>
                         <AlertDialogAction
                             onClick={closeDialog}
                             className="w-full sm:w-auto"
-                            variant="secondary"
                         >
                             Close
                         </AlertDialogAction>

@@ -49,7 +49,7 @@ export default function FloatingButtons(): React.JSX.Element {
                 {isVisible && (
                     <Button
                         size="icon"
-                        className="h-14 w-14 rounded-full shadow-lg bg-background text-foreground hover:bg-background/90 border"
+                        className="h-14 w-14 rounded-full shadow-lg bg-[#212224] text-[#f0f0f0]  hover:bg-background/90 border"
                         onClick={scrollToTop}
                         aria-label="Scroll to top"
                     >

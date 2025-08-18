@@ -20,10 +20,10 @@ export default function CarCharterSection(): React.JSX.Element {
                         Explore Bali Your Way
                     </h2>
                     <p className="mt-4 text-lg md:text-xl text-special-card-fg/80">
-                        Discover the ultimate freedom with your own private car and
-                        English-speaking driver. Create your custom itinerary and
-                        explore Bali's hidden gems, famous landmarks, and
-                        everything in between at your own pace.
+                        Discover the ultimate freedom with your own private car
+                        and English-speaking driver. Create your custom
+                        itinerary and explore Bali&#39;s hidden gems, famous
+                        landmarks, and everything in between at your own pace.
                     </p>
                     <div className="mt-6">
                         <Button asChild size="lg">
@@ -33,7 +33,7 @@ export default function CarCharterSection(): React.JSX.Element {
                         </Button>
                     </div>
                 </div>
-                 <div>
+                <div>
                     <Image
                         src="https://placehold.co/600x400.png"
                         alt="Private car in Bali"

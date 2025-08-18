@@ -24,16 +24,16 @@ const SocialLink = ({
 
 export default function Footer(): JSX.Element {
     return (
-        <footer className="bg-gray-900 text-gray-400">
-            <div className="container mx-auto px-4 md:px-6 py-12">
+        <footer className="bg-[#212224] text-gray-400">
+            <div className="container mx-auto px-4 md:px-6 py-6 md:py-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Company Info */}
                     <div className="col-span-1 md:col-span-2 space-y-4">
                         <Link
                             href="/"
-                            className="flex items-center gap-2 text-white"
+                            className="flex items-center gap-4 text-white"
                         >
-                            <LogoIcon className="mt-2 md:mt-5 h-[90px] w-[90px] md:h-[110px] md:w-[110px] text-primary"  />
+                            <LogoIcon className="h-full w-[96px] md:w-[150px] text-primary" />
                         </Link>
                         <p className="max-w-md text-sm">
                             Crafting personalized and unforgettable travel
@@ -105,13 +105,22 @@ export default function Footer(): JSX.Element {
                             </p>
                         </div>
                         <div className="flex gap-4 mt-6">
-                            <SocialLink href="#" aria-label="Follow us on Facebook">
+                            <SocialLink
+                                href="#"
+                                aria-label="Follow us on Facebook"
+                            >
                                 <Facebook className="w-5 h-5" />
                             </SocialLink>
-                            <SocialLink href="#" aria-label="Follow us on Instagram">
+                            <SocialLink
+                                href="#"
+                                aria-label="Follow us on Instagram"
+                            >
                                 <Instagram className="w-5 h-5" />
                             </SocialLink>
-                            <SocialLink href="#" aria-label="Follow us on Twitter">
+                            <SocialLink
+                                href="#"
+                                aria-label="Follow us on Twitter"
+                            >
                                 <Twitter className="w-5 h-5" />
                             </SocialLink>
                         </div>
