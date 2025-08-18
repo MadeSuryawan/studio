@@ -899,7 +899,7 @@ const ContactForm = (): React.JSX.Element => {
 };
 
 const ContactSection = (): React.JSX.Element => (
-    <section id="contact" className="w-full py-12 md:py-24 bg-secondary">
+    <section id="contact" className="w-full py-12 md:py-24 bg-background">
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -931,3 +931,5 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
+
+    
