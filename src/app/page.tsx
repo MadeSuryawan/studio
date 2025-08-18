@@ -170,7 +170,7 @@ const SearchSection = (): React.JSX.Element => {
             setError(result.error ?? "An unexpected error occurred.");
         }
     }
-    
+
     const handleCopyToClipboard = () => {
         if (!itinerary) return;
         navigator.clipboard.writeText(itinerary).then(() => {
