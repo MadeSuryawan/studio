@@ -55,6 +55,8 @@ import {
     ShieldCheck,
     Clock,
     UserCheck,
+    Mail,
+    MessageCircle,
 } from "lucide-react";
 import { TempleIcon } from "@/components/icons/TempleIcon";
 import { DanceIcon } from "@/components/icons/DanceIcon";
@@ -78,6 +80,7 @@ const HeroSection = (): React.JSX.Element => (
             fill
             className="object-cover brightness-50"
             priority
+            sizes="100vw"
             data-ai-hint="bali rice paddies"
         />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
@@ -124,6 +127,11 @@ const SearchSection = (): React.JSX.Element => {
             budget: "",
         },
     });
+
+    const closeDialog = () => {
+        setItinerary(null);
+        setError(null);
+    }
 
     async function onSubmit(data: z.infer<typeof searchSchema>): Promise<void> {
         setIsLoading(true);
@@ -264,7 +272,7 @@ const SearchSection = (): React.JSX.Element => {
           </CardContent>
         </Card>
       </div>
-      <AlertDialog open={!!itinerary || !!error} onOpenChange={() => { setItinerary(null); setError(null); }}>
+      <AlertDialog open={!!itinerary || !!error} onOpenChange={closeDialog}>
         <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
             <AlertDialogTitle>{error ? "Oh no!" : "Your Custom Itinerary"}</AlertDialogTitle>
@@ -272,8 +280,20 @@ const SearchSection = (): React.JSX.Element => {
               {error || itinerary}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => { setItinerary(null); setError(null); }}>Close</AlertDialogAction>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <div className="flex-1 flex flex-col sm:flex-row gap-2">
+                 <Button asChild variant="outline" className="w-full">
+                   <a href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}>
+                     <Mail/> Send to Email
+                   </a>
+                 </Button>
+                 <Button asChild variant="outline" className="w-full bg-green-500 text-white hover:bg-green-600 hover:text-white">
+                   <a href={`https://wa.me/?text=${encodeURIComponent(itinerary ?? "")}`} target="_blank" rel="noopener noreferrer">
+                     <MessageCircle/> Send via WhatsApp
+                   </a>
+                 </Button>
+             </div>
+            <AlertDialogAction onClick={closeDialog} className="w-full sm:w-auto">Close</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -337,6 +357,7 @@ const DestinationsSection = (): React.JSX.Element => (
                                 width={600}
                                 height={400}
                                 className="w-full h-48 object-cover"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                 data-ai-hint={dest.hint}
                             />
                         </CardHeader>
@@ -467,6 +488,7 @@ const PackagesSection = (): React.JSX.Element => (
                             width={600}
                             height={400}
                             className="w-full md:w-1/3 h-64 md:h-auto object-cover"
+                            sizes="(max-width: 768px) 100vw, 33vw"
                             data-ai-hint={pkg.hint}
                         />
                         <div className="flex flex-col p-6 justify-between flex-1">
@@ -524,6 +546,7 @@ const CarCharterSection = (): React.JSX.Element => (
             alt="Road through Bali"
             fill
             className="object-cover brightness-[.45] -z-10"
+            sizes="100vw"
             data-ai-hint="bali road forest"
         />
         <div className="container px-4 md:px-6 text-center text-white">
@@ -760,7 +783,3 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
-
-    
-
-    
