@@ -92,7 +92,7 @@ const prompt = ai.definePrompt({
     name: "handleContactInquiryPrompt",
     input: { schema: HandleContactInquiryInputSchema },
     output: { schema: HandleContactInquiryOutputSchema },
-    prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed Journeys.
+    prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed.
 
   A user has submitted the following inquiry through the contact form:
   

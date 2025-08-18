@@ -138,7 +138,7 @@ export default function SearchSection(): React.JSX.Element {
         });
     };
 
-    const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
+    const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
     const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello! I created a custom itinerary and would like to ask some questions.`)}`;
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 

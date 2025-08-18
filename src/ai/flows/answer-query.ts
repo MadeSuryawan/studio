@@ -54,7 +54,7 @@ const prompt = ai.definePrompt({
     input: { schema: AnswerQueryInputSchema },
     output: { schema: AnswerQueryOutputSchema },
     tools: [getPackagesTool],
-    prompt: `You are a friendly and helpful travel assistant for a company called BaliBlissed Journeys.
+    prompt: `You are a friendly and helpful travel assistant for a company called BaliBlissed.
   
   Your primary role is to answer user questions about traveling to Bali and the packages we offer.
   

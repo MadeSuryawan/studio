@@ -1,4 +1,4 @@
-# BaliBlissed Journeys - Development Guide
+# BaliBlissed - Development Guide
 
 Welcome, developer! This guide will walk you through setting up the project locally after cloning it from a Git repository.
 

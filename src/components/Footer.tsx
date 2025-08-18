@@ -10,11 +10,11 @@ export default function Footer(): JSX.Element {
                     <div className="flex items-center gap-2">
                         <Mountain className="h-6 w-6 text-primary" />
                         <span className="text-lg font-bold">
-                            BaliBlissed Journeys
+                            BaliBlissed
                         </span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                        &copy; {new Date().getFullYear()} BaliBlissed Journeys.
+                        &copy; {new Date().getFullYear()} BaliBlissed.
                         All rights reserved.
                     </p>
                     <nav className="flex gap-4 sm:gap-6">

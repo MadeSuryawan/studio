@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
 
 export const metadata: Metadata = {
-    title: "BaliBlissed Journeys",
+    title: "BaliBlissed",
     description: "Crafting unforgettable travel experiences in Bali.",
 };
 

@@ -1,6 +1,6 @@
-# BaliBlissed Journeys - A Next.js & AI Powered Travel Agency App
+# BaliBlissed - A Next.js & AI Powered Travel Agency App
 
-Welcome to BaliBlissed Journeys, a comprehensive, AI-enhanced web application designed for a fictional Bali-based travel agency. This project showcases how to build a modern, feature-rich web application using a cutting-edge tech stack.
+Welcome to BaliBlissed, a comprehensive, AI-enhanced web application designed for a fictional Bali-based travel agency. This project showcases how to build a modern, feature-rich web application using a cutting-edge tech stack.
 
 This application was built inside Firebase Studio, an AI-first development environment.
 

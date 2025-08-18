@@ -21,9 +21,9 @@ export default function Header(): JSX.Element {
             >
                 <Mountain className="h-6 w-6 text-primary" />
                 <span className="ml-2 text-lg font-bold font-headline">
-                    BaliBlissed Journeys
+                    BaliBlissed
                 </span>
-                <span className="sr-only">BaliBlissed Journeys</span>
+                <span className="sr-only">BaliBlissed</span>
             </Link>
             <nav className="ml-auto hidden md:flex gap-4 sm:gap-6 items-center">
                 <Link
@@ -88,7 +88,7 @@ export default function Header(): JSX.Element {
                         >
                             <Mountain className="h-6 w-6" />
                             <span className="sr-only">
-                                BaliBlissed Journeys
+                                BaliBlissed
                             </span>
                         </Link>
                         <Link
