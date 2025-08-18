@@ -38,28 +38,30 @@ export default function FloatingButtons(): React.JSX.Element {
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 flex flex-col items-center gap-3 z-50">
-        {isVisible && (
-            <Button
-                size="icon"
-                className="h-14 w-14 rounded-full shadow-lg bg-background text-foreground hover:bg-background/90 border"
-                onClick={scrollToTop}
-                aria-label="Scroll to top"
-            >
-                <ArrowUp className="h-6 w-6" />
-            </Button>
-        )}
-        <Button
-            size="icon"
-            asChild
-            className="h-14 w-14 rounded-full shadow-lg bg-green-500 text-white hover:bg-green-600"
-            aria-label="Contact on WhatsApp"
-        >
-            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
-                <WhatsAppIcon />
-            </a>
-        </Button>
-        <AIAssistant />
-    </div>
+    <>
+      <div className="fixed bottom-4 right-4 flex flex-col items-center gap-3 z-50">
+          {isVisible && (
+              <Button
+                  size="icon"
+                  className="h-14 w-14 rounded-full shadow-lg bg-background text-foreground hover:bg-background/90 border"
+                  onClick={scrollToTop}
+                  aria-label="Scroll to top"
+              >
+                  <ArrowUp className="h-6 w-6" />
+              </Button>
+          )}
+          <Button
+              size="icon"
+              asChild
+              className="h-14 w-14 rounded-full shadow-lg bg-green-500 text-white hover:bg-green-600"
+              aria-label="Contact on WhatsApp"
+          >
+              <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon />
+              </a>
+          </Button>
+      </div>
+      <AIAssistant />
+    </>
   );
 }
