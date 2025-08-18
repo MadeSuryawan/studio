@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export default function CarCharterSection(): React.JSX.Element {
@@ -11,8 +12,8 @@ export default function CarCharterSection(): React.JSX.Element {
             className="w-full py-12 md:py-24"
             style={{ backgroundColor: "#22272f" }}
         >
-            <div className="container px-4 md:px-6">
-                <div className="max-w-3xl mx-auto text-left">
+            <div className="container grid md:grid-cols-2 items-center gap-12 px-4 md:px-6">
+                <div className="text-left space-y-4">
                     <div className="inline-block bg-white text-gray-800 px-4 py-1 rounded-full text-sm font-semibold mb-4">
                         Our Premier Service
                     </div>
@@ -25,13 +26,23 @@ export default function CarCharterSection(): React.JSX.Element {
                         explore Bali's hidden gems, famous landmarks, and
                         everything in between at your own pace.
                     </p>
-                    <div className="mt-10">
+                    <div className="mt-6">
                         <Button asChild size="lg" variant="outline">
                             <Link href="/private-car-charter">
                                 View Charter Options
                             </Link>
                         </Button>
                     </div>
+                </div>
+                 <div>
+                    <Image
+                        src="https://placehold.co/600x400.png"
+                        alt="Private car in Bali"
+                        width={600}
+                        height={400}
+                        className="rounded-xl shadow-lg"
+                        data-ai-hint="car bali"
+                    />
                 </div>
             </div>
         </section>
