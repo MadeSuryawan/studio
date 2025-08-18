@@ -18,7 +18,6 @@ const nextConfig: NextConfig = {
             },
         ],
     },
-    productionBrowserSourceMaps: false,
     webpack: (config) => {
         config.ignoreWarnings = [
             ...(config.ignoreWarnings || []),
