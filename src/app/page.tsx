@@ -694,18 +694,10 @@ const PackagesSection = (): React.JSX.Element => (
 );
 
 const CarCharterSection = (): React.JSX.Element => (
-    <section id="car-charter" className="w-full py-12 md:py-24 relative">
-        <Image
-            src="https://placehold.co/1920x1080.png"
-            alt="Road through Bali"
-            fill
-            className="object-cover brightness-[.45] -z-10"
-            sizes="100vw"
-            data-ai-hint="bali road forest"
-        />
-        <div className="container px-4 md:px-6 text-center text-primary-foreground">
+    <section id="car-charter" className="w-full py-12 md:py-24 bg-primary text-primary-foreground">
+        <div className="container px-4 md:px-6 text-center">
             <div className="max-w-3xl mx-auto">
-                <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
+                <div className="inline-block bg-primary-foreground/20 text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
                     Our Premier Service
                 </div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
@@ -753,7 +745,6 @@ const CarCharterSection = (): React.JSX.Element => (
                         asChild
                         size="lg"
                         variant="secondary"
-                        className="bg-white/10 border-white/20 border hover:bg-white/20"
                     >
                         <Link href="/private-car-charter">
                             Learn More & Book
@@ -939,5 +930,3 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
-
-    
