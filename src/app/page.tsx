@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { format } from "date-fns"
+import { useSearchParams } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -338,7 +339,11 @@ const PackagesSection = (): React.JSX.Element => (
                   <p className="text-sm text-muted-foreground">From</p>
                   <p className="text-2xl font-bold">{pkg.price}</p>
                 </div>
-                <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Book Now</Button>
+                <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  <Link href={`/#contact?message=I'm interested in the "${pkg.title}" package.`}>
+                    Book Now
+                  </Link>
+                </Button>
                </div>
              </div>
            </Card>
@@ -407,14 +412,21 @@ const contactSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters."),
 });
 
-const ContactSection = (): React.JSX.Element => {
+const ContactForm = (): React.JSX.Element => {
+  const searchParams = useSearchParams();
+  const initialMessage = searchParams.get('message') || "";
   const [isLoading, setIsLoading] = React.useState(false);
   const [dialogState, setDialogState] = React.useState<{title: string; description: string} | null>(null);
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { name: "", email: "", message: "" }
+    defaultValues: { name: "", email: "", message: initialMessage }
   });
+
+  React.useEffect(() => {
+    form.setValue('message', initialMessage);
+  }, [initialMessage, form]);
+
 
   async function onSubmit(data: z.infer<typeof contactSchema>): Promise<void> {
     setIsLoading(true);
@@ -426,83 +438,92 @@ const ContactSection = (): React.JSX.Element => {
     
     if (result.success && result.data) {
       setDialogState({ title: "Message Sent!", description: result.data.confirmation });
-      form.reset();
+      form.reset({ name: "", email: "", message: ""});
     } else {
       setDialogState({ title: "Oh no!", description: result.error ?? "An unexpected error occurred." });
     }
   }
 
   return (
-    <section id="contact" className="w-full py-12 md:py-24 bg-secondary">
-      <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-        <div className="space-y-3">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Get in Touch</h2>
-          <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-            Have a question or ready to plan your trip? Send us a message!
-          </p>
-        </div>
-        <div className="mx-auto w-full max-w-sm lg:max-w-md">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Your Name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input type="email" placeholder="Your Email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea placeholder="Your Message" className="min-h-[120px]" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? <Loader2 className="animate-spin" /> : "Send Message"}
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </div>
-       <AlertDialog open={!!dialogState} onOpenChange={() => setDialogState(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{dialogState?.title}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {dialogState?.description}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setDialogState(null)}>Close</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </section>
+    <>
+    <div className="mx-auto w-full max-w-sm lg:max-w-md">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Your Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="email" placeholder="Your Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea placeholder="Your Message" className="min-h-[120px]" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? <Loader2 className="animate-spin" /> : "Send Message"}
+          </Button>
+        </form>
+      </Form>
+    </div>
+     <AlertDialog open={!!dialogState} onOpenChange={() => setDialogState(null)}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{dialogState?.title}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {dialogState?.description}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogAction onClick={() => setDialogState(null)}>Close</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 };
+
+
+const ContactSection = (): React.JSX.Element => (
+  <section id="contact" className="w-full py-12 md:py-24 bg-secondary">
+    <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+      <div className="space-y-3">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">Get in Touch</h2>
+        <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          Have a question or ready to plan your trip? Send us a message!
+        </p>
+      </div>
+      <React.Suspense fallback={<div>Loading form...</div>}>
+         <ContactForm />
+      </React.Suspense>
+    </div>
+  </section>
+);
 
 
 export default function Home(): React.JSX.Element {
@@ -517,3 +538,5 @@ export default function Home(): React.JSX.Element {
     </>
   );
 }
+
+    

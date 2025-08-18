@@ -55,7 +55,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
                         Your professional, English-speaking driver will take you wherever you want to go, from the iconic temples and terraced rice paddies to hidden beaches and local villages. Just sit back, relax, and enjoy the journey in your private, air-conditioned vehicle.
                     </p>
                      <Button asChild size="lg" className="mt-4">
-                        <Link href="/#contact">Book Your Car Now</Link>
+                        <Link href="/#contact?message=I'm interested in booking a private car charter.">Book Your Car Now</Link>
                     </Button>
                 </div>
                 <div>
@@ -136,7 +136,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
                 </p>
                 <div className="mt-8">
                      <Button asChild size="lg" variant="secondary">
-                        <Link href="/#contact">Send Booking Request</Link>
+                        <Link href="/#contact?message=I'm interested in booking a private car charter.">Send Booking Request</Link>
                     </Button>
                 </div>
         </div>
@@ -145,3 +145,5 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
     </div>
   );
 }
+
+    
