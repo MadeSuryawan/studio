@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -60,6 +59,7 @@ import {
     UserCheck,
     Mail,
     MessageCircle,
+    Copy,
 } from "lucide-react";
 import { handleItineraryRequest, handleContactRequest } from "./actions";
 import {
@@ -74,6 +74,7 @@ import {
 import { type DateRange } from "react-day-picker";
 import { TempleIcon } from "@/components/icons/TempleIcon";
 import { DanceIcon } from "@/components/icons/DanceIcon";
+import { useToast } from "@/hooks/use-toast";
 
 const HeroSection = (): React.JSX.Element => (
     <section className="relative w-full h-[80vh] min-h-[480px]">
@@ -124,6 +125,7 @@ const SearchSection = (): React.JSX.Element => {
     const [error, setError] = React.useState<string | null>(null);
     const [showWhatsAppInput, setShowWhatsAppInput] = React.useState(false);
     const [whatsAppNumber, setWhatsAppNumber] = React.useState("");
+    const { toast } = useToast();
 
     const form = useForm<z.infer<typeof searchSchema>>({
         resolver: zodResolver(searchSchema),
@@ -169,11 +171,23 @@ const SearchSection = (): React.JSX.Element => {
         }
     }
     
-    const handleSendEmail = () => {
-      const subject = "My Bali Itinerary";
-      const body = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary ?? ''}`;
-      const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoLink;
+    const handleCopyToClipboard = () => {
+        if (!itinerary) return;
+        const subject = "My Bali Itinerary";
+        const body = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
+        navigator.clipboard.writeText(body).then(() => {
+            toast({
+                title: "Copied to Clipboard!",
+                description: "You can now paste the itinerary into your email.",
+            });
+        }, (err) => {
+            toast({
+                variant: "destructive",
+                title: "Failed to copy",
+                description: "Could not copy itinerary to clipboard.",
+            });
+            console.error('Could not copy text: ', err);
+        });
     };
 
     const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed Journeys:\n\n${itinerary}`;
@@ -401,8 +415,8 @@ const SearchSection = (): React.JSX.Element => {
                         <div className="flex-1 flex flex-col sm:flex-row gap-2">
                            {!error && (
                              <>
-                               <Button variant="outline" className="w-full" onClick={handleSendEmail}>
-                                   <Mail /> Send to Email
+                               <Button variant="outline" className="w-full" onClick={handleCopyToClipboard}>
+                                   <Copy /> Copy Itinerary
                                </Button>
                                <Button
                                    variant="outline"
