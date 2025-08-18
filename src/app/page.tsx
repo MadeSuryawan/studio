@@ -86,11 +86,11 @@ const HeroSection = (): React.JSX.Element => (
             sizes="100vw"
             data-ai-hint="bali rice paddies"
         />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white p-4">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">
                 Discover Your Bali Bliss
             </h1>
-            <p className="max-w-2xl mt-4 text-lg md:text-xl text-white/90">
+            <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">
                 We craft personalized, unforgettable journeys to the Island of
                 the Gods. Let your story in Bali begin with us.
             </p>
@@ -395,7 +395,11 @@ const SearchSection = (): React.JSX.Element => {
                            {!error && (
                              <>
                                <Button asChild variant="outline" className="w-full">
-                                   <a href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}>
+                                   <a 
+                                      href={`mailto:?subject=My Bali Itinerary&body=${encodeURIComponent(itinerary ?? "")}`}
+                                      target="_blank" 
+                                      rel="noopener noreferrer"
+                                   >
                                        <Mail /> Send to Email
                                    </a>
                                </Button>
@@ -680,15 +684,15 @@ const CarCharterSection = (): React.JSX.Element => (
             sizes="100vw"
             data-ai-hint="bali road forest"
         />
-        <div className="container px-4 md:px-6 text-center text-white">
+        <div className="container px-4 md:px-6 text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
                 <div className="inline-block bg-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold mb-4">
                     Our Premier Service
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline text-white">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
                     Explore Bali Your Way
                 </h2>
-                <p className="mt-4 text-lg md:text-xl text-white/90">
+                <p className="mt-4 text-lg md:text-xl text-primary-foreground/90">
                     Enjoy the ultimate freedom and flexibility with our private
                     car charter service. Your personal driver, your custom
                     itinerary.
@@ -697,8 +701,8 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <ShieldCheck className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold text-white">Safe & Reliable</h3>
-                            <p className="text-sm text-white/80">
+                            <h3 className="font-bold">Safe & Reliable</h3>
+                            <p className="text-sm text-primary-foreground/80">
                                 Professional, experienced drivers and
                                 well-maintained vehicles for your peace of mind.
                             </p>
@@ -707,8 +711,8 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <Clock className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold text-white">Flexible Hours</h3>
-                            <p className="text-sm text-white/80">
+                            <h3 className="font-bold">Flexible Hours</h3>
+                            <p className="text-sm text-primary-foreground/80">
                                 Choose from half-day (6 hours) or full-day (10
                                 hours) charters to suit your schedule.
                             </p>
@@ -717,8 +721,8 @@ const CarCharterSection = (): React.JSX.Element => (
                     <div className="flex items-start gap-4">
                         <UserCheck className="w-12 h-12 text-accent flex-shrink-0" />
                         <div>
-                            <h3 className="font-bold text-white">Expert Local Drivers</h3>
-                            <p className="text-sm text-white/80">
+                            <h3 className="font-bold">Expert Local Drivers</h3>
+                            <p className="text-sm text-primary-foreground/80">
                                 Our drivers are also your local guides, ready to
                                 share insights and hidden gems.
                             </p>
@@ -730,7 +734,7 @@ const CarCharterSection = (): React.JSX.Element => (
                         asChild
                         size="lg"
                         variant="secondary"
-                        className="bg-white/10 border-white/20 border hover:bg-white/20 text-white"
+                        className="bg-white/10 border-white/20 border hover:bg-white/20"
                     >
                         <Link href="/private-car-charter">
                             Learn More & Book
@@ -916,3 +920,5 @@ export default function Home(): React.JSX.Element {
         </>
     );
 }
+
+    
