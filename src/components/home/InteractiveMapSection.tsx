@@ -14,6 +14,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import BaliMap from "@/components/icons/BaliMap";
+import { ArrowRight } from "lucide-react";
 
 const locations = [
     {
@@ -194,7 +195,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         ))}
                     </div>
 
-                    <div className="flex items-center justify-center mt-[-3rem]">
+                    <div className="flex flex-col items-center justify-center mt-[-3rem]">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeLocation.name}
@@ -233,6 +234,16 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                 </Card>
                             </motion.div>
                         </AnimatePresence>
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="mt-6"
+                        >
+                            <Link href="#destinations">
+                                Explore More Destinations{" "}
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </div>
