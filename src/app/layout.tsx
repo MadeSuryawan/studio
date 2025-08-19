@@ -31,7 +31,8 @@ export default function RootLayout({
         name: "BaliBlissed Journeys",
         url: "https://www.baliblissed.com", // Replace with your actual domain
         logo: "https://www.baliblissed.com/logo.png", // Replace with your actual logo URL
-        description: "Crafting personalized and unforgettable travel experiences on the Island of the Gods.",
+        description:
+            "Crafting personalized and unforgettable travel experiences on the Island of the Gods.",
         address: {
             "@type": "PostalAddress",
             streetAddress: "123 Jalan Pantai",
@@ -56,6 +57,14 @@ export default function RootLayout({
                 />
             </head>
             <body className="font-body antialiased">
+                <noscript>
+                    <iframe
+                        src="https://www.googletagmanager.com/ns.html?id=GTM-5MPWCMSR"
+                        height="0"
+                        width="0"
+                        style={{ display: "none", visibility: "hidden" }}
+                    ></iframe>
+                </noscript>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
