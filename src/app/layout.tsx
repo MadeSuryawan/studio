@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PT_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
@@ -24,8 +25,36 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>): React.JSX.Element {
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        name: "BaliBlissed Journeys",
+        url: "https://www.baliblissed.com", // Replace with your actual domain
+        logo: "https://www.baliblissed.com/logo.png", // Replace with your actual logo URL
+        description: "Crafting personalized and unforgettable travel experiences on the Island of the Gods.",
+        address: {
+            "@type": "PostalAddress",
+            streetAddress: "123 Jalan Pantai",
+            addressLocality: "Canggu",
+            addressRegion: "Bali",
+            postalCode: "80361",
+            addressCountry: "ID",
+        },
+        contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+62-858-4700-6743", // Use your actual phone number
+            contactType: "customer service",
+        },
+    };
+
     return (
         <html lang="en" suppressHydrationWarning className={ptSans.variable}>
+            <head>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+            </head>
             <body className="font-body antialiased">
                 <ThemeProvider
                     attribute="class"
@@ -41,6 +70,19 @@ export default function RootLayout({
                     <FloatingButtons />
                     <Toaster />
                 </ThemeProvider>
+                {/* Google Analytics Scripts - Replace G-XXXXXXXXXX with your Measurement ID */}
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-XXXXXXXXXX');
+                    `}
+                </Script>
             </body>
         </html>
     );
