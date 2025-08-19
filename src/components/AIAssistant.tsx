@@ -23,6 +23,7 @@ import {
     SheetDescription,
     SheetTrigger,
 } from "./ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Message = {
     role: "user" | "assistant";
@@ -36,6 +37,7 @@ export default function AIAssistant(): React.JSX.Element {
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
     const scrollAreaRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         if (isOpen && messages.length === 0) {
@@ -94,7 +96,7 @@ export default function AIAssistant(): React.JSX.Element {
 
     return (
         <div className="fixed bottom-4 left-4 z-50">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Sheet open={isOpen} onOpenChange={setIsOpen} modal={isMobile}>
                 <SheetTrigger asChild>
                     <Button
                         className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
@@ -108,13 +110,17 @@ export default function AIAssistant(): React.JSX.Element {
                         )}
                     </Button>
                 </SheetTrigger>
-                <SheetContent className="w-full max-w-sm h-auto flex flex-col shadow-2xl z-50 p-0 font-body bottom-20 rounded-lg">
+                <SheetContent
+                    side="left"
+                    className="w-full max-w-sm h-auto flex flex-col shadow-2xl z-50 p-0 font-body bottom-20 rounded-lg"
+                >
                     <SheetHeader className="p-4 border-b">
                         <SheetTitle className="flex items-center gap-2">
                             <Bot className="text-primary" /> AI Travel Assistant
                         </SheetTitle>
                         <SheetDescription className="sr-only">
-                            Chat with our AI assistant to get help with your travel plans.
+                            Chat with our AI assistant to get help with your
+                            travel plans.
                         </SheetDescription>
                     </SheetHeader>
                     <CardContent className="flex-grow overflow-hidden p-0">
