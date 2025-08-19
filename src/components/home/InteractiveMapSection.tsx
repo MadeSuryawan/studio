@@ -22,8 +22,8 @@ const locations = [
             "The cultural heart of Bali, known for its lush rice paddies, art galleries, and spiritual retreats.",
         image: "https://placehold.co/600x400.png",
         hint: "bali ubud",
-        x: "53%",
-        y: "62%",
+        x: "52%",
+        y: "55%",
     },
     {
         name: "Canggu",
@@ -31,8 +31,8 @@ const locations = [
             "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs.",
         image: "https://placehold.co/600x400.png",
         hint: "bali canggu",
-        x: "51%",
-        y: "80%",
+        x: "48%",
+        y: "78%",
     },
     {
         name: "Kintamani",
@@ -40,8 +40,8 @@ const locations = [
             "Home to the majestic Mount Batur volcano and a stunning caldera lake, offering breathtaking views.",
         image: "https://placehold.co/600x400.png",
         hint: "mount batur",
-        x: "65%",
-        y: "35%",
+        x: "60%",
+        y: "30%",
     },
     {
         name: "Nusa Penida",
@@ -49,8 +49,8 @@ const locations = [
             "A rugged island paradise offering dramatic cliffs, pristine beaches, and incredible diving spots.",
         image: "https://placehold.co/600x400.png",
         hint: "nusa penida",
-        x: "82%",
-        y: "75%",
+        x: "75%",
+        y: "85%",
     },
     {
         name: "Uluwatu",
@@ -58,8 +58,8 @@ const locations = [
             "Famous for its cliff-top temple, stunning sunsets, and world-class surf breaks.",
         image: "https://placehold.co/600x400.png",
         hint: "uluwatu temple",
-        x: "51%",
-        y: "94%",
+        x: "45%",
+        y: "95%",
     },
     {
         name: "Seminyak",
@@ -67,8 +67,35 @@ const locations = [
             "Bali's hub for luxury resorts, high-end shopping, and world-class dining experiences.",
         image: "https://placehold.co/600x400.png",
         hint: "bali seminyak",
-        x: "50%",
-        y: "85%",
+        x: "47%",
+        y: "83%",
+    },
+    {
+        name: "Amed",
+        description:
+            "A string of quiet fishing villages in East Bali, known for black sand beaches and spectacular diving.",
+        image: "https://placehold.co/600x400.png",
+        hint: "amed beach",
+        x: "82%",
+        y: "35%",
+    },
+    {
+        name: "Lovina",
+        description:
+            "Located on the North coast, Lovina is famous for its black sand beaches and early morning dolphin tours.",
+        image: "https://placehold.co/600x400.png",
+        hint: "bali dolphins",
+        x: "45%",
+        y: "15%",
+    },
+    {
+        name: "Pemuteran",
+        description:
+            "A small, laid-back village in Northwest Bali, perfect for diving, snorkeling, and relaxation away from the crowds.",
+        image: "https://placehold.co/600x400.png",
+        hint: "bali snorkeling",
+        x: "20%",
+        y: "18%",
     },
 ];
 
