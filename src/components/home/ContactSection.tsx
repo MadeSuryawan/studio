@@ -90,6 +90,8 @@ const ContactForm = (): React.JSX.Element => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
+                                            id="name-input"
+                                            autoComplete="off"
                                             placeholder="Your Name"
                                             {...field}
                                             className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
@@ -107,6 +109,8 @@ const ContactForm = (): React.JSX.Element => {
                                     <FormControl>
                                         <Input
                                             type="email"
+                                            id="email-input"
+                                            autoComplete="on"
                                             placeholder="Your Email"
                                             {...field}
                                             className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
