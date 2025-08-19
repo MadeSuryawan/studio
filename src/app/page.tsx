@@ -7,6 +7,7 @@ import SearchSection from "@/components/home/SearchSection";
 import DestinationsSection from "@/components/home/DestinationsSection";
 import PackagesSection from "@/components/home/PackagesSection";
 import CarCharterSection from "@/components/home/CarCharterSection";
+import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
 import ContactSection from "@/components/home/ContactSection";
 import BlogSection from "@/components/home/BlogSection";
 
@@ -26,6 +27,7 @@ export default function Home(): React.JSX.Element {
         DestinationsSection,
         PackagesSection,
         BlogSection,
+        WhyChooseUsSection,
         ContactSection,
     ];
 
