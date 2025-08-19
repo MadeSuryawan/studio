@@ -10,6 +10,7 @@ import CarCharterSection from "@/components/home/CarCharterSection";
 import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
 import ContactSection from "@/components/home/ContactSection";
 import BlogSection from "@/components/home/BlogSection";
+import InteractiveMapSection from "@/components/home/InteractiveMapSection";
 
 type SectionWrapperProps = {
     children: React.ReactNode;
@@ -25,6 +26,7 @@ export default function Home(): React.JSX.Element {
         SearchSection,
         CarCharterSection,
         DestinationsSection,
+        InteractiveMapSection,
         PackagesSection,
         BlogSection,
         WhyChooseUsSection,
