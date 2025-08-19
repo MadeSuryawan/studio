@@ -14,7 +14,7 @@ import {
     SheetTrigger,
     SheetDescription,
 } from "@/components/ui/sheet";
-import LogoIcon from "./icons/LogoIcon";
+import LogoIcon from "@/components/icons/LogoIcon";
 
 export default function Header(): JSX.Element {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);

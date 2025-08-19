@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
-import LogoIcon from "./icons/LogoIcon";
+import LogoIcon from "@/components/icons/LogoIcon";
 
 const SocialLink = ({
     href,
