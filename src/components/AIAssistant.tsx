@@ -2,11 +2,8 @@
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
     CardContent,
     CardFooter,
-    CardHeader,
-    CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -22,6 +19,7 @@ import {
     SheetTitle,
     SheetDescription,
     SheetTrigger,
+    SheetClose,
 } from "./ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -112,6 +110,11 @@ export default function AIAssistant(): React.JSX.Element {
                 </SheetTrigger>
                 <SheetContent
                     side="left"
+                    onInteractOutside={(e) => {
+                        if (!isMobile) {
+                            e.preventDefault();
+                        }
+                    }}
                     className="w-full max-w-sm h-auto flex flex-col shadow-2xl z-50 p-0 font-body bottom-20 rounded-lg"
                 >
                     <SheetHeader className="p-4 border-b">
@@ -200,6 +203,10 @@ export default function AIAssistant(): React.JSX.Element {
                             </Button>
                         </form>
                     </CardFooter>
+                     <SheetClose className="absolute right-4 top-4 rounded-md p-1 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Close</span>
+                    </SheetClose>
                 </SheetContent>
             </Sheet>
         </div>
