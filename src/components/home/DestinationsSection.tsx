@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
     Card,
     CardContent,
@@ -9,7 +10,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const destinations = [
     {
@@ -46,14 +48,26 @@ export default function DestinationsSection(): React.JSX.Element {
     return (
         <section id="destinations" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
-                        Featured Destinations
-                    </h2>
-                    <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-                        Explore the diverse landscapes and vibrant culture that
-                        make Bali a world-renowned destination.
-                    </p>
+                <div className="flex flex-col md:flex-row justify-between items-center mb-12 text-center md:text-left">
+                    <div>
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                            Featured Destinations
+                        </h2>
+                        <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
+                            Explore the diverse landscapes and vibrant culture
+                            that make Bali a world-renowned destination.
+                        </p>
+                    </div>
+                    <Button
+                        asChild
+                        variant="outline"
+                        className="hidden md:flex mt-4 md:mt-0"
+                    >
+                        <Link href="#">
+                            View All Destinations{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {destinations.map((dest) => (
@@ -83,6 +97,14 @@ export default function DestinationsSection(): React.JSX.Element {
                             </CardContent>
                         </Card>
                     ))}
+                </div>
+                <div className="mt-8 text-center md:hidden">
+                    <Button asChild variant="outline">
+                        <Link href="#">
+                            View All Destinations{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </section>
