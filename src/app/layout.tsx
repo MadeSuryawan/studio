@@ -48,12 +48,30 @@ export default function RootLayout({
         },
     };
 
+    const jsonLdWebSite = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "BaliBlissed",
+        url: "https://baliblissed.com", // Replace with your actual domain
+        potentialAction: {
+            "@type": "SearchAction",
+            target: "https://baliblissed.com/search?q={search_term_string}", // Replace with your actual search URL
+            "query-input": "required name=search_term_string",
+        },
+    };
+
     return (
         <html lang="en" suppressHydrationWarning className={ptSans.variable}>
             <head>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(jsonLdWebSite),
+                    }}
                 />
             </head>
             <body className="font-body antialiased">
