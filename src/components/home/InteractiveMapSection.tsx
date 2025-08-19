@@ -22,8 +22,8 @@ const locations = [
             "The cultural heart of Bali, known for its lush rice paddies, art galleries, and spiritual retreats.",
         image: "https://placehold.co/600x400.png",
         hint: "bali ubud",
-        x: "55%",
-        y: "48%",
+        x: "53%",
+        y: "58%",
     },
     {
         name: "Canggu",
@@ -31,17 +31,17 @@ const locations = [
             "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs.",
         image: "https://placehold.co/600x400.png",
         hint: "bali canggu",
-        x: "42%",
-        y: "75%",
+        x: "48%",
+        y: "78%",
     },
     {
-        name: "Seminyak",
+        name: "Kintamani",
         description:
-            "Bali's hub for luxury resorts, high-end shopping, and world-class dining experiences.",
+            "Home to the majestic Mount Batur volcano and a stunning caldera lake, offering breathtaking views.",
         image: "https://placehold.co/600x400.png",
-        hint: "bali seminyak",
-        x: "45%",
-        y: "82%",
+        hint: "mount batur",
+        x: "65%",
+        y: "35%",
     },
     {
         name: "Nusa Penida",
@@ -49,7 +49,25 @@ const locations = [
             "A rugged island paradise offering dramatic cliffs, pristine beaches, and incredible diving spots.",
         image: "https://placehold.co/600x400.png",
         hint: "nusa penida",
-        x: "80%",
+        x: "78%",
+        y: "85%",
+    },
+    {
+        name: "Uluwatu",
+        description:
+            "Famous for its cliff-top temple, stunning sunsets, and world-class surf breaks.",
+        image: "https://placehold.co/600x400.png",
+        hint: "uluwatu temple",
+        x: "45%",
+        y: "92%",
+    },
+    {
+        name: "Seminyak",
+        description:
+            "Bali's hub for luxury resorts, high-end shopping, and world-class dining experiences.",
+        image: "https://placehold.co/600x400.png",
+        hint: "bali seminyak",
+        x: "49%",
         y: "85%",
     },
 ];
@@ -67,20 +85,20 @@ const LocationPin = ({
 }) => (
     <button
         type="button"
-        className="absolute -translate-x-1/2 -translate-y-1/2"
+        className="absolute -translate-x-1/2 -translate-y-1/2 group"
         style={{ left: location.x, top: location.y }}
         onClick={() => onClick(location)}
         aria-label={`Show details for ${location.name}`}
     >
         <span
             className={cn(
-                "block h-3 w-3 rounded-full bg-accent transition-transform duration-300",
-                isActive ? "scale-150 ring-2 ring-accent/50" : "scale-100",
+                "block h-3 w-3 rounded-full bg-accent ring-accent/50 transition-transform duration-300",
+                isActive ? "scale-150 ring-2" : "scale-100 group-hover:scale-125",
             )}
         ></span>
         <span
             className={cn(
-                "absolute -bottom-6 whitespace-nowrap rounded bg-primary px-2 py-1 text-xs text-primary-foreground opacity-0 shadow-lg transition-opacity duration-300",
+                "absolute left-1/2 -translate-x-1/2 -bottom-6 whitespace-nowrap rounded bg-primary px-2 py-1 text-xs text-primary-foreground opacity-0 shadow-lg transition-opacity duration-300 pointer-events-none",
                 isActive ? "opacity-100" : "group-hover:opacity-100",
             )}
         >
