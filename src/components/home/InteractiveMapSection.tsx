@@ -97,6 +97,33 @@ const locations = [
         x: "20%",
         y: "18%",
     },
+    {
+        name: "Jatiluwih",
+        description:
+            "Famous for its dramatic and exotic landscapes. The Jatiluwih rice terraces are a UNESCO Cultural Heritage Site.",
+        image: "https://placehold.co/600x400.png",
+        hint: "jatiluwih rice terraces",
+        x: "45%",
+        y: "45%",
+    },
+    {
+        name: "Bedugul (Lake Beratan)",
+        description:
+            "Home to the iconic Ulun Danu Beratan Temple, this highland area offers cool weather and stunning lake views.",
+        image: "https://placehold.co/600x400.png",
+        hint: "beratan temple bali",
+        x: "50%",
+        y: "30%",
+    },
+    {
+        name: "Munduk",
+        description:
+            "A charming mountain village known for its scenic treks, stunning waterfalls, and coffee plantations.",
+        image: "https://placehold.co/600x400.png",
+        hint: "munduk bali",
+        x: "42%",
+        y: "25%",
+    },
 ];
 
 type Location = (typeof locations)[0];
