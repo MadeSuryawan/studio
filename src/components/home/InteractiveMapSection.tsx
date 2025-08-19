@@ -23,7 +23,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "bali ubud",
         x: "53%",
-        y: "58%",
+        y: "55%",
     },
     {
         name: "Canggu",
@@ -32,7 +32,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "bali canggu",
         x: "48%",
-        y: "78%",
+        y: "75%",
     },
     {
         name: "Kintamani",
@@ -41,7 +41,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "mount batur",
         x: "65%",
-        y: "35%",
+        y: "30%",
     },
     {
         name: "Nusa Penida",
@@ -49,8 +49,8 @@ const locations = [
             "A rugged island paradise offering dramatic cliffs, pristine beaches, and incredible diving spots.",
         image: "https://placehold.co/600x400.png",
         hint: "nusa penida",
-        x: "78%",
-        y: "85%",
+        x: "82%",
+        y: "80%",
     },
     {
         name: "Uluwatu",
@@ -58,8 +58,8 @@ const locations = [
             "Famous for its cliff-top temple, stunning sunsets, and world-class surf breaks.",
         image: "https://placehold.co/600x400.png",
         hint: "uluwatu temple",
-        x: "45%",
-        y: "92%",
+        x: "46%",
+        y: "88%",
     },
     {
         name: "Seminyak",
@@ -68,7 +68,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "bali seminyak",
         x: "49%",
-        y: "85%",
+        y: "80%",
     },
 ];
 
@@ -122,7 +122,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali&#39;s most
+                        Click on the pins to discover more about Bali's most
                         popular destinations.
                     </p>
                 </div>
