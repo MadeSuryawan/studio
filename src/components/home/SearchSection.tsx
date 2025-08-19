@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -173,6 +174,7 @@ export default function SearchSection(): React.JSX.Element {
                                             <Select
                                                 onValueChange={field.onChange}
                                                 defaultValue={field.value}
+                                                name="interests"
                                             >
                                                 <FormControl>
                                                     <SelectTrigger>
@@ -302,6 +304,8 @@ export default function SearchSection(): React.JSX.Element {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
+                                                    id="budget"
+                                                    autoComplete="off"
                                                     placeholder="Your budget"
                                                     {...field}
                                                 />
