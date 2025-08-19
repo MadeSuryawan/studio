@@ -94,7 +94,7 @@ export default function AIAssistant(): React.JSX.Element {
 
     return (
         <div className="fixed bottom-4 left-4 z-50">
-            <Sheet open={isOpen} onOpenChange={setIsOpen} modal={isMobile}>
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button
                         className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
@@ -188,6 +188,9 @@ export default function AIAssistant(): React.JSX.Element {
                             className="flex w-full items-center space-x-2"
                         >
                             <Input
+                                id="ai-chat-input"
+                                name="ai-chat-input"
+                                autoComplete="off"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Ask about Bali..."
