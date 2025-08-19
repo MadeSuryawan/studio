@@ -48,7 +48,12 @@ export async function suggestItinerary(
 
 const prompt = ai.definePrompt({
     name: "suggestItineraryPrompt",
-    input: { schema: z.object({ ...SuggestItineraryInputSchema.shape, whatsappNumber: z.string() }) },
+    input: {
+        schema: z.object({
+            ...SuggestItineraryInputSchema.shape,
+            whatsappNumber: z.string(),
+        }),
+    },
     output: { schema: SuggestItineraryOutputSchema },
     prompt: `You are a travel expert specializing in Bali itineraries. A user wants you to create a Bali itinerary for them.
 
@@ -76,7 +81,7 @@ const suggestItineraryFlow = ai.defineFlow(
     async (input) => {
         const { output } = await prompt({
             ...input,
-            whatsappNumber: WHATSAPP_NUMBER
+            whatsappNumber: WHATSAPP_NUMBER,
         });
         return output!;
     },

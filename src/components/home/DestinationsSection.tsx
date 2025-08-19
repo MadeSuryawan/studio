@@ -51,8 +51,8 @@ export default function DestinationsSection(): React.JSX.Element {
                         Featured Destinations
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-                        Explore the diverse landscapes and vibrant culture that make
-                        Bali a world-renowned destination.
+                        Explore the diverse landscapes and vibrant culture that
+                        make Bali a world-renowned destination.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -76,7 +76,7 @@ const config = {
                     border: "hsl(var(--sidebar-border))",
                     ring: "hsl(var(--sidebar-ring))",
                 },
-                 "special-card-bg": "hsl(var(--special-card-bg))",
+                "special-card-bg": "hsl(var(--special-card-bg))",
                 "special-card-fg": "hsl(var(--special-card-fg))",
             },
             borderRadius: {

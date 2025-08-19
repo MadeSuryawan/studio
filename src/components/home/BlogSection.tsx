@@ -36,10 +36,7 @@ const blogPosts = [
 
 export default function BlogSection(): React.JSX.Element {
     return (
-        <section
-            id="blog"
-            className="w-full py-12 md:py-24"
-        >
+        <section id="blog" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
                 <div className="flex justify-between items-center mb-12">
                     <div>
@@ -50,18 +47,21 @@ export default function BlogSection(): React.JSX.Element {
                             Get inspired for your Bali adventure.
                         </p>
                     </div>
-                    <Button asChild variant="outline" className="hidden md:flex">
+                    <Button
+                        asChild
+                        variant="outline"
+                        className="hidden md:flex"
+                    >
                         <Link href="#">
-                            View All Posts <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Posts{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {blogPosts.map((post) => (
                         <Link key={post.title} href={post.link}>
-                            <Card
-                                className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card"
-                            >
+                            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -84,9 +84,10 @@ export default function BlogSection(): React.JSX.Element {
                     ))}
                 </div>
                 <div className="mt-8 text-center md:hidden">
-                     <Button asChild variant="outline">
+                    <Button asChild variant="outline">
                         <Link href="#">
-                            View All Posts <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Posts{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>

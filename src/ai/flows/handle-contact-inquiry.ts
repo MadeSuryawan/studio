@@ -39,7 +39,8 @@ export async function handleContactInquiry(
 const sendEmailTool = ai.defineTool(
     {
         name: "sendEmail",
-        description: "Sends an email with the user's inquiry to the support team.",
+        description:
+            "Sends an email with the user's inquiry to the support team.",
         inputSchema: HandleContactInquiryInputSchema,
         outputSchema: z.object({
             success: z.boolean(),
@@ -49,7 +50,9 @@ const sendEmailTool = ai.defineTool(
     async ({ name, email, message }) => {
         try {
             if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-                console.error("Email credentials are not configured in .env file.");
+                console.error(
+                    "Email credentials are not configured in .env file.",
+                );
                 throw new Error("Server is not configured to send emails.");
             }
 
@@ -81,12 +84,13 @@ const sendEmailTool = ai.defineTool(
             console.error("Error sending email:", error);
             return {
                 success: false,
-                error: error.message || "An unknown error occurred while sending the email.",
+                error:
+                    error.message ||
+                    "An unknown error occurred while sending the email.",
             };
         }
-    }
+    },
 );
-
 
 const prompt = ai.definePrompt({
     name: "handleContactInquiryPrompt",
@@ -120,7 +124,7 @@ const handleContactInquiryFlow = ai.defineFlow(
     },
     async (input) => {
         const { output } = await prompt(input);
-        
+
         if (!output) {
             throw new Error("Failed to generate an AI confirmation message.");
         }

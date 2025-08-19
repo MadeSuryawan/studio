@@ -1,10 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import {
-    CardContent,
-    CardFooter,
-} from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageSquare, Send, X, Bot, User, Loader2 } from "lucide-react";
@@ -206,7 +203,7 @@ export default function AIAssistant(): React.JSX.Element {
                             </Button>
                         </form>
                     </CardFooter>
-                     <SheetClose className="absolute right-4 top-4 rounded-md p-1 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
+                    <SheetClose className="absolute right-4 top-4 rounded-md p-1 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
                         <X className="h-4 w-4" />
                         <span className="sr-only">Close</span>
                     </SheetClose>
