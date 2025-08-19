@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import BaliMap from "@/components/icons/BaliMap";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const locations = [
     {
@@ -168,6 +169,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
     const [activeLocation, setActiveLocation] = React.useState<Location>(
         locations[0],
     );
+    const { resolvedTheme } = useTheme();
 
     return (
         <section id="map" className="w-full py-8 md:py-16">
@@ -184,7 +186,14 @@ export default function InteractiveMapSection(): React.JSX.Element {
 
                 <div className="flex flex-col items-center mt-[-3rem]">
                     <div className="relative aspect-square max-h-[500px] mx-auto group">
-                        <BaliMap className="w-full h-full text-primary/10" />
+                        <BaliMap
+                            className={cn(
+                                "w-full h-full",
+                                resolvedTheme === "dark"
+                                    ? "text-primary/30"
+                                    : "text-primary/10",
+                            )}
+                        />
                         {locations.map((loc) => (
                             <LocationPin
                                 key={loc.name}
