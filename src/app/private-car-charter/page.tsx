@@ -109,34 +109,46 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
                 </div>
             </section>
 
-      <section className="py-12 md:py-24">
-        <div className="container px-4 md:px-6">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-4">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">Discover Bali on Your Own Terms</h2>
-                    <p className="text-foreground md:text-lg">
-                        Forget the rigid schedules of group tours and the hassle of navigating unfamiliar roads. With our private car charter service, you have the freedom to explore Bali at your own pace. 
-                    </p>
-                    <p className="text-foreground md:text-lg">
-                        Your professional, English-speaking driver will take you wherever you want to go, from the iconic temples and terraced rice paddies to hidden beaches and local villages. Just sit back, relax, and enjoy the journey in your private, air-conditioned vehicle.
-                    </p>
-                     <Button asChild size="lg" className="mt-4">
-                        <Link href="/#contact?message=I'm interested in booking a private car charter.">Book Your Car Now</Link>
-                    </Button>
+            <section className="py-12 md:py-24">
+                <div className="container px-4 md:px-6">
+                    <div className="grid md:grid-cols-2 gap-12 items-center">
+                        <div className="space-y-4">
+                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">
+                                Discover Bali on Your Own Terms
+                            </h2>
+                            <p className="text-foreground md:text-lg">
+                                Forget the rigid schedules of group tours and
+                                the hassle of navigating unfamiliar roads. With
+                                our private car charter service, you have the
+                                freedom to explore Bali at your own pace.
+                            </p>
+                            <p className="text-foreground md:text-lg">
+                                Your professional, English-speaking driver will
+                                take you wherever you want to go, from the
+                                iconic temples and terraced rice paddies to
+                                hidden beaches and local villages. Just sit
+                                back, relax, and enjoy the journey in your
+                                private, air-conditioned vehicle.
+                            </p>
+                            <Button asChild size="lg" className="mt-4">
+                                <Link href="/#contact?message=I'm interested in booking a private car charter.">
+                                    Book Your Car Now
+                                </Link>
+                            </Button>
+                        </div>
+                        <div>
+                            <Image
+                                src="https://placehold.co/600x600.png"
+                                alt="Happy tourists in a car in Bali"
+                                width={600}
+                                height={600}
+                                className="rounded-xl shadow-lg"
+                                data-ai-hint="tourists car bali"
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <Image
-                        src="https://placehold.co/600x600.png"
-                        alt="Happy tourists in a car in Bali"
-                        width={600}
-                        height={600}
-                        className="rounded-xl shadow-lg"
-                        data-ai-hint="tourists car bali"
-                    />
-                </div>
-            </div>
-        </div>
-      </section>
+            </section>
 
             <section className="py-12 md:py-24 bg-secondary">
                 <div className="container px-4 md:px-6">

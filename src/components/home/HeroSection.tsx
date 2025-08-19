@@ -22,8 +22,8 @@ export default function HeroSection(): React.JSX.Element {
                     Discover Your Bali Bliss
                 </h1>
                 <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">
-                    We craft personalized, unforgettable journeys to the Island of
-                    the Gods. Let your story in Bali begin with us.
+                    We craft personalized, unforgettable journeys to the Island
+                    of the Gods. Let your story in Bali begin with us.
                 </p>
                 <div className="mt-8">
                     <Button

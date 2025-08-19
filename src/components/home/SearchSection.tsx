@@ -304,10 +304,10 @@ export default function SearchSection(): React.JSX.Element {
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    id="budget"
+                                                    {...field}
+                                                    name="budget"
                                                     autoComplete="off"
                                                     placeholder="Your budget"
-                                                    {...field}
                                                 />
                                             </FormControl>
                                             <FormMessage />

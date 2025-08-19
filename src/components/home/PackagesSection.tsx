@@ -4,11 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
     Waves,
     Utensils,
@@ -19,12 +15,41 @@ import {
 } from "lucide-react";
 
 const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M11.99 2.25L2.69 9.33l-1.39 1.58v1.8l4.6-1.58v6.75h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5V11.13l4.6 1.58v-1.8l-1.39-1.58L11.99 2.25zM9.25 11.25H14.75"></path></svg>
-)
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+    >
+        <path d="M11.99 2.25L2.69 9.33l-1.39 1.58v1.8l4.6-1.58v6.75h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5V11.13l4.6 1.58v-1.8l-1.39-1.58L11.99 2.25zM9.25 11.25H14.75"></path>
+    </svg>
+);
 
 const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 14.5a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5z"/><path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z M17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z"/><path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6"/><path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18"/></svg>
-)
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...props}
+    >
+        <path d="M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 14.5a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5z" />
+        <path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z M17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z" />
+        <path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6" />
+        <path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18" />
+    </svg>
+);
 
 const packages = [
     {
@@ -115,12 +140,17 @@ export default function PackagesSection(): React.JSX.Element {
                             Curated Travel Packages
                         </h2>
                         <p className="text-lg text-muted-foreground mt-2">
-                           Hand-picked experiences designed to give you the very best of Bali.
+                            Hand-picked experiences designed to give you the
+                            very best of Bali.
                         </p>
                     </div>
-                    <Button asChild className="hidden md:flex bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90">
+                    <Button
+                        asChild
+                        className="hidden md:flex bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90"
+                    >
                         <Link href="#">
-                            View All Packages <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Packages{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
@@ -157,10 +187,7 @@ export default function PackagesSection(): React.JSX.Element {
                                     </ul>
                                 </div>
                                 <div className="flex items-end justify-end mt-6">
-                                    <Button
-                                        asChild
-                                        variant="secondary"
-                                    >
+                                    <Button asChild variant="secondary">
                                         <Link
                                             href={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
                                         >
@@ -172,10 +199,14 @@ export default function PackagesSection(): React.JSX.Element {
                         </Card>
                     ))}
                 </div>
-                 <div className="mt-8 text-center md:hidden">
-                     <Button asChild className="bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90">
+                <div className="mt-8 text-center md:hidden">
+                    <Button
+                        asChild
+                        className="bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90"
+                    >
                         <Link href="#">
-                            View All Packages <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Packages{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                 </div>

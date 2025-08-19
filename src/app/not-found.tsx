@@ -11,7 +11,8 @@ export default function NotFound(): JSX.Element {
                     404
                 </h1>
                 <p className="mx-auto max-w-md text-xl text-muted-foreground">
-                    Oops! The page you&apos;re looking for seems to have gotten lost.
+                    Oops! The page you&apos;re looking for seems to have gotten
+                    lost.
                 </p>
                 <p className="mx-auto max-w-md text-muted-foreground">
                     Let&apos;s get you back on track.

@@ -33,14 +33,14 @@ This will download and install all the packages listed in `package.json`.
 The application uses environment variables to handle sensitive information like API keys.
 
 1. **Create a local environment file:**
-    In the root of the project, create a new file named `.env.local`. You can do this by copying the example file:
+   In the root of the project, create a new file named `.env.local`. You can do this by copying the example file:
 
     ```bash
     cp .env.example .env.local
     ```
 
 2. **Add your API Key:**
-    Open the `.env.local` file. You will see the following line:
+   Open the `.env.local` file. You will see the following line:
 
     ```plaintext
     GEMINI_API_KEY=""
