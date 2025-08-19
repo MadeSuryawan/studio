@@ -13,7 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import BaliMap from "@/components/icons/BaliMap";
+import BaliMapDark from "@/components/icons/BaliMapDark";
+import BaliMapLight from "@/components/icons/BaliMapLight";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -170,6 +171,8 @@ export default function InteractiveMapSection(): React.JSX.Element {
         locations[0],
     );
     const { resolvedTheme } = useTheme();
+
+    const BaliMap = resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
 
     return (
         <section id="map" className="w-full py-8 md:py-16">
