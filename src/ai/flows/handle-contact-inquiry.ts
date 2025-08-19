@@ -112,7 +112,6 @@ const handleContactInquiryFlow = ai.defineFlow(
         name: "handleContactInquiryFlow",
         inputSchema: HandleContactInquiryInputSchema,
         outputSchema: HandleContactInquiryOutputSchema,
-        tools: [sendEmailTool],
     },
     async (input) => {
         // Run email sending and AI response generation in parallel
