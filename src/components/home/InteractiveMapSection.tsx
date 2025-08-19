@@ -23,7 +23,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "bali ubud",
         x: "53%",
-        y: "55%",
+        y: "62%",
     },
     {
         name: "Canggu",
@@ -31,8 +31,8 @@ const locations = [
             "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs.",
         image: "https://placehold.co/600x400.png",
         hint: "bali canggu",
-        x: "48%",
-        y: "75%",
+        x: "51%",
+        y: "80%",
     },
     {
         name: "Kintamani",
@@ -41,7 +41,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "mount batur",
         x: "65%",
-        y: "30%",
+        y: "35%",
     },
     {
         name: "Nusa Penida",
@@ -50,7 +50,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "nusa penida",
         x: "82%",
-        y: "80%",
+        y: "75%",
     },
     {
         name: "Uluwatu",
@@ -58,8 +58,8 @@ const locations = [
             "Famous for its cliff-top temple, stunning sunsets, and world-class surf breaks.",
         image: "https://placehold.co/600x400.png",
         hint: "uluwatu temple",
-        x: "46%",
-        y: "88%",
+        x: "51%",
+        y: "94%",
     },
     {
         name: "Seminyak",
@@ -67,8 +67,8 @@ const locations = [
             "Bali's hub for luxury resorts, high-end shopping, and world-class dining experiences.",
         image: "https://placehold.co/600x400.png",
         hint: "bali seminyak",
-        x: "49%",
-        y: "80%",
+        x: "50%",
+        y: "85%",
     },
 ];
 
