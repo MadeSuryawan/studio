@@ -66,14 +66,6 @@ export default function Header(): JSX.Element {
                     >
                         Contact
                     </Link>
-                    <Button
-                        asChild
-                        className="hidden sm:inline-flex bg-accent text-accent-foreground hover:bg-accent/90"
-                    >
-                        <Link href="/#contact" prefetch={false}>
-                            Book Now
-                        </Link>
-                    </Button>
                 </nav>
                 <ThemeSwitcher />
                 <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
