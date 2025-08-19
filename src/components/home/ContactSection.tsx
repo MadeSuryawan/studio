@@ -94,7 +94,7 @@ const ContactForm = (): React.JSX.Element => {
                                             autoComplete="off"
                                             placeholder="Your Name"
                                             {...field}
-                                            className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
+                                            className="bg-card-alternate text-special-card-fg placeholder:text-special-card-fg/70"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -113,7 +113,7 @@ const ContactForm = (): React.JSX.Element => {
                                             autoComplete="on"
                                             placeholder="Your Email"
                                             {...field}
-                                            className="bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
+                                            className="bg-card-alternate text-special-card-fg placeholder:text-special-card-fg/70"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -128,7 +128,7 @@ const ContactForm = (): React.JSX.Element => {
                                     <FormControl>
                                         <Textarea
                                             placeholder="Your Message"
-                                            className="min-h-[120px] bg-special-card-bg text-special-card-fg placeholder:text-special-card-fg/70"
+                                            className="min-h-[120px] bg-card-alternate text-special-card-fg placeholder:text-special-card-fg/70"
                                             {...field}
                                         />
                                     </FormControl>
@@ -176,10 +176,10 @@ const ContactForm = (): React.JSX.Element => {
 
 export default function ContactSection(): React.JSX.Element {
     return (
-        <section id="contact" className="w-full py-12 md:py-24">
+        <section id="contact" className="w-full py-8 md:py-16">
             <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
                 <div className="space-y-3">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                    <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
                         Get in Touch
                     </h2>
                     <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">

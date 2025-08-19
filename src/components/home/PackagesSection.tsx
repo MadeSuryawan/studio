@@ -136,7 +136,7 @@ export default function PackagesSection(): React.JSX.Element {
             <div className="container px-4 md:px-6">
                 <div className="flex justify-between items-center mb-12">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
                             Curated Travel Packages
                         </h2>
                         <p className="text-lg text-muted-foreground mt-2">
@@ -146,7 +146,7 @@ export default function PackagesSection(): React.JSX.Element {
                     </div>
                     <Button
                         asChild
-                        className="hidden md:flex bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90"
+                        className="hidden md:flex bg-card-alternate text-special-card-fg hover:bg-card-alternate/90"
                     >
                         <Link href="#">
                             View All Packages{" "}
@@ -158,7 +158,7 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-special-card-bg text-special-card-fg border-border/20"
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card-alternate text-special-card-fg border-border/20"
                         >
                             <Image
                                 src={pkg.image}
@@ -202,7 +202,7 @@ export default function PackagesSection(): React.JSX.Element {
                 <div className="mt-8 text-center md:hidden">
                     <Button
                         asChild
-                        className="bg-special-card-bg text-special-card-fg hover:bg-special-card-bg/90"
+                        className="bg-card-alternate text-special-card-fg hover:bg-card-alternate/90"
                     >
                         <Link href="#">
                             View All Packages{" "}

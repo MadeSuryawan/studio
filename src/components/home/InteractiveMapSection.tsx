@@ -93,7 +93,9 @@ const LocationPin = ({
         <span
             className={cn(
                 "block h-3 w-3 rounded-full bg-accent ring-accent/50 transition-transform duration-300",
-                isActive ? "scale-150 ring-2" : "scale-100 group-hover:scale-125",
+                isActive
+                    ? "scale-150 ring-2"
+                    : "scale-100 group-hover:scale-125",
             )}
         ></span>
         <span
@@ -113,19 +115,19 @@ export default function InteractiveMapSection(): React.JSX.Element {
     );
 
     return (
-        <section id="map" className="w-full py-12 md:py-24">
+        <section id="map" className="w-full py-8 md:py-16">
             <div className="container px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali's most
+                        Click on the pins to discover more about Bali&#39;s most
                         popular destinations.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="flex flex-col items-center mt-[-3rem]">
                     <div className="relative aspect-square max-h-[500px] mx-auto group">
                         <BaliMap className="w-full h-full text-primary/10" />
                         {locations.map((loc) => (
@@ -138,7 +140,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         ))}
                     </div>
 
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center mt-[-3rem]">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeLocation.name}
@@ -148,7 +150,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                 transition={{ duration: 0.3 }}
                                 className="w-full"
                             >
-                                <Card className="overflow-hidden shadow-lg w-full max-w-md bg-card">
+                                <Card className="overflow-hidden shadow-lg w-full max-w-md bg-card-alternate">
                                     <Image
                                         src={activeLocation.image}
                                         alt={activeLocation.name}

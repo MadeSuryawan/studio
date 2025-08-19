@@ -7,7 +7,7 @@ export default function NotFound(): JSX.Element {
     return (
         <div className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-col items-center justify-center bg-background px-4 text-center">
             <div className="space-y-4">
-                <h1 className="text-8xl font-bold tracking-tighter text-primary">
+                <h1 className="text-8xl font-bold tracking-lighter text-primary">
                     404
                 </h1>
                 <p className="mx-auto max-w-md text-xl text-muted-foreground">

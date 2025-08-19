@@ -99,7 +99,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
                     data-ai-hint="car driving bali"
                 />
                 <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-lighter font-headline">
                         Private Car Charter
                     </h1>
                     <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">
@@ -113,7 +113,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
                 <div className="container px-4 md:px-6">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div className="space-y-4">
-                            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">
+                            <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl font-headline">
                                 Discover Bali on Your Own Terms
                             </h2>
                             <p className="text-foreground md:text-lg">
@@ -153,7 +153,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
             <section className="py-12 md:py-24 bg-secondary">
                 <div className="container px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl font-headline">
                             What&apos;s Included
                         </h2>
                         <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
@@ -178,7 +178,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
             <section className="py-12 md:py-24">
                 <div className="container px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl font-headline">
                             Simple, Transparent Pricing
                         </h2>
                         <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
@@ -228,7 +228,7 @@ export default function PrivateCarCharterPage(): React.JSX.Element {
 
             <section className="py-12 md:py-24 bg-primary text-primary-foreground">
                 <div className="container px-4 md:px-6 text-center">
-                    <h2 className="text-3xl font-bold tracking-tighter font-headline">
+                    <h2 className="text-3xl font-bold tracking-lighter font-headline">
                         Ready to Explore?
                     </h2>
                     <p className="mx-auto max-w-3xl md:text-xl/relaxed mt-4">

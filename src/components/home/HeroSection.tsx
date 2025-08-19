@@ -18,7 +18,7 @@ export default function HeroSection(): React.JSX.Element {
                 data-ai-hint="bali rice paddies"
             />
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-lighter font-headline">
                     Discover Your Bali Bliss
                 </h1>
                 <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">

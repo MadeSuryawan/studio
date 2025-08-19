@@ -40,7 +40,7 @@ export default function BlogSection(): React.JSX.Element {
             <div className="container px-4 md:px-6">
                 <div className="flex justify-between items-center mb-12">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
                             From Our Blog
                         </h2>
                         <p className="text-lg text-muted-foreground mt-2">

@@ -104,7 +104,7 @@ export default function Footer(): JSX.Element {
                                 </a>
                             </p>
                         </div>
-                        <div className="flex gap-4 mt-6">
+                        {/* <div className="flex gap-4 mt-6">
                             <SocialLink
                                 href="#"
                                 aria-label="Follow us on Facebook"
@@ -123,16 +123,16 @@ export default function Footer(): JSX.Element {
                             >
                                 <Twitter className="w-5 h-5" />
                             </SocialLink>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-                    <p className="text-sm text-center sm:text-left mb-4 sm:mb-0">
+                    <p className="text-sm text-center sm:text-left mb-4 sm:mb-0 md:pl-[4rem]">
                         &copy; {new Date().getFullYear()} BaliBlissed. All
                         rights reserved.
                     </p>
-                    <nav className="flex gap-4 sm:gap-6">
+                    <nav className="flex gap-4 sm:gap-6 md:pr-[4.9rem]">
                         <Link
                             href="#"
                             className="text-sm hover:text-white hover:underline underline-offset-4"
