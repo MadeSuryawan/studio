@@ -12,9 +12,9 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-    SheetDescription
+    SheetDescription,
 } from "@/components/ui/sheet";
-import LogoIcon from "./LogoIcon";
+import LogoIcon from "./icons/LogoIcon";
 
 export default function Header(): JSX.Element {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -84,7 +84,9 @@ export default function Header(): JSX.Element {
                             className="md:hidden"
                         >
                             <Menu className="h-6 w-6" />
-                            <span className="sr-only">Toggle navigation menu</span>
+                            <span className="sr-only">
+                                Toggle navigation menu
+                            </span>
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="right">
