@@ -92,6 +92,7 @@ const prompt = ai.definePrompt({
     name: "handleContactInquiryPrompt",
     input: { schema: HandleContactInquiryInputSchema },
     output: { schema: HandleContactInquiryOutputSchema },
+    tools: [sendEmailTool],
     prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed.
 
   A user has submitted the following inquiry through the contact form:
@@ -101,8 +102,12 @@ const prompt = ai.definePrompt({
   Message:
   {{{message}}}
 
-  Your task is to generate a brief, friendly, and reassuring confirmation message. Acknowledge the user by name and mention that you will get back to them at their provided email address within 24-48 hours.
+  First, call the sendEmailTool to send the inquiry to the support team.
 
+  Then, based on the result of the tool call, generate a brief, friendly, and reassuring confirmation message. Acknowledge the user by name and mention that you will get back to them at their provided email address within 24-48 hours.
+
+  If the email fails, your confirmation message should politely inform them that there was a technical issue and they should try again later.
+  
   Do not repeat the user's message in your response. Just provide the confirmation.
 `,
 });
@@ -114,24 +119,12 @@ const handleContactInquiryFlow = ai.defineFlow(
         outputSchema: HandleContactInquiryOutputSchema,
     },
     async (input) => {
-        // Run email sending and AI response generation in parallel
-        const [emailResult, { output: confirmationOutput }] = await Promise.all([
-            sendEmailTool(input),
-            prompt(input),
-        ]);
-
-        if (!emailResult.success) {
-            // If email fails, we might want to throw an error or handle it differently
-            // For now, we'll log it and still send a confirmation to the user,
-            // but we'll add a note for ourselves.
-            console.error("Failed to send contact email:", emailResult.error);
-            throw new Error("Failed to send contact email. Please try again later.");
-        }
+        const { output } = await prompt(input);
         
-        if (!confirmationOutput) {
+        if (!output) {
             throw new Error("Failed to generate an AI confirmation message.");
         }
 
-        return confirmationOutput;
+        return output;
     },
 );
