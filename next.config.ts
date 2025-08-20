@@ -18,13 +18,13 @@ const nextConfig: NextConfig = {
             },
         ],
     },
-    webpack: (config) => {
-        config.ignoreWarnings = [
-            ...(config.ignoreWarnings || []),
-            /require.extensions is not supported by webpack/,
-        ];
-        return config;
-    },
+    // webpack: (config) => {
+    //     config.ignoreWarnings = [
+    //         ...(config.ignoreWarnings || []),
+    //         /require.extensions is not supported by webpack/,
+    //     ];
+    //     return config;
+    // },
     allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
 };
 

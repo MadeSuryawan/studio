@@ -192,9 +192,9 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         <BaliMap
                             className={cn(
                                 "w-full h-full",
-                                resolvedTheme === "dark"
-                                    ? "text-primary/30"
-                                    : "text-primary/10",
+                                resolvedTheme === "light"
+                                    ? "text-primary/10"
+                                    : "text-primary/30",
                             )}
                         />
                         {locations.map((loc) => (

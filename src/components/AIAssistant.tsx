@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Send, X, Bot, User, Loader2 } from "lucide-react";
+import { Send, X, Bot, BotMessageSquare, User, Loader2 } from "lucide-react";
 import { handleQuery } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -94,14 +94,14 @@ export default function AIAssistant(): React.JSX.Element {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                     <Button
-                        className="h-14 w-14 rounded-full shadow-lg bg-accent hover:bg-accent/90"
-                        size="icon"
+                        className="h-12 w-12 md:h-16 md:w-16 rounded-[24%] shadow-lg bg-accent hover:bg-accent/90"
+                        // size="sm"
                         aria-label="Toggle AI Assistant"
                     >
                         {isOpen ? (
                             <X className="h-6 w-6" />
                         ) : (
-                            <MessageSquare className="h-6 w-6" />
+                            <BotMessageSquare className="scale-[2] md:scale-[2.5] " />
                         )}
                     </Button>
                 </SheetTrigger>

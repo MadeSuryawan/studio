@@ -8,7 +8,7 @@ import WhatsAppButton from "./WhatsAppButton";
 export default function FloatingButtons(): React.JSX.Element {
     return (
         <>
-            <div className="fixed bottom-4 right-4 flex flex-col items-center gap-3 z-50">
+            <div className="fixed bottom-4 right-4 flex flex-col items-center gap-4 z-50">
                 <ScrollToTopButton />
                 <WhatsAppButton />
             </div>
