@@ -11,6 +11,7 @@
         --popover: 60 29% 92%;
         --popover-foreground: 224 71.4% 4.1%;
         --primary: 174 71% 57%;
+        --hero-title: 170 14% 90%;
         --primary-foreground: 224 71.4% 4.1%;
         --secondary: 60 4.8% 95.9%;
         --secondary-foreground: 222.2 84% 4.9%;
@@ -37,7 +38,7 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
-        --card-alternate: 220 13% 90%; /* Light slate gray for light theme */
+        --card-alternate: 220 13% 87%; /* Light slate gray for light theme */
         --special-card-fg: 224 71.4% 4.1%;
     }
 

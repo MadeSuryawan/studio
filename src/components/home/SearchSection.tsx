@@ -146,9 +146,9 @@ export default function SearchSection(): React.JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
-        <section id="search" className="w-full py-12 md:py-24">
+        <section id="search" className="w-full pt-20 md:pt-60">
             <div className="container px-4 md:px-6">
-                <Card className="max-w-4xl mx-auto shadow-lg -mt-32 relative z-20 border-border/20 bg-card">
+                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/20 bg-card-alternate">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-2xl">
                             <Search /> Find Your Perfect Trip
@@ -176,7 +176,7 @@ export default function SearchSection(): React.JSX.Element {
                                                 name="interests"
                                             >
                                                 <FormControl>
-                                                    <SelectTrigger>
+                                                    <SelectTrigger className="text-muted-foreground">
                                                         <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
                                                     </SelectTrigger>
                                                 </FormControl>
@@ -212,7 +212,7 @@ export default function SearchSection(): React.JSX.Element {
                                             </FormLabel>
                                             <Popover>
                                                 <PopoverTrigger asChild>
-                                                    <FormControl>
+                                                    <FormControl className=" border-[1px] dark:border-white/50 border-black/60 text-muted-foreground bg-card-alternate">
                                                         <Button
                                                             variant={"outline"}
                                                             className={cn(
@@ -307,7 +307,7 @@ export default function SearchSection(): React.JSX.Element {
                                                     name="budget"
                                                     autoComplete="off"
                                                     placeholder="Your budget"
-                                                    className="bg-card-alternate text-special-card-fg placeholder:-muted-foreground"
+                                                    className="border-[1px] dark:border-white/50 border-black/60 bg-card-alternate text-special-card-fg placeholder:-muted-foreground"
                                                 />
                                             </FormControl>
                                             <FormMessage />

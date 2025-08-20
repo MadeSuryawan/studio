@@ -68,7 +68,10 @@ export default function RootLayout({
             <head>
                 {/* <!-- Favicon -->
                 <!-- - For old IEs --> */}
-                <link href="/Favicons_(Beach)/favicon.ico" rel="shortcut icon" />
+                <link
+                    href="/Favicons_(Beach)/favicon.ico"
+                    rel="shortcut icon"
+                />
                 {/* <!-- For new browsers - multisize ico  --> */}
                 <link
                     href="/Favicons_(Beach)/favicon.ico"

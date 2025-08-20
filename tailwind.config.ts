@@ -78,6 +78,7 @@ const config = {
                 },
                 "card-alternate": "hsl(var(--card-alternate))",
                 "special-card-fg": "hsl(var(--special-card-fg))",
+                "hero-title": "hsl(var(--hero-title))",
             },
             borderRadius: {
                 lg: "var(--radius)",

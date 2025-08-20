@@ -20,7 +20,7 @@ export default function Header(): JSX.Element {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     return (
-        <header className="px-4 lg:px-6 h-16 flex items-center bg-card-alternate text-foreground sticky top-0 z-40 border-b">
+        <header className="px-4 lg:px-6 h-16 flex items-center bg-card-alternate/40 dark:bg-card-alternate/60 text-foreground sticky   backdrop-blur-md fixed z-50 shadow-sm">
             <Link
                 href="/"
                 className="flex items-center justify-center"
