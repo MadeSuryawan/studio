@@ -30,7 +30,7 @@ export default function RootLayout({
         "@type": "TravelAgency",
         name: "BaliBlissed",
         alternateName: "Bali Blissed Travel Agency Car Charter",
-        image: "https://baliblissed.com/favicon.ico",
+        image: "https://baliblissed.com/Favicons_(Beach)/favicon.ico",
         "@id": "https://baliblissed.com",
         url: "https://www.baliblissed.com", // Replace with your actual domain
         logo: "https://www.baliblissed.com/logo.png", // Replace with your actual logo URL
@@ -68,58 +68,62 @@ export default function RootLayout({
             <head>
                 {/* <!-- Favicon -->
                 <!-- - For old IEs --> */}
-                <link href="favicon.ico" rel="shortcut icon" />
+                <link href="/Favicons_(Beach)/favicon.ico" rel="shortcut icon" />
                 {/* <!-- For new browsers - multisize ico  --> */}
                 <link
-                    href="favicon.ico"
+                    href="/Favicons_(Beach)/favicon.ico"
                     rel="icon"
                     sizes="16x16 32x32"
                     type="image/x-icon"
                 />
                 {/* <!-- For iPad with high-resolution Retina display running iOS ≥ 7: --> */}
                 <link
-                    href="favicon-152-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-152-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="152x152"
                 />
                 {/* <!-- For iPad with high-resolution Retina display running iOS ≤ 6: --> */}
                 <link
-                    href="favicon-144-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-144-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="144x144"
                 />
                 {/* <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: --> */}
                 <link
-                    href="favicon-120-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-120-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="120x120"
                 />
                 {/* <!-- For iPhone with high-resolution Retina display running iOS ≤ 6: --> */}
                 <link
-                    href="favicon-114-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-114-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="114x114"
                 />
                 {/* <!-- For iPhone 6+ --> */}
                 <link
-                    href="favicon-180-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-180-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="180x180"
                 />
                 {/* <!-- For first- and second-generation iPad: --> */}
                 <link
-                    href="favicon-72-precomposed.png"
+                    href="/Favicons_(Beach)/favicon-72-precomposed.png"
                     rel="apple-touch-icon"
                     sizes="72x72"
                 />
                 {/* <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: --> */}
                 <link
-                    href="favicon-57.png"
+                    href="/Favicons_(Beach)/favicon-57.png"
                     rel="apple-touch-icon"
                     sizes="57x57"
                 />
                 {/* <!-- For Old Chrome --> */}
-                <link href="favicon-32.png" rel="icon" sizes="32x32" />
+                <link
+                    href="/Favicons_(Beach)/favicon-32.png"
+                    rel="icon"
+                    sizes="32x32"
+                />
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
