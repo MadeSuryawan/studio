@@ -219,7 +219,7 @@ export default function SearchSection(): React.JSX.Element {
                                                                 "pl-3 text-left font-normal",
                                                                 !field.value
                                                                     ?.from &&
-                                                                    "text-muted-foreground",
+                                                                    "text-muted-foreground bg-card-alternate",
                                                             )}
                                                         >
                                                             {field.value
@@ -307,6 +307,7 @@ export default function SearchSection(): React.JSX.Element {
                                                     name="budget"
                                                     autoComplete="off"
                                                     placeholder="Your budget"
+                                                    className="bg-card-alternate text-special-card-fg placeholder:-muted-foreground"
                                                 />
                                             </FormControl>
                                             <FormMessage />

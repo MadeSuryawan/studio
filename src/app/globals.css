@@ -4,9 +4,9 @@
 
 @layer base {
     :root {
-        --background: 60 29% 90%;
+        --background: 60 60% 93%;
         --foreground: 224 71.4% 4.1%;
-        --card: 60 29% 92%;
+        --card: 60 16% 96%;
         --card-foreground: 224 71.4% 4.1%;
         --popover: 60 29% 92%;
         --popover-foreground: 224 71.4% 4.1%;
@@ -15,7 +15,7 @@
         --secondary: 60 4.8% 95.9%;
         --secondary-foreground: 222.2 84% 4.9%;
         --muted: 60 4.8% 95.9%;
-        --muted-foreground: 215.4 16.3% 46.9%;
+        --muted-foreground: 215.4 16.3% 36%;
         --accent: 16 100% 66%;
         --accent-foreground: 0 0% 98%;
         --destructive: 0 84.2% 60.2%;
@@ -37,7 +37,7 @@
         --sidebar-accent-foreground: 240 5.9% 10%;
         --sidebar-border: 220 13% 91%;
         --sidebar-ring: 217.2 91.2% 59.8%;
-        --card-alternate: 220 13% 85%; /* Light slate gray for light theme */
+        --card-alternate: 220 13% 90%; /* Light slate gray for light theme */
         --special-card-fg: 224 71.4% 4.1%;
     }
 

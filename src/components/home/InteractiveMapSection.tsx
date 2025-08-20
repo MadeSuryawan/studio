@@ -172,7 +172,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
     );
     const { resolvedTheme } = useTheme();
 
-    const BaliMap = resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
+    const BaliMap = resolvedTheme === "light" ? BaliMapDark : BaliMapLight;
 
     return (
         <section id="map" className="w-full py-8 md:py-16">
@@ -182,7 +182,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali's most
+                        Click on the pins to discover more about Bali&#39;s most
                         popular destinations.
                     </p>
                 </div>
@@ -246,11 +246,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                 </Card>
                             </motion.div>
                         </AnimatePresence>
-                        <Button
-                            asChild
-                            variant="outline"
-                            className="mt-6"
-                        >
+                        <Button asChild variant="outline" className="mt-6">
                             <Link href="#destinations">
                                 Explore More Destinations{" "}
                                 <ArrowRight className="ml-2 h-4 w-4" />

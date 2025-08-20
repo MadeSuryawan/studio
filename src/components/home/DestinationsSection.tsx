@@ -88,7 +88,7 @@ export default function DestinationsSection(): React.JSX.Element {
                             </CardHeader>
                             <CardContent className="p-6">
                                 <CardTitle className="flex items-center gap-2">
-                                    <MapPin className="text-primary h-5 w-5" />
+                                    <MapPin className="text-accent h-5 w-5" />
                                     {dest.name}
                                 </CardTitle>
                                 <CardDescription className="mt-2">
