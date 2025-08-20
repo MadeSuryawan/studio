@@ -177,19 +177,19 @@ puppeteer/.local-chromium/
 
 ## project specific
 
-# Images
-**/*.[jJ][pP][gG]
-**/*.[jJ][pP][eE][gG]
-**/*.[pP][nN][gG]
-**/*.[gG][iI][fF]
-**/*.[sS][vV][gG]
-**/*.[wW][eE][bB][pP]
-**/*.[aA][vV][iI][fF]
-**/*.[iI][cC][oO]
-**/*.[bB][mM][pP]
+# # Images
+# **/*.[jJ][pP][gG]
+# **/*.[jJ][pP][eE][gG]
+# **/*.[pP][nN][gG]
+# **/*.[gG][iI][fF]
+# **/*.[sS][vV][gG]
+# **/*.[wW][eE][bB][pP]
+# **/*.[aA][vV][iI][fF]
+# **/*.[iI][cC][oO]
+# **/*.[bB][mM][pP]
 
-/public/images/
-/public/icons/
+# /public/images/
+# /public/icons/
 
 # Project-specific: Python code under /python only
 /python/**/__pycache__/
