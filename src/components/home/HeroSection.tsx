@@ -7,16 +7,20 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection(): React.JSX.Element {
     return (
-        <section className="relative w-full h-[80vh] min-h-[480px]">
+        <section className="relative w-full h-[80vh] min-h-[480px] 2xl -mt-36">
             <Image
-                src="/Images/hero/IMG_7508_DxO.webp"
+                src="/images/hero/IMG_7508_DxO.webp"
                 alt="Lush rice paddies in Bali"
                 fill
-                className="object-cover brightness-50"
+                // className="object-cover brightness-[60%] object-[center_.9rem]" // Tailwind: move image down
+                className="object-cover object-[center_.9rem]" // Tailwind: move image down
                 priority
                 sizes="100vw"
-                data-ai-hint="bali rice paddies"
+                data-ai-hint="bali kecak dance in uluwatu"
             />
+            {/* Dark Overlay */}
+            <div className="absolute top-0 left-0 w-full h-full bg-[#808080] blur-lg mix-blend-multiply brightness-[124%] z-10" />
+
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-hero-title p-4">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-lighter font-headline">
                     Discover Your Bali Bliss

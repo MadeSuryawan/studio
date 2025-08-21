@@ -146,7 +146,7 @@ export default function SearchSection(): React.JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
-        <section id="search" className="w-full pt-20 md:pt-60">
+        <section id="search" className="w-full py-12 md:py-20">
             <div className="container px-4 md:px-6">
                 <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/20 bg-card-alternate">
                     <CardHeader>
