@@ -151,8 +151,8 @@ const locations = [
             "Often called the most beautiful waterfall in Bali, Sekumpul is a collection of seven stunning cascades in a lush jungle valley.",
         image: "https://placehold.co/600x400.png",
         hint: "sekumpul waterfall",
-        x: "55%",
-        y: "20%",
+        x: "59%",
+        y: "26%",
     },
     {
         name: "Denpasar",
@@ -227,7 +227,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali&#39s most
+                        Click on the pins to discover more about Bali&#39;s most
                         popular destinations.
                     </p>
                 </div>
