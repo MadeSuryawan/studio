@@ -16,11 +16,15 @@ import {
 } from "@/components/ui/sheet";
 import LogoIcon from "@/components/icons/LogoIcon";
 
-export default function Header(): JSX.Element {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+const Header = (): JSX.Element => {
+    const [isMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+    const handleLinkClick = (): void => {
+        setIsMobileMenuOpen(false);
+    };
 
     return (
-        <header className="px-4 lg:px-6 h-16 flex items-center bg-card-alternate/40 dark:bg-card-alternate/60 text-foreground sticky   backdrop-blur-md fixed z-50 shadow-sm">
+        <header className="px-4 lg:px-6 h-16 flex items-center bg-card-alternate/40 dark:bg-card-alternate/60 text-foreground sticky fixed top-0 left-0 right-0 backdrop-blur-md fixed z-50 shadow-lg">
             <Link
                 href="/"
                 className="flex items-center justify-center"
@@ -30,45 +34,45 @@ export default function Header(): JSX.Element {
                 <span className="sr-only">BaliBlissed</span>
             </Link>
             <div className="ml-auto flex items-center gap-4">
-                <nav className="hidden md:flex gap-4 sm:gap-6 items-center">
+                <nav className="hidden md:flex gap-4 sm:gap-6 items-center text-md font-medium">
                     <Link
                         href="/"
-                        className="text-md font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                        className="hover:text-primary transition-colors hover:underline underline-offset-4"
                         prefetch={false}
                     >
                         Home
                     </Link>
                     <Link
                         href="/private-car-charter"
-                        className="text-md font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                        className="hover:text-primary transition-colors hover:underline underline-offset-4"
                         prefetch={false}
                     >
                         Car Charter
                     </Link>
                     <Link
                         href="/#destinations"
-                        className="text-md font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                        className="hover:text-primary transition-colors hover:underline underline-offset-4"
                         prefetch={false}
                     >
                         Destinations
                     </Link>
                     <Link
                         href="/#packages"
-                        className="text-md font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                        className="hover:text-primary transition-colors hover:underline underline-offset-4"
                         prefetch={false}
                     >
                         Packages
                     </Link>
                     <Link
                         href="/#contact"
-                        className="text-md font-medium hover:text-primary transition-colors hover:underline underline-offset-4"
+                        className="hover:text-primary transition-colors hover:underline underline-offset-4"
                         prefetch={false}
                     >
                         Contact
                     </Link>
                 </nav>
                 <ThemeSwitcher />
-                <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+                <Sheet open={isMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                     <SheetTrigger asChild>
                         <Button
                             variant="outline"
@@ -93,7 +97,7 @@ export default function Header(): JSX.Element {
                                 href="/"
                                 className="flex items-center gap-2 text-lg font-semibold"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 <LogoIcon className="h-full w-28 mb-12" />
                                 <span className="sr-only">BaliBlissed</span>
@@ -102,7 +106,7 @@ export default function Header(): JSX.Element {
                                 href="/"
                                 className="text-muted-foreground hover:text-foreground"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 Home
                             </Link>
@@ -110,7 +114,7 @@ export default function Header(): JSX.Element {
                                 href="/private-car-charter"
                                 className="text-muted-foreground hover:text-foreground"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 Car Charter
                             </Link>
@@ -118,7 +122,7 @@ export default function Header(): JSX.Element {
                                 href="/#destinations"
                                 className="text-muted-foreground hover:text-foreground"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 Destinations
                             </Link>
@@ -126,7 +130,7 @@ export default function Header(): JSX.Element {
                                 href="/#packages"
                                 className="text-muted-foreground hover:text-foreground"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 Packages
                             </Link>
@@ -134,7 +138,7 @@ export default function Header(): JSX.Element {
                                 href="/#contact"
                                 className="text-muted-foreground hover:text-foreground"
                                 prefetch={false}
-                                onClick={() => setIsMenuOpen(false)}
+                                onClick={handleLinkClick}
                             >
                                 Contact
                             </Link>
@@ -144,4 +148,6 @@ export default function Header(): JSX.Element {
             </div>
         </header>
     );
-}
+};
+
+export default Header;
