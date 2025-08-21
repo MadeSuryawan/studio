@@ -44,11 +44,11 @@ export default function WhyChooseUsSection(): React.JSX.Element {
                         your personal guide to the Island of the Gods.
                     </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                     {benefits.map((benefit, index) => (
                         <Card
                             key={index}
-                            className="text-center p-6 flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow duration-300"
+                            className="text-center p-4 flex flex-col items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300 aspect-square"
                         >
                             <CardHeader className="p-0 mb-4">
                                 {benefit.icon}
