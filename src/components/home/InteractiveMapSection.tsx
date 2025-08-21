@@ -25,7 +25,7 @@ const locations = [
             "The cultural heart of Bali, known for its lush rice paddies, art galleries, and spiritual retreats.",
         image: "https://placehold.co/600x400.png",
         hint: "bali ubud",
-        x: "52%",
+        x: "66%",
         y: "55%",
     },
     {
@@ -34,8 +34,8 @@ const locations = [
             "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs.",
         image: "https://placehold.co/600x400.png",
         hint: "bali canggu",
-        x: "48%",
-        y: "78%",
+        x: "56%",
+        y: "66%",
     },
     {
         name: "Kintamani",
@@ -43,8 +43,8 @@ const locations = [
             "Home to the majestic Mount Batur volcano and a stunning caldera lake, offering breathtaking views.",
         image: "https://placehold.co/600x400.png",
         hint: "mount batur",
-        x: "60%",
-        y: "30%",
+        x: "70%",
+        y: "33%",
     },
     {
         name: "Nusa Penida",
@@ -52,8 +52,8 @@ const locations = [
             "A rugged island paradise offering dramatic cliffs, pristine beaches, and incredible diving spots.",
         image: "https://placehold.co/600x400.png",
         hint: "nusa penida",
-        x: "75%",
-        y: "85%",
+        x: "85%",
+        y: "71%",
     },
     {
         name: "Uluwatu",
@@ -61,8 +61,8 @@ const locations = [
             "Famous for its cliff-top temple, stunning sunsets, and world-class surf breaks.",
         image: "https://placehold.co/600x400.png",
         hint: "uluwatu temple",
-        x: "45%",
-        y: "95%",
+        x: "52%",
+        y: "78%",
     },
     {
         name: "Seminyak",
@@ -70,8 +70,8 @@ const locations = [
             "Bali's hub for luxury resorts, high-end shopping, and world-class dining experiences.",
         image: "https://placehold.co/600x400.png",
         hint: "bali seminyak",
-        x: "47%",
-        y: "83%",
+        x: "57%",
+        y: "69%",
     },
     {
         name: "Amed",
@@ -79,8 +79,8 @@ const locations = [
             "A string of quiet fishing villages in East Bali, known for black sand beaches and spectacular diving.",
         image: "https://placehold.co/600x400.png",
         hint: "amed beach",
-        x: "82%",
-        y: "35%",
+        x: "93%",
+        y: "40%",
     },
     {
         name: "Lovina",
@@ -88,8 +88,8 @@ const locations = [
             "Located on the North coast, Lovina is famous for its black sand beaches and early morning dolphin tours.",
         image: "https://placehold.co/600x400.png",
         hint: "bali dolphins",
-        x: "45%",
-        y: "15%",
+        x: "50%",
+        y: "25%",
     },
     {
         name: "Pemuteran",
@@ -98,7 +98,7 @@ const locations = [
         image: "https://placehold.co/600x400.png",
         hint: "bali snorkeling",
         x: "20%",
-        y: "18%",
+        y: "27%",
     },
     {
         name: "Jatiluwih",
@@ -106,7 +106,7 @@ const locations = [
             "Famous for its dramatic and exotic landscapes. The Jatiluwih rice terraces are a UNESCO Cultural Heritage Site.",
         image: "https://placehold.co/600x400.png",
         hint: "jatiluwih rice terraces",
-        x: "45%",
+        x: "53%",
         y: "45%",
     },
     {
@@ -115,8 +115,8 @@ const locations = [
             "Home to the iconic Ulun Danu Beratan Temple, this highland area offers cool weather and stunning lake views.",
         image: "https://placehold.co/600x400.png",
         hint: "beratan temple bali",
-        x: "50%",
-        y: "30%",
+        x: "58%",
+        y: "39%",
     },
     {
         name: "Munduk",
@@ -124,8 +124,53 @@ const locations = [
             "A charming mountain village known for its scenic treks, stunning waterfalls, and coffee plantations.",
         image: "https://placehold.co/600x400.png",
         hint: "munduk bali",
-        x: "42%",
+        x: "49%",
+        y: "37%",
+    },
+    {
+        name: "West Bali National Park",
+        description:
+            "A conservation area featuring diverse ecosystems, from rainforests to coral reefs, home to the rare Bali Starling.",
+        image: "https://placehold.co/600x400.png",
+        hint: "west bali park",
+        x: "5%",
         y: "25%",
+    },
+    {
+        name: "Medewi Beach",
+        description:
+            "A quiet, black-sand beach on the west coast, famous for its long, gentle left-hand wave, perfect for longboarding.",
+        image: "https://placehold.co/600x400.png",
+        hint: "medewi beach surf",
+        x: "35%",
+        y: "48%",
+    },
+    {
+        name: "Sekumpul Waterfall",
+        description:
+            "Often called the most beautiful waterfall in Bali, Sekumpul is a collection of seven stunning cascades in a lush jungle valley.",
+        image: "https://placehold.co/600x400.png",
+        hint: "sekumpul waterfall",
+        x: "55%",
+        y: "20%",
+    },
+    {
+        name: "Denpasar",
+        description:
+            "Bali's bustling capital city, a center of commerce and home to historical sites and vibrant local markets.",
+        image: "https://placehold.co/600x400.png",
+        hint: "denpasar bali",
+        x: "62%",
+        y: "66%",
+    },
+    {
+        name: "Candidasa",
+        description:
+            "A quiet coastal town in East Bali, offering a tranquil escape with beautiful beaches and a laid-back atmosphere.",
+        image: "https://placehold.co/600x400.png",
+        hint: "candidasa beach",
+        x: "86%",
+        y: "53%",
     },
 ];
 
@@ -172,7 +217,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
     );
     const { resolvedTheme } = useTheme();
 
-    const BaliMap = resolvedTheme === "light" ? BaliMapDark : BaliMapLight;
+    const BaliMap = resolvedTheme === "light" ? BaliMapLight : BaliMapDark;
 
     return (
         <section id="map" className="w-full py-8 md:py-16">
@@ -182,7 +227,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali&#39;s most
+                        Click on the pins to discover more about Bali&#39s most
                         popular destinations.
                     </p>
                 </div>
