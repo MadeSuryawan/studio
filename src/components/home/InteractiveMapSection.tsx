@@ -217,7 +217,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
     );
     const { resolvedTheme } = useTheme();
 
-    const BaliMap = resolvedTheme === "light" ? BaliMapDark : BaliMapLight;
+    const BaliMap = resolvedTheme === "light" ? BaliMapLight : BaliMapDark;
 
     return (
         <section id="map" className="w-full py-8 md:py-16">
@@ -227,7 +227,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        Click on the pins to discover more about Bali&#39;s most
+                        Click on the pins to discover more about Bali&#39s most
                         popular destinations.
                     </p>
                 </div>
