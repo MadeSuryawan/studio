@@ -18,6 +18,7 @@ import BaliMapLight from "@/components/icons/BaliMapLight";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import Gradient from "./Gradient";
+import { SpotlightCard } from "@/components/ui/spotlightcard";
 
 const locations = [
     {
@@ -225,7 +226,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
             <Gradient />
             <div className="container px-4 md:px-6 z-10">
                 <div className="text-center">
-                    <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
                         Explore the Island
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
@@ -264,13 +265,13 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                 transition={{ duration: 0.3 }}
                                 className="w-full"
                             >
-                                <Card className="overflow-hidden shadow-lg w-full max-w-md bg-bg-alternate">
+                                <SpotlightCard className="overflow-hidden shadow-lg w-full max-w-sm bg-bg-alternate">
                                     <Image
                                         src={activeLocation.image}
                                         alt={activeLocation.name}
                                         width={600}
                                         height={400}
-                                        className="w-full h-56 object-cover"
+                                        className="w-full h-56 object-cover rounded-t-md"
                                         data-ai-hint={activeLocation.hint}
                                     />
                                     <CardHeader>
@@ -290,13 +291,17 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                             </Link>
                                         </Button>
                                     </CardContent>
-                                </Card>
+                                </SpotlightCard>
                             </motion.div>
                         </AnimatePresence>
-                        <Button asChild variant="outline" className="mt-6">
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="bg-bg-alternate mt-6"
+                        >
                             <Link href="#destinations">
-                                Explore More Destinations{" "}
-                                <ArrowRight className="ml-2 h-4 w-4" />
+                                Explore More Destinations
+                                <ArrowRight className=" h-4 w-4" />
                             </Link>
                         </Button>
                     </div>

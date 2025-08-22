@@ -25,7 +25,16 @@ const SocialLink = ({
 export default function Footer(): JSX.Element {
     return (
         <footer className="bg-[#212224] text-gray-300">
-            <div className="container mx-auto px-4 md:px-6 py-6 md:py-10">
+            <div
+                className="container mx-auto px-4 md:px-6 py-6 md:py-10"
+                style={{
+                    backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url('/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                    filter: "brightness(0.78)",
+                }}
+            >
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Company Info */}
                     <div className="col-span-1 md:col-span-2 space-y-4">

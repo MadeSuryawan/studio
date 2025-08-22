@@ -22,7 +22,7 @@ export default function HeroSection(): React.JSX.Element {
             <div className="absolute top-0 left-0 w-full h-full bg-[#808080] blur-lg mix-blend-multiply brightness-110 z-10" />
 
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-hero-title p-4">
-                <h1 className="text-4xl md:text-6xl font-bold tracking-lighter font-headline">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-normal font-headline">
                     Discover Your Bali Bliss
                 </h1>
                 <p className="max-w-2xl mt-4 text-lg md:text-xl text-hero-title/90">

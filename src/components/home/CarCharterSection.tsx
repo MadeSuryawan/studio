@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Gradient from "./Gradient";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
 export default function CarCharterSection(): React.JSX.Element {
     return (
@@ -34,15 +35,27 @@ export default function CarCharterSection(): React.JSX.Element {
                     everything in between at your own pace.
                 </p>
                 <div className="mt-6">
-                    <Button
-                        asChild
-                        className="size-lg text-primary-foreground font-semibold"
-                    >
-                        <Link href="/private-car-charter">
-                            View Charter Options
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </Button>
+                    <Link href="/private-car-charter">
+                        <AnimatedButton
+                            className="bg-green-500 text-white"
+                            variant="outline"
+                            size="default"
+                            glow={true}
+                            textEffect="normal"
+                            uppercase={true}
+                            rounded="custom"
+                            asChild={false}
+                            hideAnimations={false}
+                            shimmerColor="#278ba2"
+                            shimmerSize="0.1em"
+                            shimmerDuration="3s"
+                            borderRadius="12px"
+                            background="rgba(102, 75, 75, 1)"
+                        >
+                            View Charter Options{" "}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </AnimatedButton>
+                    </Link>
                 </div>
             </div>
         </section>

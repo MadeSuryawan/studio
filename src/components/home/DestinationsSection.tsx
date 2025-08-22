@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { MapPin, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SpotlightCard } from "@/components/ui/spotlightcard";
 
 const destinations = [
     {
@@ -50,7 +51,7 @@ export default function DestinationsSection(): React.JSX.Element {
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12 text-center md:text-left">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
                             Featured Destinations
                         </h2>
                         <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
@@ -71,7 +72,7 @@ export default function DestinationsSection(): React.JSX.Element {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {destinations.map((dest) => (
-                        <Card
+                        <SpotlightCard
                             key={dest.name}
                             className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
                         >
@@ -81,7 +82,7 @@ export default function DestinationsSection(): React.JSX.Element {
                                     alt={dest.name}
                                     width={600}
                                     height={400}
-                                    className="w-full h-48 object-cover"
+                                    className="w-full h-48 object-cover rounded-t-md"
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     data-ai-hint={dest.hint}
                                 />
@@ -95,16 +96,8 @@ export default function DestinationsSection(): React.JSX.Element {
                                     {dest.description}
                                 </CardDescription>
                             </CardContent>
-                        </Card>
+                        </SpotlightCard>
                     ))}
-                </div>
-                <div className="mt-8 text-center md:hidden">
-                    <Button asChild variant="outline">
-                        <Link href="#">
-                            View All Destinations{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
                 </div>
             </div>
         </section>

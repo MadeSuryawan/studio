@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Gradient from "./Gradient";
+import { SpotlightCard } from "@/components/ui/spotlightcard";
 
 const blogPosts = [
     {
@@ -42,7 +43,7 @@ export default function BlogSection(): React.JSX.Element {
             <div className="container px-4 md:px-6 z-10">
                 <div className="flex justify-between items-center mb-12">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
+                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
                             From Our Blog
                         </h2>
                         <p className="text-lg text-muted-foreground mt-2">
@@ -52,24 +53,23 @@ export default function BlogSection(): React.JSX.Element {
                     <Button
                         asChild
                         variant="outline"
-                        className="hidden md:flex"
+                        className="bg-bg-alternate md:flex"
                     >
                         <Link href="#">
-                            View All Posts{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Posts <ArrowRight className="h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {blogPosts.map((post) => (
                         <Link key={post.title} href={post.link}>
-                            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
+                            <SpotlightCard className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
                                     width={600}
                                     height={400}
-                                    className="w-full h-48 object-cover"
+                                    className="w-full h-48 object-cover rounded-t-md"
                                     sizes="(max-width: 768px) 100vw, 33vw"
                                     data-ai-hint={post.hint}
                                 />
@@ -81,17 +81,9 @@ export default function BlogSection(): React.JSX.Element {
                                         {post.description}
                                     </p>
                                 </CardContent>
-                            </Card>
+                            </SpotlightCard>
                         </Link>
                     ))}
-                </div>
-                <div className="mt-8 text-center md:hidden">
-                    <Button asChild variant="outline">
-                        <Link href="#">
-                            View All Posts{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
                 </div>
             </div>
         </section>

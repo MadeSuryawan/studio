@@ -36,7 +36,7 @@ export default function WhyChooseUsSection(): React.JSX.Element {
         <section id="why-choose-us" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
                         Why Choose BaliBlissed?
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
