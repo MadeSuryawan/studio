@@ -15,8 +15,12 @@ import {
     SheetDescription,
 } from "@/components/ui/sheet";
 import LogoIcon from "@/components/icons/LogoIcon";
+import NavbarFlow, {
+    FeatureItem,
+    HoverLink,
+} from "@/components/ui/navbar-flow";
 
-const Header = (): JSX.Element => {
+const Header1 = (): JSX.Element => {
     const [isMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
     const handleLinkClick = (): void => {
@@ -147,6 +151,98 @@ const Header = (): JSX.Element => {
                 </Sheet>
             </div>
         </header>
+    );
+};
+
+const Header = (): JSX.Element => {
+    const navLinks = React.useMemo(
+        () => [
+            // {
+            //     text: "Navigation",
+            //     submenu: (
+            //         <div className="flex flex-col space-y-2 bg-gradient-to-b from-bg-alternate/70 to-transparent text-foreground/80">
+            //             <HoverLink url="/">Home</HoverLink>
+            //             <HoverLink url="/private-car-charter">
+            //                 Car Charter
+            //             </HoverLink>
+            //             <HoverLink url="/#destinations">Destinations</HoverLink>
+            //             <HoverLink url="/#packages">Packages</HoverLink>
+            //             <HoverLink url="/#contact">Contact</HoverLink>
+            //         </div>
+            //     ),
+            // },
+            // {
+            //     text: "Templates",
+            //     submenu: (
+            //         <div className="grid grid-cols-1 gap-2 w-48">
+            //             <FeatureItem
+            //                 heading="Portfolio Template"
+            //                 url="/templates/portfolio"
+            //                 info="Clean, personal showcase for designers & developers."
+            //             />
+            //             <FeatureItem
+            //                 heading="Business Template"
+            //                 url="/templates/business"
+            //                 info="Professional website layout for startups & businesses."
+            //             />
+            //             <FeatureItem
+            //                 heading="Blog Template"
+            //                 url="/templates/blog"
+            //                 info="Minimal blog with modern reading experience."
+            //             />
+            //             <FeatureItem
+            //                 heading="Landing Page"
+            //                 url="/templates/landing"
+            //                 info="High-converting landing page for product launches."
+            //             />
+            //         </div>
+            //     ),
+            // },
+            // {
+            //     text: "Showcase",
+            //     submenu: (
+            //         <div className="flex flex-col space-y-2">
+            //             <HoverLink url="/showcase/astroship">
+            //                 Astroship
+            //             </HoverLink>
+            //             <HoverLink url="/showcase/papermod">PaperMod</HoverLink>
+            //             <HoverLink url="/showcase/satori">Satori</HoverLink>
+            //             <HoverLink url="/showcase/scrollx">ScrollX</HoverLink>
+            //             <HoverLink url="/showcase/speedyfolio">
+            //                 Speedyfolio
+            //             </HoverLink>
+            //         </div>
+            //     ),
+            // },
+            { text: "Home", url: "/" },
+            { text: "Car Charter", url: "/private-car-charter" },
+            { text: "Destinations", url: "/#destinations" },
+            { text: "Packages", url: "/#packages" },
+            { text: "Contact", url: "/#contact" },
+        ],
+        [],
+    );
+
+    return (
+        <NavbarFlow
+            styleName="bg-gradient-to-b from-bg-alternate/70 from-10% to-transparent text-foreground/80 h-12 md:h-16"
+            emblem={
+                <Link
+                    href="/"
+                    className="flex items-center justify-center"
+                    prefetch={false}
+                >
+                    <LogoIcon className="mt-2 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
+                    <span className="sr-only">BaliBlissed</span>
+                </Link>
+            }
+            links={navLinks}
+            rightComponent={
+                <div className="flex items-center justify-center mt-2">
+                    <ThemeSwitcher />
+                </div>
+            }
+        />
     );
 };
 

@@ -62,11 +62,11 @@ export default function DestinationsSection(): React.JSX.Element {
                     <Button
                         asChild
                         variant="outline"
-                        className="hidden md:flex mt-4 md:mt-0"
+                        className="hidden md:flex mt-4 md:mt-0 bg-bg-alternate text-special-card-fg border-accent"
                     >
                         <Link href="#">
-                            View All Destinations{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Destinations
+                            <ArrowRight className="h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
@@ -98,6 +98,18 @@ export default function DestinationsSection(): React.JSX.Element {
                             </CardContent>
                         </SpotlightCard>
                     ))}
+                </div>
+                <div className="mt-8 text-center md:hidden">
+                    <Button
+                        asChild
+                        variant="outline"
+                        className="bg-bg-alternate text-special-card-fg border-accent"
+                    >
+                        <Link href="#">
+                            View All Destinations
+                            <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </section>

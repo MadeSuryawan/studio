@@ -297,7 +297,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         <Button
                             asChild
                             variant="outline"
-                            className="bg-bg-alternate mt-6"
+                            className="bg-bg-alternate mt-6 text-special-card-fg border-accent"
                         >
                             <Link href="#destinations">
                                 Explore More Destinations

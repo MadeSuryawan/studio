@@ -53,7 +53,7 @@ export default function BlogSection(): React.JSX.Element {
                     <Button
                         asChild
                         variant="outline"
-                        className="bg-bg-alternate md:flex"
+                        className="hidden bg-bg-alternate md:flex text-special-card-fg border-accent"
                     >
                         <Link href="#">
                             View All Posts <ArrowRight className="h-4 w-4" />
@@ -84,6 +84,18 @@ export default function BlogSection(): React.JSX.Element {
                             </SpotlightCard>
                         </Link>
                     ))}
+                </div>
+                <div className="mt-8 text-center md:hidden">
+                    <Button
+                        asChild
+                        variant="outline"
+                        className="bg-bg-alternate text-special-card-fg border-accent"
+                    >
+                        <Link href="#">
+                            View All Posts
+                            <ArrowRight className="h-4 w-4" />
+                        </Link>
+                    </Button>
                 </div>
             </div>
         </section>

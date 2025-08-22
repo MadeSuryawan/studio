@@ -148,7 +148,7 @@ export default function PackagesSection(): React.JSX.Element {
                     <Button
                         asChild
                         variant="outline"
-                        className="hidden md:flex bg-bg-alternate text-special-card-fg"
+                        className="hidden md:flex bg-bg-alternate text-special-card-fg border-accent"
                     >
                         <Link href="#">
                             View All Packages <ArrowRight className="h-4 w-4" />
@@ -207,11 +207,12 @@ export default function PackagesSection(): React.JSX.Element {
                 <div className="mt-8 text-center md:hidden">
                     <Button
                         asChild
-                        className="bg-bg-alternate text-special-card-fg hover:bg-bg-alternate/90"
+                        variant="outline"
+                        className="bg-bg-alternate text-special-card-fg border-accent"
                     >
                         <Link href="#">
-                            View All Packages{" "}
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            View All Packages
+                            <ArrowRight className="h-4 w-4" />
                         </Link>
                     </Button>
                 </div>
