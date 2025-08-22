@@ -17,6 +17,7 @@ import BaliMapDark from "@/components/icons/BaliMapDark";
 import BaliMapLight from "@/components/icons/BaliMapLight";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
+import Gradient from "./Gradient";
 
 const locations = [
     {
@@ -220,8 +221,9 @@ export default function InteractiveMapSection(): React.JSX.Element {
     const BaliMap = resolvedTheme === "light" ? BaliMapLight : BaliMapDark;
 
     return (
-        <section id="map" className="w-full py-8 md:py-16">
-            <div className="container px-4 md:px-6">
+        <section id="map" className="relative w-full py-4 md:py-8">
+            <Gradient />
+            <div className="container px-4 md:px-6 z-10">
                 <div className="text-center">
                     <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
                         Explore the Island
@@ -262,7 +264,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                                 transition={{ duration: 0.3 }}
                                 className="w-full"
                             >
-                                <Card className="overflow-hidden shadow-lg w-full max-w-md bg-card-alternate">
+                                <Card className="overflow-hidden shadow-lg w-full max-w-md bg-bg-alternate">
                                     <Image
                                         src={activeLocation.image}
                                         alt={activeLocation.name}

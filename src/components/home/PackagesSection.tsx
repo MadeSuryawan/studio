@@ -146,7 +146,7 @@ export default function PackagesSection(): React.JSX.Element {
                     </div>
                     <Button
                         asChild
-                        className="hidden md:flex bg-card-alternate text-special-card-fg hover:bg-card-alternate/90"
+                        className="hidden md:flex bg-bg-alternate text-special-card-fg hover:bg-bg-alternate/90"
                     >
                         <Link href="#">
                             View All Packages{" "}
@@ -158,7 +158,7 @@ export default function PackagesSection(): React.JSX.Element {
                     {packages.map((pkg) => (
                         <Card
                             key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-card-alternate text-special-card-fg border-border/20"
+                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-bg-alternate text-special-card-fg border-border/20"
                         >
                             <Image
                                 src={pkg.image}
@@ -202,7 +202,7 @@ export default function PackagesSection(): React.JSX.Element {
                 <div className="mt-8 text-center md:hidden">
                     <Button
                         asChild
-                        className="bg-card-alternate text-special-card-fg hover:bg-card-alternate/90"
+                        className="bg-bg-alternate text-special-card-fg hover:bg-bg-alternate/90"
                     >
                         <Link href="#">
                             View All Packages{" "}

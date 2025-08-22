@@ -58,6 +58,7 @@ import {
 import { type DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
+import Gradient from "./Gradient";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
@@ -146,9 +147,13 @@ export default function SearchSection(): React.JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
-        <section id="search" className="w-full py-12 md:py-20">
+        <section id="search" className=" relative w-full py-12 md:py-20">
+            <Gradient
+                bottom={false}
+                gradientT="from-secondary to-transparent"
+            />
             <div className="container px-4 md:px-6">
-                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/20 bg-card-alternate">
+                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 bg-bg-alternate">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-2xl">
                             <Search /> Find Your Perfect Trip
@@ -212,14 +217,14 @@ export default function SearchSection(): React.JSX.Element {
                                             </FormLabel>
                                             <Popover>
                                                 <PopoverTrigger asChild>
-                                                    <FormControl className=" border-[1px] dark:border-white/50 border-black/60 text-muted-foreground bg-card-alternate">
+                                                    <FormControl className=" border-[1px] dark:border-white/50 border-black/60 text-muted-foreground bg-bg-alternate">
                                                         <Button
                                                             variant={"outline"}
                                                             className={cn(
                                                                 "pl-3 text-left font-normal",
                                                                 !field.value
                                                                     ?.from &&
-                                                                    "text-muted-foreground bg-card-alternate",
+                                                                    "text-muted-foreground bg-bg-alternate",
                                                             )}
                                                         >
                                                             {field.value
@@ -307,7 +312,7 @@ export default function SearchSection(): React.JSX.Element {
                                                     name="budget"
                                                     autoComplete="off"
                                                     placeholder="Your budget"
-                                                    className="border-[1px] dark:border-white/50 border-black/60 bg-card-alternate text-special-card-fg placeholder:-muted-foreground"
+                                                    className="border-[1px] dark:border-white/50 border-black/60 bg-bg-alternate text-special-card-fg placeholder:-muted-foreground"
                                                 />
                                             </FormControl>
                                             <FormMessage />

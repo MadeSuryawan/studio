@@ -76,7 +76,7 @@ const config = {
                     border: "hsl(var(--sidebar-border))",
                     ring: "hsl(var(--sidebar-ring))",
                 },
-                "card-alternate": "hsl(var(--card-alternate))",
+                "bg-alternate": "hsl(var(--bg-alternate))",
                 "special-card-fg": "hsl(var(--special-card-fg))",
                 "hero-title": "hsl(var(--hero-title))",
             },

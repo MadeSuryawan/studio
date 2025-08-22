@@ -24,17 +24,17 @@ const Header = (): JSX.Element => {
     };
 
     return (
-        <header className="px-4 lg:px-6 h-16 flex items-center bg-card-alternate/40 dark:bg-card-alternate/60 text-foreground sticky fixed top-0 left-0 right-0 backdrop-blur-md fixed z-50 shadow-lg">
+        <header className="px-4 md:px-6 h-12 md:h-16 flex items-center bg-gradient-to-b from-bg-alternate/70 from-10% to-transparent text-foreground/80 sticky fixed top-0 left-0 right-0 backdrop-blur-md fixed z-50 shadow-lg">
             <Link
                 href="/"
                 className="flex items-center justify-center"
                 prefetch={false}
             >
-                <LogoIcon className="mt-2 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
+                <LogoIcon className="mt-4 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
                 <span className="sr-only">BaliBlissed</span>
             </Link>
             <div className="ml-auto flex items-center gap-4">
-                <nav className="hidden md:flex gap-4 sm:gap-6 items-center text-md font-medium">
+                <nav className="hidden md:flex gap-4 sm:gap-6 items-center text-base font-semibold">
                     <Link
                         href="/"
                         className="hover:text-primary transition-colors hover:underline underline-offset-4"
@@ -92,7 +92,7 @@ const Header = (): JSX.Element => {
                                 Navigation links for the BaliBlissed website.
                             </SheetDescription>
                         </SheetHeader>
-                        <nav className="grid max-w-4 gap-8 text-lg font-medium mt-4">
+                        <nav className="grid max-w-[16rem] gap-8 text-lg font-semibold mt-4">
                             <Link
                                 href="/"
                                 className="flex items-center gap-2 text-lg font-semibold"

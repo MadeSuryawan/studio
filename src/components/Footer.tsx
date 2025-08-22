@@ -24,7 +24,7 @@ const SocialLink = ({
 
 export default function Footer(): JSX.Element {
     return (
-        <footer className="bg-[#212224] text-gray-400">
+        <footer className="bg-[#212224] text-gray-300">
             <div className="container mx-auto px-4 md:px-6 py-6 md:py-10">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Company Info */}
@@ -33,7 +33,7 @@ export default function Footer(): JSX.Element {
                             href="/"
                             className="flex items-center gap-4 text-white"
                         >
-                            <LogoIcon className="h-full w-[96px] md:w-[150px] text-primary" />
+                            <LogoIcon className="h-full w-[96px] md:w-[150px]" />
                         </Link>
                         <p className="max-w-md text-sm">
                             Crafting personalized and unforgettable travel
@@ -104,7 +104,7 @@ export default function Footer(): JSX.Element {
                                 </a>
                             </p>
                         </div>
-                        {/* <div className="flex gap-4 mt-6">
+                        <div className="flex gap-4 mt-6">
                             <SocialLink
                                 href="#"
                                 aria-label="Follow us on Facebook"
@@ -123,7 +123,7 @@ export default function Footer(): JSX.Element {
                             >
                                 <Twitter className="w-5 h-5" />
                             </SocialLink>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
 

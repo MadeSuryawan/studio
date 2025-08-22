@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
+import Gradient from "./Gradient";
 
 const blogPosts = [
     {
@@ -36,8 +37,9 @@ const blogPosts = [
 
 export default function BlogSection(): React.JSX.Element {
     return (
-        <section id="blog" className="w-full py-12 md:py-24">
-            <div className="container px-4 md:px-6">
+        <section id="blog" className="relative w-full py-8">
+            <Gradient />
+            <div className="container px-4 md:px-6 z-10">
                 <div className="flex justify-between items-center mb-12">
                     <div>
                         <h2 className="text-3xl font-bold tracking-lighter sm:text-4xl md:text-5xl font-headline">
