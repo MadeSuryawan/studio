@@ -343,7 +343,9 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
                         {rightComponent && (
                             <div className="flex items-center justify-center size-9 pr-4">
-                                {rightComponent}
+                                {React.cloneElement(rightComponent, {
+                                    className: "h-10 d w-10 mr-6 mt-4",
+                                })}
                             </div>
                         )}
                     </motion.div>

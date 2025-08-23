@@ -24,11 +24,20 @@ export function ThemeSwitcher(): React.JSX.Element {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>
+            <DropdownMenuContent
+                align="end"
+                className="bg-bg-alternate align-center justify-center min-w-[5rem] text-center ml-30"
+            >
+                <DropdownMenuItem
+                    onClick={() => setTheme("light")}
+                    className="border-b align-right justify-right font-semibold"
+                >
                     Light
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                <DropdownMenuItem
+                    onClick={() => setTheme("dark")}
+                    className="border-b align-right"
+                >
                     Dark
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>

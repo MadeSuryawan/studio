@@ -19,6 +19,8 @@ import NavbarFlow, {
     FeatureItem,
     HoverLink,
 } from "@/components/ui/navbar-flow";
+import { ThemeSwitch } from "@/components/ui/theme-switch";
+import { Sun, Moon, Laptop } from "lucide-react";
 
 const Header1 = (): JSX.Element => {
     const [isMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -238,6 +240,18 @@ const Header = (): JSX.Element => {
             }
             links={navLinks}
             rightComponent={
+                // <div className="flex items-center justify-center mt-2">
+                //     <ThemeSwitch
+                //         variant="icon-click"
+                //         modes={["light", "dark"]}
+                //         icons={[
+                //             <Sun key="sun-icon" size={16} />,
+                //             <Moon key="moon-icon" size={16} />,
+                //             // <Laptop key="laptop-icon" size={16} />,
+                //         ]}
+                //         showInactiveIcons="all"
+                //     />
+                // </div>
                 <div className="flex items-center justify-center mt-2">
                     <ThemeSwitcher />
                 </div>
