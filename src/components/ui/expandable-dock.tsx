@@ -105,7 +105,7 @@ const ExpandableDock = ({
                     transition={{ duration: 0.3 }}
                     className="p-4 sm:p-6 flex-1 flex flex-col overflow-hidden"
                 >
-                    <div className="overflow-y-hidden overflow-x-auto scrollbar-none">
+                    <div className="overflow-hidden">
                         {children}
                     </div>
                 </motion.div>
