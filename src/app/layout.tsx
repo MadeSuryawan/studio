@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
+import ExpandBot from "@/components/ExpandBot";
 
 export const metadata: Metadata = {
     title: "BaliBlissed",
@@ -159,6 +160,7 @@ export default function RootLayout({
                         <Footer />
                     </div>
                     <FloatingButtons />
+                    <ExpandBot />
                     <Toaster />
                 </ThemeProvider>
                 {/* Google Analytics Scripts - Replace G-XXXXXXXXXX with your Measurement ID */}
