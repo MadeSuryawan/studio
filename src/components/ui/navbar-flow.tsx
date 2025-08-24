@@ -7,6 +7,7 @@ import {
     ChevronDown as ArrowDown,
     ChevronUp as ArrowUp,
 } from "lucide-react";
+import { useScroll } from "@/context/ScrollContext";
 
 interface NavLink {
     text: string;
@@ -140,7 +141,7 @@ export const HoverLink = React.memo(function HoverLink({
         <a
             href={url}
             onClick={onPress}
-            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 ease-out"
             role="menuitem"
         >
             {children}
@@ -158,7 +159,7 @@ export const FeatureItem = React.memo(function FeatureItem({
         <a
             href={url}
             onClick={onPress}
-            className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 ease-out"
             role="menuitem"
         >
             <h4 className="font-medium text-gray-900 dark:text-white">
@@ -328,6 +329,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [mobileMenuVisible]);
 
+    const { isScrolled = false } = useScroll() ?? {};
     return (
         <div className={`sticky top-0 z-50 w-full ${styleName}`}>
             <div className="hidden md:block">
@@ -349,7 +351,12 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             padding: "1px 1px",
                         }}
                         animate={navMotion}
-                        className="bg-background backdrop-blur-md rounded-[12px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 transition-all ease-out"
+                        className="bg-background backdrop-blur-md rounded-[12px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 transition-all duration-1000 ease-out"
+                        // style={{
+                        //     background: isScrolled
+                        //         ? "linear-gradient(to bottom, var(--background) 20%, transparent)"
+                        //         : "var(--background)",
+                        // }}
                         role="navigation"
                         aria-label="Primary"
                         onMouseLeave={() => setSelectedSubmenu(null)}
@@ -367,14 +374,14 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 ) : (
                                     <motion.div
                                         initial={{ opacity: 0 }}
-                                        className="transition-transform"
+                                        className="transition-transform duration-300 ease-out"
                                         animate={{
                                             opacity: sequenceDone ? 1 : 0,
                                         }}
                                     >
                                         <a
                                             href={element.url || "#"}
-                                            className="text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:text-gray-900 dark:hover:text-white transition-colors py-1"
+                                            className="text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:text-gray-900 dark:hover:text-white transition-colors duration-300 ease-out py-1"
                                         >
                                             {element.text}
                                         </a>
@@ -851,7 +858,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                             <>
                                                 <button
                                                     type="button"
-                                                    className="flex items-center justify-between w-full text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-200 dark:border-gray-800"
+                                                    className="flex items-center justify-between w-full text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800"
                                                     onClick={() =>
                                                         toggleSection(
                                                             element.text,
@@ -909,7 +916,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                             <a
                                                 href={element.url || "#"}
                                                 onClick={hideMobileMenu}
-                                                className="text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-200 dark:border-gray-800 block"
+                                                className="text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800 block"
                                             >
                                                 {element.text}
                                             </a>

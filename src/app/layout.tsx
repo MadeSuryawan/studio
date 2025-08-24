@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
 import ExpandBot from "@/components/ExpandBot";
+import { ScrollProvider } from "@/context/ScrollContext";
 
 export const metadata: Metadata = {
     title: "BaliBlissed",
@@ -148,21 +149,23 @@ export default function RootLayout({
                         style={{ display: "none", visibility: "hidden" }}
                     ></iframe>
                 </noscript>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <div className="relative flex min-h-dvh flex-col bg-background">
-                        <Header />
-                        <main className="flex-1">{children}</main>
-                        <Footer />
-                    </div>
-                    <FloatingButtons />
-                    <ExpandBot />
-                    <Toaster />
-                </ThemeProvider>
+                <ScrollProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <div className="relative flex min-h-dvh flex-col bg-background">
+                            <Header />
+                            <main className="flex-1">{children}</main>
+                            <Footer />
+                        </div>
+                        <FloatingButtons />
+                        <ExpandBot />
+                        <Toaster />
+                    </ThemeProvider>
+                </ScrollProvider>
                 {/* Google Analytics Scripts - Replace G-XXXXXXXXXX with your Measurement ID */}
                 <Script
                     src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"

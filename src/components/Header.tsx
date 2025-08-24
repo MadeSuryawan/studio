@@ -235,7 +235,7 @@ const Header = (): JSX.Element => {
                     prefetch={false}
                     aria-label="BaliBlissed Home Page"
                 >
-                    <LogoIcon className="mt-2 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
+                    <LogoIcon className="mt-3 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
                     <span className="sr-only">BaliBlissed Home Page</span>
                 </Link>
             }

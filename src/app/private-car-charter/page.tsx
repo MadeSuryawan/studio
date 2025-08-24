@@ -1,249 +1,398 @@
 "use client";
-
 import * as React from "react";
-import Link from "next/link";
-import Image from "next/image";
-
 import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
+    CardDescription,
 } from "@/components/ui/card";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import {
-    CheckCircle,
-    ShieldCheck,
-    Clock,
-    UserCheck,
-    Car,
-    Users,
-} from "lucide-react";
+import { Check, Car, Clock, MapPin, UserCheck, Users } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { SectionWrapper } from "@/app/page";
+import { cn } from "@/lib/utils";
+import Gradient from "@/components/home/Gradient";
 
-const includedFeatures = [
+interface CarOption {
+    name: string;
+    capacity: string;
+    description: string;
+    imageUrl: string;
+}
+
+interface PricingTier {
+    name: string;
+    slug: string;
+    duration: string;
+    price: string;
+    priceUnit: string;
+    description: string;
+    included: string[];
+}
+
+interface Feature {
+    icon: JSX.Element;
+    title: string;
+    description: string;
+}
+
+const carOptions: CarOption[] = [
     {
-        icon: <Car className="w-5 h-5 text-accent" />,
-        text: "Modern, air-conditioned vehicle",
+        name: "Standard MPV",
+        capacity: "4-5 Passengers",
+        description:
+            "Comfortable and efficient, perfect for couples, solo travelers, or small families.",
+        imageUrl:
+            "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1920&auto=format&fit=crop",
     },
     {
-        icon: <UserCheck className="w-5 h-5 text-accent" />,
-        text: "Experienced English-speaking driver",
+        name: "Comfort SUV",
+        capacity: "6-7 Passengers",
+        description:
+            "Spacious and stylish, offering extra comfort and luggage space for families and groups.",
+        imageUrl:
+            "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1920&auto=format&fit=crop",
     },
     {
-        icon: <Users className="w-5 h-5 text-accent" />,
-        text: "Up to 5 passengers (more on request)",
-    },
-    {
-        icon: (
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-accent"
-            >
-                <path d="M14 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"></path>
-                <path d="M20 12H8"></path>
-                <path d="m18 10 2 2-2 2"></path>
-            </svg>
-        ),
-        text: "Petrol and parking fees included",
+        name: "Group Van",
+        capacity: "10-14 Passengers",
+        description:
+            "The ideal choice for large groups or families traveling together, ensuring everyone stays in one vehicle.",
+        imageUrl:
+            "https://images.unsplash.com/photo-1605152276825-9514f0373340?q=80&w=1920&auto=format&fit=crop",
     },
 ];
 
-const pricingTiers = [
+const pricingTiers: PricingTier[] = [
     {
-        duration: "Half Day",
-        hours: "Up to 6 hours",
-        price: "IDR 450,000",
-        priceUsd: "~$30 USD",
+        name: "Half Day Charter",
+        slug: "half-day",
+        duration: "Up to 6 Hours",
+        price: "$35",
+        priceUnit: "USD",
+        description:
+            "Perfect for exploring a specific area like Ubud or the southern beaches.",
+        included: [
+            "Private Car & Driver",
+            "Gasoline",
+            "Parking Fees",
+            "Up to 4 passengers",
+        ],
     },
     {
-        duration: "Full Day",
-        hours: "Up to 10 hours",
-        price: "IDR 650,000",
-        priceUsd: "~$45 USD",
+        name: "Full Day Charter",
+        slug: "full-day",
+        duration: "Up to 10 Hours",
+        price: "$50",
+        priceUnit: "USD",
+        description:
+            "Ideal for a full-day trip across different regions of Bali.",
+        included: [
+            "Private Car & Driver",
+            "Gasoline",
+            "Parking Fees",
+            "Mineral Water",
+            "Up to 4 passengers",
+        ],
     },
     {
-        duration: "Overtime",
-        hours: "Per extra hour",
-        price: "IDR 75,000",
-        priceUsd: "~$5 USD",
+        name: "Airport Transfer",
+        slug: "airport-transfer",
+        duration: "One Way",
+        price: "$25",
+        priceUnit: "USD",
+        description:
+            "Hassle-free pickup or drop-off from/to Ngurah Rai International Airport.",
+        included: [
+            "Private Car & Driver",
+            "Gasoline",
+            "Airport Parking",
+            "Toll Fees",
+        ],
     },
 ];
 
-export default function PrivateCarCharterPage(): React.JSX.Element {
+const features: Feature[] = [
+    {
+        icon: <Car className="w-10 h-10 text-primary" />,
+        title: "Comfortable & Clean Vehicles",
+        description:
+            "Travel in modern, air-conditioned cars that are regularly cleaned and maintained for your comfort.",
+    },
+    {
+        icon: <UserCheck className="w-10 h-10 text-primary" />,
+        title: "Professional English-Speaking Drivers",
+        description:
+            "Our drivers are not just drivers; they are friendly, knowledgeable local guides who speak English.",
+    },
+    {
+        icon: <MapPin className="w-10 h-10 text-primary" />,
+        title: "Customizable Itinerary",
+        description:
+            "You are in complete control. Go wherever you want, whenever you want. We help you build your perfect day.",
+    },
+    {
+        icon: <Clock className="w-10 h-10 text-primary" />,
+        title: "Flexible Durations",
+        description:
+            "Choose from half-day, full-day, or multi-day charters to fit your travel plans perfectly.",
+    },
+];
+
+function HeroSection1(): React.JSX.Element {
     return (
-        <div className="bg-background">
-            <section className="relative w-full h-[50vh] min-h-[300px]">
-                <Image
-                    src="https://placehold.co/1600x800.png"
-                    alt="A scenic road in Bali with a car"
-                    fill
-                    className="object-cover brightness-50"
-                    priority
-                    data-ai-hint="car driving bali"
-                />
-                <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-primary-foreground p-4">
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-normal font-headline">
-                        Private Car Charter
-                    </h1>
-                    <p className="max-w-2xl mt-4 text-lg md:text-xl text-primary-foreground/90">
-                        Your personal key to unlocking the best of Bali, with
-                        complete freedom and comfort.
-                    </p>
-                </div>
-            </section>
+        <section
+            className="relative w-full h-[50vh] flex items-center justify-center text-center bg-cover bg-center"
+            style={{
+                backgroundImage: "url(https://placehold.co/600x400.png)",
+            }}
+        >
+            <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" />
+            <div className="relative z-20 container px-4 md:px-6">
+                <h1 className="text-4xl font-bold tracking-normal sm:text-5xl md:text-6xl text-white">
+                    Private Car Charter in Bali
+                </h1>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 md:text-xl">
+                    Explore the Island of the Gods at Your Own Pace. Your Car,
+                    Your Driver, Your Itinerary.
+                </p>
+            </div>
+        </section>
+    );
+}
+function HeroSection(): React.JSX.Element {
+    return (
+        <section className="relative w-full h-[50vh] min-h-[480px]">
+            <Image
+                src="https://placehold.co/1600x800.png"
+                alt="Car Charter in Bali"
+                fill
+                className="object-cover"
+                priority
+                data-ai-hint="private car charter in bali"
+            />
+            {/* Dark Overlay */}
+            <div className="absolute top-0 left-0 w-full h-full bg-[#808080] blur-lg mix-blend-multiply brightness-110 z-10" />
 
-            <section className="py-12 md:py-24">
-                <div className="container px-4 md:px-6">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-                        <div className="space-y-4">
-                            <h2 className="text-3xl font-bold tracking-normal sm:text-4xl font-headline">
-                                Discover Bali on Your Own Terms
-                            </h2>
-                            <p className="text-foreground md:text-lg">
-                                Forget the rigid schedules of group tours and
-                                the hassle of navigating unfamiliar roads. With
-                                our private car charter service, you have the
-                                freedom to explore Bali at your own pace.
-                            </p>
-                            <p className="text-foreground md:text-lg">
-                                Your professional, English-speaking driver will
-                                take you wherever you want to go, from the
-                                iconic temples and terraced rice paddies to
-                                hidden beaches and local villages. Just sit
-                                back, relax, and enjoy the journey in your
-                                private, air-conditioned vehicle.
-                            </p>
-                            <Button asChild size="lg" className="mt-4">
-                                <Link href="/#contact?message=I'm interested in booking a private car charter.">
-                                    Book Your Car Now
-                                </Link>
-                            </Button>
-                        </div>
-                        <div>
-                            <Image
-                                src="https://placehold.co/600x600.png"
-                                alt="Happy tourists in a car in Bali"
-                                width={600}
-                                height={600}
-                                className="rounded-xl shadow-lg"
-                                data-ai-hint="tourists car bali"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-hero-title p-4">
+                <h1 className="text-4xl md:text-6xl font-bold tracking-normal font-headline">
+                    Private Car Charter in Bali
+                </h1>
+                <p className="max-w-2xl mt-4 text-lg md:text-xl text-hero-title/90">
+                    Explore the Island of the Gods at Your Own Pace. Your Car,
+                    Your Driver, Your Itinerary.
+                </p>
+            </div>
+        </section>
+    );
+}
 
-            <section className="py-12 md:py-24 bg-secondary">
-                <div className="container px-4 md:px-6">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl font-headline">
-                            What&apos;s Included
-                        </h2>
-                        <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                            We provide a comprehensive service to ensure your
-                            trip is seamless and enjoyable.
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {includedFeatures.map((feature, index) => (
-                            <Card
-                                key={index}
-                                className="text-center p-6 flex flex-col items-center"
-                            >
-                                <div className="mb-4">{feature.icon}</div>
-                                <p className="font-medium">{feature.text}</p>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="py-12 md:py-24">
-                <div className="container px-4 md:px-6">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl font-headline">
-                            Simple, Transparent Pricing
-                        </h2>
-                        <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                            No hidden fees. Choose the plan that works best for
-                            your adventure.
-                        </p>
-                    </div>
-                    <Card className="max-w-2xl mx-auto shadow-lg">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="w-[40%]">
-                                        Charter Type
-                                    </TableHead>
-                                    <TableHead>Duration</TableHead>
-                                    <TableHead className="text-right">
-                                        Price
-                                    </TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {pricingTiers.map((tier) => (
-                                    <TableRow key={tier.duration}>
-                                        <TableCell className="font-medium">
-                                            {tier.duration}
-                                        </TableCell>
-                                        <TableCell>{tier.hours}</TableCell>
-                                        <TableCell className="text-right">
-                                            <div>{tier.price}</div>
-                                            <div className="text-xs text-muted-foreground">
-                                                {tier.priceUsd}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Card>
-                    <div className="text-center mt-8 text-sm text-muted-foreground">
-                        <p>
-                            * Prices are per car, not per person. Contact us for
-                            larger groups or special requests.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section className="py-12 md:py-24 bg-primary text-primary-foreground">
-                <div className="container px-4 md:px-6 text-center">
-                    <h2 className="text-3xl font-bold tracking-normal font-headline">
-                        Ready to Explore?
+function FleetOptionsSection(): React.JSX.Element {
+    return (
+        <section id="fleet-options" className="relative w-full py-12 md:py-20">
+            <Gradient
+                bottom={false}
+                gradientT="from-secondary to-transparent"
+            />
+            <div className="container px-4 md:px-6 z-10">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl text-special-card-fg">
+                        Our Fleet Options
                     </h2>
-                    <p className="mx-auto max-w-3xl md:text-xl/relaxed mt-4">
-                        Let us be your guide to the wonders of Bali. Book your
-                        private car charter today!
+                    <p className="mt-2 text-gray-500 md:text-lg dark:text-gray-400">
+                        Choose the perfect vehicle for your group size and
+                        comfort needs.
                     </p>
-                    <div className="mt-8">
-                        <Button asChild size="lg" variant="secondary">
-                            <Link href="/#contact?message=I'm interested in booking a private car charter.">
-                                Send Booking Request
-                            </Link>
-                        </Button>
-                    </div>
                 </div>
-            </section>
-        </div>
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {carOptions.map((car, idx) => (
+                        <Card
+                            key={car.name}
+                            className="overflow-hidden hover:shadow-xl transition-shadow duration-300 dark:bg-gray-950"
+                        >
+                            <CardHeader className="p-0">
+                                <Image
+                                    src="https://placehold.co/600x400.png"
+                                    width={600}
+                                    height={400}
+                                    priority={idx === 0}
+                                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                    alt={car.name}
+                                    className="w-full h-48 object-cover"
+                                />
+                            </CardHeader>
+                            <CardContent className="p-6">
+                                <CardTitle className="text-special-card-fg">
+                                    {car.name}
+                                </CardTitle>
+                                <div className="flex items-center gap-2 text-muted-foreground mt-2">
+                                    <Users className="w-5 h-5" />
+                                    <span>{car.capacity}</span>
+                                </div>
+                                <p className="text-muted-foreground mt-4">
+                                    {car.description}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+                <div className="text-center mt-8 text-sm text-muted-foreground">
+                    <p>
+                        Standard MPV is included in the base price. SUVs and
+                        Vans are available upon request (additional charges may
+                        apply).
+                    </p>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function PricingSection(): React.JSX.Element {
+    return (
+        <section id="pricing" className="relative w-full py-12 md:py-16">
+            <Gradient />
+            <div className="container px-4 md:px-6 z-10">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl text-special-card-fg">
+                        Our Charter Rates
+                    </h2>
+                    <p className="mt-2 text-gray-500 md:text-lg dark:text-gray-400">
+                        Simple, transparent pricing. No hidden fees.
+                    </p>
+                </div>
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
+                    {pricingTiers.map((tier) => (
+                        <Card
+                            key={tier.slug}
+                            className="flex flex-col hover:shadow-xl transition-shadow duration-300 bg-bg-alternate"
+                        >
+                            <CardHeader className="text-center">
+                                <CardTitle className="text-2xl text-special-card-fg">
+                                    {tier.name}
+                                </CardTitle>
+                                <CardDescription>
+                                    {tier.duration}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div className="text-center my-4">
+                                        <span className="text-4xl font-bold text-special-card-fg">
+                                            {tier.price}
+                                        </span>
+                                        <span className="text-muted-foreground">
+                                            {" "}
+                                            / {tier.priceUnit}
+                                        </span>
+                                    </div>
+                                    <p className="text-center text-muted-foreground mb-6">
+                                        {tier.description}
+                                    </p>
+                                    <ul className="space-y-3">
+                                        {tier.included.map((item) => (
+                                            <li
+                                                key={item}
+                                                className="flex items-center gap-2 text-special-card-fg"
+                                            >
+                                                <Check className="w-5 h-5 text-green-500" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="w-full mt-6">
+                                    <Button className="w-full" asChild>
+                                        <Link
+                                            href={`/booking/car-charter?tier=${tier.slug}`}
+                                        >
+                                            Book Now
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+                <div className="text-center mt-8 text-sm text-muted-foreground">
+                    <p>* Extra hour is available at $5 USD / hour.</p>
+                    <p>
+                        * Prices may vary for trips to remote areas like Amed,
+                        Tulamben, or West Bali.
+                    </p>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function WhyChooseSection(): React.JSX.Element {
+    return (
+        <section id="why-choose-us" className="w-full py-12 md:py-24">
+            <div className="container px-4 md:px-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline text-special-card-fg">
+                        Why Charter a Car with Us?
+                    </h2>
+                    <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
+                        Experience the ultimate freedom and comfort while
+                        exploring Bali.
+                    </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6 md:auto-rows-fr">
+                    {features.map((feature) => (
+                        <Card
+                            key={feature.title}
+                            className="text-center p-2 md:p-4 flex flex-col items-center justify-between shadow-lg hover:shadow-xl transition-shadow duration-300 h-44 sm:h-48 md:h-full "
+                        >
+                            <CardHeader className="p-0 my-1 md:my-2 flex-shrink-0 mx-auto text-accent">
+                                <div>
+                                    {React.cloneElement(feature.icon, {
+                                        className:
+                                            "w-5 h-full lg:w-8 md:w-8 text-accent",
+                                    })}
+                                </div>
+                            </CardHeader>
+
+                            <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
+                                <CardTitle className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-light text-special-card-fg">
+                                    {feature.title}
+                                </CardTitle>
+                                <p className="text-muted-foreground text-xs md:text-sm leading-light -mt-1 md:mt-0">
+                                    {feature.description}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+export default function CarCharter(): JSX.Element {
+    const pageSections = [
+        FleetOptionsSection,
+        PricingSection,
+        WhyChooseSection,
+    ];
+    return (
+        <>
+            <HeroSection />
+            <React.Suspense fallback={<div>Loading...</div>}>
+                {pageSections.map((Section, index) => (
+                    <SectionWrapper
+                        key={index}
+                        className={cn(
+                            index % 2 === 0 ? "bg-secondary" : "bg-background",
+                        )}
+                    >
+                        <Section />
+                    </SectionWrapper>
+                ))}
+            </React.Suspense>
+        </>
     );
 }

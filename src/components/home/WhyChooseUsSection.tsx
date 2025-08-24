@@ -36,7 +36,10 @@ export default function WhyChooseUsSection(): React.JSX.Element {
         <section id="why-choose-us" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+                    <h2
+                        className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline
+                    text-special-card-fg"
+                    >
                         Why Choose BaliBlissed?
                     </h2>
                     <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
@@ -60,7 +63,10 @@ export default function WhyChooseUsSection(): React.JSX.Element {
                             </CardHeader>
 
                             <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
-                                <CardTitle className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-light">
+                                <CardTitle
+                                    className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-light
+                                text-special-card-fg"
+                                >
                                     {benefit.title}
                                 </CardTitle>
                                 <p className="text-muted-foreground text-xs md:text-sm leading-light -mt-1 md:mt-0">

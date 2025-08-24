@@ -76,7 +76,7 @@
         --sidebar-border: hsl(240 3.7% 15.9%);
         --sidebar-ring: hsl(217.2 91.2% 59.8%);
         --bg-alternate: hsl(214 15% 16%); /* Dark slate gray for dark theme */
-        --special-card-fg: hsl(210 40% 98%);
+        --special-card-fg: hsl(0 5% 88%);
     }
 }
 

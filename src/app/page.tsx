@@ -17,7 +17,10 @@ type SectionWrapperProps = {
     className?: string;
 };
 
-const SectionWrapper = ({ children, className }: SectionWrapperProps) => {
+export const SectionWrapper = ({
+    children,
+    className,
+}: SectionWrapperProps) => {
     return <div className={className}>{children}</div>;
 };
 

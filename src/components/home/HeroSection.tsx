@@ -10,7 +10,7 @@ export default function HeroSection(): React.JSX.Element {
         <section className="relative w-full h-[80vh] min-h-[480px] -mt-16 sm:-mt-36  pt-16 sm:pt-36 scroll-mt-16 sm:scroll-mt-36">
             <Image
                 src="/images/hero/IMG_7508_DxO.webp"
-                alt="Lush rice paddies in Bali"
+                alt="Bali Kecak Dance in Ululuwatu"
                 fill
                 // className="object-cover brightness-[60%] object-[center_.9rem]" // Tailwind: move image down
                 className="object-cover object-[center_.9rem]" // Tailwind: move image down
