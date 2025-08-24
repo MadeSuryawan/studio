@@ -221,7 +221,7 @@ export default function SearchSection(): React.JSX.Element {
                                                         <Button
                                                             variant={"outline"}
                                                             className={cn(
-                                                                "pl-3 text-left font-normal",
+                                                                "pl-3 text-left font-normal hover:scale-none",
                                                                 !field.value
                                                                     ?.from &&
                                                                     "text-muted-foreground bg-bg-alternate",
