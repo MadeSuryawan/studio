@@ -349,7 +349,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             padding: "1px 1px",
                         }}
                         animate={navMotion}
-                        className="bg-gradient-to-b from-background from-20% to-transparent backdrop-blur-md rounded-[12px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 transition-all ease-out"
+                        className="bg-background backdrop-blur-md rounded-[12px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 transition-all ease-out"
                         role="navigation"
                         aria-label="Primary"
                         onMouseLeave={() => setSelectedSubmenu(null)}
@@ -772,8 +772,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
             {/* Mobile View */}
             <div className="block md:hidden">
-                <div className="top-0 z-50 w-full bg-gradient-to-b from-bg-alternate/80 from-10% to-transparent backdrop-blur relative">
-                    <div className="container flex h-16 max-w-screen-2xl items-center px-4">
+                <div className="top-0 z-50 w-full bg-background/70 backdrop-blur relative">
+                    <div className="container flex h-12 md:h-16 max-w-screen-2xl items-center px-2">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={emblemMotion}
@@ -786,7 +786,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={switchMotion}
-                                className="flex items-center space-x-2 pr-4 pb-1"
+                                className="flex items-center space-x-2 pr-4 pb-2"
                             >
                                 {extraIcons.map((icon, idx) => (
                                     <div

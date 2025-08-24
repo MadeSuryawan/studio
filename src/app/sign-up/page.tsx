@@ -40,7 +40,7 @@ export type GlowEffectProps = {
     duration?: number;
 };
 
-export function GlowEffect({
+function GlowEffect({
     className,
     style,
     colors = ["#FF5733", "#33FF57", "#3357FF", "#F1C40F"],

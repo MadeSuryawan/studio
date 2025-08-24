@@ -114,7 +114,7 @@ const ExpandableDock = ({
         }, [isMobile]);
 
     return (
-        <div className="fixed bottom-3.5 left-4 z-50 w-auto px-1 sm:px-0 ">
+        <div className="fixed bottom-3.5 left-4 z-50 w-auto rounded-[10px]">
             <motion.div
                 ref={containerRef}
                 initial={{
@@ -136,7 +136,7 @@ const ExpandableDock = ({
                             : expandedH,
                     backgroundColor: isCollapsed
                         ? "#063842"
-                        : "hsla(60, 4%, 10%, 1.00)",
+                        : "hsla(60, 2%, 10%, 1.00)",
                 }}
                 transition={{
                     width: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
@@ -149,13 +149,15 @@ const ExpandableDock = ({
                 )}
             >
                 <Button
+                    id="expandable-dock-header"
                     onClick={isCollapsed ? handleExpand : handleCollapse}
                     aria-expanded={isExpanded}
+                    aria-label="Toggle Expandable Dock"
                     variant="ghost"
                     className="relative w-auto h-[54px] md:h-[64px] bg-secondary pl-12 rounded-[10px]"
                     style={{
                         backgroundColor: isExpanded ? "#063842" : "#ee812e",
-                        transition: "background-color 1s ease-in-out",
+                        transition: "all 1s ease-in-out",
                     }}
                 >
                     <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 md:ml-1">

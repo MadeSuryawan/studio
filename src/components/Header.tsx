@@ -233,9 +233,10 @@ const Header = (): JSX.Element => {
                     href="/"
                     className="flex items-center justify-center"
                     prefetch={false}
+                    aria-label="BaliBlissed Home Page"
                 >
                     <LogoIcon className="mt-2 md:mt-5 h-full w-[96px] md:w-[110px] text-primary" />
-                    <span className="sr-only">BaliBlissed</span>
+                    <span className="sr-only">BaliBlissed Home Page</span>
                 </Link>
             }
             links={navLinks}

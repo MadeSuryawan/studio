@@ -29,7 +29,7 @@ export default function HeroSection(): React.JSX.Element {
                     We craft personalized, unforgettable journeys to the Island
                     of the Gods. Let your story in Bali begin with us.
                 </p>
-                <div className="mt-8">
+                {/* <div className="mt-8">
                     <Button
                         asChild
                         size="lg"
@@ -37,7 +37,7 @@ export default function HeroSection(): React.JSX.Element {
                     >
                         <Link href="#packages">Explore Packages</Link>
                     </Button>
-                </div>
+                </div> */}
             </div>
         </section>
     );
