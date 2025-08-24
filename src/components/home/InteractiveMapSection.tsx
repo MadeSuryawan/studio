@@ -205,7 +205,7 @@ const LocationPin = ({
         <span
             className={cn(
                 "absolute left-1/2 -translate-x-1/2 -bottom-6 whitespace-nowrap rounded bg-primary px-2 py-1 text-xs text-primary-foreground opacity-0 shadow-lg transition-opacity duration-300 pointer-events-none",
-                isActive ? "opacity-100" : "group-hover:opacity-100",
+                isActive ? "opacity-100" : "",
             )}
         >
             {location.name}
