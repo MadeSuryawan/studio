@@ -12,7 +12,7 @@ export default function FloatingButtons(): React.JSX.Element {
                 <ScrollToTopButton />
                 <WhatsAppButton />
             </div>
-            <AIAssistant />
+            {/* <AIAssistant /> */}
         </>
     );
 }
