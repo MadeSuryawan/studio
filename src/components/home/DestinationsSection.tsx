@@ -72,7 +72,7 @@ export default function DestinationsSection(): React.JSX.Element {
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {destinations.map((dest) => (
-                        <SpotlightCard
+                        <Card
                             key={dest.name}
                             className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
                         >
@@ -96,7 +96,7 @@ export default function DestinationsSection(): React.JSX.Element {
                                     {dest.description}
                                 </CardDescription>
                             </CardContent>
-                        </SpotlightCard>
+                        </Card>
                     ))}
                 </div>
                 <div className="mt-8 text-center md:hidden">

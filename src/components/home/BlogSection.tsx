@@ -63,7 +63,7 @@ export default function BlogSection(): React.JSX.Element {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {blogPosts.map((post) => (
                         <Link key={post.title} href={post.link}>
-                            <SpotlightCard className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
+                            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
                                 <Image
                                     src={post.image}
                                     alt={post.title}
@@ -81,7 +81,7 @@ export default function BlogSection(): React.JSX.Element {
                                         {post.description}
                                     </p>
                                 </CardContent>
-                            </SpotlightCard>
+                            </Card>
                         </Link>
                     ))}
                 </div>

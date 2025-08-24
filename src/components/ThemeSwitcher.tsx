@@ -18,15 +18,19 @@ export function ThemeSwitcher(): React.JSX.Element {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" className="size-[40px]">
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="right-12 h-9 w-9 md:h-11 md:w-11"
+                >
+                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-[1.3] md:scale-[1.4] transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-[1.1] md:dark:scale-[1.3]" />
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                align="end"
-                className="bg-bg-alternate align-center justify-center min-w-[5rem] text-center ml-30"
+                align="center"
+                className="bg-bg-alternate align-center justify-center min-w-[5rem] text-center"
             >
                 <DropdownMenuItem
                     onClick={() => setTheme("light")}

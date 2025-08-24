@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import React, { useEffect, useState, useCallback, useId } from "react";
+import { motion, useAnimation, useReducedMotion } from "framer-motion";
 import {
     Menu as List,
     X as Close,
@@ -57,6 +57,17 @@ const ListItem: React.FC<ListItemProps> = ({
     element,
     children,
 }) => {
+    const submenuId = useId();
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setSelected(selected === element ? null : element);
+        } else if (e.key === "Escape") {
+            setSelected(null);
+        }
+    };
+
     return (
         <div
             className="relative"
@@ -72,12 +83,18 @@ const ListItem: React.FC<ListItemProps> = ({
                 }
             }}
         >
-            <motion.p
+            <motion.button
+                type="button"
                 transition={{ duration: 0.3 }}
-                className="cursor-pointer text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white py-1"
+                className="cursor-pointer text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white py-1 bg-transparent border-0"
+                aria-haspopup="true"
+                aria-expanded={selected === element}
+                aria-controls={selected === element ? submenuId : undefined}
+                onFocus={() => setSelected(element)}
+                onKeyDown={handleKeyDown}
             >
                 {element}
-            </motion.p>
+            </motion.button>
             {selected !== null && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.85, y: 10 }}
@@ -93,6 +110,9 @@ const ListItem: React.FC<ListItemProps> = ({
                                 style={{
                                     maxWidth: "min(90vw, 400px)",
                                 }}
+                                id={submenuId}
+                                role="menu"
+                                aria-label={`${element} submenu`}
                                 onMouseEnter={() => setSelected(element)}
                                 onMouseLeave={() => setSelected(null)}
                             >
@@ -111,33 +131,35 @@ const ListItem: React.FC<ListItemProps> = ({
     );
 };
 
-export const HoverLink: React.FC<HoverLinkProps> = ({
+export const HoverLink = React.memo(function HoverLink({
     url,
     children,
     onPress,
-}) => {
+}: HoverLinkProps) {
     return (
         <a
             href={url}
             onClick={onPress}
             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            role="menuitem"
         >
             {children}
         </a>
     );
-};
+});
 
-export const FeatureItem: React.FC<FeatureItemProps> = ({
+export const FeatureItem = React.memo(function FeatureItem({
     heading,
     url,
     info,
     onPress,
-}) => {
+}: FeatureItemProps) {
     return (
         <a
             href={url}
             onClick={onPress}
             className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            role="menuitem"
         >
             <h4 className="font-medium text-gray-900 dark:text-white">
                 {heading}
@@ -147,7 +169,7 @@ export const FeatureItem: React.FC<FeatureItemProps> = ({
             </p>
         </a>
     );
-};
+});
 
 const NavbarFlow: React.FC<NavbarFlowProps> = ({
     emblem,
@@ -169,23 +191,38 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
     const emblemMotion = useAnimation();
     const switchMotion = useAnimation();
     const svgMotion = useAnimation();
+    const prefersReducedMotion = useReducedMotion();
+    const mobileMenuId = useId();
 
     useEffect(() => {
         setIsMounted(true);
     }, []);
 
     useEffect(() => {
-        const detectMobile = () => {
-            setMobileView(window.innerWidth < 768);
-        };
-
-        detectMobile();
-        window.addEventListener("resize", detectMobile);
-        return () => window.removeEventListener("resize", detectMobile);
+        const mql = window.matchMedia("(max-width: 767px)");
+        const update = (e?: MediaQueryListEvent) =>
+            setMobileView(e ? e.matches : mql.matches);
+        update();
+        if (typeof mql.addEventListener === "function") {
+            mql.addEventListener("change", update);
+            return () => mql.removeEventListener("change", update);
+        } else {
+            // Fallback for older browsers
+            // @ts-ignore
+            mql.addListener(update);
+            return () => {
+                // @ts-ignore
+                mql.removeListener(update);
+            };
+        }
     }, []);
 
     useEffect(() => {
-        if (!isMounted) return;
+        if (!isMounted || sequenceDone) return;
+
+        const quick = prefersReducedMotion ? 0 : 0.6;
+        const navDur = prefersReducedMotion ? 0 : 0.8;
+        const svgDur = prefersReducedMotion ? 0 : 0.5;
 
         const runSequence = async () => {
             if (mobileView) {
@@ -193,40 +230,40 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                     emblemMotion.start({
                         opacity: 1,
                         x: 0,
-                        transition: { duration: 0.6, ease: "easeOut" },
+                        transition: { duration: quick, ease: "easeOut" },
                     }),
                     navMotion.start({
                         opacity: 1,
-                        transition: { duration: 0.6, ease: "easeOut" },
+                        transition: { duration: quick, ease: "easeOut" },
                     }),
                     switchMotion.start({
                         opacity: 1,
                         x: 0,
-                        transition: { duration: 0.6, ease: "easeOut" },
+                        transition: { duration: quick, ease: "easeOut" },
                     }),
                 ]);
             } else {
                 await navMotion.start({
                     width: "auto",
                     padding: "10px 30px",
-                    transition: { duration: 0.8, ease: "easeOut" },
+                    transition: { duration: navDur, ease: "easeOut" },
                 });
 
                 await svgMotion.start({
                     opacity: 1,
-                    transition: { duration: 0.5 },
+                    transition: { duration: svgDur },
                 });
 
                 await Promise.all([
                     emblemMotion.start({
                         opacity: 1,
                         x: 0,
-                        transition: { duration: 0.6, ease: "easeOut" },
+                        transition: { duration: quick, ease: "easeOut" },
                     }),
                     switchMotion.start({
                         opacity: 1,
                         x: 0,
-                        transition: { duration: 0.6, ease: "easeOut" },
+                        transition: { duration: quick, ease: "easeOut" },
                     }),
                 ]);
             }
@@ -242,35 +279,54 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
         svgMotion,
         mobileView,
         isMounted,
+        sequenceDone,
+        prefersReducedMotion,
     ]);
 
-    const toggleMobileMenu = () => {
-        setMobileMenuVisible(!mobileMenuVisible);
-    };
+    const toggleMobileMenu = useCallback(() => {
+        setMobileMenuVisible((v) => !v);
+    }, []);
 
-    const toggleSection = (text: string) => {
+    const toggleSection = useCallback((text: string) => {
         setOpenedSections((prev) => ({
             ...prev,
             [text]: !prev[text],
         }));
-    };
+    }, []);
 
-    const hideMobileMenu = () => {
+    const hideMobileMenu = useCallback(() => {
         setMobileMenuVisible(false);
-    };
+    }, []);
 
-    const renderSubmenuItems = (submenu: React.ReactNode) => {
-        if (!React.isValidElement(submenu)) return null;
+    const renderSubmenuItems = useCallback(
+        (submenu: React.ReactNode) => {
+            if (!React.isValidElement(submenu)) return null;
 
-        const submenuProps = submenu.props as { children?: React.ReactNode };
-        if (!submenuProps.children) return null;
+            const submenuProps = submenu.props as {
+                children?: React.ReactNode;
+            };
+            if (!submenuProps.children) return null;
 
-        return React.Children.map(submenuProps.children, (child, childIdx) => (
-            <div key={childIdx} onClick={hideMobileMenu}>
-                {child}
-            </div>
-        ));
-    };
+            return React.Children.map(
+                submenuProps.children,
+                (child, childIdx) => (
+                    <div key={childIdx} onClick={hideMobileMenu}>
+                        {child}
+                    </div>
+                ),
+            );
+        },
+        [hideMobileMenu],
+    );
+
+    useEffect(() => {
+        if (!mobileMenuVisible) return;
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setMobileMenuVisible(false);
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [mobileMenuVisible]);
 
     return (
         <div className={`sticky top-0 z-50 w-full ${styleName}`}>
@@ -294,6 +350,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         }}
                         animate={navMotion}
                         className="bg-gradient-to-b from-background from-20% to-transparent backdrop-blur-md rounded-[12px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 transition-all ease-out"
+                        role="navigation"
+                        aria-label="Primary"
                         onMouseLeave={() => setSelectedSubmenu(null)}
                     >
                         {links.map((element) => (
@@ -344,7 +402,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         {rightComponent && (
                             <div className="flex items-center justify-center size-9 pr-4">
                                 {React.cloneElement(rightComponent, {
-                                    className: "h-10 d w-10 mr-6 mt-4",
+                                    className:
+                                        `${rightComponent.props.className || ""} h-10 w-10 mr-6 mt-4`.trim(),
                                 })}
                             </div>
                         )}
@@ -354,6 +413,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         initial={{ opacity: 0 }}
                         animate={svgMotion}
                         className="absolute inset-0 w-full h-full z-0 pointer-events-none mt-1"
+                        aria-hidden="true"
+                        focusable="false"
                         viewBox="0 0 1400 96"
                         preserveAspectRatio="none"
                     >
@@ -721,7 +782,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             <div>{emblem}</div>
                         </motion.div>
 
-                        <div className="flex flex-1 items-center justify-end space-x-2 ">
+                        <div className="flex flex-1 items-center justify-end -space-x-2 ">
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={switchMotion}
@@ -738,16 +799,18 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
                                 {rightComponent && (
                                     <div className="flex items-center justify-center">
-                                        {React.cloneElement(rightComponent, {
-                                            className: "h-7 w-5",
-                                        })}
+                                        {rightComponent}
                                     </div>
                                 )}
                             </motion.div>
 
                             <button
+                                type="button"
                                 onClick={toggleMobileMenu}
                                 className="flex items-center justify-center w-9 h-9 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors mt-2"
+                                aria-expanded={mobileMenuVisible}
+                                aria-controls={mobileMenuId}
+                                aria-label="Toggle menu"
                             >
                                 {mobileMenuVisible ? (
                                     <Close className="h-7 w-7" />
@@ -765,11 +828,20 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             opacity: mobileMenuVisible ? 1 : 0,
                             maxHeight: mobileMenuVisible ? "80vh" : 0,
                         }}
-                        transition={{ duration: 0.3 }}
+                        transition={{
+                            duration: prefersReducedMotion ? 0 : 0.3,
+                        }}
+                        id={mobileMenuId}
+                        aria-hidden={!mobileMenuVisible}
+                        role="region"
+                        aria-label="Mobile menu"
                         className="absolute left-0 right-0 top-full z-40 overflow-y-auto border-t border-gray-200/40 dark:border-gray-800/40 bg-background backdrop-blur"
                     >
                         <div className="container py-4 px-4">
-                            <nav className="flex flex-col space-y-3">
+                            <nav
+                                className="flex flex-col space-y-3"
+                                aria-label="Primary"
+                            >
                                 {links.map((element, idx) => (
                                     <div
                                         key={element.text}
@@ -778,12 +850,19 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                         {element.submenu ? (
                                             <>
                                                 <button
+                                                    type="button"
                                                     className="flex items-center justify-between w-full text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors border-b border-gray-200 dark:border-gray-800"
                                                     onClick={() =>
                                                         toggleSection(
                                                             element.text,
                                                         )
                                                     }
+                                                    aria-expanded={
+                                                        !!openedSections[
+                                                            element.text
+                                                        ]
+                                                    }
+                                                    aria-controls={`${mobileMenuId}-section-${idx}`}
                                                 >
                                                     <span>{element.text}</span>
                                                     <span>
@@ -810,8 +889,14 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                                             height: "auto",
                                                         }}
                                                         transition={{
-                                                            duration: 0.2,
+                                                            duration:
+                                                                prefersReducedMotion
+                                                                    ? 0
+                                                                    : 0.2,
                                                         }}
+                                                        id={`${mobileMenuId}-section-${idx}`}
+                                                        role="region"
+                                                        aria-label={`${element.text} submenu`}
                                                         className="pl-4 space-y-1 overflow-hidden"
                                                     >
                                                         {renderSubmenuItems(
