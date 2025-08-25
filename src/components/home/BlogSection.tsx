@@ -13,6 +13,14 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 
+type Blogs = {
+    title: string;
+    description: string;
+    image: string;
+    hint: string;
+    link: string;
+};
+
 const blogPosts = [
     {
         title: "What to Pack for Your Bali Trip: The Essentials",
@@ -38,115 +46,115 @@ const blogPosts = [
         hint: "balinese food",
         link: "#",
     },
+    {
+        title: "The Hidden Gems of Nusa Penida",
+        description:
+            "Venture off the beaten path to discover the untouched beauty of Nusa Penida, from pristine beaches to breathtaking cliffside views.",
+        image: "https://placehold.co/600x400.png",
+        link: "/blog/nusa-penida-gems",
+        hint: "Nusa Penida cliffside",
+    },
 ];
+
+const Texts = () => (
+    <div>
+        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+            From Our Blog
+        </h2>
+        <p className="text-lg text-muted-foreground mt-2">
+            Get inspired for your Bali adventure.
+        </p>
+    </div>
+);
+
+const ButtonFunc = ({
+    className,
+    buttonText,
+    link,
+    arrow = true,
+}: {
+    className?: string;
+    buttonText?: string;
+    link?: string;
+    arrow?: boolean;
+}) => (
+    <Button
+        asChild
+        variant="outline"
+        className={`bg-bg-alternate text-special-card-fg border-accent text-center ${className}`}
+    >
+        <Link href={link || "#"}>
+            {buttonText || "View All Posts"}
+            {arrow && <ArrowRight className="h-4 w-4" />}
+        </Link>
+    </Button>
+);
+
+const BlogCard = ({ post }: { post: Blogs }) => (
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card text-special-card-fg">
+        <div className="p-1">
+            <Image
+                src={post.image}
+                alt={post.title}
+                width={600}
+                height={400}
+                className="w-full h-1/2 md:h-full object-cover rounded-t-md"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                data-ai-hint={post.hint}
+            />
+        </div>
+        <CardContent className="flex flex-col p-3 justify-between flex-grow">
+            <CardTitle className="text-xl font-bold leading-tight overflow-hidden text-ellipsis text-nowrap">
+                {post.title}
+            </CardTitle>
+            <p className="my-3 text-muted-foreground text-sm flex-grow leading-light">
+                {post.description}
+            </p>
+            <div className="flex justify-end mt-auto">
+                <ButtonFunc
+                    className="bg-background border-none"
+                    buttonText="Read More"
+                    arrow={false}
+                    link={post.link}
+                ></ButtonFunc>
+            </div>
+        </CardContent>
+    </Card>
+);
 
 export default function BlogSection(): React.JSX.Element {
     return (
         <section id="blog" className="relative w-full py-8">
             <Gradient />
+            {/* Desktop view */}
+            <div className="container px-6 z-10 hidden md:block">
+                <div className="flex justify-between items-center mb-12">
+                    <Texts />
+                </div>
+                <div className="grid grid-cols-4 gap-3 mb-12">
+                    {blogPosts.map((post, index) => (
+                        <BlogCard key={index} post={post} />
+                    ))}
+                </div>
+                <div className="flex justify-end mt-auto">
+                    <ButtonFunc />
+                </div>
+            </div>
 
             {/* Mobile view */}
-            <Carousel className="mx-auto w-full max-w-xs md:hidden z-10">
-                <div className="text-center mb-4">
-                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-                        From Our Blog
-                    </h2>
-                    <p className="text-lg text-muted-foreground mt-2">
-                        Get inspired for your Bali adventure.
-                    </p>
+            <Carousel className="mx-auto w-full max-w-sm md:hidden z-10">
+                <div className="text-center py-4">
+                    <Texts />
                 </div>
-                <CarouselContent paginationMt="mt-28">
+                <CarouselContent paginationMt="mt-40">
                     {blogPosts.map((post, index) => (
                         <CarouselItem key={index}>
-                            <Link href={post.link}>
-                                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
-                                    <Image
-                                        src={post.image}
-                                        alt={post.title}
-                                        width={600}
-                                        height={400}
-                                        className="w-full h-48 object-cover rounded-t-md"
-                                        sizes="320px"
-                                        data-ai-hint={post.hint}
-                                    />
-                                    <CardContent className="p-6 flex flex-col flex-grow">
-                                        <CardTitle className="text-xl font-bold leading-tight">
-                                            {post.title}
-                                        </CardTitle>
-                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">
-                                            {post.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </Link>
+                            <BlogCard post={post} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <div className=" text-center md:hidden mt-6">
-                    <Button
-                        asChild
-                        variant="outline"
-                        className="bg-bg-alternate text-special-card-fg border-accent"
-                    >
-                        <Link href="#">
-                            View All Posts
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                </div>
+                <ButtonFunc className="relative left-1/2 -translate-x-1/2 mt-8" />
             </Carousel>
-
-            {/* Desktop view */}
-            <div>
-                <div className="container px-4 md:px-6 z-10 hidden md:block">
-                    <div className="flex justify-between items-center mb-12">
-                        <div>
-                            <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-                                From Our Blog
-                            </h2>
-                            <p className="text-lg text-muted-foreground mt-2">
-                                Get inspired for your Bali adventure.
-                            </p>
-                        </div>
-                        <Button
-                            asChild
-                            variant="outline"
-                            className="hidden bg-bg-alternate md:flex text-special-card-fg border-accent"
-                        >
-                            <Link href="#">
-                                View All Posts{" "}
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {blogPosts.map((post, index) => (
-                            <Link key={index} href={post.link}>
-                                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
-                                    <Image
-                                        src={post.image}
-                                        alt={post.title}
-                                        width={600}
-                                        height={400}
-                                        className="w-full h-48 object-cover rounded-t-md"
-                                        sizes="(max-width: 768px) 100vw, 33vw"
-                                        data-ai-hint={post.hint}
-                                    />
-                                    <CardContent className="p-6 flex flex-col flex-grow">
-                                        <CardTitle className="text-xl font-bold leading-tight">
-                                            {post.title}
-                                        </CardTitle>
-                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">
-                                            {post.description}
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
         </section>
     );
 }

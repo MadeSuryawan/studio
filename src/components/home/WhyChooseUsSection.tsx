@@ -47,7 +47,7 @@ export default function WhyChooseUsSection(): React.JSX.Element {
                         your personal guide to the Island of the Gods.
                     </p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6 md:auto-rows-fr">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 md:auto-rows-fr">
                     {benefits.map((benefit, index) => (
                         <Card
                             key={index}

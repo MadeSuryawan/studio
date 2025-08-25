@@ -17,11 +17,11 @@ export default function CarCharterSection(): React.JSX.Element {
 
             {/* Left gradient */}
             <div
-                className="pointer-events-none absolute size-full inset-0 max-w-screen-md mx-auto bg-gradient-to-l from-bg-alternate via-[#1D3844] to-transparent shadow-lg rounded-[20px] border-y border-[#2C5263]"
+                className="pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto bg-gradient-to-l from-bg-alternate via-[#1D3844] to-transparent shadow-lg rounded-[20px] border-y border-[#2C5263]"
                 aria-hidden="true"
             />
 
-            <div className="relative flex flex-col items-center h-full text-center px-4 md:px-12 max-w-screen-md mx-auto z-10 space-y-6">
+            <div className="relative flex flex-col items-center h-full text-center px-8 md:px-12 max-w-screen-md mx-auto z-10 space-y-6">
                 <div className="inline-block bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
                     Our Premier Service
                 </div>

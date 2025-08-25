@@ -13,7 +13,11 @@ import {
     Plane,
     ArrowRight,
 } from "lucide-react";
-import { SpotlightCard } from "@/components/ui/spotlightcard";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel";
 
 const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -46,13 +50,23 @@ const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
         {...props}
     >
         <path d="M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 14.5a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 1 0v6a.5.5 0 0 1-.5.5z" />
-        <path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z M17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z" />
+        <path d="M6.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5zM17.5 11.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 1 0v1a.5.5 0 0 1-.5.5z" />
         <path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6" />
         <path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18" />
     </svg>
 );
 
-const packages = [
+type Package = {
+    title: string;
+    features: {
+        icon: React.ReactNode;
+        text: string;
+    }[];
+    image: string;
+    hint: string;
+};
+
+const packages: Package[] = [
     {
         title: "Cultural Heartbeat of Ubud",
         features: [
@@ -131,91 +145,115 @@ const packages = [
     },
 ];
 
+const Texts = () => (
+    <div>
+        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+            Curated Travel Packages
+        </h2>
+        <p className="text-lg text-muted-foreground mt-2">
+            Hand-picked experiences designed to give you the very best of Bali.
+        </p>
+    </div>
+);
+
+const ButtonFunc = ({
+    className,
+    buttonText,
+    link,
+    arrow = true,
+}: {
+    className?: string;
+    buttonText?: string;
+    link?: string;
+    arrow?: boolean;
+}) => (
+    <Button
+        asChild
+        variant="outline"
+        className={`bg-bg-alternate text-special-card-fg border-accent text-center ${className}`}
+    >
+        <Link href={link || "#"}>
+            {buttonText || "View All Packages"}
+            {arrow && <ArrowRight className="h-4 w-4" />}
+        </Link>
+    </Button>
+);
+
+const PackageCard = ({ pkg }: { pkg: Package }) => (
+    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl tracking-normal transition-shadow duration-300 ease-in-out bg-card text-special-card-fg">
+        <div className="py-1 pl-1 pr-1 md:pr-0 w-full md:w-1/2 bg-card">
+            <Image
+                src={pkg.image}
+                alt={pkg.title}
+                width={600}
+                height={400}
+                className="w-full h-1/2 md:h-full object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                data-ai-hint={pkg.hint}
+            />
+        </div>
+        <CardContent className="flex flex-col p-3 justify-between flex-1">
+            <div>
+                <CardTitle className="text-special-card-fg">
+                    {pkg.title}
+                </CardTitle>
+                <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
+                    {pkg.features.map((feature) => (
+                        <li
+                            key={feature.text}
+                            className="flex items-center gap-3"
+                        >
+                            {feature.icon}
+                            <span>{feature.text}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <div className="flex justify-end mt-auto">
+                <ButtonFunc
+                    className="bg-background border-none"
+                    buttonText="View Details"
+                    link={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
+                    arrow={false}
+                ></ButtonFunc>
+            </div>
+        </CardContent>
+    </Card>
+);
+
 export default function PackagesSection(): React.JSX.Element {
     return (
         <section id="packages" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
-                <div className="flex justify-between items-center mb-12">
-                    <div>
-                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-                            Curated Travel Packages
-                        </h2>
-                        <p className="text-lg text-muted-foreground mt-2">
-                            Hand-picked experiences designed to give you the
-                            very best of Bali.
-                        </p>
+                {/* Desktop view */}
+                <div className="hidden md:block">
+                    <div className="flex justify-between items-center mb-12">
+                        <Texts />
                     </div>
-                    <Button
-                        asChild
-                        variant="outline"
-                        className="hidden md:flex bg-bg-alternate text-special-card-fg border-accent"
-                    >
-                        <Link href="#">
-                            View All Packages <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </Button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-3 mb-12">
+                        {packages.map((pkg, index) => (
+                            <PackageCard key={index} pkg={pkg} />
+                        ))}
+                    </div>
+                    <div className="flex justify-end mt-auto">
+                        <ButtonFunc />
+                    </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                    {packages.map((pkg) => (
-                        <Card
-                            key={pkg.title}
-                            className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl  tracking-normal transition-shadow duration-300 bg-bg-alternate text-special-card-fg border-border/20"
-                        >
-                            <Image
-                                src={pkg.image}
-                                alt={pkg.title}
-                                width={600}
-                                height={400}
-                                className="w-full md:w-1/3 h-64 md:h-auto object-cover"
-                                sizes="(max-width: 768px) 100vw, 33vw"
-                                data-ai-hint={pkg.hint}
-                            />
-                            <div className="flex flex-col p-6 justify-between flex-1">
-                                <div>
-                                    <CardTitle className="text-special-card-fg">
-                                        {pkg.title}
-                                    </CardTitle>
-                                    <ul className="mt-4 space-y-2 text-sm text-special-card-fg/80">
-                                        {pkg.features.map((feature) => (
-                                            <li
-                                                key={feature.text}
-                                                className="flex items-center gap-3"
-                                            >
-                                                {feature.icon}
-                                                <span>{feature.text}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="flex items-end justify-end mt-6">
-                                    <Button
-                                        asChild
-                                        variant="outline"
-                                        className="text-special-card-fg"
-                                    >
-                                        <Link
-                                            href={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
-                                        >
-                                            View Details
-                                        </Link>
-                                    </Button>
-                                </div>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-                <div className="mt-8 text-center md:hidden">
-                    <Button
-                        asChild
-                        variant="outline"
-                        className="bg-bg-alternate text-special-card-fg border-accent"
-                    >
-                        <Link href="#">
-                            View All Packages
-                            <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                </div>
+
+                {/* Mobile view */}
+                <Carousel className="mx-auto w-full max-w-sm md:hidden z-10">
+                    <div className="text-center py-4">
+                        <Texts />
+                    </div>
+                    <CarouselContent paginationMt="mt-48">
+                        {packages.map((pkg, index) => (
+                            <CarouselItem key={index}>
+                                <PackageCard pkg={pkg} />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <ButtonFunc className="relative left-1/2 -translate-x-1/2 mt-8" />
+                </Carousel>
             </div>
         </section>
     );
