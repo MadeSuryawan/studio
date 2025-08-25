@@ -8,6 +8,11 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Gradient from "./Gradient";
 import { SpotlightCard } from "@/components/ui/spotlightcard";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel";
 
 const blogPosts = [
     {
@@ -40,52 +45,45 @@ export default function BlogSection(): React.JSX.Element {
     return (
         <section id="blog" className="relative w-full py-8">
             <Gradient />
-            <div className="container px-4 md:px-6 z-10">
-                <div className="flex justify-between items-center mb-12">
-                    <div>
-                        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-                            From Our Blog
-                        </h2>
-                        <p className="text-lg text-muted-foreground mt-2">
-                            Get inspired for your Bali adventure.
-                        </p>
-                    </div>
-                    <Button
-                        asChild
-                        variant="outline"
-                        className="hidden bg-bg-alternate md:flex text-special-card-fg border-accent"
-                    >
-                        <Link href="#">
-                            View All Posts <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </Button>
+
+            {/* Mobile view */}
+            <Carousel className="mx-auto w-full max-w-xs md:hidden z-10">
+                <div className="text-center mb-4">
+                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+                        From Our Blog
+                    </h2>
+                    <p className="text-lg text-muted-foreground mt-2">
+                        Get inspired for your Bali adventure.
+                    </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {blogPosts.map((post) => (
-                        <Link key={post.title} href={post.link}>
-                            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
-                                <Image
-                                    src={post.image}
-                                    alt={post.title}
-                                    width={600}
-                                    height={400}
-                                    className="w-full h-48 object-cover rounded-t-md"
-                                    sizes="(max-width: 768px) 100vw, 33vw"
-                                    data-ai-hint={post.hint}
-                                />
-                                <CardContent className="p-6 flex flex-col flex-grow">
-                                    <CardTitle className="text-xl font-bold leading-tight">
-                                        {post.title}
-                                    </CardTitle>
-                                    <p className="mt-2 text-muted-foreground text-sm flex-grow">
-                                        {post.description}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        </Link>
+                <CarouselContent>
+                    {blogPosts.map((post, index) => (
+                        <CarouselItem key={index}>
+                            <Link href={post.link}>
+                                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
+                                    <Image
+                                        src={post.image}
+                                        alt={post.title}
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-48 object-cover rounded-t-md"
+                                        sizes="320px"
+                                        data-ai-hint={post.hint}
+                                    />
+                                    <CardContent className="p-6 flex flex-col flex-grow">
+                                        <CardTitle className="text-xl font-bold leading-tight">
+                                            {post.title}
+                                        </CardTitle>
+                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">
+                                            {post.description}
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </CarouselItem>
                     ))}
-                </div>
-                <div className="mt-8 text-center md:hidden">
+                </CarouselContent>
+                <div className=" text-center md:hidden mt-6">
                     <Button
                         asChild
                         variant="outline"
@@ -96,6 +94,58 @@ export default function BlogSection(): React.JSX.Element {
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                     </Button>
+                </div>
+            </Carousel>
+
+            {/* Desktop view */}
+            <div>
+                <div className="container px-4 md:px-6 z-10 hidden md:block">
+                    <div className="flex justify-between items-center mb-12">
+                        <div>
+                            <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+                                From Our Blog
+                            </h2>
+                            <p className="text-lg text-muted-foreground mt-2">
+                                Get inspired for your Bali adventure.
+                            </p>
+                        </div>
+                        <Button
+                            asChild
+                            variant="outline"
+                            className="hidden bg-bg-alternate md:flex text-special-card-fg border-accent"
+                        >
+                            <Link href="#">
+                                View All Posts{" "}
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {blogPosts.map((post, index) => (
+                            <Link key={index} href={post.link}>
+                                <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col bg-card">
+                                    <Image
+                                        src={post.image}
+                                        alt={post.title}
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-48 object-cover rounded-t-md"
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        data-ai-hint={post.hint}
+                                    />
+                                    <CardContent className="p-6 flex flex-col flex-grow">
+                                        <CardTitle className="text-xl font-bold leading-tight">
+                                            {post.title}
+                                        </CardTitle>
+                                        <p className="mt-2 text-muted-foreground text-sm flex-grow">
+                                            {post.description}
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
