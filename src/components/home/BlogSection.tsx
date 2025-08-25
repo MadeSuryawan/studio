@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Gradient from "./Gradient";
-import { SpotlightCard } from "@/components/ui/spotlightcard";
 import {
     Carousel,
     CarouselContent,
@@ -56,7 +55,7 @@ export default function BlogSection(): React.JSX.Element {
                         Get inspired for your Bali adventure.
                     </p>
                 </div>
-                <CarouselContent>
+                <CarouselContent paginationMt="mt-28">
                     {blogPosts.map((post, index) => (
                         <CarouselItem key={index}>
                             <Link href={post.link}>

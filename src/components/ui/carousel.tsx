@@ -19,6 +19,7 @@ interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 
 interface CarouselContentProps {
     children?: React.ReactNode;
+    paginationMt?: string;
 }
 
 interface CarouselItemProps {
@@ -44,6 +45,7 @@ export const Carousel: React.FC<CarouselProps> = ({
 
 export const CarouselContent: React.FC<CarouselContentProps> = ({
     children,
+    paginationMt: paginationMt = "mt-24",
 }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const childrenArray = React.Children.toArray(children);
@@ -93,7 +95,7 @@ export const CarouselContent: React.FC<CarouselContentProps> = ({
                 ))}
             </div>
 
-            <Pagination className="mt-24 scale-[1.2]">
+            <Pagination className={`${paginationMt} scale-[1.2]`}>
                 <PaginationContent>
                     <PaginationItem>
                         <PaginationPrevious

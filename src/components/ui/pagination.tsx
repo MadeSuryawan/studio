@@ -22,7 +22,7 @@ const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <ul
         ref={ref}
-        className={cn("flex flex-row items-center gap-3 md:gap-4", className)}
+        className={cn("flex flex-row items-center gap-1 sm:gap-2", className)}
         {...props}
     />
 ));
