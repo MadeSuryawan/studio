@@ -24,39 +24,35 @@ const SocialLink = ({
 
 export default function Footer(): JSX.Element {
     return (
-        <footer className="bg-[#212224] text-gray-300">
-            <div
-                className="container mx-auto px-4 md:px-6 py-6 md:py-10"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url('/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    filter: "brightness(0.78)",
-                }}
-            >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {/* Company Info */}
-                    <div className="col-span-1 md:col-span-2 space-y-4">
-                        <Link
-                            href="/"
-                            className="flex items-center gap-4 text-white"
-                        >
-                            <LogoIcon className="h-full w-[96px] md:w-[150px]" />
-                        </Link>
-                        <p className="max-w-md text-sm">
-                            Crafting personalized and unforgettable travel
-                            experiences on the Island of the Gods. Let us help
-                            you create your dream Bali vacation.
-                        </p>
-                    </div>
-
+        <footer
+            className="container px-4 md:px-6 py-4 md:py-10 bg-[#212224] text-gray-300"
+            style={{
+                backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url('/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                filter: "brightness(0.78)",
+            }}
+        >
+            <div className="grid grid-row md:grid-cols-4 h-auto">
+                {/* Company Info */}
+                <div className="grid grid-rows-2 mb-3 md:mb-0 md:col-span-3 md:gap-4">
+                    <Link href="/">
+                        <LogoIcon className="relative h-full w-[96px] md:w-[150px] left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0" />
+                    </Link>
+                    <p className="max-w-sm text-sm pb-4 text-center md:text-left md:max-w-md">
+                        Crafting personalized and unforgettable travel
+                        experiences on the Island of the Gods. Let us help you
+                        create your dream Bali vacation.
+                    </p>
+                </div>
+                <div className="flex flex-cols-2 justify-between md:justify-center gap-12">
                     {/* Quick Links */}
-                    <div className="col-span-1">
+                    <div className="flex-grow md:flex-grow-0">
                         <h3 className="font-semibold text-white mb-4">
                             Quick Links
                         </h3>
-                        <nav className="flex flex-col gap-2">
+                        <nav className="flex flex-col gap-2 pb-4">
                             <Link
                                 href="/"
                                 className="text-sm hover:text-white hover:underline underline-offset-4"
@@ -91,7 +87,7 @@ export default function Footer(): JSX.Element {
                     </div>
 
                     {/* Contact & Socials */}
-                    <div className="col-span-1">
+                    <div className="pr-1">
                         <h3 className="font-semibold text-white mb-4">
                             Contact Us
                         </h3>
@@ -135,27 +131,27 @@ export default function Footer(): JSX.Element {
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-                    <p className="text-sm text-center sm:text-left mb-4 sm:mb-0 md:pl-[4rem]">
-                        &copy; {new Date().getFullYear()} BaliBlissed. All
-                        rights reserved.
-                    </p>
-                    <nav className="flex gap-4 sm:gap-6 md:pr-[4.9rem]">
-                        <Link
-                            href="#"
-                            className="text-sm hover:text-white hover:underline underline-offset-4"
-                        >
-                            Privacy Policy
-                        </Link>
-                        <Link
-                            href="#"
-                            className="text-sm hover:text-white hover:underline underline-offset-4"
-                        >
-                            Terms of Service
-                        </Link>
-                    </nav>
-                </div>
+            <div className="pt-4 md:pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
+                <p className="text-sm text-center sm:text-left mb-4 sm:mb-0 md:pl-[4rem]">
+                    &copy; {new Date().getFullYear()} BaliBlissed. All rights
+                    reserved.
+                </p>
+                <nav className="flex gap-4 sm:gap-6 md:pr-[4.9rem]">
+                    <Link
+                        href="#"
+                        className="text-sm hover:text-white hover:underline underline-offset-4"
+                    >
+                        Privacy Policy
+                    </Link>
+                    <Link
+                        href="#"
+                        className="text-sm hover:text-white hover:underline underline-offset-4"
+                    >
+                        Terms of Service
+                    </Link>
+                </nav>
             </div>
         </footer>
     );
