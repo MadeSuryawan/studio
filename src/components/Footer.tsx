@@ -25,7 +25,7 @@ const SocialLink = ({
 export default function Footer(): JSX.Element {
     return (
         <footer
-            className="container px-4 md:px-6 py-4 md:py-10 bg-[#212224] text-gray-300"
+            className="container px-4 md:px-6 py-3 md:py-7 bg-[#212224] text-gray-300"
             style={{
                 backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url('/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp')`,
                 backgroundSize: "cover",
@@ -34,9 +34,9 @@ export default function Footer(): JSX.Element {
                 filter: "brightness(0.78)",
             }}
         >
-            <div className="grid grid-row md:grid-cols-4 h-auto">
+            <div className="grid grid-row md:grid-cols-4">
                 {/* Company Info */}
-                <div className="grid grid-rows-2 mb-3 md:mb-0 md:col-span-3 md:gap-4">
+                <div className="grid grid-rows-2 mb-4 md:mb-0 md:col-span-3 md:gap-4">
                     <Link href="/">
                         <LogoIcon className="relative h-full w-[96px] md:w-[150px] left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0" />
                     </Link>
@@ -46,9 +46,9 @@ export default function Footer(): JSX.Element {
                         create your dream Bali vacation.
                     </p>
                 </div>
-                <div className="flex flex-cols-2 justify-between md:justify-center gap-12">
+                <div className="flex flex-cols-2 justify-between">
                     {/* Quick Links */}
-                    <div className="flex-grow md:flex-grow-0">
+                    <div className="md:-translate-x-32">
                         <h3 className="font-semibold text-white mb-4">
                             Quick Links
                         </h3>
@@ -85,9 +85,8 @@ export default function Footer(): JSX.Element {
                             </Link>
                         </nav>
                     </div>
-
                     {/* Contact & Socials */}
-                    <div className="pr-1">
+                    <div className="md:-translate-x-12">
                         <h3 className="font-semibold text-white mb-4">
                             Contact Us
                         </h3>
@@ -134,11 +133,12 @@ export default function Footer(): JSX.Element {
             </div>
 
             <div className="pt-4 md:pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-                <p className="text-sm text-center sm:text-left mb-4 sm:mb-0 md:pl-[4rem]">
+                <p className="text-sm text-center md:text-left mb-2 md:mb-0 md:pl-16">
                     &copy; {new Date().getFullYear()} BaliBlissed. All rights
                     reserved.
                 </p>
-                <nav className="flex gap-4 sm:gap-6 md:pr-[4.9rem]">
+
+                <nav className="flex gap-4 md:gap-7 md:pr-24">
                     <Link
                         href="#"
                         className="text-sm hover:text-white hover:underline underline-offset-4"
