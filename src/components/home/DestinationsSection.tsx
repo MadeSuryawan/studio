@@ -98,23 +98,23 @@ const ButtonFunc = ({
 );
 
 const DestinationCard = ({ dest }: { dest: Destination }) => (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card text-special-card-fg">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl  hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card text-special-card-fg">
         <div className="p-1">
             <Image
                 src={dest.image}
                 alt={dest.name}
                 width={600}
                 height={400}
-                className="w-full h-1/2 md:h-full object-cover rounded-t-md"
+                className="w-full h-48 object-cover rounded-t-md"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 data-ai-hint={dest.hint}
             />
         </div>
-        <CardContent className="p-3 flex flex-col justify-between flex-grow">
-            <CardTitle className="text-xl font-bold leading-tight overflow-hidden text-ellipsis text-nowrap">
+        <CardContent className="lex flex-col p-3 justify-between flex-grow">
+            <CardTitle className="text-xl leading-relaxed font-bold overflow-hidden text-ellipsis text-nowrap">
                 {dest.name}
             </CardTitle>
-            <p className="my-3 text-muted-foreground text-sm flex-grow leading-light mb-4">
+            <p className="my-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
                 {dest.description}
             </p>
             <div className="flex justify-end mt-auto">
@@ -131,7 +131,7 @@ const DestinationCard = ({ dest }: { dest: Destination }) => (
 
 export default function DestinationsSection(): React.JSX.Element {
     return (
-        <section id="destinations" className=" w-full py-12 md:py-20">
+        <section id="destinations" className=" w-full py-12 md:py-24">
             {/* Desktop view */}
             <div className="container px-6 z-10 hidden md:block">
                 <div className="flex justify-between items-center mb-12">
@@ -147,11 +147,11 @@ export default function DestinationsSection(): React.JSX.Element {
                 </div>
             </div>
             {/* Mobile view */}
-            <Carousel className="mx-auto w-full max-w-sm md:hidden z-10">
+            <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
                 <div className="text-center py-4">
                     <Texts />
                 </div>
-                <CarouselContent paginationMt="mt-40">
+                <CarouselContent paginationMt="mt-24">
                     {destinations.map((dest, index) => (
                         <CarouselItem key={index}>
                             <DestinationCard dest={dest} />

@@ -180,21 +180,21 @@ const ButtonFunc = ({
 );
 
 const PackageCard = ({ pkg }: { pkg: Package }) => (
-    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl tracking-normal transition-shadow duration-300 ease-in-out bg-card text-special-card-fg">
-        <div className="py-1 pl-1 pr-1 md:pr-0 w-full md:w-1/2 bg-card">
+    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl tracking-normal hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card text-special-card-fg">
+        <div className="py-1 pl-1 pr-1 md:pr-0 w-full md:w-1/2">
             <Image
                 src={pkg.image}
                 alt={pkg.title}
                 width={600}
                 height={400}
-                className="w-full h-1/2 md:h-full object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
+                className="w-full h-48 object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 data-ai-hint={pkg.hint}
             />
         </div>
         <CardContent className="flex flex-col p-3 justify-between flex-1">
             <div>
-                <CardTitle className="text-special-card-fg">
+                <CardTitle className="text-special-card-fg leading-relaxed">
                     {pkg.title}
                 </CardTitle>
                 <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
@@ -241,11 +241,11 @@ export default function PackagesSection(): React.JSX.Element {
                 </div>
 
                 {/* Mobile view */}
-                <Carousel className="mx-auto w-full max-w-sm md:hidden z-10">
+                <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
                     <div className="text-center py-4">
                         <Texts />
                     </div>
-                    <CarouselContent paginationMt="mt-48">
+                    <CarouselContent paginationMt="mt-32">
                         {packages.map((pkg, index) => (
                             <CarouselItem key={index}>
                                 <PackageCard pkg={pkg} />

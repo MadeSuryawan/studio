@@ -91,23 +91,23 @@ const ButtonFunc = ({
 );
 
 const BlogCard = ({ post }: { post: Blogs }) => (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card text-special-card-fg">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card">
         <div className="p-1">
             <Image
                 src={post.image}
                 alt={post.title}
                 width={600}
                 height={400}
-                className="w-full h-1/2 md:h-full object-cover rounded-t-md"
+                className="w-full h-48 object-cover rounded-t-md"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 data-ai-hint={post.hint}
             />
         </div>
-        <CardContent className="flex flex-col p-3 justify-between flex-grow">
-            <CardTitle className="text-xl font-bold leading-tight overflow-hidden text-ellipsis text-nowrap">
+        <CardContent className="flex flex-col p-3 justify-between flex-grow text-special-card-fg">
+            <CardTitle className="text-xl leading-relaxed tracking-normal font-bold overflow-hidden text-ellipsis text-nowrap">
                 {post.title}
             </CardTitle>
-            <p className="my-3 text-muted-foreground text-sm flex-grow leading-light">
+            <p className="my-3 text-muted-foreground text-sm line-clamp-3">
                 {post.description}
             </p>
             <div className="flex justify-end mt-auto">
@@ -142,11 +142,11 @@ export default function BlogSection(): React.JSX.Element {
             </div>
 
             {/* Mobile view */}
-            <Carousel className="mx-auto w-full max-w-sm md:hidden z-10">
+            <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
                 <div className="text-center py-4">
                     <Texts />
                 </div>
-                <CarouselContent paginationMt="mt-40">
+                <CarouselContent paginationMt="mt-32">
                     {blogPosts.map((post, index) => (
                         <CarouselItem key={index}>
                             <BlogCard post={post} />
