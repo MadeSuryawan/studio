@@ -34,6 +34,7 @@ const ExpandableDock = ({
         | "widthCollapsing"
     >("collapsed");
 
+    const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     // Keep track of animation timers to avoid overlaps/leaks on rapid toggles
     const timersRef = useRef<number[]>([]);
@@ -47,6 +48,11 @@ const ExpandableDock = ({
         return () => {
             clearTimers();
         };
+    }, []);
+
+    // Prevent hydration mismatch by waiting for client-side mount
+    useEffect(() => {
+        setIsMounted(true);
     }, []);
 
     const handleExpand = useCallback(() => {
@@ -112,6 +118,11 @@ const ExpandableDock = ({
                 : "min(80vh, 600px)";
             return { collapsedW, collapsedH, expandedW, expandedH };
         }, [isMobile]);
+
+    // Prevent flash of incorrect content during hydration
+    if (!isMounted) {
+        return null;
+    }
 
     return (
         <div className="fixed bottom-3.5 left-4 z-50 w-auto rounded-[10px]">
