@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
-import AIAssistant from "./AIAssistant";
+// import AIAssistant from "./AIAssistant";
 import ScrollToTopButton from "./ScrollToTopButton";
 import WhatsAppButton from "./WhatsAppButton";
+
+import ExpandBot from "@/components/ExpandBot";
 
 export default function FloatingButtons(): React.JSX.Element {
     return (
@@ -13,6 +15,7 @@ export default function FloatingButtons(): React.JSX.Element {
                 <WhatsAppButton />
             </div>
             {/* <AIAssistant /> */}
+            <ExpandBot />
         </>
     );
 }

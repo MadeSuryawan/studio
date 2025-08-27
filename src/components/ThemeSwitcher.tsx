@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Laptop2 } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ export function ThemeSwitcher(): React.JSX.Element {
                 >
                     <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-[1.3] md:scale-[1.4] transition-all dark:-rotate-90 dark:scale-0" />
                     <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-[1.1] md:dark:scale-[1.3]" />
+                    {/* <Laptop2 className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-[1.1] md:dark:scale-[1.3]" /> */}
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>

@@ -29,6 +29,23 @@ export default function ExpandBot(): React.JSX.Element {
     const { toast } = useToast();
     const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+    // Message styling configurations
+    const messageStyles = {
+        user: {
+            container: "flex items-start gap-3 rounded-md p-2 justify-end",
+            bubble: "p-3 rounded-lg max-w-[80%] bg-primary text-primary-foreground",
+            avatar: "w-8 h-8 ml-1",
+            avatarFallback: "bg-accent text-accent-foreground",
+        },
+        assistant: {
+            container:
+                "flex items-start gap-3 rounded-md p-2 justify-start bg-black/20",
+            bubble: "p-3 rounded-lg max-w-[80%] bg-muted",
+            avatar: "w-8 h-8 mr-1",
+            avatarFallback: "bg-primary text-primary-foreground",
+        },
+    };
+
     useEffect(() => {
         // Auto scroll to bottom when new messages are added
         if (scrollAreaRef.current) {
@@ -71,20 +88,12 @@ export default function ExpandBot(): React.JSX.Element {
         }
     };
 
-    const headerContent = (
-        <div className="flex flex-col items-center justify-center text-black dark:text-white font-medium">
-            {/* Leave it empty so not raises error, For easier to animate the icon in epandable-dock */}
-            {/* <BotMessageSquare className="scale-[2] sm:scale-[2.5] text-primary" /> */}
-            {/* <span>Chat with us</span> */}
-        </div>
-    );
-
     const chatContent = (
         <div className="flex flex-col h-full w-full">
             {/* Chat Header */}
-            <div className="flex items-center gap-2 pb-3 border-b border-gray-200 dark:border-gray-700 pl-2 pt-2">
+            <div className="flex flex-row justify-center items-center gap-2 py-2 border-b border-gray-200 dark:border-gray-700">
                 <Bot className="text-primary h-5 w-5" />
-                <span className="font-medium text-black dark:text-white">
+                <span className="font-medium text-special-card-fg">
                     AI Travel Assistant
                 </span>
             </div>
@@ -92,43 +101,41 @@ export default function ExpandBot(): React.JSX.Element {
             {/* Messages Area */}
             <div className="flex-1 min-h-0 overflow-hidden pb-16">
                 <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
-                    <div className="space-y-4 pr-2">
-                        {messages.map((message, index) => (
-                            <div
-                                key={index}
-                                className={cn(
-                                    "flex items-start gap-3",
-                                    message.role === "user"
-                                        ? "justify-end"
-                                        : "justify-start",
-                                )}
-                            >
-                                {message.role === "assistant" && (
-                                    <Avatar className="w-8 h-8 mr-1">
-                                        <AvatarFallback className="bg-primary text-primary-foreground">
-                                            <Bot className="w-5 h-5" />
-                                        </AvatarFallback>
-                                    </Avatar>
-                                )}
-                                <div
-                                    className={cn(
-                                        "p-3 rounded-lg max-w-[80%]",
-                                        message.role === "user"
-                                            ? "bg-primary text-primary-foreground"
-                                            : "bg-muted",
+                    <div className="space-y-1 pr-2">
+                        {messages.map((message, index) => {
+                            const styles = messageStyles[message.role];
+                            return (
+                                <div key={index} className={styles.container}>
+                                    {message.role === "assistant" && (
+                                        <Avatar className={styles.avatar}>
+                                            <AvatarFallback
+                                                className={
+                                                    styles.avatarFallback
+                                                }
+                                            >
+                                                <Bot className="w-5 h-5" />
+                                            </AvatarFallback>
+                                        </Avatar>
                                     )}
-                                >
-                                    <p className="text-sm">{message.content}</p>
+                                    <div className={styles.bubble}>
+                                        <p className="text-sm">
+                                            {message.content}
+                                        </p>
+                                    </div>
+                                    {message.role === "user" && (
+                                        <Avatar className={styles.avatar}>
+                                            <AvatarFallback
+                                                className={
+                                                    styles.avatarFallback
+                                                }
+                                            >
+                                                <User className="w-5 h-5" />
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    )}
                                 </div>
-                                {message.role === "user" && (
-                                    <Avatar className="w-8 h-8 ml-1">
-                                        <AvatarFallback className="bg-accent text-accent-foreground">
-                                            <User className="w-5 h-5" />
-                                        </AvatarFallback>
-                                    </Avatar>
-                                )}
-                            </div>
-                        ))}
+                            );
+                        })}
                         {isLoading && (
                             <div className="flex items-start gap-3 justify-start">
                                 <Avatar className="w-8 h-8">
@@ -146,7 +153,7 @@ export default function ExpandBot(): React.JSX.Element {
             </div>
 
             {/* Input Area */}
-            <div className="pt-3 border-t border-gray-200 dark:border-gray-700 flex-shrink-0 bottom-0 left-0 right-0 absolute mb-16 md:mb-20 px-2">
+            <div className="border-t border-gray-200 dark:border-gray-700 flex-shrink-0 bottom-0 left-0 right-0 absolute py-3 px-2">
                 <form
                     onSubmit={handleSubmit}
                     className="flex w-full items-center space-x-2"
@@ -170,12 +177,5 @@ export default function ExpandBot(): React.JSX.Element {
         </div>
     );
 
-    return (
-        <ExpandableDock
-            headerContent={headerContent}
-            className="bg-white dark:bg-black"
-        >
-            {chatContent}
-        </ExpandableDock>
-    );
+    return <ExpandableDock>{chatContent}</ExpandableDock>;
 }

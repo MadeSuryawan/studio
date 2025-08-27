@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
-import ExpandBot from "@/components/ExpandBot";
 import { ScrollProvider } from "@/context/ScrollContext";
 
 export const metadata: Metadata = {
@@ -162,7 +161,6 @@ export default function RootLayout({
                             <Footer />
                         </div>
                         <FloatingButtons />
-                        <ExpandBot />
                         <Toaster />
                     </ThemeProvider>
                 </ScrollProvider>

@@ -367,8 +367,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                 <div className="absolute w-full max-w-7xl mx-auto h-12 md:h-16 flex items-center justify-between px-3 lg:px-8">
                     {/* LogoIcon */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        className="flex items-center justify-center z-10 flex-shrink-0 backdrop-blur-md"
+                        initial={{ opacity: 0, x: -20 }}
+                        className="flex items-center justify-center z-10 flex-shrink-0"
                         animate={emblemMotion}
                     >
                         {emblem}
@@ -426,7 +426,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
                     {/* Right Component */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={switchMotion}
                         className="rounded-[8px] p-2 lg:p-3 z-10 flex-shrink-0 flex items-center gap-2 lg:gap-3"
                     >
