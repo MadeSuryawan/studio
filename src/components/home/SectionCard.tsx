@@ -82,17 +82,23 @@ export const ButtonFunc = ({
     bottonClass,
     text,
     link,
+    ariaLbael,
     arrow = true,
+    onClick,
 }: {
+    text: string;
     bottonClass?: string;
-    text?: string;
     link?: string;
+    ariaLbael?: string;
     arrow?: boolean;
+    onClick?: () => void;
 }) => (
     <Button
         asChild
         variant="outline"
         className={`bg-bg-alternate text-special-card-fg border-accent text-center ${bottonClass}`}
+        onClick={onClick}
+        aria-label={ariaLbael}
     >
         <Link href={link || "#"}>
             {text}

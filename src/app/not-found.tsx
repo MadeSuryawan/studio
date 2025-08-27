@@ -1,10 +1,17 @@
+// src/app/not-found.tsx
 "use client";
 
-import { useRef, useEffect, useState, MouseEvent } from "react";
+import React, {
+    useRef,
+    useEffect,
+    useCallback,
+    MouseEvent,
+    useState,
+} from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useTheme } from "next-themes"; // ✅ useTheme hook for theme detection
 import { Particles } from "@/components/ui/particles";
-import { Button } from "@/components/ui/button";
+import { ButtonFunc } from "@/components/home/SectionCard";
 
 interface NotFoundProps {
     particleCount?: number;
@@ -29,64 +36,65 @@ export default function NotFound({
     className = "custom-shadow",
     onButtonClick,
 }: NotFoundProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const imageRef = useRef<HTMLDivElement>(null);
-    const [isDark, setIsDark] = useState(
-        () =>
-            typeof document !== "undefined" &&
-            document.documentElement.classList.contains("dark"),
-    );
-
-    useEffect(() => {
-        const observer = () => {
-            const html = document.documentElement;
-            setIsDark(html.classList.contains("dark"));
-        };
-
-        observer();
-
-        const mutationObserver = new MutationObserver(observer);
-        mutationObserver.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ["class"],
-        });
-
-        return () => mutationObserver.disconnect();
-    }, []);
-
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const imageRef = useRef<HTMLDivElement | null>(null);
     const rafRef = useRef<number | null>(null);
 
+    const { theme } = useTheme();
+    const isDark = theme === "dark";
+
+    // ✅ Detect reduced motion preference
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
     useEffect(() => {
-        return () => {
-            if (rafRef.current) {
-                cancelAnimationFrame(rafRef.current);
-                rafRef.current = null;
-            }
+        const mediaQuery = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        );
+        setPrefersReducedMotion(mediaQuery.matches);
+
+        const handler = (event: MediaQueryListEvent) => {
+            setPrefersReducedMotion(event.matches);
         };
+
+        mediaQuery.addEventListener("change", handler);
+        return () => mediaQuery.removeEventListener("change", handler);
     }, []);
 
-    const handleMouseMove = (e: MouseEvent) => {
-        if (rafRef.current) return;
-        const { clientX, clientY } = e;
-        rafRef.current = requestAnimationFrame(() => {
-            rafRef.current = null;
-            const container = containerRef.current;
-            const image = imageRef.current;
-            if (!container || !image) return;
+    /**
+     * Handle mouse movement for tilt effect
+     * Skips effect if user prefers reduced motion
+     */
+    const handleMouseMove = useCallback(
+        (e: MouseEvent) => {
+            if (prefersReducedMotion) return; // ✅ disable tilt if reduced motion
+            if (rafRef.current) return;
 
-            const { left, top, width, height } =
-                container.getBoundingClientRect();
-            const x = clientX - left;
-            const y = clientY - top;
+            const { clientX, clientY } = e;
 
-            const rotateX = ((y - height / 2) / height) * -10;
-            const rotateY = ((x - width / 2) / width) * 10;
+            rafRef.current = requestAnimationFrame(() => {
+                rafRef.current = null;
+                const container = containerRef.current;
+                const image = imageRef.current;
+                if (!container || !image) return;
 
-            image.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-    };
+                const { left, top, width, height } =
+                    container.getBoundingClientRect();
+                const x = clientX - left;
+                const y = clientY - top;
 
-    const handleMouseLeave = () => {
+                const rotateX = ((y - height / 2) / height) * -10;
+                const rotateY = ((x - width / 2) / width) * 10;
+
+                image.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+        },
+        [prefersReducedMotion],
+    );
+
+    /**
+     * Reset tilt effect when mouse leaves the container
+     */
+    const handleMouseLeave = useCallback(() => {
         if (rafRef.current) {
             cancelAnimationFrame(rafRef.current);
             rafRef.current = null;
@@ -94,61 +102,72 @@ export default function NotFound({
         if (imageRef.current) {
             imageRef.current.style.transform = "rotateX(0deg) rotateY(0deg)";
         }
-    };
+    }, []);
+
+    // ✅ Cleanup animation frame on unmount
+    useEffect(() => {
+        return () => {
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+            }
+        };
+    }, []);
 
     return (
-        <div
+        <main
             ref={containerRef}
+            role="main"
+            aria-label="Page not found"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className={`relative h-[24rem] md:h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-black ${className || ""}`}
+            className={`relative h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-black ${className || ""}`}
             style={{ perspective: "1000px" }}
         >
+            {/* Particle background */}
             <Particles
-                color={isDark ? "#ffffff" : "#000000"}
+                color={isDark ? "#ffffff" : "#a91313"}
                 particleCount={Math.min(particleCount, 2000)}
                 particleSize={particleSize}
-                animate={animate}
+                animate={animate && !prefersReducedMotion} // ✅ disable animation if reduced motion
                 className="absolute inset-0 z-0"
+                aria-hidden="true"
             />
 
+            {/* 404 Image with tilt effect */}
             <div
                 ref={imageRef}
                 className="absolute inset-0 w-full h-full transition-transform duration-300 ease-out will-change-transform pointer-events-none z-10"
             >
                 <Image
                     src={imageLight}
-                    alt="404 Light"
+                    alt="404 not found illustration (light mode)"
                     fill
+                    loading="eager"
                     className="object-contain dark:hidden"
-                    priority={!isDark}
-                    sizes="100vw"
+                    priority={true}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <Image
                     src={imageDark}
-                    alt="404 Dark"
+                    alt="404 not found illustration (dark mode)"
                     fill
+                    loading="eager"
                     className="object-contain hidden dark:block"
-                    priority={isDark}
-                    sizes="100vw"
+                    priority={true}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
             </div>
 
-            <Particles
-                color={isDark ? "#ffffff" : "#000000"}
-                particleCount={Math.min(particleCount, 2000)}
-                particleSize={particleSize}
-                animate={animate}
-                className="absolute inset-0 z-20 pointer-events-none"
-            />
-
-            <div className="relative z-30 mt-16 md:mt-0">
-                <Button asChild variant="default">
-                    <Link href={buttonHref} onClick={onButtonClick}>
-                        {buttonText}
-                    </Link>
-                </Button>
+            {/* Back to home button */}
+            <div className="absolute z-30 mt-16 md:mt-0 bottom-24 sm:bottom-16 md:bottom-44">
+                <ButtonFunc
+                    bottonClass="md:scale-[1.5] md:hover:scale-[1.75]"
+                    text={buttonText}
+                    link={buttonHref}
+                    arrow={false}
+                    onClick={onButtonClick}
+                />
             </div>
-        </div>
+        </main>
     );
 }
