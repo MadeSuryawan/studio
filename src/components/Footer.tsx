@@ -3,6 +3,7 @@ import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import LogoIcon from "@/components/icons/LogoIcon";
+import { scrollToTop } from "./ScrollToTopButton";
 
 const SocialLink = ({
     href,
@@ -26,7 +27,7 @@ const imageUrl = "/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp";
 export default function Footer(): JSX.Element {
     return (
         <footer
-            className="bg-[#212224] px-4 md:px-6 py-3 md:py-8"
+            className="bg-[#212224] md:px-4 py-3 md:py-8"
             style={{
                 backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url(${imageUrl})`,
                 backgroundSize: "cover",
@@ -38,12 +39,14 @@ export default function Footer(): JSX.Element {
             <div className="flex flex-col justify-start items-center content-start">
                 {/* Top */}
                 <div className="w-full h-full self-center">
-                    <div className="grid grid-row md:grid-cols-4">
+                    <div className="container grid grid-row md:grid-cols-4">
                         {/* Company Info */}
                         <div className="grid grid-rows-2 mb-4 md:mb-0 md:col-span-3 md:gap-4">
-                            <Link href="/">
-                                <LogoIcon className="relative h-full w-[96px] md:w-[150px] left-1/2 -translate-x-1/2 eft-0 md:left-0 md:translate-x-0" />
-                            </Link>
+                            <LogoIcon
+                                role="button"
+                                onClick={scrollToTop}
+                                className="relative h-full w-[96px] md:w-[150px] left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0"
+                            />
                             <p className="max-w-sm text-sm pb-4 text-center md:text-left md:max-w-md">
                                 Crafting personalized and unforgettable travel
                                 experiences on the Island of the Gods. Let us
@@ -140,7 +143,7 @@ export default function Footer(): JSX.Element {
                 {/* Bottom */}
                 <div className="w-full h-full self-center">
                     <div className="pt-4 md:pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-                        <p className="text-sm text-center md:text-left mb-2 md:mb-0 md:pl-16">
+                        <p className="text-sm text-center md:text-left mb-2 md:mb-0 md:pl-20">
                             &copy; {new Date().getFullYear()} BaliBlissed. All
                             rights reserved.
                         </p>

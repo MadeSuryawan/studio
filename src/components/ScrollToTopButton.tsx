@@ -4,22 +4,21 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronUp } from "lucide-react";
 
+export const scrollToTop = (): void => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+    });
+};
 export default function ScrollToTopButton(): React.JSX.Element | null {
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = (): void => {
-        if (window.scrollY > 300) {
+        if (window.scrollY > 500) {
             setIsVisible(true);
         } else {
             setIsVisible(false);
         }
-    };
-
-    const scrollToTop = (): void => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
     };
 
     useEffect(() => {

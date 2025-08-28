@@ -65,6 +65,7 @@ const SectionCard = forwardRef<HTMLDivElement, GenericCardProps>(
                                 text={buttonText}
                                 arrow={false}
                                 link={buttonLink || "#"}
+                                ariaLabel={`${buttonText} ${data.title}`}
                             />
                         </div>
                     </div>
@@ -82,14 +83,14 @@ export const ButtonFunc = ({
     bottonClass,
     text,
     link,
-    ariaLbael,
+    ariaLabel,
     arrow = true,
     onClick,
 }: {
     text: string;
     bottonClass?: string;
     link?: string;
-    ariaLbael?: string;
+    ariaLabel?: string;
     arrow?: boolean;
     onClick?: () => void;
 }) => (
@@ -98,7 +99,7 @@ export const ButtonFunc = ({
         variant="outline"
         className={`bg-bg-alternate text-special-card-fg border-accent text-center ${bottonClass}`}
         onClick={onClick}
-        aria-label={ariaLbael}
+        aria-label={ariaLabel}
     >
         <Link href={link || "#"}>
             {text}

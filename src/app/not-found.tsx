@@ -166,6 +166,7 @@ export default function NotFound({
                     link={buttonHref}
                     arrow={false}
                     onClick={onButtonClick}
+                    ariaLabel="Back to home"
                 />
             </div>
         </main>

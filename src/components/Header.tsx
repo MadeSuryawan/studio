@@ -19,6 +19,7 @@ import NavbarFlow, {
     FeatureItem,
     HoverLink,
 } from "@/components/ui/navbar-flow";
+import { scrollToTop } from "./ScrollToTopButton";
 
 const Header1 = (): JSX.Element => {
     const [isMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -227,15 +228,15 @@ const Header = (): JSX.Element => {
         <NavbarFlow
             styleName="bg-gradient-to-b from-bg-alternate/70 from-10% to-transparent text-foreground/80 h-12 md:h-16"
             emblem={
-                <Link
-                    href="/"
-                    className="flex items-center justify-center"
-                    prefetch={false}
-                    aria-label="BaliBlissed Home Page"
-                >
-                    <LogoIcon className="mt-3 md:mt-5 h-full w-[96px] md:w-[110px]" />
+                <>
+                    <LogoIcon
+                        role="button"
+                        className="mt-3 md:mt-5 h-full w-[96px] md:w-[110px]"
+                        aria-label="BaliBlissed Home Page"
+                        onClick={scrollToTop}
+                    />
                     <span className="sr-only">BaliBlissed Home Page</span>
-                </Link>
+                </>
             }
             links={navLinks}
             rightComponent={

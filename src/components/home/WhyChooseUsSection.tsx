@@ -64,12 +64,12 @@ export default function WhyChooseUsSection(): React.JSX.Element {
 
                             <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
                                 <CardTitle
-                                    className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-light
+                                    className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-relaxed
                                 text-special-card-fg"
                                 >
                                     {benefit.title}
                                 </CardTitle>
-                                <p className="text-muted-foreground text-xs md:text-sm leading-light -mt-1 md:mt-0">
+                                <p className="text-muted-foreground text-xs md:text-sm leading-relaxed -mt-1 md:mt-0">
                                     {benefit.description}
                                 </p>
                             </CardContent>

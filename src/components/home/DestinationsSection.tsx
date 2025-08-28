@@ -1,23 +1,14 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardTitle,
-    CardDescription,
-    CardHeader,
-} from "@/components/ui/card";
-import { ArrowRight, MapPin } from "lucide-react";
-import Gradient from "./Gradient";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import { ButtonFunc } from "./SectionCard";
 
 type Destination = {
     name: string;
@@ -74,29 +65,6 @@ const Texts = () => (
     </div>
 );
 
-const ButtonFunc = ({
-    className,
-    buttonText,
-    link,
-    arrow = true,
-}: {
-    className?: string;
-    buttonText?: string;
-    link?: string;
-    arrow?: boolean;
-}) => (
-    <Button
-        asChild
-        variant="outline"
-        className={`bg-bg-alternate text-special-card-fg border-accent text-center ${className}`}
-    >
-        <Link href={link || "#"}>
-            {buttonText || "View All Destinations"}
-            {arrow && <ArrowRight className="h-4 w-4" />}
-        </Link>
-    </Button>
-);
-
 const DestinationCard = ({ dest }: { dest: Destination }) => (
     <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl  hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card text-special-card-fg">
         <div className="p-1">
@@ -110,19 +78,20 @@ const DestinationCard = ({ dest }: { dest: Destination }) => (
                 data-ai-hint={dest.hint}
             />
         </div>
-        <CardContent className="lex flex-col p-3 justify-between flex-grow">
+        <CardContent className="relative flex flex-col p-3 justify-between flex-grow">
             <CardTitle className="text-xl leading-relaxed font-bold overflow-hidden text-ellipsis text-nowrap">
                 {dest.name}
             </CardTitle>
             <p className="my-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
                 {dest.description}
             </p>
-            <div className="flex justify-end mt-auto">
+            <div className="relative bottom-0 right-0 ml-auto mt-auto">
                 <ButtonFunc
-                    className="bg-background border-none"
-                    buttonText="View Details"
+                    bottonClass="bg-background border-none"
+                    text="View Details"
                     arrow={false}
                     link={dest.link}
+                    ariaLabel={`View details for ${dest.name}`}
                 ></ButtonFunc>
             </div>
         </CardContent>
@@ -143,7 +112,10 @@ export default function DestinationsSection(): React.JSX.Element {
                     ))}
                 </div>
                 <div className="flex justify-end mt-auto">
-                    <ButtonFunc />
+                    <ButtonFunc
+                        text="View All Destinations"
+                        ariaLabel="View all destinations"
+                    />
                 </div>
             </div>
             {/* Mobile view */}
@@ -158,7 +130,11 @@ export default function DestinationsSection(): React.JSX.Element {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <ButtonFunc className="relative left-1/2 -translate-x-1/2 mt-8" />
+                <ButtonFunc
+                    text="View All Destinations"
+                    bottonClass="relative left-1/2 -translate-x-1/2 mt-8"
+                    ariaLabel="View all destinations"
+                />
             </Carousel>
         </section>
     );

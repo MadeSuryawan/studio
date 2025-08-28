@@ -356,6 +356,8 @@ export default function InteractiveMapSection(): React.JSX.Element {
                 <ButtonFunc
                     bottonClass="mt-6 relative mx-auto"
                     text="Explore All Destinations"
+                    link="#destinations"
+                    ariaLabel="Explore all destinations"
                 />
             </div>
         </section>
