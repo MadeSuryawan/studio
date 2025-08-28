@@ -170,7 +170,7 @@ const ExpandableDock = ({
         const collapsedW = isMobile ? "min(94vw, 54px)" : "min(90vw, 64px)";
         const collapsedH = isMobile ? "54px" : "64px";
         const expandedW = isMobile ? "min(96vw, 300px)" : "min(90vw, 500px)";
-        const expandedH = isMobile ? "min(75vh, 500px)" : "min(80vh, 600px)";
+        const expandedH = isMobile ? "min(75vh, 554px)" : "min(80vh, 664px)";
         const marginLeft = "ml-[9px]";
         const marginBottom = "mb-[9px]";
         return {
@@ -206,11 +206,12 @@ const ExpandableDock = ({
                   ? "hsla(60, 2%, 10%, .5)"
                   : "hsla(60, 2%, 10%, .5)",
             backdropFilter: isCollapsed ? "blur(0px)" : "blur(5px)",
-            translateY: isCollapsed ? "64px" : "0px",
+            // translateY: isCollapsed ? "64px" : "0px",
             opacity: isCollapsed
                 ? 0
                 : animationStage === "heightCollapsing" ||
-                    animationStage === "widthCollapsing"
+                    animationStage === "widthCollapsing" ||
+                    animationStage === "widthExpanding"
                   ? 0
                   : 1,
         }),
@@ -233,7 +234,7 @@ const ExpandableDock = ({
 
     return (
         <div
-            className="fixed bottom-3.5 left-4 z-50 w-auto rounded-[12px]"
+            className="fixed bottom-6 md:bottom-4 left-4 z-50 w-[52px] md:w-[64px] translate-y-[64px]"
             role="complementary"
             aria-label="Expandable dock widget"
         >
@@ -256,14 +257,14 @@ const ExpandableDock = ({
                 aria-label={toggleAriaLabel}
                 aria-controls="expandable-dock-content"
                 variant="ghost"
-                className="relative w-auto h-[54px] md:h-[64px] pl-12 rounded-[12px] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 translate-y-[64px]"
+                className="relative w-full h-[52px] md:h-[64px] rounded-xl focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0"
                 style={{
-                    backgroundColor: isExpanded ? "#063842" : "#ee812e",
-                    marginBottom: isCollapsed ? "0px" : "66px",
+                    backgroundColor: isExpanded ? "#063842" : "#ee812eff",
+                    // marginBottom: isCollapsed ? "0px" : "1px",
                     transition: "all .5s ease-out",
                 }}
             >
-                <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 md:ml-1">
+                <div className="pointer-events-none">
                     <AnimatePresence mode="wait" initial={false}>
                         {isExpanded ? (
                             <motion.span
@@ -326,7 +327,7 @@ const ExpandableDock = ({
                 animate={animationProps}
                 transition={MOTION_VARIANTS.container}
                 className={cn(
-                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-[12px] transition-all duration-500 ease-out pointer-events-visiblePainted",
+                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
                     className,
                 )}
             >

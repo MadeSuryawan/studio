@@ -153,7 +153,7 @@ export default function ExpandBot(): React.JSX.Element {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-gray-200 dark:border-gray-700 flex-shrink-0 bottom-0 left-0 right-0 absolute py-3 px-2">
+            <div className="border-y border-gray-200 dark:border-gray-700 flex-shrink-0 bottom-12 md:bottom-16 left-0 right-0 absolute py-3 px-2">
                 <form
                     onSubmit={handleSubmit}
                     className="flex w-full items-center space-x-2"
