@@ -9,7 +9,7 @@ import {
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { ButtonFunc } from "./SectionCard";
+import { SectionCard, CardData, ButtonFunc } from "./SectionCard";
 
 const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -52,19 +52,9 @@ const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-type Package = {
-    title: string;
-    features: {
-        icon: React.ReactNode;
-        text: string;
-    }[];
-    image: string;
-    hint: string;
-};
-
-const packages: Package[] = [
+const packages: CardData[] = [
     {
-        title: "Cultural Heartbeat of Ubud",
+        name: "Cultural Heartbeat of Ubud",
         features: [
             {
                 icon: <TempleIcon className="w-5 h-5 text-accent" />,
@@ -86,10 +76,11 @@ const packages: Package[] = [
             },
         ],
         image: "https://placehold.co/600x400.png",
-        hint: "bali temple",
+        aiHint: "bali temple",
+        link: "#",
     },
     {
-        title: "Coastal Vibe & Surf",
+        name: "Coastal Vibe & Surf",
         features: [
             {
                 icon: (
@@ -119,10 +110,11 @@ const packages: Package[] = [
             },
         ],
         image: "https://placehold.co/600x400.png",
-        hint: "bali beach",
+        aiHint: "bali beach",
+        link: "#",
     },
     {
-        title: "Luxury & Relaxation",
+        name: "Luxury & Relaxation",
         features: [
             {
                 icon: <BedDouble className="w-5 h-5 text-accent" />,
@@ -138,10 +130,11 @@ const packages: Package[] = [
             },
         ],
         image: "https://placehold.co/600x400.png",
-        hint: "bali spa",
+        aiHint: "bali spa",
+        link: "#",
     },
     {
-        title: "The Ultimate Bali Adventure",
+        name: "The Ultimate Bali Adventure",
         features: [
             {
                 icon: <Plane className="w-5 h-5 text-accent" />,
@@ -157,11 +150,12 @@ const packages: Package[] = [
             },
         ],
         image: "https://placehold.co/600x400.png",
-        hint: "bali volcano",
+        aiHint: "bali volcano",
+        link: "#",
     },
 ];
 
-const Texts: React.FC = () => (
+const Titles: React.FC = () => (
     <div>
         <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
             Curated Travel Packages
@@ -172,43 +166,50 @@ const Texts: React.FC = () => (
     </div>
 );
 
-const PackageCard = ({ pkg }: { pkg: Package }) => (
-    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform  transition-all duration-500 ease-in-out bg-card">
+const PackageCard = ({ pkg }: { pkg: CardData }) => (
+    <Card className="flex flex-col md:flex-row shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform transition-all duration-300 ease-in-out bg-card">
         <div className="py-1 px-1 md:pr-0 w-full md:w-1/2">
             <Image
                 src={pkg.image}
-                alt={pkg.title}
+                alt={pkg.name}
                 width={600}
                 height={400}
-                className="w-full h-48 md:h-full object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
+                className="w-full h-48 object-cover md:h-full md:rounded-l-md md:rounded-r-none"
                 sizes="(max-width: 768px) 100vw, 33vw"
-                data-ai-hint={pkg.hint}
+                data-ai-hint={pkg.aiHint}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
             />
         </div>
         <CardContent className="flex flex-col p-3 justify-between flex-grow">
             <div>
-                <CardTitle className="text-special-card-fg text-xl font-bold leading-relaxed">
-                    {pkg.title}
+                <CardTitle className="text-special-card-fg text-xl font-bold leading-relaxed line-clamp-1">
+                    {pkg.name}
                 </CardTitle>
-                <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
-                    {pkg.features.map((feature) => (
-                        <li
-                            key={feature.text}
-                            className="flex items-center gap-3"
-                        >
-                            {feature.icon}
-                            <span>{feature.text}</span>
-                        </li>
-                    ))}
-                </ul>
+                {pkg.features && (
+                    <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
+                        {pkg.features.map((feature) => (
+                            <li
+                                key={feature.text}
+                                className="flex items-center gap-3"
+                            >
+                                {feature.icon}
+                                <span className="line-clamp-1">
+                                    {feature.text}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
             <div className="relative bottom-0 right-0 ml-auto mt-auto">
                 <ButtonFunc
-                    bottonClass="bg-background border-none"
+                    className="bg-background border-none"
                     text="View Details"
-                    link={`/#contact?${new URLSearchParams({ message: `I'd like more details about the "${pkg.title}" package.` }).toString()}`}
+                    link={`/#contact?${new URLSearchParams({ message: `I'd like more details about the "${pkg.name}" package.` }).toString()}`}
                     arrow={false}
-                    ariaLabel={`View details for ${pkg.title}`}
+                    ariaLabel={`View details for ${pkg.name}`}
                 />
             </div>
         </CardContent>
@@ -216,17 +217,27 @@ const PackageCard = ({ pkg }: { pkg: Package }) => (
 );
 
 export default function PackagesSection(): React.JSX.Element {
+    const cardRef = React.useRef<HTMLDivElement>(null);
     return (
         <section id="packages" className="relative w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
                 {/* Desktop view */}
                 <div className="hidden md:block">
                     <div className="flex justify-between items-center mb-12">
-                        <Texts />
+                        <Titles />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-3 mb-12">
                         {packages.map((pkg) => (
-                            <PackageCard key={pkg.title} pkg={pkg} />
+                            // <PackageCard key={pkg.name} pkg={pkg} />
+                            <SectionCard
+                                ref={cardRef}
+                                key={pkg.name}
+                                data={pkg}
+                                buttonText="View Details"
+                                buttonLink={pkg.link}
+                                packageCard={true}
+                                className="md:flex-row "
+                            />
                         ))}
                     </div>
                     <div className="flex justify-end mt-auto">
@@ -240,18 +251,26 @@ export default function PackagesSection(): React.JSX.Element {
                 {/* Mobile view */}
                 <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
                     <div className="text-center py-4">
-                        <Texts />
+                        <Titles />
                     </div>
                     <CarouselContent paginationMt="mt-32">
                         {packages.map((pkg) => (
-                            <CarouselItem key={pkg.title}>
-                                <PackageCard pkg={pkg} />
+                            <CarouselItem key={pkg.name}>
+                                {/* <PackageCard pkg={pkg} /> */}
+                                <SectionCard
+                                    key={pkg.name}
+                                    ref={cardRef}
+                                    data={pkg}
+                                    buttonText="View Details"
+                                    buttonLink={pkg.link}
+                                    packageCard={true}
+                                />
                             </CarouselItem>
                         ))}
                     </CarouselContent>
                     <ButtonFunc
                         text="View All Packages"
-                        bottonClass="relative left-1/2 -translate-x-1/2 mt-8"
+                        className="relative left-1/2 -translate-x-1/2 mt-8"
                         ariaLabel="View all packages"
                     />
                 </Carousel>

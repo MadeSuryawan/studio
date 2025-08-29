@@ -161,7 +161,7 @@ export default function NotFound({
             {/* Back to home button */}
             <div className="absolute z-30 mt-16 md:mt-0 bottom-24 sm:bottom-16 md:bottom-44">
                 <ButtonFunc
-                    bottonClass="md:scale-[1.5] md:hover:scale-[1.75]"
+                    className="md:scale-[1.5] md:hover:scale-[1.75]"
                     text={buttonText}
                     link={buttonHref}
                     arrow={false}
