@@ -42,11 +42,19 @@ export default function Footer(): JSX.Element {
                     <div className="container grid grid-row md:grid-cols-4">
                         {/* Company Info */}
                         <div className="grid grid-rows-2 mb-4 md:mb-0 md:col-span-3 md:gap-4">
-                            <LogoIcon
-                                role="button"
-                                onClick={scrollToTop}
-                                className="relative h-full w-[96px] md:w-[150px] left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0"
-                            />
+                            <div className="flex flex-row items-start justify-between md:justify-start h-auto gap-12">
+                                <LogoIcon
+                                    role="button"
+                                    onClick={scrollToTop}
+                                    className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
+                                />
+                                <span
+                                    className="text-baliBanat text-4xl md:text-5xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out"
+                                    aria-label="Thank You"
+                                >
+                                    ᬫᬵᬢᬸᬃᬲᬸᬓ᭄ᬱ᭄ᬫ
+                                </span>
+                            </div>
                             <p className="max-w-sm text-sm pb-4 text-center md:text-left md:max-w-md">
                                 Crafting personalized and unforgettable travel
                                 experiences on the Island of the Gods. Let us

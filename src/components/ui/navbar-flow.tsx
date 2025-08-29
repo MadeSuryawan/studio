@@ -7,6 +7,7 @@ import {
     ChevronDown as ArrowDown,
     ChevronUp as ArrowUp,
 } from "lucide-react";
+import NavBarText from "@/components/icons/NavBarFlowText";
 
 interface NavLink {
     text: string;
@@ -381,14 +382,26 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             opacity: 0,
                         }}
                         animate={navMotion}
-                        className="bg-background px-[20px] py-[10px] rounded-[8px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 overflow-hidden"
+                        className="relative bg-background px-[20px] py-[10px] rounded-[8px] flex items-center justify-center gap-6 lg:gap-12 z-10 flex-shrink-0 mt-4 overflow-hidden"
                         style={{ willChange: "clip-path" }}
                         role="navigation"
                         aria-label="Primary"
                         onMouseLeave={clearSelectedSubmenu}
                     >
+                        <div className="absolute hidden w-full h-full md:block backdrop-blur-[4px] z-10"></div>
+                        <div className="absolute hidden md:block text-center">
+                            <NavBarText
+                                className="anchor-left w-[39rem] h-12 translate-x-[1px] -translate-y-[1px]"
+                                style={{
+                                    filter: "saturate(70%) hue-rotate(90deg) brightness(.8)",
+                                    willChange: "opacity",
+                                    transition: "opacity 0.5s ease-out",
+                                    opacity: sequenceDone ? 1 : 0,
+                                }}
+                            />
+                        </div>
                         {links.map((element, idx) => (
-                            <div key={element.text}>
+                            <div key={element.text} className="z-10">
                                 {element.submenu ? (
                                     <ListItem
                                         setSelected={setSelectedSubmenu}

@@ -261,6 +261,7 @@ const ExpandableDock = ({
                 style={{
                     backgroundColor: isExpanded ? "#063842" : "#ee812eff",
                     // marginBottom: isCollapsed ? "0px" : "1px",
+                    willChange: "transform, opacity",
                     transition: "all .5s ease-out",
                 }}
             >
