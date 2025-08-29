@@ -22,7 +22,7 @@ const config = {
                 body: ["var(--font-pt-sans)", "sans-serif"],
                 headline: ["var(--font-pt-sans)", "sans-serif"],
                 code: ["monospace"],
-                baliBanat: ["var(--font-bali-banat)"],
+                balibanat: ["var(--font-bali-banat)"],
                 mangusastra: ["var(--font-mangusastra)"],
             },
             colors: {

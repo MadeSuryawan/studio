@@ -1,26 +1,20 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import {
-    Waves,
-    Utensils,
-    Users,
-    BedDouble,
-    Plane,
-    ArrowRight,
-} from "lucide-react";
+import { Waves, Utensils, Users, BedDouble, Plane } from "lucide-react";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import { ButtonFunc } from "./SectionCard";
 
 const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
+        aria-hidden="true"
+        focusable="false"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -38,6 +32,8 @@ const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
+        aria-hidden="true"
+        focusable="false"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -79,7 +75,13 @@ const packages: Package[] = [
                 text: "Traditional Dance Show",
             },
             {
-                icon: <Utensils className="w-5 h-5 text-accent" />,
+                icon: (
+                    <Utensils
+                        aria-hidden="true"
+                        focusable="false"
+                        className="w-5 h-5 text-accent"
+                    />
+                ),
                 text: "Cooking Class",
             },
         ],
@@ -90,15 +92,29 @@ const packages: Package[] = [
         title: "Coastal Vibe & Surf",
         features: [
             {
-                icon: <Waves className="w-5 h-5 text-accent" />,
+                icon: (
+                    <Waves aria-hidden="true" className="w-5 h-5 text-accent" />
+                ),
                 text: "Surf Lessons",
             },
             {
-                icon: <BedDouble className="w-5 h-5 text-accent" />,
+                icon: (
+                    <BedDouble
+                        aria-hidden="true"
+                        focusable="false"
+                        className="w-5 h-5 text-accent"
+                    />
+                ),
                 text: "Beachfront Villa",
             },
             {
-                icon: <Users className="w-5 h-5 text-accent" />,
+                icon: (
+                    <Users
+                        aria-hidden="true"
+                        focusable="false"
+                        className="w-5 h-5 text-accent"
+                    />
+                ),
                 text: "Yoga Sessions",
             },
         ],
@@ -145,7 +161,7 @@ const packages: Package[] = [
     },
 ];
 
-const Texts = () => (
+const Texts: React.FC = () => (
     <div>
         <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
             Curated Travel Packages
@@ -156,45 +172,22 @@ const Texts = () => (
     </div>
 );
 
-const ButtonFunc = ({
-    className,
-    buttonText,
-    link,
-    arrow = true,
-}: {
-    className?: string;
-    buttonText?: string;
-    link?: string;
-    arrow?: boolean;
-}) => (
-    <Button
-        asChild
-        variant="outline"
-        className={`bg-bg-alternate text-special-card-fg border-accent text-center ${className}`}
-    >
-        <Link href={link || "#"}>
-            {buttonText || "View All Packages"}
-            {arrow && <ArrowRight className="h-4 w-4" />}
-        </Link>
-    </Button>
-);
-
 const PackageCard = ({ pkg }: { pkg: Package }) => (
-    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl tracking-normal hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card text-special-card-fg">
-        <div className="py-1 pl-1 pr-1 md:pr-0 w-full md:w-1/2">
+    <Card className="flex flex-col md:flex-row overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform  transition-all duration-500 ease-in-out bg-card">
+        <div className="py-1 px-1 md:pr-0 w-full md:w-1/2">
             <Image
                 src={pkg.image}
                 alt={pkg.title}
                 width={600}
                 height={400}
-                className="w-full h-48 object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
+                className="w-full h-48 md:h-full object-cover rounded-t-md md:rounded-l-md md:rounded-r-none"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 data-ai-hint={pkg.hint}
             />
         </div>
-        <CardContent className="flex flex-col p-3 justify-between flex-1">
+        <CardContent className="flex flex-col p-3 justify-between flex-grow">
             <div>
-                <CardTitle className="text-special-card-fg leading-relaxed">
+                <CardTitle className="text-special-card-fg text-xl font-bold leading-relaxed">
                     {pkg.title}
                 </CardTitle>
                 <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
@@ -209,13 +202,14 @@ const PackageCard = ({ pkg }: { pkg: Package }) => (
                     ))}
                 </ul>
             </div>
-            <div className="flex justify-end mt-auto">
+            <div className="relative bottom-0 right-0 ml-auto mt-auto">
                 <ButtonFunc
-                    className="bg-background border-none"
-                    buttonText="View Details"
-                    link={`/#contact?message=I'd like more details about the "${pkg.title}" package.`}
+                    bottonClass="bg-background border-none"
+                    text="View Details"
+                    link={`/#contact?${new URLSearchParams({ message: `I'd like more details about the "${pkg.title}" package.` }).toString()}`}
                     arrow={false}
-                ></ButtonFunc>
+                    ariaLabel={`View details for ${pkg.title}`}
+                />
             </div>
         </CardContent>
     </Card>
@@ -223,7 +217,7 @@ const PackageCard = ({ pkg }: { pkg: Package }) => (
 
 export default function PackagesSection(): React.JSX.Element {
     return (
-        <section id="packages" className="w-full py-12 md:py-24">
+        <section id="packages" className="relative w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
                 {/* Desktop view */}
                 <div className="hidden md:block">
@@ -231,12 +225,15 @@ export default function PackagesSection(): React.JSX.Element {
                         <Texts />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-3 mb-12">
-                        {packages.map((pkg, index) => (
-                            <PackageCard key={index} pkg={pkg} />
+                        {packages.map((pkg) => (
+                            <PackageCard key={pkg.title} pkg={pkg} />
                         ))}
                     </div>
                     <div className="flex justify-end mt-auto">
-                        <ButtonFunc />
+                        <ButtonFunc
+                            text="View All Packages"
+                            ariaLabel="View all packages"
+                        />
                     </div>
                 </div>
 
@@ -246,13 +243,17 @@ export default function PackagesSection(): React.JSX.Element {
                         <Texts />
                     </div>
                     <CarouselContent paginationMt="mt-32">
-                        {packages.map((pkg, index) => (
-                            <CarouselItem key={index}>
+                        {packages.map((pkg) => (
+                            <CarouselItem key={pkg.title}>
                                 <PackageCard pkg={pkg} />
                             </CarouselItem>
                         ))}
                     </CarouselContent>
-                    <ButtonFunc className="relative left-1/2 -translate-x-1/2 mt-8" />
+                    <ButtonFunc
+                        text="View All Packages"
+                        bottonClass="relative left-1/2 -translate-x-1/2 mt-8"
+                        ariaLabel="View all packages"
+                    />
                 </Carousel>
             </div>
         </section>

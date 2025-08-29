@@ -49,7 +49,7 @@ export default function Footer(): JSX.Element {
                                     className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
                                 />
                                 <span
-                                    className="text-baliBanat text-4xl md:text-5xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out"
+                                    className="text-balibanat text-4xl md:text-5xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out"
                                     aria-label="Thank You"
                                 >
                                     ᬫᬵᬢᬸᬃᬲᬸᬓ᭄ᬱ᭄ᬫ

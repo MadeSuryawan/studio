@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
 import { ScrollProvider } from "@/context/ScrollContext";
-import { baliBanat, mangusastra } from "./font";
+import { balibanat, mangusastra } from "./font";
 
 export const metadata: Metadata = {
     title: "BaliBlissed",
@@ -141,7 +141,7 @@ export default function RootLayout({
                 />
             </head>
             <body
-                className={`font-body antialiased ${baliBanat.variable} ${mangusastra.variable}`}
+                className={`font-body antialiased ${balibanat.variable} ${mangusastra.variable}`}
             >
                 <noscript>
                     <iframe

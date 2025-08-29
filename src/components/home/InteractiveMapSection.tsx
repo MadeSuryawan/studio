@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import SectionCard, { SectionCardData, ButtonFunc } from "./SectionCard";
+import MapCard, { MapCardData, ButtonFunc } from "./SectionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import BaliMapDark from "@/components/icons/BaliMapDark";
@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import Gradient from "./Gradient";
 
 // The Location type is compatible with GenericCardData
-type Location = SectionCardData & {
+type Location = MapCardData & {
     x: string;
     y: string;
     link: string;
@@ -341,7 +341,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
                             }}
                             className="w-full flex justify-center"
                         >
-                            <SectionCard
+                            <MapCard
                                 ref={cardRef}
                                 data={activeLocation}
                                 buttonText="Plan a Trip Here"

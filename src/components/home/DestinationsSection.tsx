@@ -66,7 +66,7 @@ const Texts = () => (
 );
 
 const DestinationCard = ({ dest }: { dest: Destination }) => (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl  hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card text-special-card-fg">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-scale transition-scale duration-500 ease-in-out bg-card text-special-card-fg">
         <div className="p-1">
             <Image
                 src={dest.image}
@@ -79,7 +79,7 @@ const DestinationCard = ({ dest }: { dest: Destination }) => (
             />
         </div>
         <CardContent className="relative flex flex-col p-3 justify-between flex-grow">
-            <CardTitle className="text-xl leading-relaxed font-bold overflow-hidden text-ellipsis text-nowrap">
+            <CardTitle className="text-special-card-fg text-xl leading-relaxed font-bold overflow-hidden text-ellipsis text-nowrap">
                 {dest.name}
             </CardTitle>
             <p className="my-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
@@ -107,8 +107,8 @@ export default function DestinationsSection(): React.JSX.Element {
                     <Texts />
                 </div>
                 <div className="grid grid-cols-4 gap-3 mb-12">
-                    {destinations.map((dest, index) => (
-                        <DestinationCard key={index} dest={dest} />
+                    {destinations.map((dest) => (
+                        <DestinationCard key={dest.name} dest={dest} />
                     ))}
                 </div>
                 <div className="flex justify-end mt-auto">
@@ -124,8 +124,8 @@ export default function DestinationsSection(): React.JSX.Element {
                     <Texts />
                 </div>
                 <CarouselContent paginationMt="mt-24">
-                    {destinations.map((dest, index) => (
-                        <CarouselItem key={index}>
+                    {destinations.map((dest) => (
+                        <CarouselItem key={dest.name}>
                             <DestinationCard dest={dest} />
                         </CarouselItem>
                     ))}

@@ -11,7 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { SpotlightCard } from "@/components/ui/spotlightcard";
 
 // A generic type for the card's data, usable by any section
-export type SectionCardData = {
+export type MapCardData = {
     title: string;
     description: string;
     image: string;
@@ -20,13 +20,13 @@ export type SectionCardData = {
 
 // Props for the new component
 type GenericCardProps = {
-    data: SectionCardData;
+    data: MapCardData;
     spotlight?: boolean;
     buttonText: string;
     buttonLink: string;
 };
 
-const SectionCard = forwardRef<HTMLDivElement, GenericCardProps>(
+const MapCard = forwardRef<HTMLDivElement, GenericCardProps>(
     ({ data, spotlight, buttonText, buttonLink }, ref) => {
         const UseCard = spotlight ? SpotlightCard : Card;
         return (
@@ -75,9 +75,9 @@ const SectionCard = forwardRef<HTMLDivElement, GenericCardProps>(
     },
 );
 
-SectionCard.displayName = "SectionCard";
+MapCard.displayName = "MapCard";
 
-export default SectionCard;
+export default MapCard;
 
 export const ButtonFunc = ({
     bottonClass,

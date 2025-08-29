@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 
-export const baliBanat = localFont({
+export const balibanat = localFont({
     src: [
         {
             path: "../../public/fonts/bali-banat.woff2",

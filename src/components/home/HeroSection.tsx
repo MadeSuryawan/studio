@@ -19,11 +19,11 @@ export default function HeroSection(): React.JSX.Element {
             {/* Dark Overlay */}
             <div className="absolute inset-0 bg-[#808080] mix-blend-multiply brightness-[.98]" />
 
-            <div className="absolute z-10 grid grid-rows-1 items-center h-auto text-center left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 md:-translate-y-6 w-full md:w-auto mx-auto">
+            <div className="absolute z-10 grid grid-rows-1 gap-4 items-center h-auto text-center left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 md:-translate-y-6 w-full md:w-full mx-auto">
                 <p
                     aria-label="Om Swastyastu"
                     lang="ban-Bali"
-                    className="relative font-baliBanat text-5xl md:text-8xl  tracking-widest leading-relaxed text-hero-title pb-4 md:pb-2 will-change:color hover:text-accent hover:scale-105 transition-all duration-300 ease-in-out"
+                    className="relative font-balibanat text-5xl sm:text-6xl md:text-8xl tracking-normal leading-relaxed text-hero-title pb-4 md:pb-2 will-change:color hover:text-accent hover:scale-105 transition-all duration-300 ease-in-out"
                 >
                     ᬒᬁ ᬲ᭄ᬯᬲ᭄ᬢ᭄ᬬᬲ᭄ᬢᬸ᭟​
                 </p>

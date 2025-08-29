@@ -1,17 +1,15 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
 import Gradient from "./Gradient";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
+import { ButtonFunc } from "./SectionCard";
 
 type Blogs = {
     title: string;
@@ -56,7 +54,7 @@ const blogPosts = [
     },
 ];
 
-const Texts = () => (
+const Texts: React.FC = () => (
     <div>
         <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
             From Our Blog
@@ -67,31 +65,8 @@ const Texts = () => (
     </div>
 );
 
-const ButtonFunc = ({
-    className,
-    buttonText,
-    link,
-    arrow = true,
-}: {
-    className?: string;
-    buttonText?: string;
-    link?: string;
-    arrow?: boolean;
-}) => (
-    <Button
-        asChild
-        variant="outline"
-        className={`bg-bg-alternate text-special-card-fg border-accent text-center ${className}`}
-    >
-        <Link href={link || "#"}>
-            {buttonText || "View All Posts"}
-            {arrow && <ArrowRight className="h-4 w-4" />}
-        </Link>
-    </Button>
-);
-
 const BlogCard = ({ post }: { post: Blogs }) => (
-    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-500 ease-in-out bg-card">
+    <Card className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-scale transition-all duration-500 ease-in-out bg-card">
         <div className="p-1">
             <Image
                 src={post.image}
@@ -103,19 +78,20 @@ const BlogCard = ({ post }: { post: Blogs }) => (
                 data-ai-hint={post.hint}
             />
         </div>
-        <CardContent className="flex flex-col p-3 justify-between flex-grow text-special-card-fg">
-            <CardTitle className="text-xl leading-relaxed tracking-normal font-bold overflow-hidden text-ellipsis text-nowrap">
+        <CardContent className="flex flex-col p-3 justify-between flex-grow">
+            <CardTitle className="text-special-card-fg text-xl leading-relaxed font-bold overflow-hidden text-ellipsis text-nowrap">
                 {post.title}
             </CardTitle>
-            <p className="my-3 text-muted-foreground text-sm line-clamp-3">
+            <p className="my-3 text-muted-foreground text-sm leading-relaxed line-clamp-3">
                 {post.description}
             </p>
-            <div className="flex justify-end mt-auto">
+            <div className="relative bottom-0 right-0 ml-auto mt-auto">
                 <ButtonFunc
-                    className="bg-background border-none"
-                    buttonText="Read More"
+                    bottonClass="bg-background border-none"
+                    text="Read More"
                     arrow={false}
                     link={post.link}
+                    ariaLabel={`Read more about ${post.title}`}
                 ></ButtonFunc>
             </div>
         </CardContent>
@@ -132,12 +108,15 @@ export default function BlogSection(): React.JSX.Element {
                     <Texts />
                 </div>
                 <div className="grid grid-cols-4 gap-3 mb-12">
-                    {blogPosts.map((post, index) => (
-                        <BlogCard key={index} post={post} />
+                    {blogPosts.map((post) => (
+                        <BlogCard key={post.title} post={post} />
                     ))}
                 </div>
                 <div className="flex justify-end mt-auto">
-                    <ButtonFunc />
+                    <ButtonFunc
+                        text="View All Posts"
+                        ariaLabel="View all posts"
+                    />
                 </div>
             </div>
 
@@ -147,13 +126,17 @@ export default function BlogSection(): React.JSX.Element {
                     <Texts />
                 </div>
                 <CarouselContent paginationMt="mt-32">
-                    {blogPosts.map((post, index) => (
-                        <CarouselItem key={index}>
+                    {blogPosts.map((post) => (
+                        <CarouselItem key={post.title}>
                             <BlogCard post={post} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <ButtonFunc className="relative left-1/2 -translate-x-1/2 mt-8" />
+                <ButtonFunc
+                    text="View All Posts"
+                    bottonClass="relative left-1/2 -translate-x-1/2 mt-8"
+                    ariaLabel="View all posts"
+                />
             </Carousel>
         </section>
     );
