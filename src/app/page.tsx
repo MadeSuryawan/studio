@@ -11,6 +11,7 @@ import WhyChooseUsSection from "@/components/home/WhyChooseUsSection";
 import ContactSection from "@/components/home/ContactSection";
 import BlogSection from "@/components/home/BlogSection";
 import InteractiveMapSection from "@/components/home/InteractiveMapSection";
+import AnimatedSection from "@/components/home/AnimatedSection";
 
 type SectionWrapperProps = {
     children: React.ReactNode;
@@ -47,7 +48,9 @@ export default function Home(): React.JSX.Element {
                             index % 2 === 0 ? "bg-secondary" : "bg-background",
                         )}
                     >
-                        <SectionComponent />
+                        <AnimatedSection>
+                            <SectionComponent />
+                        </AnimatedSection>
                     </SectionWrapper>
                 ))}
             </React.Suspense>
