@@ -19,7 +19,7 @@ import NavbarFlow, {
     FeatureItem,
     HoverLink,
 } from "@/components/ui/navbar-flow";
-import { scrollToTop } from "./ScrollToTopButton";
+import { scrollToTop } from "@/lib/utils";
 
 const Header1 = (): JSX.Element => {
     const [isMenuOpen, setIsMobileMenuOpen] = React.useState(false);

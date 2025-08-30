@@ -1,9 +1,10 @@
+"use client";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import LogoIcon from "@/components/icons/LogoIcon";
-import { scrollToTop } from "./ScrollToTopButton";
+import { scrollToTop } from "@/lib/utils";
 
 const SocialLink = ({
     href,
@@ -49,7 +50,7 @@ export default function Footer(): JSX.Element {
                                     className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
                                 />
                                 <span
-                                    className="text-balibanat text-4xl md:text-5xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out"
+                                    className="text-balibanat text-3xl md:text-4xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out"
                                     aria-label="Thank You"
                                 >
                                     ᬫᬵᬢᬸᬃᬲᬸᬓ᭄ᬱ᭄ᬫ
