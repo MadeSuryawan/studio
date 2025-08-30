@@ -11,9 +11,9 @@ export default function CarCharterSection(): React.JSX.Element {
     return (
         <section
             id="car-charter"
-            className="relative w-full py-8 bg-bg-alternate text-special-card-fg"
+            className="relative w-full py-8 text-special-card-fg"
         >
-            <Gradient gradientT="from-bg-alternate to-secondary" />
+            <Gradient gradientT="from-bg-black to-background" />
 
             {/* Left gradient */}
             <div

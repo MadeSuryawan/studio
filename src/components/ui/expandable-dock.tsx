@@ -11,8 +11,20 @@ import React, {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Button } from "@/components/ui/button";
 import { BotMessageSquare, X } from "lucide-react";
+import {
+    DOCK_ANIMATION_TIMINGS,
+    DOCK_ANIMATION_EASING,
+    DOCK_ANIMATION_DURATIONS,
+    DOCK_DIMENSIONS,
+    DOCK_COLORS,
+    DOCK_CLASSES,
+    DOCK_ARIA_LABELS,
+    DOCK_KEYBOARD,
+    DOCK_DEFAULTS,
+} from "@/constants/dock";
 
 interface ExpandableDockProps {
     children: ReactNode;
@@ -36,38 +48,46 @@ type AnimationStage =
     | "heightCollapsing"
     | "widthCollapsing";
 
-// Animation timing constants for better maintainability
-const ANIMATION_TIMINGS = {
-    WIDTH_EXPAND_DELAY: 400,
-    FULL_EXPAND_DELAY: 850,
-    CONTENT_FADE_DELAY: 250,
-    HEIGHT_COLLAPSE_DELAY: 650,
-    FULL_COLLAPSE_DELAY: 1050,
-} as const;
+// Animation timing constants imported from constants file
 
-// Animation configurations
-const MOTION_VARIANTS = {
+// Animation configurations - dynamic based on reduced motion preferences
+const getMotionVariants = (prefersReducedMotion: boolean) => ({
     container: {
-        width: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
-        height: { duration: 0.45, ease: [0.25, 1, 0.5, 1] },
-        backgroundColor: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+        width: {
+            duration: prefersReducedMotion
+                ? 0
+                : DOCK_ANIMATION_DURATIONS.CONTAINER_WIDTH,
+            ease: DOCK_ANIMATION_EASING.CONTAINER_WIDTH,
+        },
+        height: {
+            duration: prefersReducedMotion
+                ? 0
+                : DOCK_ANIMATION_DURATIONS.CONTAINER_HEIGHT,
+            ease: DOCK_ANIMATION_EASING.CONTAINER_HEIGHT,
+        },
+        backgroundColor: {
+            duration: prefersReducedMotion
+                ? 0
+                : DOCK_ANIMATION_DURATIONS.CONTAINER_BACKGROUND,
+            ease: DOCK_ANIMATION_EASING.CONTAINER_BACKGROUND,
+        },
     },
     content: {
-        duration: 0.5,
+        duration: prefersReducedMotion ? 0 : DOCK_ANIMATION_DURATIONS.CONTENT,
     },
     icon: {
-        duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
+        duration: prefersReducedMotion ? 0 : DOCK_ANIMATION_DURATIONS.ICON,
+        ease: DOCK_ANIMATION_EASING.ICON,
     },
-} as const;
+});
 
 const ExpandableDock = ({
     children,
     className,
     onExpand,
     onCollapse,
-    defaultExpanded = false,
-    toggleAriaLabel = "Toggle Expandable Dock",
+    defaultExpanded = DOCK_DEFAULTS.DEFAULT_EXPANDED,
+    toggleAriaLabel = DOCK_DEFAULTS.TOGGLE_ARIA_LABEL,
 }: ExpandableDockProps) => {
     const [animationStage, setAnimationStage] = useState<AnimationStage>(
         defaultExpanded ? "fullyExpanded" : "collapsed",
@@ -75,6 +95,15 @@ const ExpandableDock = ({
 
     const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
+    const prefersReducedMotion = useReducedMotion();
+
+    // Get motion variants based on user preferences
+    const motionVariants = useMemo(
+        () => getMotionVariants(prefersReducedMotion),
+        [prefersReducedMotion],
+    );
+
     // Keep track of animation timers to avoid overlaps/leaks on rapid toggles
     const timersRef = useRef<number[]>([]);
     const clearTimers = () => {
@@ -96,47 +125,57 @@ const ExpandableDock = ({
 
     const handleExpand = useCallback(() => {
         clearTimers();
-        setAnimationStage("widthExpanding");
         onExpand?.();
 
-        timersRef.current.push(
-            window.setTimeout(
-                () => setAnimationStage("heightExpanding"),
-                ANIMATION_TIMINGS.WIDTH_EXPAND_DELAY,
-            ),
-        );
-        timersRef.current.push(
-            window.setTimeout(
-                () => setAnimationStage("fullyExpanded"),
-                ANIMATION_TIMINGS.FULL_EXPAND_DELAY,
-            ),
-        );
-    }, [onExpand]);
+        if (prefersReducedMotion) {
+            // Skip animations for users who prefer reduced motion
+            setAnimationStage("fullyExpanded");
+        } else {
+            setAnimationStage("widthExpanding");
+            timersRef.current.push(
+                window.setTimeout(
+                    () => setAnimationStage("heightExpanding"),
+                    DOCK_ANIMATION_TIMINGS.WIDTH_EXPAND_DELAY,
+                ),
+            );
+            timersRef.current.push(
+                window.setTimeout(
+                    () => setAnimationStage("fullyExpanded"),
+                    DOCK_ANIMATION_TIMINGS.FULL_EXPAND_DELAY,
+                ),
+            );
+        }
+    }, [onExpand, prefersReducedMotion]);
 
     const handleCollapse = useCallback(() => {
         clearTimers();
-        setAnimationStage("contentFadingOut");
         onCollapse?.();
 
-        timersRef.current.push(
-            window.setTimeout(
-                () => setAnimationStage("heightCollapsing"),
-                ANIMATION_TIMINGS.CONTENT_FADE_DELAY,
-            ),
-        );
-        timersRef.current.push(
-            window.setTimeout(
-                () => setAnimationStage("widthCollapsing"),
-                ANIMATION_TIMINGS.HEIGHT_COLLAPSE_DELAY,
-            ),
-        );
-        timersRef.current.push(
-            window.setTimeout(
-                () => setAnimationStage("collapsed"),
-                ANIMATION_TIMINGS.FULL_COLLAPSE_DELAY,
-            ),
-        );
-    }, [onCollapse]);
+        if (prefersReducedMotion) {
+            // Skip animations for users who prefer reduced motion
+            setAnimationStage("collapsed");
+        } else {
+            setAnimationStage("contentFadingOut");
+            timersRef.current.push(
+                window.setTimeout(
+                    () => setAnimationStage("heightCollapsing"),
+                    DOCK_ANIMATION_TIMINGS.CONTENT_FADE_DELAY,
+                ),
+            );
+            timersRef.current.push(
+                window.setTimeout(
+                    () => setAnimationStage("widthCollapsing"),
+                    DOCK_ANIMATION_TIMINGS.HEIGHT_COLLAPSE_DELAY,
+                ),
+            );
+            timersRef.current.push(
+                window.setTimeout(
+                    () => setAnimationStage("collapsed"),
+                    DOCK_ANIMATION_TIMINGS.FULL_COLLAPSE_DELAY,
+                ),
+            );
+        }
+    }, [onCollapse, prefersReducedMotion]);
 
     const isCollapsed = animationStage === "collapsed";
     const isExpanded = animationStage === "fullyExpanded";
@@ -163,23 +202,18 @@ const ExpandableDock = ({
         };
     }, [handleCollapse]);
 
-    const isMobile = useIsMobile();
-
-    // Memoize dimensions for performance
+    // Memoize dimensions for performance using constants
     const dimensions = useMemo(() => {
-        const collapsedW = isMobile ? "min(94vw, 54px)" : "min(90vw, 64px)";
-        const collapsedH = isMobile ? "54px" : "64px";
-        const expandedW = isMobile ? "min(96vw, 300px)" : "min(90vw, 500px)";
-        const expandedH = isMobile ? "min(75vh, 554px)" : "min(80vh, 664px)";
-        const marginLeft = "ml-[9px]";
-        const marginBottom = "mb-[9px]";
+        const deviceDimensions = isMobile
+            ? DOCK_DIMENSIONS.MOBILE
+            : DOCK_DIMENSIONS.DESKTOP;
         return {
-            collapsedW,
-            collapsedH,
-            expandedW,
-            expandedH,
-            marginLeft,
-            marginBottom,
+            collapsedW: deviceDimensions.COLLAPSED_WIDTH,
+            collapsedH: deviceDimensions.COLLAPSED_HEIGHT,
+            expandedW: deviceDimensions.EXPANDED_WIDTH,
+            expandedH: deviceDimensions.EXPANDED_HEIGHT,
+            marginLeft: DOCK_DIMENSIONS.MARGIN_LEFT,
+            marginBottom: DOCK_DIMENSIONS.MARGIN_BOTTOM,
         };
     }, [isMobile]);
 
@@ -198,14 +232,16 @@ const ExpandableDock = ({
                     ? dimensions.collapsedH
                     : dimensions.expandedH,
             backgroundColor: isCollapsed
-                ? "hsla(190, 83%, 14%, 0.00)"
+                ? DOCK_COLORS.COLLAPSED_BACKGROUND
                 : animationStage === "fullyExpanded" ||
                     animationStage === "contentFadingOut" ||
                     animationStage === "heightCollapsing" ||
                     animationStage === "widthCollapsing"
-                  ? "hsla(60, 2%, 10%, .5)"
-                  : "hsla(60, 2%, 10%, .5)",
-            backdropFilter: isCollapsed ? "blur(0px)" : "blur(5px)",
+                  ? DOCK_COLORS.EXPANDED_BACKGROUND
+                  : DOCK_COLORS.EXPANDED_BACKGROUND,
+            backdropFilter: isCollapsed
+                ? DOCK_COLORS.COLLAPSED_BACKDROP_FILTER
+                : DOCK_COLORS.EXPANDED_BACKDROP_FILTER,
             // translateY: isCollapsed ? "64px" : "0px",
             opacity: isCollapsed
                 ? 0
@@ -234,21 +270,25 @@ const ExpandableDock = ({
 
     return (
         <div
-            className="fixed bottom-6 md:bottom-4 left-4 z-50 w-[52px] md:w-[64px] translate-y-[64px]"
+            className={DOCK_CLASSES.CONTAINER}
             role="complementary"
-            aria-label="Expandable dock widget"
+            aria-label={DOCK_ARIA_LABELS.CONTAINER}
         >
             <Button
                 id="expandable-dock-header"
                 onClick={handleToggle}
                 onKeyDown={(e) => {
-                    // Improve keyboard accessibility
-                    if (e.key === "Enter" || e.key === " ") {
+                    // Improve keyboard accessibility using constants
+                    if (
+                        (
+                            DOCK_KEYBOARD.TOGGLE_KEYS as readonly string[]
+                        ).includes(e.key)
+                    ) {
                         e.preventDefault();
                         handleToggle();
                     }
                     // ESC key to close when expanded
-                    if (e.key === "Escape" && isExpanded) {
+                    if (e.key === DOCK_KEYBOARD.CLOSE_KEY && isExpanded) {
                         e.preventDefault();
                         handleCollapse();
                     }
@@ -285,7 +325,7 @@ const ExpandableDock = ({
                                     scale: 0.8,
                                     rotate: 90,
                                 }}
-                                transition={MOTION_VARIANTS.icon}
+                                transition={motionVariants.icon}
                                 className="absolute inset-0 flex items-center justify-center"
                             >
                                 <X className="scale-[1.5] text-foreground/80" />
@@ -308,7 +348,7 @@ const ExpandableDock = ({
                                     scale: 0.8,
                                     rotate: -90,
                                 }}
-                                transition={MOTION_VARIANTS.icon}
+                                transition={motionVariants.icon}
                                 className="absolute inset-0 flex items-center justify-center"
                             >
                                 <BotMessageSquare className="scale-[2.2] sm:scale-[2.8] text-foreground/80" />
@@ -326,7 +366,7 @@ const ExpandableDock = ({
                     backdropFilter: "blur(0px)",
                 }}
                 animate={animationProps}
-                transition={MOTION_VARIANTS.container}
+                transition={motionVariants.container}
                 className={cn(
                     "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
                     className,
@@ -337,16 +377,16 @@ const ExpandableDock = ({
                         opacity: isExpanded ? 1 : 0,
                         height: isExpanded ? "auto" : 0,
                     }}
-                    transition={MOTION_VARIANTS.content}
+                    transition={motionVariants.content}
                     id="expandable-dock-content"
-                    className="flex-1 flex flex-col overflow-hidden bg-bg-alternate h-full"
+                    className={DOCK_CLASSES.CONTENT}
                     role="region"
-                    aria-label="Dock content"
+                    aria-label={DOCK_ARIA_LABELS.CONTENT_REGION}
                     aria-hidden={!isExpanded}
                     tabIndex={isExpanded ? 0 : -1}
                 >
                     <div
-                        className="overflow-y-auto overflow-x-hidden scrollbar-none h-full"
+                        className={DOCK_CLASSES.SCROLL_AREA}
                         role="main"
                         aria-live="polite"
                     >

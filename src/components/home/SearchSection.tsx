@@ -148,10 +148,10 @@ export default function SearchSection(): React.JSX.Element {
 
     return (
         <section id="search" className=" relative w-full py-12 md:py-20">
-            <Gradient
+            {/* <Gradient
                 bottom={false}
                 gradientT="from-secondary to-transparent"
-            />
+            /> */}
             <div className="container px-4 md:px-6">
                 <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 bg-bg-alternate">
                     <CardHeader>

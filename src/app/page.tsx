@@ -44,9 +44,9 @@ export default function Home(): React.JSX.Element {
                 {pageSections.map((SectionComponent, index) => (
                     <SectionWrapper
                         key={index}
-                        className={cn(
-                            index % 2 === 0 ? "bg-secondary" : "bg-background",
-                        )}
+                        // className={cn(
+                        //     index % 2 === 0 ? "bg-secondary" : "bg-background",
+                        // )}
                     >
                         <AnimatedSection>
                             <SectionComponent />
