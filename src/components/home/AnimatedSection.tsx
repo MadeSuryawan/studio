@@ -17,10 +17,11 @@ const AnimatedSection = ({
 }: AnimatedSectionProps): JSX.Element => {
     const sectionRef = useRef<HTMLDivElement>(null);
     const prefersReducedMotion = useReducedMotion();
+    const isMobile = useIsMobile();
 
     // On mobile, animate once. On desktop, animate every time it enters the viewport.
     const isVisible = useIntersectionObserver(sectionRef, {
-        triggerOnce: useIsMobile(),
+        triggerOnce: true || isMobile,
         threshold: 0.2,
     });
 

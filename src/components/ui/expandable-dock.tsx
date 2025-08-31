@@ -48,8 +48,6 @@ type AnimationStage =
     | "heightCollapsing"
     | "widthCollapsing";
 
-// Animation timing constants imported from constants file
-
 // Animation configurations - dynamic based on reduced motion preferences
 const getMotionVariants = (prefersReducedMotion: boolean | null) => ({
     container: {
@@ -297,13 +295,12 @@ const ExpandableDock = ({
                 aria-label={toggleAriaLabel}
                 aria-controls="expandable-dock-content"
                 variant="ghost"
-                className="relative w-full h-[52px] md:h-[64px] rounded-xl focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0"
-                style={{
-                    backgroundColor: isExpanded ? "#063842" : "#ee812eff",
-                    // marginBottom: isCollapsed ? "0px" : "1px",
-                    willChange: "transform, opacity",
-                    transition: "all .5s ease-out",
-                }}
+                className={cn(
+                    "relative w-full h-[52px] md:h-[64px] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 will-change-auto",
+                    `${isExpanded ? "bg-[#063842]" : "bg-[#ee812eff]"}`,
+                    "transition-all duration-500 ease-out",
+                    "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
+                )}
             >
                 <div className="pointer-events-none">
                     <AnimatePresence mode="wait" initial={false}>

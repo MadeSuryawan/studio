@@ -15,15 +15,15 @@ export default function CarCharterSection(): React.JSX.Element {
             {/* Left gradient */}
             <div
                 className={cn(
-                    "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto shadow-xl shadow-gray-700/50 rounded-[20px] border-y border-[#2C5263]",
-                    // "bg-gradient-to-l from-transparent via-[#1D3844] to-transparent ",
-                    "bg-[linear-gradient(to_right,transparent_0%,#1D3844_25%,#1D3844_50%,#1D3844_75%,transparent_100%)]",
+                    "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto shadow-xl shadow-black/50 rounded-[20px] border-y border-[#2C5263]",
+                    "bg-gradient-to-l from-background via-[#1D3844] to-background ",
+                    // "bg-[linear-gradient(to_right,transparent_0%,#1D3844_25%,#1D3844_50%,#1D3844_75%,transparent_100%)]",
                 )}
                 aria-hidden="true"
             />
 
             <div className="relative flex flex-col items-center h-full text-center px-8 md:px-12 max-w-screen-md mx-auto z-10 space-y-6">
-                <div className="inline-block bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">
+                <div className="inline-block bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-semibold shadow-lg shadow-black/50">
                     Our Premier Service
                 </div>
                 <h2 className="text-3xl font-bold tracking-light sm:text-4xl md:text-5xl font-headline">

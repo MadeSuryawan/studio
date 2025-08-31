@@ -6,7 +6,7 @@ interface IntersectionObserverOptions {
     threshold?: number;
     root?: Element | null;
     rootMargin?: string;
-    triggerOnce?: boolean | null;
+    triggerOnce?: boolean;
 }
 
 export const useIntersectionObserver = (
@@ -18,7 +18,7 @@ export const useIntersectionObserver = (
         threshold = 0.1,
         root = null,
         rootMargin = "0px",
-        triggerOnce = false, // Changed default to false for safety
+        triggerOnce, // Changed default to true for safety
     } = options;
 
     useEffect(() => {

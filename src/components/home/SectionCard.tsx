@@ -50,7 +50,7 @@ const SectionCard = memo(
             <UseCard
                 ref={ref}
                 className={cn(
-                    "flex flex-col shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform transition-all duration-300 ease-in-out bg-card",
+                    "flex flex-col shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform transition-all duration-300 ease-in-out bg-card border-t-[0px]",
                     className,
                 )}
             >
@@ -65,10 +65,10 @@ const SectionCard = memo(
                         alt={data.name}
                         width={600}
                         height={400}
-                        className={`h-48 object-cover ${
+                        className={`h-48 object-cover rounded-t-md ${
                             packageCard
-                                ? "md:h-full md:rounded-l-md md:rounded-r-none"
-                                : "rounded-t-md"
+                                ? "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none"
+                                : ""
                         }`}
                         sizes="(max-width: 768px) 100vw, 33vw"
                         data-ai-hint={data.aiHint}
@@ -151,24 +151,6 @@ export const ButtonFunc = ({
     arrow?: boolean;
     onClick?: () => void;
 }) => {
-    // const safeHref = React.useMemo(() => {
-    //     if (!link) return "#";
-    //     if (link.startsWith("/")) return link; // same-origin relative
-    //     try {
-    //         const base =
-    //             typeof window !== "undefined"
-    //                 ? window.location.origin
-    //                 : "https://example.com";
-    //         const u = new URL(link, base);
-    //         const allowedProtocols = ["https:", "mailto:", "tel:"] as const;
-    //         return allowedProtocols.includes(u.protocol as any)
-    //             ? u.toString()
-    //             : "#";
-    //     } catch {
-    //         return "#";
-    //     }
-    // }, [link]);
-    // const isExternal = safeHref.startsWith("http");
     return (
         <Button
             asChild
@@ -180,13 +162,7 @@ export const ButtonFunc = ({
             onClick={onClick}
             aria-label={ariaLabel}
         >
-            <Link
-                // href={safeHref}
-                // prefetch={false}
-                // target={isExternal ? "_blank" : undefined}
-                // rel={isExternal ? "noopener noreferrer" : undefined}
-                href={link || "#"}
-            >
+            <Link href={link || "#"}>
                 {text}
                 {arrow && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
             </Link>

@@ -678,24 +678,25 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         }}
                         animate={navMotion}
                         className={cn(
-                            `relative bg-background translate-y-1/2 px-[20px] py-[10px] rounded-[8px] flex items-center justify-center gap-6 lg:gap-12 z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT} flex-shrink-0 mt-4 overflow-hidden border-b-[2px] border-x ${borderColor}`,
+                            "relative bg-background translate-y-1/2 px-[20px] py-[10px] rounded-[8px] flex items-center justify-center gap-6 lg:gap-12 flex-shrink-0 mt-4 overflow-hidden border-b-[2px] border-x",
+                            `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                            `${borderColor}`,
                         )}
                         role="navigation"
                         aria-label="Primary navigation"
                         onMouseLeave={clearSelectedSubmenu}
                     >
                         <div
-                            className={`absolute hidden w-full h-full md:block backdrop-blur-[4px] z-${NAVBAR_CONSTANTS.Z_INDEX.BACKDROP}`}
+                            className={`absolute w-full h-full backdrop-blur-[4px] z-${NAVBAR_CONSTANTS.Z_INDEX.BACKDROP}`}
                         ></div>
-                        <div className="absolute hidden md:block text-center">
+                        <div className="absolute flex items-center justify-center">
                             <NavBarText
-                                className="anchor-left w-[39rem] h-12 translate-x-[1px] -translate-y-[1px]"
-                                style={{
-                                    filter: "saturate(70%) hue-rotate(90deg) brightness(.8)",
-                                    willChange: "opacity",
-                                    transition: `opacity ${NAVBAR_CONSTANTS.SVG_DURATION}s ease-out`,
-                                    opacity: sequenceDone ? 1 : 0,
-                                }}
+                                className={cn(
+                                    "w-[43rem] h-12 will-change-auto opacity-0",
+                                    sequenceDone && "opacity-100",
+                                    `transition-opacity duration-${NAVBAR_CONSTANTS.SVG_DURATION}s ease-out`,
+                                    "saturate-50 hue-rotate-90 brightness-75",
+                                )}
                                 aria-hidden="true"
                                 focusable="false"
                             />
