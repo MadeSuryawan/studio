@@ -18,7 +18,7 @@ type SectionWrapperProps = {
     className?: string;
 };
 
-export const SectionWrapper = ({
+const SectionWrapper: React.FC<SectionWrapperProps> = ({
     children,
     className,
 }: SectionWrapperProps) => {
@@ -42,12 +42,7 @@ export default function Home(): React.JSX.Element {
             <HeroSection />
             <React.Suspense>
                 {pageSections.map((SectionComponent, index) => (
-                    <SectionWrapper
-                        key={index}
-                        // className={cn(
-                        //     index % 2 === 0 ? "bg-secondary" : "bg-background",
-                        // )}
-                    >
+                    <SectionWrapper key={index} className={cn("bg-background")}>
                         <AnimatedSection>
                             <SectionComponent />
                         </AnimatedSection>

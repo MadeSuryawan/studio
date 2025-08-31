@@ -14,11 +14,11 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useReducedMotion } from "framer-motion";
 import { useChatMessages } from "@/hooks/use-chat-messages";
 import { useAutoScroll } from "@/hooks/use-auto-scroll";
 import { MESSAGE_STYLES, CHAT_CONSTANTS } from "@/constants/chat";
-import type { Message } from "@/types/chat";
+import type { Message } from "../../types/chat";
 
 /**
  * Enhanced ExpandBot component with improved performance, accessibility, and maintainability

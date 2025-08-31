@@ -4,7 +4,7 @@ import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import LogoIcon from "@/components/icons/LogoIcon";
-import { scrollToTop } from "@/lib/utils";
+import { ScrollToTop } from "@/lib/utils";
 
 const SocialLink = ({
     href,
@@ -46,7 +46,7 @@ export default function Footer(): JSX.Element {
                             <div className="flex flex-row items-start justify-between md:justify-start h-auto gap-12">
                                 <LogoIcon
                                     role="button"
-                                    onClick={scrollToTop}
+                                    onClick={ScrollToTop}
                                     className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
                                 />
                                 <span

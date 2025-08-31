@@ -1,6 +1,6 @@
 // src/hooks/use-auto-scroll.ts
 import { useEffect, useRef, useCallback } from "react";
-import { useReducedMotion } from "./use-reduced-motion";
+import { useReducedMotion } from "framer-motion";
 import { CHAT_CONSTANTS } from "@/constants/chat";
 
 /**

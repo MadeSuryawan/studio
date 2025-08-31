@@ -11,7 +11,6 @@ import {
 import { Check, Car, Clock, MapPin, UserCheck, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { SectionWrapper } from "@/app/page";
 import { cn } from "@/lib/utils";
 import Gradient from "@/components/home/Gradient";
 
@@ -383,14 +382,7 @@ export default function CarCharter(): JSX.Element {
             <HeroSection />
             <React.Suspense fallback={<div>Loading...</div>}>
                 {pageSections.map((Section, index) => (
-                    <SectionWrapper
-                        key={index}
-                        className={cn(
-                            index % 2 === 0 ? "bg-secondary" : "bg-background",
-                        )}
-                    >
-                        <Section />
-                    </SectionWrapper>
+                    <Section key={index} />
                 ))}
             </React.Suspense>
         </>

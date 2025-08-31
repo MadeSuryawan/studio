@@ -285,7 +285,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
 
     return (
         <section id="map" className="relative w-full py-4 md:py-8">
-            <Gradient />
+            {/* <Gradient /> */}
             <div className="z-10 grid grid-col">
                 {/* Title */}
                 <div className="text-center mb-1 md:mb-3">

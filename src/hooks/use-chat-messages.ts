@@ -7,7 +7,7 @@ import {
     ChatState,
     ChatHookOptions,
     ChatHookReturn,
-} from "@/types/chat";
+} from "../../types/chat";
 import { CHAT_CONSTANTS } from "@/constants/chat";
 import { handleQuery } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";

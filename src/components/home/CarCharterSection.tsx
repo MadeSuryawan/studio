@@ -3,21 +3,22 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Gradient from "./Gradient";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import { cn } from "@/lib/utils";
 
 export default function CarCharterSection(): React.JSX.Element {
     return (
         <section
             id="car-charter"
-            className="relative w-full py-8 text-special-card-fg"
+            className="relative w-full py-8 text-special-card-fg my-8 md:my-16"
         >
-            <Gradient gradientT="from-bg-black to-background" />
-
             {/* Left gradient */}
             <div
-                className="pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto bg-gradient-to-l from-transparent via-[#1D3844] to-transparent shadow-lg rounded-[20px] border-y border-[#2C5263]"
+                className={cn(
+                    "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto shadow-xl shadow-gray-700/50 rounded-[20px] border-y border-[#2C5263]",
+                    // "bg-gradient-to-l from-transparent via-[#1D3844] to-transparent ",
+                    "bg-[linear-gradient(to_right,transparent_0%,#1D3844_25%,#1D3844_50%,#1D3844_75%,transparent_100%)]",
+                )}
                 aria-hidden="true"
             />
 

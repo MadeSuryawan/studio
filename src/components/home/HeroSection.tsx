@@ -5,7 +5,7 @@ import { JSX, useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, throttle } from "@/lib/utils";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useReducedMotion } from "framer-motion";
 
 /**
  * HeroSection Component
@@ -132,7 +132,7 @@ export default function HeroSection(): JSX.Element {
                         : "transform 0.5s ease-out",
                     // Gradient overlay for better text contrast
                     backgroundImage:
-                        "radial-gradient(#cdcdcdff 0%, #bfbfbfff 25%, #aeaeaeff 50%, #b0b0b0ff 75%, #4b4b4bff 100%)",
+                        "radial-gradient( #bababaff 0%, #989898ff 50%, #abababff 75%, #747474ff 100%)",
                 }}
                 aria-hidden="true" // Decorative background
             >

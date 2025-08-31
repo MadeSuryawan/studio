@@ -147,13 +147,16 @@ export default function SearchSection(): React.JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
 
     return (
-        <section id="search" className=" relative w-full py-12 md:py-20">
+        <section
+            id="search"
+            className="relative w-full rounded-t-lg border-t-2"
+        >
             {/* <Gradient
                 bottom={false}
                 gradientT="from-secondary to-transparent"
             /> */}
             <div className="container px-4 md:px-6">
-                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 bg-bg-alternate">
+                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 border-t-0 bg-bg-alternate">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-2xl">
                             <Search /> Find Your Perfect Trip

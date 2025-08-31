@@ -30,11 +30,50 @@ export function throttle<T extends (...args: any[]) => any>(
     };
 }
 
-export const scrollToTop = (): void => {
-    window.scrollTo({
-        top: 0,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-    });
+export const ScrollToTop = (): void => {
+    const currentScrollY = window.scrollY;
+    const documentHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercentage = currentScrollY / documentHeight;
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    // For scrolls from 75%+ down, use a more reliable approach
+    if (scrollPercentage >= 0.75 && !prefersReducedMotion) {
+        // Use requestAnimationFrame for better control over long-distance scrolls
+        const smoothScrollToTop = () => {
+            const startY = window.scrollY;
+            const startTime = performance.now();
+            const duration = 50; // Fast, responsive duration for immediate motion
+
+            const animateScroll = (currentTime: number) => {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Linear animation for immediate, full-speed motion
+                // No easing - constant velocity throughout for maximum responsiveness
+                const currentY = startY * (1 - progress);
+
+                window.scrollTo(0, currentY);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll);
+                } else {
+                    // Ensure we're exactly at the top
+                    window.scrollTo(0, 0);
+                }
+            };
+
+            requestAnimationFrame(animateScroll);
+        };
+
+        smoothScrollToTop();
+    } else {
+        // Use standard smooth scroll for shorter distances or when reduced motion is preferred
+        window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+        });
+    }
 };

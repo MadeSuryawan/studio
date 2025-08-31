@@ -59,7 +59,7 @@ export default function BlogSection(): React.JSX.Element {
     const cardRef = React.useRef<HTMLDivElement>(null);
     return (
         <section id="blog" className="relative w-full py-8">
-            <Gradient />
+            {/* <Gradient /> */}
             {/* Desktop view */}
             <div className="container px-6 z-10 hidden md:block">
                 <div className="flex justify-between items-center mb-12">

@@ -11,7 +11,7 @@ import React, {
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { BotMessageSquare, X } from "lucide-react";
 import {
@@ -51,7 +51,7 @@ type AnimationStage =
 // Animation timing constants imported from constants file
 
 // Animation configurations - dynamic based on reduced motion preferences
-const getMotionVariants = (prefersReducedMotion: boolean) => ({
+const getMotionVariants = (prefersReducedMotion: boolean | null) => ({
     container: {
         width: {
             duration: prefersReducedMotion
