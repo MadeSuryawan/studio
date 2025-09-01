@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Gradient from "./Gradient";
 import {
     Carousel,
     CarouselContent,
@@ -59,7 +58,6 @@ export default function BlogSection(): React.JSX.Element {
     const cardRef = React.useRef<HTMLDivElement>(null);
     return (
         <section id="blog" className="relative w-full py-8">
-            {/* <Gradient /> */}
             {/* Desktop view */}
             <div className="container px-6 z-10 hidden md:block">
                 <div className="flex justify-between items-center mb-12">
@@ -67,23 +65,17 @@ export default function BlogSection(): React.JSX.Element {
                 </div>
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {blogPosts.map((post) => (
-                        // <BlogCard key={post.name} post={post} />
                         <SectionCard
                             ref={cardRef}
                             key={post.name}
                             data={post}
                             buttonText="Read More"
                             buttonLink={post.link}
-                            // spotlight={true}
+                            spotlight={true}
                         />
                     ))}
                 </div>
-                <div className="flex justify-end mt-auto">
-                    <ButtonFunc
-                        text="View All Posts"
-                        ariaLabel="View all posts"
-                    />
-                </div>
+                <ButtonFunc text="View All Posts" ariaLabel="View all posts" />
             </div>
 
             {/* Mobile view */}
@@ -94,23 +86,17 @@ export default function BlogSection(): React.JSX.Element {
                 <CarouselContent paginationMt="mt-32">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
-                            {/* <BlogCard post={post} /> */}
                             <SectionCard
                                 ref={cardRef}
                                 key={post.name}
                                 data={post}
                                 buttonText="Read More"
                                 buttonLink={post.link}
-                                // spotlight={true}
                             />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <ButtonFunc
-                    text="View All Posts"
-                    className="relative left-1/2 -translate-x-1/2 mt-8"
-                    ariaLabel="View all posts"
-                />
+                <ButtonFunc text="View All Posts" ariaLabel="View all posts" />
             </Carousel>
         </section>
     );

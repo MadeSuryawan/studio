@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import BaliMapDark from "@/components/icons/BaliMapDark";
 import BaliMapLight from "@/components/icons/BaliMapLight";
 import { useTheme } from "next-themes";
-import Gradient from "./Gradient";
 
 // The Location type is compatible with GenericCardData
 type Location = CardData & {
@@ -285,7 +284,6 @@ export default function InteractiveMapSection(): React.JSX.Element {
 
     return (
         <section id="map" className="relative w-full py-4 md:py-8">
-            {/* <Gradient /> */}
             <div className="z-10 grid grid-col">
                 {/* Title */}
                 <div className="text-center mb-1 md:mb-3">
@@ -351,14 +349,15 @@ export default function InteractiveMapSection(): React.JSX.Element {
                         </motion.div>
                     </AnimatePresence>
                 </div>
-
-                {/* Button */}
-                <ButtonFunc
-                    className="mt-6 relative mx-auto"
-                    text="Explore All Destinations"
-                    link="#destinations"
-                    ariaLabel="Explore all destinations"
-                />
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-10">
+                    {/* Button */}
+                    <ButtonFunc
+                        className="mt-0"
+                        text="Explore All Destinations"
+                        link="#destinations"
+                        ariaLabel="Explore all destinations"
+                    />
+                </div>
             </div>
         </section>
     );

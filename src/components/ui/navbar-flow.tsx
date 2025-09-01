@@ -734,7 +734,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                     >
                                         <a
                                             href={element.url || "#"}
-                                            className="text-special-card-fg font-medium text-base lg:text-xl whitespace-nowrap hover:text-primary hover:underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md px-2 py-1"
+                                            className="text-special-card-fg font-medium text-base lg:text-xl whitespace-nowrap hover:text-primary focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-md px-2 py-1"
                                             aria-label={`Navigate to ${element.text}`}
                                         >
                                             {element.text}

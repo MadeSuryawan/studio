@@ -296,8 +296,9 @@ const ExpandableDock = ({
                 aria-controls="expandable-dock-content"
                 variant="ghost"
                 className={cn(
-                    "relative w-full h-[52px] md:h-[64px] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0 will-change-auto",
-                    `${isExpanded ? "bg-[#063842]" : "bg-[#ee812eff]"}`,
+                    "relative w-full h-[52px] md:h-[64px] will-change-auto",
+                    "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
+                    `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#d57124]"}`,
                     "transition-all duration-500 ease-out",
                     "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
                 )}
@@ -325,7 +326,12 @@ const ExpandableDock = ({
                                 transition={motionVariants.icon}
                                 className="absolute inset-0 flex items-center justify-center"
                             >
-                                <X className="scale-[1.5] text-foreground/80" />
+                                <X
+                                    className={cn(
+                                        "scale-[1.5] text-foreground/80",
+                                        "drop-shadow-[2px_3px_1px_#1f1f1f]",
+                                    )}
+                                />
                             </motion.span>
                         ) : (
                             <motion.span
@@ -348,7 +354,12 @@ const ExpandableDock = ({
                                 transition={motionVariants.icon}
                                 className="absolute inset-0 flex items-center justify-center"
                             >
-                                <BotMessageSquare className="scale-[2.2] sm:scale-[2.8] text-foreground/80" />
+                                <BotMessageSquare
+                                    className={cn(
+                                        "scale-[2.2] sm:scale-[2.8] text-foreground/80",
+                                        "drop-shadow-[1px_1px_1px_#1f1f1f]",
+                                    )}
+                                />
                             </motion.span>
                         )}
                     </AnimatePresence>

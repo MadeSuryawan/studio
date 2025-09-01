@@ -236,7 +236,7 @@ import { Download, Send, Heart } from "lucide-react";
 For advanced use cases, you can use the `useGradientButton` hook directly:
 
 ```tsx
-import { useGradientButton } from "@/hooks/useGradientButton";
+import { useGradientButton } from "@/hooks/use-gradient-**button**";
 
 function CustomButton() {
   const {

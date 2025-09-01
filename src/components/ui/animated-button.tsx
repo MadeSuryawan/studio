@@ -17,7 +17,7 @@ interface CustomCSSProperties extends React.CSSProperties {
 }
 
 const buttonVariants = cva(
-    "group relative z-0 bg-white dark:bg-[rgba(0,0,0,1)] flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap  transform-gpu transition-all duration-300 ease-in-out active:translate-y-px",
+    `group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap transform-gpu transition-all duration-300 ease-in-out active:translate-y-px`,
     {
         variants: {
             variant: {
@@ -93,7 +93,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButtonProps>(
             shimmerSize = "0.05em",
             shimmerDuration = "3s",
             borderRadius = "100px",
-            background = "rgba(0, 0, 0, 1)",
+            background = "",
             style,
             children,
             ...props
@@ -108,7 +108,6 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButtonProps>(
             "--radius": borderRadius,
             "--speed": shimmerDuration,
             "--cut": shimmerSize,
-            "--bg": background,
             "--spread": "90deg",
             borderRadius: rounded === "custom" ? borderRadius : undefined,
         };
@@ -210,7 +209,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButtonProps>(
                 <div className="absolute size-full rounded-2xl px-4 py-1.5 text-sm font-medium" />
 
                 <div
-                    className="absolute -z-20 [background:var(--bg)]"
+                    className={cn(`absolute -z-20 ${background}`)}
                     style={{ inset: shimmerSize, borderRadius }}
                 />
 

@@ -97,11 +97,19 @@
 /* Custom utilities for GradientButton text-shadow */
 @layer utilities {
     .text-shadow-gradient {
-        text-shadow: 1px 2px 1px #1f1f1f;
+        text-shadow: 1px 3px 1px #1f1f1f;
     }
 
     .text-shadow-gradient-light {
         text-shadow: 1px 2px 1px rgba(31, 31, 31, 0.8);
+    }
+
+    .text-shadow-gradient-large {
+        text-shadow: 1px 5px 1px rgba(31, 31, 31, 0.8);
+    }
+
+    .text-shadow-gradient-small {
+        text-shadow: 1px 1px 1px rgba(31, 30, 30, 0.8);
     }
 
     .text-shadow-none {

@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { WHATSAPP_NUMBER, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/config";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
+import { cn } from "@/lib/utils";
 
 const encodedMessage = encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE);
 const whatsappUrl: string = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(encodedMessage)}`;
@@ -13,7 +14,14 @@ export default function WhatsAppButton(): React.JSX.Element {
         <Button
             size="icon"
             asChild
-            className="w-12 h-12 md:w-16 md:h-16 rounded-[21%_9%_21%_9%_/_21%_9%_21%_9%] shadow-lg hover:scale-110 transition-transform duration-200"
+            className={cn(
+                "w-12 h-12 md:w-16 md:h-16",
+                "bg-[#25d366]",
+                "rounded-[21%_9%_21%_9%_/_21%_9%_21%_9%]",
+                "hover:bg-[#128747]",
+                "shadow-lg hover:scale-110 transition-transform duration-200",
+                "drop-shadow-[2px_3px_1px_#1f1f1f]",
+            )}
             aria-label="Contact on WhatsApp"
         >
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">

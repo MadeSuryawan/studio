@@ -7,6 +7,9 @@ import {
     CarouselItem,
 } from "@/components/ui/carousel";
 import { SectionCard, CardData, ButtonFunc } from "./SectionCard";
+import { GradientButton } from "../ui/gradient-button";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const destinations: CardData[] = [
     {
@@ -66,23 +69,20 @@ export default function DestinationsSection(): React.JSX.Element {
                 </div>
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {destinations.map((dest) => (
-                        // <DestinationCard key={dest.name} dest={dest} />
                         <SectionCard
                             ref={cardRef}
                             key={dest.name}
                             data={dest}
                             buttonText="View Details"
                             buttonLink={dest.link}
-                            // spotlight={true}
+                            spotlight={true}
                         />
                     ))}
                 </div>
-                <div className="flex justify-end mt-auto">
-                    <ButtonFunc
-                        text="View All Destinations"
-                        ariaLabel="View all destinations"
-                    />
-                </div>
+                <ButtonFunc
+                    text="View All Destinations"
+                    ariaLabel="View all destinations"
+                />
             </div>
             {/* Mobile view */}
             <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
@@ -92,7 +92,6 @@ export default function DestinationsSection(): React.JSX.Element {
                 <CarouselContent paginationMt="mt-24">
                     {destinations.map((dest) => (
                         <CarouselItem key={dest.name}>
-                            {/* <DestinationCard dest={dest} /> */}
                             <SectionCard
                                 ref={cardRef}
                                 key={dest.name}
@@ -106,7 +105,6 @@ export default function DestinationsSection(): React.JSX.Element {
                 </CarouselContent>
                 <ButtonFunc
                     text="View All Destinations"
-                    className="relative left-1/2 -translate-x-1/2 mt-8"
                     ariaLabel="View all destinations"
                 />
             </Carousel>

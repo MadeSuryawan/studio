@@ -58,7 +58,6 @@ import {
 import { type DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
-import Gradient from "./Gradient";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
@@ -151,10 +150,6 @@ export default function SearchSection(): React.JSX.Element {
             id="search"
             className="relative w-full rounded-t-lg border-t-2"
         >
-            {/* <Gradient
-                bottom={false}
-                gradientT="from-secondary to-transparent"
-            /> */}
             <div className="container px-4 md:px-6">
                 <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 border-t-0 bg-bg-alternate">
                     <CardHeader>

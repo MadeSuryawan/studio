@@ -2,12 +2,12 @@
 
 import { forwardRef, memo } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
 import { SpotlightCard } from "@/components/ui/spotlightcard";
+import { GradientButton } from "../ui/gradient-button";
+import { ChevronRight } from "lucide-react";
 
 // A generic type for the card's data, usable by any section
 export type CardData = {
@@ -120,7 +120,14 @@ const SectionCard = memo(
                         )}
                     >
                         <ButtonFunc
-                            className="bg-background border-none"
+                            className={cn(
+                                "shadow-lg",
+                                "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
+                                "hover:shadow-black/30 hover:scale-[1] hover:text-white hover:from-[#163f53] hover:to-[#0f2f3b]",
+                                "transtition-all duration-300 ease-in-out",
+                                "shadow-none",
+                                "border-[1px] border-black/30",
+                            )}
                             text={buttonText}
                             link={buttonLink}
                             arrow={false}
@@ -152,20 +159,27 @@ export const ButtonFunc = ({
     onClick?: () => void;
 }) => {
     return (
-        <Button
-            asChild
-            variant="outline"
+        <GradientButton
+            variant={"secondary"}
+            size="sm"
+            icon={arrow && <ChevronRight />}
+            iconPosition={arrow ? "right" : "none"}
+            fullWidth={false}
+            hapticFeedback={true}
+            textShadow="large"
             className={cn(
-                "section-button bg-bg-alternate text-special-card-fg border-accent text-center",
+                "shadow-lg mx-auto text-white/70 mt-8 md:mt-auto",
+                "md:flex flex-row items-center justify-center",
+                "left-1/2 -translate-x-1/2",
                 className,
             )}
-            onClick={onClick}
             aria-label={ariaLabel}
+            aria-describedby={text}
+            aria-expanded={false}
+            aria-pressed={true}
+            onClick={onClick}
         >
-            <Link href={link || "#"}>
-                {text}
-                {arrow && <ArrowRight className="h-4 w-4" aria-hidden="true" />}
-            </Link>
-        </Button>
+            <Link href={link || "#"}>{text}</Link>
+        </GradientButton>
     );
 };

@@ -12,7 +12,6 @@ import { Check, Car, Clock, MapPin, UserCheck, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import Gradient from "@/components/home/Gradient";
 
 interface CarOption {
     name: string;
@@ -191,10 +190,6 @@ function HeroSection(): React.JSX.Element {
 function FleetOptionsSection(): React.JSX.Element {
     return (
         <section id="fleet-options" className="relative w-full py-12 md:py-20">
-            <Gradient
-                bottom={false}
-                gradientT="from-secondary to-transparent"
-            />
             <div className="container px-4 md:px-6 z-10">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-normal sm:text-4xl text-special-card-fg">
@@ -252,7 +247,6 @@ function FleetOptionsSection(): React.JSX.Element {
 function PricingSection(): React.JSX.Element {
     return (
         <section id="pricing" className="relative w-full py-12 md:py-16">
-            <Gradient />
             <div className="container px-4 md:px-6 z-10">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold tracking-normal sm:text-4xl text-special-card-fg">

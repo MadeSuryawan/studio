@@ -6,7 +6,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Loader2, ChevronRight, AlertCircle } from "lucide-react";
-import { useGradientButton } from "@/hooks/useGradientButton";
+import { useGradientButton } from "@/hooks/use-gradient-button";
 
 // Constants for styling
 const GRADIENT_COLORS = {
@@ -43,54 +43,58 @@ const SHADOW_CONFIG = {
 const gradientButtonVariants = cva(
     [
         // Base styles
-        "relative inline-flex items-center justify-center gap-2",
-        "text-center align-middle cursor-pointer",
-        "font-bold text-white no-underline",
-        "border border-solid rounded-lg",
-        "transition-all duration-200 ease-in-out",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        "disabled:pointer-events-none disabled:opacity-50",
-        "active:translate-y-px",
-        "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+        `relative inline-flex items-center justify-center`,
+        `text-center align-middle cursor-pointer`,
+        `font-bold text-white no-underline`,
+        `border border-solid rounded-lg`,
+        `transition-all duration-500 ease-in-out`,
+        `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`,
+        `disabled:pointer-events-none disabled:opacity-50`,
+        `active:translate-y-px`,
+        `[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:drop-shadow-[1px_3px_1px_#1f1f1f]`,
     ],
     {
         variants: {
             variant: {
                 primary: [
                     "bg-gradient-to-b from-[#43809b] to-[#244452]",
-                    "border-[#244452]",
-                    "shadow-[0px_3px_5px_0px_rgba(82,82,82,0.5)]",
-                    "hover:from-[#509aba] hover:to-[#2b5262] hover:border-[#2a5061]",
-                    "hover:shadow-[0px_4px_8px_0px_rgba(82,82,82,0.6)]",
-                    "active:from-[#244452] active:to-[#244452]",
-                    "active:shadow-[0px_2px_3px_0px_rgba(82,82,82,0.4)]",
+                    `border-[#244452]`,
+                    `shadow-[0px_3px_5px_0px_rgba(82,82,82,0.5)]`,
+                    cn(`hover:from-[#509aba] hover:to-[#2b5262]`),
+                    cn("hover:border-[#2a5061]"),
+                    `hover:shadow-[0px_4px_8px_0px_rgba(82,82,82,0.6)]`,
+                    cn(`active:from-[#244452] active:to-[#244452]`),
+                    `active:shadow-[0px_2px_3px_0px_rgba(82,82,82,0.4)]`,
                 ],
                 secondary: [
-                    "bg-gradient-to-b from-[#6b7280] to-[#374151]",
-                    "border-[#374151]",
-                    "shadow-[0px_3px_5px_0px_rgba(82,82,82,0.5)]",
-                    "hover:from-[#9ca3af] hover:to-[#4b5563] hover:border-[#4b5563]",
-                    "hover:shadow-[0px_4px_8px_0px_rgba(82,82,82,0.6)]",
-                    "active:from-[#374151] active:to-[#374151]",
+                    cn("bg-gradient-to-b from-[#4e5254] to-[#1c2529]"),
+                    cn("border-[#374151] border-[1px]"),
+                    cn("shadow-black/50"),
+                    "hover:scale-[1.02]",
+                    cn("hover:from-[#5f6466] hover:to-[#232e32]"),
+                    cn("hover:border-[#4b5563]"),
+                    cn(`hover:text-white`),
+                    cn(`hover:shadow-black/40`),
+                    cn("active:from-[#374151] active:to-[#374151]"),
                     "active:shadow-[0px_2px_3px_0px_rgba(82,82,82,0.4)]",
                 ],
                 outline: [
                     "bg-transparent border-2",
-                    "border-[#43809b] text-[#43809b]",
-                    "hover:bg-[#43809b] hover:text-white",
+                    cn("border-[#43809b] text-[#43809b]"),
+                    cn("hover:bg-[#43809b] hover:text-white"),
                     "shadow-none hover:shadow-[0px_3px_5px_0px_rgba(67,128,155,0.3)]",
                 ],
             },
             size: {
-                sm: "px-4 py-2 text-sm [&_svg]:size-4",
-                default: "px-6 py-3 text-base [&_svg]:size-5",
-                lg: "px-8 py-4 text-lg [&_svg]:size-6",
-                xl: "px-10 py-5 text-xl [&_svg]:size-7",
+                sm: "px-4 py-2 text-sm gap-2 [&_svg]:size-4",
+                default: "px-6 py-3 text-base gap-2 [&_svg]:size-5",
+                lg: "px-8 py-4 text-lg gap-3 [&_svg]:size-6",
+                xl: "px-10 py-5 text-xl gap-3 [&_svg]:size-7",
             },
             iconPosition: {
                 left: "flex-row",
-                right: "flex-row-reverse",
-                none: "",
+                right: "flex-row",
+                none: "gap-0",
             },
         },
         defaultVariants: {
@@ -115,6 +119,7 @@ export interface GradientButtonProps
     loadingTimeout?: number;
     errorState?: boolean;
     successState?: boolean;
+    textShadow?: "none" | "light" | "medium" | "large";
     "aria-label"?: string;
     "aria-describedby"?: string;
     "aria-expanded"?: boolean;
@@ -140,6 +145,7 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
             successState = false,
             disabled,
             children,
+            textShadow = "medium",
             onClick,
             "aria-label": ariaLabel,
             "aria-describedby": ariaDescribedBy,
@@ -203,15 +209,19 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
             shouldReduceMotion && "transition-none",
             isLoading && "cursor-wait",
             isPressed && "transform translate-y-px",
-            isFocused && "ring-2 ring-offset-2 ring-blue-500",
+            isFocused && "ring-1 ring-offset-1 ring-blue-500",
             errorState &&
                 "border-red-500 bg-gradient-to-b from-red-500 to-red-700",
             successState &&
                 "border-green-500 bg-gradient-to-b from-green-500 to-green-700",
             // Apply text-shadow for primary and secondary variants (not outline)
-            (variant === "primary" || variant === "secondary") &&
-                "text-shadow-gradient",
+            // (variant === "primary" || variant === "secondary") &&
+            //     "text-shadow-gradient",
             variant === "outline" && "text-shadow-none",
+            textShadow === "none" && "text-shadow-none",
+            textShadow === "light" && "text-shadow-gradient-light",
+            textShadow === "medium" && "text-shadow-gradient",
+            textShadow === "large" && "text-shadow-gradient-large",
         );
 
         return (
@@ -239,9 +249,17 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
                 tabIndex={disabled ? -1 : 0}
                 {...props}
             >
-                {displayIcon && iconPosition === "left" && displayIcon}
-                <span className="flex-1">{buttonContent}</span>
-                {displayIcon && iconPosition === "right" && displayIcon}
+                {iconPosition === "right" ? (
+                    <>
+                        {buttonContent && <span>{buttonContent}</span>}
+                        {displayIcon && displayIcon}
+                    </>
+                ) : (
+                    <>
+                        {displayIcon && iconPosition === "left" && displayIcon}
+                        {buttonContent && <span>{buttonContent}</span>}
+                    </>
+                )}
             </Comp>
         );
     },

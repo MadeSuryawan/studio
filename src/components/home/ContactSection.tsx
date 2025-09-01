@@ -26,7 +26,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import Gradient from "./Gradient";
 
 const contactSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
@@ -178,7 +177,6 @@ const ContactForm = (): React.JSX.Element => {
 export default function ContactSection(): React.JSX.Element {
     return (
         <section id="contact" className="relative w-full py-8 md:py-16">
-            {/* <Gradient bottom={false} /> */}
             <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6 z-10">
                 <div className="space-y-3">
                     <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">

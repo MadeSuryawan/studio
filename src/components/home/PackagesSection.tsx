@@ -166,56 +166,6 @@ const Titles: React.FC = () => (
     </div>
 );
 
-const PackageCard = ({ pkg }: { pkg: CardData }) => (
-    <Card className="flex flex-col md:flex-row shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform transition-all duration-300 ease-in-out bg-card">
-        <div className="py-1 px-1 md:pr-0 w-full md:w-1/2">
-            <Image
-                src={pkg.image}
-                alt={pkg.name}
-                width={600}
-                height={400}
-                className="w-full h-48 object-cover md:h-full md:rounded-l-md md:rounded-r-none"
-                sizes="(max-width: 768px) 100vw, 33vw"
-                data-ai-hint={pkg.aiHint}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-            />
-        </div>
-        <CardContent className="flex flex-col p-3 justify-between flex-grow">
-            <div>
-                <CardTitle className="text-special-card-fg text-xl font-bold leading-relaxed line-clamp-1">
-                    {pkg.name}
-                </CardTitle>
-                {pkg.features && (
-                    <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
-                        {pkg.features.map((feature) => (
-                            <li
-                                key={feature.text}
-                                className="flex items-center gap-3"
-                            >
-                                {feature.icon}
-                                <span className="line-clamp-1">
-                                    {feature.text}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
-            <div className="relative bottom-0 right-0 ml-auto mt-auto">
-                <ButtonFunc
-                    className="bg-background border-none"
-                    text="View Details"
-                    link={`/#contact?${new URLSearchParams({ message: `I'd like more details about the "${pkg.name}" package.` }).toString()}`}
-                    arrow={false}
-                    ariaLabel={`View details for ${pkg.name}`}
-                />
-            </div>
-        </CardContent>
-    </Card>
-);
-
 export default function PackagesSection(): React.JSX.Element {
     const cardRef = React.useRef<HTMLDivElement>(null);
     return (
@@ -228,7 +178,6 @@ export default function PackagesSection(): React.JSX.Element {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-3 mb-12">
                         {packages.map((pkg) => (
-                            // <PackageCard key={pkg.name} pkg={pkg} />
                             <SectionCard
                                 ref={cardRef}
                                 key={pkg.name}
@@ -236,16 +185,14 @@ export default function PackagesSection(): React.JSX.Element {
                                 buttonText="View Details"
                                 buttonLink={pkg.link}
                                 packageCard={true}
-                                className="md:flex-row "
+                                className="md:flex-row"
                             />
                         ))}
                     </div>
-                    <div className="flex justify-end mt-auto">
-                        <ButtonFunc
-                            text="View All Packages"
-                            ariaLabel="View all packages"
-                        />
-                    </div>
+                    <ButtonFunc
+                        text="View All Packages"
+                        ariaLabel="View all packages"
+                    />
                 </div>
 
                 {/* Mobile view */}
@@ -256,7 +203,6 @@ export default function PackagesSection(): React.JSX.Element {
                     <CarouselContent paginationMt="mt-32">
                         {packages.map((pkg) => (
                             <CarouselItem key={pkg.name}>
-                                {/* <PackageCard pkg={pkg} /> */}
                                 <SectionCard
                                     key={pkg.name}
                                     ref={cardRef}
@@ -270,7 +216,6 @@ export default function PackagesSection(): React.JSX.Element {
                     </CarouselContent>
                     <ButtonFunc
                         text="View All Packages"
-                        className="relative left-1/2 -translate-x-1/2 mt-8"
                         ariaLabel="View all packages"
                     />
                 </Carousel>
