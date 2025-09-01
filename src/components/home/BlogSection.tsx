@@ -57,7 +57,7 @@ const Titles: React.FC = () => (
 export default function BlogSection(): React.JSX.Element {
     const cardRef = React.useRef<HTMLDivElement>(null);
     return (
-        <section id="blog" className="relative w-full py-8">
+        <section id="blog" className="relative w-full">
             {/* Desktop view */}
             <div className="container px-6 z-10 hidden md:block">
                 <div className="flex justify-between items-center mb-12">
@@ -83,7 +83,7 @@ export default function BlogSection(): React.JSX.Element {
                 <div className="text-center py-4">
                     <Titles />
                 </div>
-                <CarouselContent paginationMt="mt-32">
+                <CarouselContent paginationMt="mt-40">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
                             <SectionCard

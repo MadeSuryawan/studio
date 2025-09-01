@@ -162,7 +162,11 @@ export const ButtonFunc = ({
         <GradientButton
             variant={"secondary"}
             size="sm"
-            icon={arrow && <ChevronRight />}
+            icon={
+                arrow && (
+                    <ChevronRight className="drop-shadow-[1px_3px_1px_#1f1f1f]" />
+                )
+            }
             iconPosition={arrow ? "right" : "none"}
             fullWidth={false}
             hapticFeedback={true}

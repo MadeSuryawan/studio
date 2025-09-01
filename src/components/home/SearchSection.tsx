@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
-
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import { Button } from "@/components/ui/button";
@@ -58,6 +57,8 @@ import {
 import { type DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
+import { GradientButton } from "@/components/ui/gradient-button";
+import { NotepadText } from "lucide-react";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
@@ -117,9 +118,9 @@ export default function SearchSection(): React.JSX.Element {
 
         if (result.success && result.data) {
             setItinerary(result.data.itinerary);
-        } else {
-            setError(result.error ?? "An unexpected error occurred.");
+            return;
         }
+        setError(result.error ?? "An unexpected error occurred.");
     }
 
     const handleCopyToClipboard = () => {
@@ -151,7 +152,12 @@ export default function SearchSection(): React.JSX.Element {
             className="relative w-full rounded-t-lg border-t-2"
         >
             <div className="container px-4 md:px-6">
-                <Card className="max-w-4xl mx-auto shadow-xl -mt-32 relative z-20 border-border/50 border-t-0 bg-bg-alternate">
+                <Card
+                    className={cn(
+                        "max-w-4xl mx-auto shadow-xl -mt-32 relative z-20",
+                        "border-border/50 border-t-0 bg-bg-alternate",
+                    )}
+                >
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-2xl">
                             <Search /> Find Your Perfect Trip
@@ -317,21 +323,42 @@ export default function SearchSection(): React.JSX.Element {
                                         </FormItem>
                                     )}
                                 />
-                                <Button
-                                    type="submit"
-                                    size="lg"
-                                    className="md:col-start-3 bg-primary hover:bg-primary/90"
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="animate-spin" />
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        "Create My Itinerary"
-                                    )}
-                                </Button>
+                                <div className="md:col-start-3 relative flex flex-row justify-center">
+                                    <GradientButton
+                                        type="submit"
+                                        size="sm"
+                                        variant="primary"
+                                        fullWidth={false}
+                                        className={cn(
+                                            "flex flex-row items-start justify-between",
+                                            "left-1/2 -translate-x-1/2 text-left",
+                                            " w-1/2 md:w-44",
+                                            "shadow-sm shadow-black/50",
+                                            "bg-gradient-to-b from-[#F79244] to-[#aa5a1d]",
+                                            "hover:from-[#f89950] hover:to-[#be6b2c]",
+                                            "hover:shadow-sm hover:shadow-black/30",
+                                            "transtition-all duration-500 ease-out",
+                                            "will-change-auto",
+                                            "hover:scale-[1.01]",
+                                        )}
+                                        disabled={isLoading}
+                                        loading={isLoading}
+                                        textShadow={
+                                            isLoading ? "none" : "light"
+                                        }
+                                        icon={
+                                            <NotepadText className="scale-[1.1] drop-shadow-[1px_3px_1px_#1f1f1f]" />
+                                        }
+                                        iconPosition="right"
+                                        loadingText="Processing..."
+                                        aria-label="Create My Itinerary"
+                                        aria-describedby="Create My Itinerary"
+                                        aria-expanded={false}
+                                        aria-pressed={true}
+                                    >
+                                        Create My Itinerary
+                                    </GradientButton>
+                                </div>
                             </form>
                         </Form>
                     </CardContent>

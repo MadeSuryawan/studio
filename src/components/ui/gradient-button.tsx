@@ -51,7 +51,7 @@ const gradientButtonVariants = cva(
         `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`,
         `disabled:pointer-events-none disabled:opacity-50`,
         `active:translate-y-px`,
-        `[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:drop-shadow-[1px_3px_1px_#1f1f1f]`,
+        `[&_svg]:pointer-events-none [&_svg]:shrink-0`,
     ],
     {
         variants: {
@@ -182,7 +182,7 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
         // Determine the icon to display with state-based icons
         const displayIcon = React.useMemo(() => {
             if (isLoading) {
-                return <Loader2 className="animate-spin" />;
+                return <Loader2 className="animate-spin drop-shadow-none" />;
             }
             if (errorState) {
                 return <AlertCircle className="text-red-400" />;

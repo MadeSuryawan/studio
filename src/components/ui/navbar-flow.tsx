@@ -1139,7 +1139,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
             {/* Mobile Navigation */}
             <div
                 className={cn(
-                    "block md:hidden bg-background rounded-b-sm",
+                    "block md:hidden bg-background rounded-b-sm px-1",
                     sequenceDone && `border-b ${borderColor}`,
                 )}
             >
@@ -1147,13 +1147,17 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                     className={`top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full relative`}
                 >
                     <div
-                        className={`container flex ${NAVBAR_CONSTANTS.NAVBAR_HEIGHT.MOBILE} ${NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP} max-w-screen-2xl items-center px-2`}
+                        className={cn(
+                            "container flex",
+                            ` ${NAVBAR_CONSTANTS.NAVBAR_HEIGHT.MOBILE}`,
+                            "max-w-screen-2xl items-center px-2",
+                        )}
                     >
                         {/* Mobile Logo/Emblem */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={emblemMotion}
-                            className="mr-4 flex-shrink-0"
+                            className="mr-4 flex-shrink-0 pt-2"
                             role="banner"
                             aria-label="Site logo"
                         >
@@ -1161,11 +1165,11 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         </motion.div>
 
                         {/* Mobile Right Section */}
-                        <div className="flex flex-1 items-center justify-end -space-x-2">
+                        <div className="flex flex-1 items-center justify-end -space-x-2 ">
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={switchMotion}
-                                className="flex items-center space-x-2 pr-4 pb-2"
+                                className="flex items-center space-x-2 pr-6 pb-2"
                                 role="complementary"
                                 aria-label="Additional navigation tools"
                             >
@@ -1191,7 +1195,11 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 type="button"
                                 onClick={toggleMobileMenu}
                                 className={cn(
-                                    "flex items-center justify-center w-9 h-9 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors mt-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md",
+                                    "flex items-center justify-center",
+                                    " text-gray-700 dark:text-gray-300",
+                                    " hover:text-gray-900 dark:hover:text-white transition-colors",
+                                    "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md",
+                                    "scale-[1.2]",
                                 )}
                                 aria-expanded={mobileMenuVisible}
                                 aria-controls={mobileMenuId}

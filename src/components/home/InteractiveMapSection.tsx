@@ -283,7 +283,7 @@ export default function InteractiveMapSection(): React.JSX.Element {
     }, [containerHeight]);
 
     return (
-        <section id="map" className="relative w-full py-4 md:py-8">
+        <section id="map" className="relative w-full py-16">
             <div className="z-10 grid grid-col">
                 {/* Title */}
                 <div className="text-center mb-1 md:mb-3">

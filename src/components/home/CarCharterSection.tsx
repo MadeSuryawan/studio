@@ -23,7 +23,12 @@ export default function CarCharterSection(): React.JSX.Element {
                 aria-hidden="true"
             />
 
-            <div className="relative flex flex-col items-center h-full text-center px-8 md:px-12 max-w-screen-md mx-auto z-10 space-y-6">
+            <div
+                className={cn(
+                    "relative flex flex-col items-center h-full text-center",
+                    "px-8 md:px-12 max-w-screen-md mx-auto z-10 space-y-6",
+                )}
+            >
                 <div
                     className={cn(
                         "inline-block text-grey/60 px-3 py-1 text-sm font-semibold",
@@ -31,12 +36,17 @@ export default function CarCharterSection(): React.JSX.Element {
                         "text-shadow-gradient-small",
                         "bg-gradient-to-b from-[#2f5d71] to-[#103444]",
                         "rounded-[3%_15%_3%_15%_/_9%_50%_9%_50%]",
-                        "border-[1px] border-[#117a80]",
+                        "border-[1px] border-accent",
                     )}
                 >
                     Our Premier Service
                 </div>
-                <h2 className="text-3xl font-bold tracking-light sm:text-4xl md:text-5xl font-headline">
+                <h2
+                    className={cn(
+                        "text-3xl font-bold tracking-light",
+                        "sm:text-4xl md:text-5xl font-headline",
+                    )}
+                >
                     Explore Bali Your Way
                 </h2>
                 <p className="mt-4 text-lg md:text-xl text-special-card-fg/80">
@@ -48,7 +58,9 @@ export default function CarCharterSection(): React.JSX.Element {
                 <div className="mt-6 flex flex-row flex-0">
                     <AnimatedButton
                         className={cn(
-                            "text-[#ffffff] shadow-lg shadow-black/50 border-none w-48 h-[44px] left-1/2 -translate-x-1/2 -translate-y-[2px]",
+                            "text-[#ffffff] shadow-md",
+                            "shadow-black/50 border-none w-48 h-[44px]",
+                            "left-1/2 -translate-x-1/2 -translate-y-[2px]",
                         )}
                         variant="outline"
                         size="default"
@@ -67,12 +79,19 @@ export default function CarCharterSection(): React.JSX.Element {
                     <GradientButton
                         variant={"primary"}
                         size="sm"
-                        icon={<ChevronRight className="h-4 w-4" />}
+                        icon={
+                            <ChevronRight className="h-4 w-4 drop-shadow-[1px_3px_1px_#1f1f1f]" />
+                        }
                         iconPosition="right"
                         fullWidth={false}
                         hapticFeedback={true}
                         className={cn(
-                            "shadow-md absolute shadow-black/50 hover:shadow-black/50 hover:scale-[1.04] scale-[1.01] left-1/2 -translate-x-1/2 translate-y-[1px]",
+                            "shadow-md absolute",
+                            "bg-gradient-to-b from-[#43809b] to-[#244452]",
+                            "shadow-black/50",
+                            "hover:shadow-black/50 hover:scale-[1.04]",
+                            "active:scale-[1.01]",
+                            "left-1/2 -translate-x-1/2 translate-y-[1px]",
                         )}
                         aria-label="View charter options"
                         aria-describedby="charter-options"

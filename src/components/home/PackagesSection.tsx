@@ -169,7 +169,7 @@ const Titles: React.FC = () => (
 export default function PackagesSection(): React.JSX.Element {
     const cardRef = React.useRef<HTMLDivElement>(null);
     return (
-        <section id="packages" className="relative w-full py-12 md:py-24">
+        <section id="packages" className="relative w-full mt-8 py-16 md:py-28">
             <div className="container px-4 md:px-6">
                 {/* Desktop view */}
                 <div className="hidden md:block">
@@ -200,7 +200,7 @@ export default function PackagesSection(): React.JSX.Element {
                     <div className="text-center py-4">
                         <Titles />
                     </div>
-                    <CarouselContent paginationMt="mt-32">
+                    <CarouselContent paginationMt="mt-40">
                         {packages.map((pkg) => (
                             <CarouselItem key={pkg.name}>
                                 <SectionCard

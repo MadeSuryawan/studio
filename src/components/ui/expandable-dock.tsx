@@ -298,9 +298,11 @@ const ExpandableDock = ({
                 className={cn(
                     "relative w-full h-[52px] md:h-[64px] will-change-auto",
                     "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
-                    `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#d57124]"}`,
-                    "transition-all duration-500 ease-out",
+                    `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#c06622]"}`,
+                    "transition-all duration-300 ease-out",
                     "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
+                    "hover:scale-[1.05]",
+                    "shadow-lg",
                 )}
             >
                 <div className="pointer-events-none">
