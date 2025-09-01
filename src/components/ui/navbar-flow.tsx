@@ -16,7 +16,6 @@ import {
     ChevronDown as ArrowDown,
     ChevronUp as ArrowUp,
 } from "lucide-react";
-import NavBarText from "@/components/icons/NavBarFlowText";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 
@@ -412,28 +411,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
         const runSequence = async () => {
             try {
                 const { quick, navDur, svgDur, navDelay } = animationDurations;
-
-                if (mobileView) {
-                    await Promise.all([
-                        emblemMotion.start({
-                            opacity: 1,
-                            x: 0,
-                            transition: { duration: quick, ease: "easeOut" },
-                        }),
-                        navMotion.start({
-                            opacity: 1,
-                            transition: { duration: quick, ease: "easeOut" },
-                        }),
-                        switchMotion.start({
-                            opacity: 1,
-                            x: 0,
-                            transition: { duration: quick, ease: "easeOut" },
-                        }),
-                    ]);
-                    setSequenceDone(true);
-                    return;
-                }
-
                 // Schedule links head start relative to navDelay
                 const headStartMs = Math.max(
                     0,
@@ -445,33 +422,56 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                     fireInMs,
                 );
 
-                await navMotion.start({
-                    clipPath: "inset(0 0% 0 0)",
-                    opacity: 1,
-                    transition: {
-                        duration: navDur,
-                        ease: "easeOut",
-                        delay: navDelay,
-                    },
-                });
-
-                await svgMotion.start({
-                    opacity: 1,
-                    transition: { duration: svgDur },
-                });
-
-                await Promise.all([
-                    emblemMotion.start({
+                if (mobileView) {
+                    await Promise.all([
+                        // emblemMotion.start({
+                        //     opacity: 1,
+                        //     x: 0,
+                        //     transition: {
+                        //         duration: quick,
+                        //         ease: "easeOut",
+                        //         delay: 0.5,
+                        //     },
+                        // }),
+                        navMotion.start({
+                            opacity: 1,
+                            transition: { duration: quick, ease: "easeOut" },
+                        }),
+                        switchMotion.start({
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: quick, ease: "easeOut" },
+                        }),
+                    ]);
+                } else {
+                    await navMotion.start({
+                        clipPath: "inset(0 0% 0 0)",
                         opacity: 1,
-                        x: 0,
-                        transition: { duration: quick, ease: "easeOut" },
-                    }),
-                    switchMotion.start({
+                        transition: {
+                            duration: navDur,
+                            ease: "easeOut",
+                            delay: navDelay,
+                        },
+                    });
+
+                    await svgMotion.start({
                         opacity: 1,
-                        x: 0,
-                        transition: { duration: quick, ease: "easeOut" },
-                    }),
-                ]);
+                        transition: { duration: svgDur },
+                    });
+
+                    await Promise.all([
+                        emblemMotion.start({
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: quick, ease: "easeOut" },
+                        }),
+                        switchMotion.start({
+                            opacity: 1,
+                            x: 0,
+                            transition: { duration: quick, ease: "easeOut" },
+                        }),
+                    ]);
+                }
 
                 setSequenceDone(true);
             } catch (error) {
@@ -634,7 +634,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
     const borderColor = cn("border-[#1496a2]");
     return (
         <div
-            className={`sticky top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
+            className={`fixed top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
         >
             {/* Desktop Navigation */}
             <div className="hidden md:block">
@@ -647,7 +647,11 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             : { ease: "easeOut", duration: 0.5, delay: 0.5 }
                     }
                     className={cn(
-                        "absolute bg-background -top-1/2 mx-auto flex items-center justify-between rounded-b-lg w-[95vw] left-1/2 -translate-x-1/2 px-2 border-x will-change-[opacity,clip-path]",
+                        "absolute bg-background",
+                        "mx-auto flex items-center justify-between",
+                        "rounded-b-lg w-[95vw]",
+                        "left-1/2 -translate-x-1/2 -top-1/3",
+                        "px-2 border-x will-change-opacity",
                         NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP,
                         borderColor,
                     )}
@@ -656,18 +660,15 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         className={cn(
-                            "flex items-center justify-center flex-shrink-0 translate-y-[50%]",
                             `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                            "mt-16 rounded-sm",
+                            `border-b-[2px] border-x ${borderColor}`,
                         )}
                         animate={emblemMotion}
                         role="banner"
                         aria-label="Site logo"
                     >
-                        {/* {emblem} */}
-                        {emblem &&
-                            cloneElement(emblem, {
-                                className: cn(" translate-y-[30px]"),
-                            })}
+                        {emblem}
                     </motion.div>
 
                     {/* Primary Navigation */}
@@ -678,29 +679,16 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         }}
                         animate={navMotion}
                         className={cn(
-                            "relative bg-background translate-y-1/2 px-[20px] py-[10px] rounded-[8px] flex items-center justify-center gap-6 lg:gap-12 flex-shrink-0 mt-4 overflow-hidden border-b-[2px] border-x",
+                            "relative bg-background translate-y-1/2 px-4 py-[10px]",
+                            "rounded-[8px] flex items-center justify-center",
+                            "gap-8 flex-shrink-0 overflow-hidden border-b-[2px] border-x",
                             `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                            `${borderColor}`,
+                            borderColor,
                         )}
                         role="navigation"
                         aria-label="Primary navigation"
                         onMouseLeave={clearSelectedSubmenu}
                     >
-                        <div
-                            className={`absolute w-full h-full backdrop-blur-[4px] z-${NAVBAR_CONSTANTS.Z_INDEX.BACKDROP}`}
-                        ></div>
-                        <div className="absolute flex items-center justify-center">
-                            <NavBarText
-                                className={cn(
-                                    "w-[43rem] h-12 will-change-auto opacity-0",
-                                    sequenceDone && "opacity-100",
-                                    `transition-opacity duration-${NAVBAR_CONSTANTS.SVG_DURATION}s ease-out`,
-                                    "saturate-50 hue-rotate-90 brightness-75",
-                                )}
-                                aria-hidden="true"
-                                focusable="false"
-                            />
-                        </div>
                         {links.map((element, idx) => (
                             <div
                                 key={element.text}
@@ -734,7 +722,12 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                     >
                                         <a
                                             href={element.url || "#"}
-                                            className="text-special-card-fg font-medium text-base lg:text-xl whitespace-nowrap hover:text-primary focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-md px-2 py-1"
+                                            className={cn(
+                                                "text-special-card-fg font-medium text-base text-xl",
+                                                "hover:text-primary",
+                                                "focus:ring-1 focus:ring-primary focus:ring-offset-0",
+                                                "rounded-md px-2",
+                                            )}
                                             aria-label={`Navigate to ${element.text}`}
                                         >
                                             {element.text}
@@ -749,7 +742,10 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={switchMotion}
-                        className={`rounded-[8px] z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT} flex-shrink-0 flex items-center`}
+                        className={cn(
+                            "rounded-[8px] flex-shrink-0 flex items-center",
+                            ` z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                        )}
                         role="complementary"
                         aria-label="Additional navigation tools"
                     >
@@ -764,11 +760,13 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         ))}
 
                         {rightComponent && (
-                            <div className="flex items-center justify-center size-9">
-                                {cloneElement(rightComponent, {
-                                    className:
-                                        `${rightComponent.props.className || ""} translate-y-1/2 h-10 w-10 mt-4`.trim(),
-                                })}
+                            <div
+                                className={cn(
+                                    `right-0 mt-12 rounded-md border-b-[2px] border-x`,
+                                    borderColor,
+                                )}
+                            >
+                                {rightComponent}
                             </div>
                         )}
                     </motion.div>
@@ -777,7 +775,9 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         initial={{ opacity: 0 }}
                         animate={svgMotion}
                         className={cn(
-                            "absolute inset-0 w-[110vw] h-full z-0 pointer-events-none mt-1 translate-y-1/2 left-1/2 -translate-x-1/2",
+                            "absolute inset-0 w-[98vw] h-full z-0",
+                            "pointer-events-none -mt-2 translate-y-1/2 left-1/2 -translate-x-1/2",
+                            // "bg-white",
                         )}
                         aria-hidden="true"
                         focusable="false"
@@ -797,6 +797,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -820,6 +821,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-1500,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -843,6 +845,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -889,6 +892,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -936,6 +940,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#blueGradient)"
                             strokeWidth="3"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.8 }}
                             transition={{
@@ -949,7 +954,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#blueGradient)"
                             strokeWidth="3"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.8 }}
                             transition={{
@@ -963,6 +968,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#cyanGradient)"
                             strokeWidth="2.5"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.7 }}
                             transition={{
@@ -976,7 +982,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#cyanGradient)"
                             strokeWidth="2.5"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.7 }}
                             transition={{
@@ -990,6 +996,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#purpleGradient)"
                             strokeWidth="2.5"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
                             transition={{
@@ -1003,7 +1010,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#purpleGradient)"
                             strokeWidth="2.5"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
                             transition={{
@@ -1017,6 +1024,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#orangeGradient)"
                             strokeWidth="3"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.8 }}
                             transition={{
@@ -1030,7 +1038,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#orangeGradient)"
                             strokeWidth="3"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.8 }}
                             transition={{
@@ -1044,6 +1052,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#redGradient)"
                             strokeWidth="2.5"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.7 }}
                             transition={{
@@ -1057,7 +1066,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#redGradient)"
                             strokeWidth="2.5"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.7 }}
                             transition={{
@@ -1071,6 +1080,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#greenGradient)"
                             strokeWidth="2.5"
                             fill="none"
+                            transform="translate(-100,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
                             transition={{
@@ -1084,7 +1094,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                             stroke="url(#greenGradient)"
                             strokeWidth="2.5"
                             fill="none"
-                            transform="scale(-1,1) translate(-1400,0)"
+                            transform="scale(-1,1) translate(-1500,0)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
                             transition={{
@@ -1100,36 +1110,42 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 stroke="#3b82f6"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(-70)"
                             />
                             <path
                                 d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
                                 stroke="#06b6d4"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(-70)"
                             />
                             <path
                                 d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
                                 stroke="#8b5cf6"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(-70)"
                             />
                             <path
                                 d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
                                 stroke="#f59e0b"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(70)"
                             />
                             <path
                                 d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
                                 stroke="#ef4444"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(80)"
                             />
                             <path
                                 d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
                                 stroke="#10b981"
                                 strokeWidth="4"
                                 fill="none"
+                                transform="translate(70)"
                             />
                         </g>
                     </motion.svg>
@@ -1137,96 +1153,116 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
             </div>
 
             {/* Mobile Navigation */}
-            <div
-                className={cn(
-                    "block md:hidden bg-background rounded-b-sm px-1",
-                    sequenceDone && `border-b ${borderColor}`,
-                )}
-            >
+            <div className={cn("container block md:hidden rounded-b-sm px-1")}>
                 <div
                     className={`top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full relative`}
                 >
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={
+                            sequenceDone
+                                ? { opacity: 1, x: 0 }
+                                : { opacity: 0, x: -20 }
+                        }
+                        className={cn(
+                            "absolute ml-3 mt-2",
+                            "ml-3 mt-2",
+                            "w-[calc(100vw_-_20.7rem)]",
+                            `border-b-[2px] border-x ${borderColor} rounded-sm`,
+                            "will-change-[transform,opacity]",
+                            "transition-auto",
+                            prefersReducedMotion
+                                ? "duration-200 ease-out"
+                                : "duration-500 ease-out",
+                        )}
+                        role="banner"
+                        aria-label="Site logo"
+                    >
+                        <div>{emblem}</div>
+                    </motion.div>
+
+                    {/* Mobile Right Section */}
                     <div
                         className={cn(
-                            "container flex",
-                            ` ${NAVBAR_CONSTANTS.NAVBAR_HEIGHT.MOBILE}`,
-                            "max-w-screen-2xl items-center px-2",
+                            "absolute top-0 max-w-sm right-0",
+                            "flex flex-row items-center justify-end gap-3 pr-2",
+                            "dark:bg-white/20 bg-white/50",
+                            "w-[calc(100vw_-_21.5rem)]",
+                            "my-2 mx-auto right-0 left-1/2 translate-x-3/4",
+                            "rounded-md backdrop-blur-sm",
+                            `border ${borderColor}`,
+                            "mr-[77px]",
+                            sequenceDone ? "opacity-100" : "opacity-0",
+                            "will-change-[transform,opacity]",
+                            "transition-auto",
+                            prefersReducedMotion
+                                ? "duration-200 ease-out"
+                                : "duration-500 ease-out",
                         )}
                     >
-                        {/* Mobile Logo/Emblem */}
                         <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={emblemMotion}
-                            className="mr-4 flex-shrink-0 pt-2"
-                            role="banner"
-                            aria-label="Site logo"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={
+                                sequenceDone
+                                    ? { opacity: 1, x: 0 }
+                                    : { opacity: 0, x: 20 }
+                            }
+                            className={cn(
+                                // "flex items-center",
+                                // "my-3",
+                                "will-change-[transform,opacity]",
+                                // "bg-white",
+                                "transition-auto",
+                                prefersReducedMotion
+                                    ? "duration-200 ease-out"
+                                    : "duration-500 ease-out",
+                            )}
+                            role="complementary"
+                            aria-label="Additional navigation tools"
                         >
-                            <div>{emblem}</div>
+                            {extraIcons.map((icon, idx) => (
+                                <div
+                                    key={idx}
+                                    className="flex items-center justify-center"
+                                    role="presentation"
+                                >
+                                    {icon}
+                                </div>
+                            ))}
+
+                            {rightComponent}
                         </motion.div>
 
-                        {/* Mobile Right Section */}
-                        <div className="flex flex-1 items-center justify-end -space-x-2 ">
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={switchMotion}
-                                className="flex items-center space-x-2 pr-6 pb-2"
-                                role="complementary"
-                                aria-label="Additional navigation tools"
-                            >
-                                {extraIcons.map((icon, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="flex items-center justify-center"
-                                        role="presentation"
-                                    >
-                                        {icon}
-                                    </div>
-                                ))}
-
-                                {rightComponent && (
-                                    <div className="flex items-center justify-center">
-                                        {rightComponent}
-                                    </div>
-                                )}
-                            </motion.div>
-
-                            {/* Mobile Menu Toggle */}
-                            <button
-                                type="button"
-                                onClick={toggleMobileMenu}
-                                className={cn(
-                                    "flex items-center justify-center",
-                                    " text-gray-700 dark:text-gray-300",
-                                    " hover:text-gray-900 dark:hover:text-white transition-colors",
-                                    "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md",
-                                    "scale-[1.2]",
-                                )}
-                                aria-expanded={mobileMenuVisible}
-                                aria-controls={mobileMenuId}
-                                aria-label={
-                                    mobileMenuVisible
-                                        ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                        : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
-                                }
-                            >
-                                {mobileMenuVisible ? (
-                                    <Close
-                                        className="h-7 w-7"
-                                        aria-hidden="true"
-                                    />
-                                ) : (
-                                    <List
-                                        className="h-7 w-7"
-                                        aria-hidden="true"
-                                    />
-                                )}
-                                <span className="sr-only">
-                                    {mobileMenuVisible
-                                        ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                        : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
-                                </span>
-                            </button>
-                        </div>
+                        {/* Mobile Menu Toggle */}
+                        <button
+                            type="button"
+                            onClick={toggleMobileMenu}
+                            className={cn(
+                                "flex items-center justify-center",
+                                " text-gray-700 dark:text-gray-200",
+                                " hover:text-gray-900 dark:hover:text-white transition-colors",
+                                "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md",
+                                "scale-[1.2]",
+                            )}
+                            aria-expanded={mobileMenuVisible}
+                            aria-controls={mobileMenuId}
+                            aria-label={
+                                mobileMenuVisible
+                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
+                            }
+                        >
+                            {mobileMenuVisible ? (
+                                <Close className="h-7 w-7" aria-hidden="true" />
+                            ) : (
+                                <List className="h-7 w-7" aria-hidden="true" />
+                            )}
+                            <span className="sr-only">
+                                {mobileMenuVisible
+                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
+                            </span>
+                        </button>
                     </div>
 
                     {/* Mobile Menu Dropdown */}
@@ -1248,7 +1284,11 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         aria-hidden={!mobileMenuVisible}
                         role="region"
                         aria-label="Mobile navigation menu"
-                        className={`absolute left-0 right-0 top-full z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU} overflow-y-auto border-t border-gray-200/40 dark:border-gray-800/40 bg-background md:backdrop-blur`}
+                        className={cn(
+                            "absolute left-1/2 right-0 top-full mt-12 mr-3",
+                            `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
+                            "overflow-y-auto border-t border-gray-200/40 dark:border-gray-800/40 bg-background md:backdrop-blur",
+                        )}
                         style={{ willChange: "clip-path, opacity" }}
                     >
                         <div className="container py-4 px-4">

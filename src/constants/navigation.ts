@@ -45,8 +45,8 @@ export const NAVIGATION_LINKS: NavigationLink[] = [
 // Header styling constants
 export const HEADER_STYLES = {
     NAVBAR_STYLE: "text-foreground h-12 md:h-16",
-    LOGO_CLASSES: "mt-3 md:mt-5 h-full w-[96px] md:w-[110px]",
-    THEME_SWITCHER_CONTAINER: "flex items-center justify-center mt-2",
+    LOGO_CLASSES: "h-full w-[96px] md:w-[110px]",
+    THEME_SWITCHER_CONTAINER: "flex items-center justify-center",
 } as const;
 
 // Animation constants

@@ -219,7 +219,7 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
             //     "text-shadow-gradient",
             variant === "outline" && "text-shadow-none",
             textShadow === "none" && "text-shadow-none",
-            textShadow === "light" && "text-shadow-gradient-light",
+            textShadow === "light" && "text-shadow-light",
             textShadow === "medium" && "text-shadow-gradient",
             textShadow === "large" && "text-shadow-gradient-large",
         );

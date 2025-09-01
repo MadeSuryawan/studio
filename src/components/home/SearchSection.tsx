@@ -155,7 +155,11 @@ export default function SearchSection(): React.JSX.Element {
                 <Card
                     className={cn(
                         "max-w-4xl mx-auto shadow-xl -mt-32 relative z-20",
-                        "border-border/50 border-t-0 bg-bg-alternate",
+                        "border-border/50 border-b-0 ",
+                        "bg-bg-alternate",
+                        // "bg-[linear-gradient(_#23282f_0%,_#23282f_90%,_#091c25_100%)]",
+                        // "bg-[linear-gradient_to_bottom(_#23282f_0%,_#23282f_85%,_#091c25_100%)]",
+                        // "bg-gradient-to-b from-[#4777be] via-[#4371b7] from-60% to-background to-100%",
                     )}
                 >
                     <CardHeader>
