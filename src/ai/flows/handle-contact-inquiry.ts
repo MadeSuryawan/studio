@@ -1,3 +1,4 @@
+
 "use server";
 
 /**
@@ -48,44 +49,63 @@ const sendEmailTool = ai.defineTool(
         }),
     },
     async ({ name, email, message }) => {
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            const errorMessage =
+                "Email server is not configured. Missing EMAIL_USER or EMAIL_PASS environment variables.";
+            console.error(errorMessage);
+            return { success: false, error: errorMessage };
+        }
+
+        // Use explicit SMTP configuration for better compatibility and error reporting
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true, // Use SSL
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS, // IMPORTANT: Use a Gmail App Password if 2FA is enabled
+            },
+        });
+
+        // Verify connection configuration for better debugging
         try {
-            if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-                console.error(
-                    "Email credentials are not configured in .env file.",
-                );
-                throw new Error("Server is not configured to send emails.");
-            }
-
-            const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS,
-                },
-            });
-
-            const mailOptions = {
-                from: `"${name} via BaliBlissed" <${process.env.EMAIL_USER}>`,
-                to: process.env.EMAIL_USER,
-                replyTo: email,
-                subject: "New Contact Inquiry from BaliBlissed Website",
-                text: `
-          Name: ${name}
-          Email: ${email}
-          Message:
-          ${message}
-        `.trim(),
+            await transporter.verify();
+            console.log("Nodemailer transport verified successfully.");
+        } catch (error: any) {
+            console.error("Nodemailer transport verification failed:", error);
+            return {
+                success: false,
+                error: `Failed to connect to email server: ${error.message}`,
             };
+        }
 
-            await transporter.sendMail(mailOptions);
-            console.log("Email sent successfully");
+        const mailOptions = {
+            from: `"${name} via BaliBlissed" <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_USER,
+            replyTo: email,
+            subject: `New Contact Inquiry from ${name}`,
+            html: `
+        <div style="font-family: sans-serif; line-height: 1.6;">
+          <h2>New Contact Inquiry from BaliBlissed Website</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <hr>
+          <h3>Message:</h3>
+          <p style="white-space: pre-wrap;">${message}</p>
+        </div>
+      `.trim(),
+        };
+
+        try {
+            const info = await transporter.sendMail(mailOptions);
+            console.log("Email sent successfully. Message ID:", info.messageId);
             return { success: true };
         } catch (error: any) {
-            console.error("Error sending email:", error);
+            console.error("Error sending email with Nodemailer:", error);
             return {
                 success: false,
                 error:
-                    error.message ||
+                    `Failed to send email: ${error.message}` ||
                     "An unknown error occurred while sending the email.",
             };
         }
