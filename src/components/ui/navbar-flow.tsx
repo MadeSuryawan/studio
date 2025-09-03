@@ -1,12 +1,16 @@
 // src/components/ui/navbar-flow.tsx
 "use client";
 
-import React, {
+import {
     useEffect,
     useState,
     useCallback,
     useId,
     useMemo,
+    memo,
+    type FC,
+    isValidElement,
+    Children,
 } from "react";
 import { motion, useAnimation, useReducedMotion } from "framer-motion";
 import {
@@ -109,7 +113,7 @@ const springTransition = {
  * Enhanced ListItem component with improved accessibility and performance
  * Handles dropdown menu items with keyboard navigation and screen reader support
  */
-const ListItem: React.FC<ListItemProps> = React.memo(function ListItem({
+const ListItem: FC<ListItemProps> = memo(function ListItem({
     setSelected,
     selected,
     element,
@@ -235,7 +239,7 @@ const ListItem: React.FC<ListItemProps> = React.memo(function ListItem({
 /**
  * Enhanced HoverLink component with improved accessibility and keyboard navigation
  */
-export const HoverLink = React.memo(function HoverLink({
+export const HoverLink = memo(function HoverLink({
     url,
     children,
     onPress,
@@ -275,7 +279,7 @@ export const HoverLink = React.memo(function HoverLink({
 /**
  * Enhanced FeatureItem component with improved accessibility and semantic structure
  */
-export const FeatureItem = React.memo(function FeatureItem({
+export const FeatureItem = memo(function FeatureItem({
     heading,
     url,
     info,
@@ -322,7 +326,7 @@ export const FeatureItem = React.memo(function FeatureItem({
  * Enhanced NavbarFlow component with improved performance, accessibility, and error handling
  * Provides responsive navigation with smooth animations and keyboard support
  */
-const NavbarFlow: React.FC<NavbarFlowProps> = ({
+const NavbarFlow: FC<NavbarFlowProps> = ({
     emblem,
     links = [],
     extraIcons = [],
@@ -428,6 +432,15 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
                 if (mobileView) {
                     await Promise.all([
+                        // emblemMotion.start({
+                        //     opacity: 1,
+                        //     x: 0,
+                        //     transition: {
+                        //         duration: quick,
+                        //         ease: "easeOut",
+                        //         delay: 0.5,
+                        //     },
+                        // }),
                         navMotion.start({
                             opacity: 1,
                             transition: { duration: quick, ease: "easeOut" },
@@ -545,14 +558,14 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
     const renderSubmenuItems = useCallback(
         (submenu: React.ReactNode) => {
             try {
-                if (!React.isValidElement(submenu)) return null;
+                if (!isValidElement(submenu)) return null;
 
                 const submenuProps = submenu.props as {
                     children?: React.ReactNode;
                 };
                 if (!submenuProps.children) return null;
 
-                return React.Children.map(
+                return Children.map(
                     submenuProps.children,
                     (child, childIdx) => (
                         <div key={childIdx} onClick={hideMobileMenu}>
@@ -784,12 +797,13 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         initial={{ opacity: 0 }}
                         animate={svgMotion}
                         className={cn(
-                            "absolute inset-0 w-full h-full z-0",
+                            "absolute inset-0 w-[98vw] h-full z-0",
                             "pointer-events-none -mt-2 translate-y-1/2 left-1/2 -translate-x-1/2",
+                            // "bg-white",
                         )}
                         aria-hidden="true"
                         focusable="false"
-                        viewBox="-200 0 1800 96"
+                        viewBox="0 0 1400 96"
                         preserveAspectRatio="none"
                     >
                         <defs>
@@ -805,6 +819,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -828,6 +843,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-1500,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -851,6 +867,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -897,6 +914,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
+                                // transform="translate(100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -1212,7 +1230,10 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                     : { opacity: 0, x: 20 }
                             }
                             className={cn(
+                                // "flex items-center",
+                                // "my-3",
                                 "will-change-[transform,opacity]",
+                                // "bg-white",
                                 "transition-auto",
                                 prefersReducedMotion
                                     ? "duration-200 ease-out"
@@ -1371,16 +1392,19 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                         ) : (
                                             <a
                                                 href={
-                                                    element.isModal
+                                                    element.isModal &&
+                                                    pathname !== "/"
                                                         ? "#"
                                                         : element.url || "#"
                                                 }
                                                 onClick={(e) => {
-                                                    if (element.isModal) {
+                                                    if (
+                                                        element.isModal &&
+                                                        pathname !== "/"
+                                                    ) {
                                                         e.preventDefault();
                                                         contactModal.onOpen();
                                                     }
-                                                    hideMobileMenu();
                                                 }}
                                                 className="text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800 block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                                 aria-label={`Navigate to ${element.text}`}
