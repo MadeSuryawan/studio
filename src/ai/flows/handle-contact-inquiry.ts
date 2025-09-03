@@ -37,6 +37,7 @@ export async function handleContactInquiry(
     return handleContactInquiryFlow(input);
 }
 
+// This tool is now called directly by the flow, not by the AI model.
 const sendEmailTool = ai.defineTool(
     {
         name: "sendEmail",
@@ -112,27 +113,29 @@ const sendEmailTool = ai.defineTool(
     },
 );
 
-const prompt = ai.definePrompt({
-    name: "handleContactInquiryPrompt",
-    input: { schema: HandleContactInquiryInputSchema },
+const generateConfirmationPrompt = ai.definePrompt({
+    name: "generateConfirmationPrompt",
+    input: {
+        schema: HandleContactInquiryInputSchema.extend({
+            emailSent: z
+                .boolean()
+                .describe("Whether the email was sent successfully or not."),
+        }),
+    },
     output: { schema: HandleContactInquiryOutputSchema },
-    tools: [sendEmailTool],
     prompt: `You are a friendly customer service assistant for a Bali travel agency called BaliBlissed.
+  A user has submitted a contact inquiry. Your only job is to generate a confirmation message based on whether their email was sent successfully.
 
-  A user has submitted the following inquiry through the contact form:
+  User's Name: {{{name}}}
+  User's Email: {{{email}}}
   
-  Name: {{{name}}}
-  Email: {{{email}}}
-  Message:
-  {{{message}}}
+  {{#if emailSent}}
+  The email was sent successfully. Generate a brief, friendly, and reassuring confirmation message. Acknowledge the user by name and mention that we will get back to them at their provided email address within 24-48 hours.
+  {{else}}
+  The email failed to send due to a technical issue. Politely inform the user that there was a problem and ask them to try again later.
+  {{/if}}
 
-  First, call the sendEmailTool to send the inquiry to the support team.
-
-  Then, based on the result of the tool call, generate a brief, friendly, and reassuring confirmation message. Acknowledge the user by name and mention that you will get back to them at their provided email address within 24-48 hours.
-
-  If the email fails, your confirmation message should politely inform them that there was a technical issue and they should try again later.
-  
-  Do not repeat the user's message in your response. Just provide the confirmation.
+  Do not repeat the user's message in your response. Just provide the confirmation message.
 `,
 });
 
@@ -143,12 +146,29 @@ const handleContactInquiryFlow = ai.defineFlow(
         outputSchema: HandleContactInquiryOutputSchema,
     },
     async (input) => {
-        const { output } = await prompt(input);
+        // Step 1: Directly call the tool to send the email.
+        const emailResult = await sendEmailTool(input);
+
+        // Step 2: Call the AI to generate a confirmation message based on the actual result.
+        const { output } = await generateConfirmationPrompt({
+            ...input,
+            emailSent: emailResult.success,
+        });
 
         if (!output) {
-            throw new Error("Failed to generate an AI confirmation message.");
+            // Fallback in case the AI fails to generate a message
+            if (emailResult.success) {
+                return {
+                    confirmation: `Thank you, ${input.name}! We have received your message and will get back to you shortly.`,
+                };
+            }
+            return {
+                confirmation:
+                    "We're sorry, but there was a technical issue sending your message. Please try again later.",
+            };
         }
 
         return output;
     },
 );
+
