@@ -122,7 +122,8 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                 )}
                 <div
                     className={cn(
-                        "card-button relative flex flex-shrink-0 place-content-start place-items-start bottom-0 mt-auto h-auto",
+                        "card-button relative flex flex-shrink-0 place-content-start",
+                        "place-items-start bottom-0 mt-auto h-auto",
                         `${baliMap ? "left-1/2 -translate-x-1/2 mr-auto" : "ml-auto"} `,
                         // "bg-orange-300/60",
                     )}
@@ -131,13 +132,11 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                         className={cn(
                             "shadow-lg",
                             "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
-                            "hover:shadow-black/30 hover:scale-100 hover:text-white",
+                            "hover:shadow-black/30 hover:scale-100",
                             "hover:from-[#163f53] hover:to-[#0f2f3b]",
                             "transtition-all duration-300 ease-in-out",
                             "shadow-sm",
-                            // "border-[1px] border-black/50 border-t-0",
                             "border-none",
-                            "mt-0",
                         )}
                         text={buttonText}
                         link={buttonLink}
@@ -182,9 +181,10 @@ export const ButtonFunc = ({
             hapticFeedback={true}
             textShadow="large"
             className={cn(
-                "shadow-lg mx-auto text-white/70 mt-8 md:mt-auto",
+                "shadow-md mx-auto text-white/70 mt-8 md:mt-auto",
                 "md:flex flex-row items-center justify-center",
                 "left-1/2 -translate-x-1/2",
+                "hover:scale-[1.02]",
                 className,
             )}
             aria-label={ariaLabel}

@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { useState, type JSX } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/config";
+import WhatsAppIcon from "../icons/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -57,8 +58,11 @@ import {
 import { type DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
-import { GradientButton } from "@/components/ui/gradient-button";
-import { NotepadText } from "lucide-react";
+import {
+    GradientButton,
+    gradientButtonVariants,
+} from "@/components/ui/gradient-button";
+import { NotepadText, Send } from "lucide-react";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
@@ -71,12 +75,61 @@ const searchSchema = z.object({
     budget: z.string().min(2, "Please provide a budget"),
 });
 
-export default function SearchSection(): React.JSX.Element {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [itinerary, setItinerary] = React.useState<string | null>(null);
-    const [error, setError] = React.useState<string | null>(null);
-    const [showWhatsAppInput, setShowWhatsAppInput] = React.useState(false);
-    const [whatsAppNumber, setWhatsAppNumber] = React.useState("");
+const accentClasses = gradientButtonVariants({
+    variant: "accent",
+    size: "sm",
+    iconPosition: "right",
+} as const);
+
+interface SecondaryButtonProps {
+    onClick: () => void;
+    className?: string;
+    label: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    ariaLabel: string;
+    fullWidth?: boolean;
+}
+
+const SecondaryButton = ({
+    className,
+    label,
+    icon: Icon,
+    ariaLabel,
+    fullWidth = false,
+    onClick,
+}: SecondaryButtonProps): JSX.Element => {
+    return (
+        <GradientButton
+            type="button"
+            size="sm"
+            variant="secondary"
+            fullWidth={fullWidth}
+            className={cn(
+                "shadow-sm border-none hover:scale-1 text-nowrap",
+                className,
+            )}
+            icon={
+                <Icon className="scale-[1.1] drop-shadow-[1px_2px_1px_#1f1f1f]" />
+            }
+            iconPosition="left"
+            textShadow="medium"
+            aria-label={ariaLabel}
+            aria-describedby={ariaLabel}
+            aria-expanded={false}
+            aria-pressed={true}
+            onClick={onClick}
+        >
+            {label}
+        </GradientButton>
+    );
+};
+
+export default function SearchSection(): JSX.Element {
+    const [isLoading, setIsLoading] = useState(false);
+    const [itinerary, setItinerary] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [showWhatsAppInput, setShowWhatsAppInput] = useState(false);
+    const [whatsAppNumber, setWhatsAppNumber] = useState("");
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof searchSchema>>({
@@ -157,9 +210,6 @@ export default function SearchSection(): React.JSX.Element {
                         "max-w-4xl mx-auto shadow-xl -mt-32 relative z-20",
                         "border-border/50 border-b-0 ",
                         "bg-bg-alternate",
-                        // "bg-[linear-gradient(_#23282f_0%,_#23282f_90%,_#091c25_100%)]",
-                        // "bg-[linear-gradient_to_bottom(_#23282f_0%,_#23282f_85%,_#091c25_100%)]",
-                        // "bg-gradient-to-b from-[#4777be] via-[#4371b7] from-60% to-background to-100%",
                     )}
                 >
                     <CardHeader>
@@ -331,18 +381,12 @@ export default function SearchSection(): React.JSX.Element {
                                     <GradientButton
                                         type="submit"
                                         size="sm"
-                                        variant="primary"
+                                        variant="accent"
                                         fullWidth={false}
                                         className={cn(
-                                            "flex flex-row items-start justify-between",
-                                            "left-1/2 -translate-x-1/2 text-left",
-                                            " w-1/2 md:w-44",
-                                            "shadow-sm shadow-black/50",
-                                            "bg-gradient-to-b from-[#F79244] to-[#aa5a1d]",
-                                            "hover:from-[#f89950] hover:to-[#be6b2c]",
-                                            "hover:shadow-sm hover:shadow-black/30",
-                                            "transtition-all duration-500 ease-out",
-                                            "will-change-auto",
+                                            "justify-evenly",
+                                            "left-1/2 -translate-x-1/2",
+                                            " w-1/2 md:w-48",
                                             "hover:scale-[1.01]",
                                         )}
                                         disabled={isLoading}
@@ -351,7 +395,7 @@ export default function SearchSection(): React.JSX.Element {
                                             isLoading ? "none" : "light"
                                         }
                                         icon={
-                                            <NotepadText className="scale-[1.1] drop-shadow-[1px_3px_1px_#1f1f1f]" />
+                                            <NotepadText className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
                                         }
                                         iconPosition="right"
                                         loadingText="Processing..."
@@ -359,6 +403,7 @@ export default function SearchSection(): React.JSX.Element {
                                         aria-describedby="Create My Itinerary"
                                         aria-expanded={false}
                                         aria-pressed={true}
+                                        hapticFeedback={true}
                                     >
                                         Create My Itinerary
                                     </GradientButton>
@@ -400,7 +445,21 @@ export default function SearchSection(): React.JSX.Element {
                                             setWhatsAppNumber(e.target.value)
                                         }
                                     />
-                                    <Button asChild disabled={!whatsAppNumber}>
+                                    {/* <Button
+                                        disabled={!whatsAppNumber}
+                                        className={cn(
+                                            "flex flex-row items-center justify-center",
+                                            "bg-gradient-to-b from-[#3cd8d8] to-[#278888]",
+                                            "hover:from-[#3de0e0] hover:to-[#2db0af]",
+                                            "shadow-sm shadow-black/50",
+                                            "hover:shadow-sm hover:shadow-black/30",
+                                            "transtition-all duration-500 ease-out",
+                                            "will-change-auto",
+                                            "hover:scale-[1.01]",
+                                            "text-white font-bold",
+                                            "text-shadow-light",
+                                        )}
+                                    >
                                         <a
                                             href={userWhatsAppUrl}
                                             target="_blank"
@@ -408,50 +467,98 @@ export default function SearchSection(): React.JSX.Element {
                                         >
                                             Send
                                         </a>
-                                    </Button>
+                                        <Send className="h-4 w-4 drop-shadow-[1px_1px_1px_#1f1f1f]" />
+                                    </Button> */}
+                                    <GradientButton
+                                        type="button"
+                                        size="sm"
+                                        variant="primary"
+                                        fullWidth={false}
+                                        className={cn(
+                                            "hover:scale-[1.02]",
+                                            "px-3",
+                                            "shadow-sm shadow-black/50",
+                                            "hover:shadow-sm hover:shadow-black/30",
+                                        )}
+                                        icon={
+                                            <Send className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
+                                        }
+                                        iconPosition="right"
+                                        textShadow="light"
+                                        aria-label="Send to my WhatsApp"
+                                        aria-describedby="Send to my WhatsApp"
+                                        aria-expanded={false}
+                                        aria-pressed={true}
+                                        disabled={!whatsAppNumber}
+                                        onClick={() => {
+                                            window.open(
+                                                userWhatsAppUrl,
+                                                "_blank",
+                                                "noopener noreferrer",
+                                            );
+                                        }}
+                                    >
+                                        Send
+                                    </GradientButton>
                                 </div>
                             </div>
                         )}
                     </div>
                     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-                        <div className="flex-1 flex flex-col sm:flex-row gap-2">
+                        <div className="flex-1 flex flex-col sm:flex-row gap-3">
                             {!error && (
                                 <>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full"
+                                    <SecondaryButton
+                                        className="gap-4"
+                                        label="Copy Itinerary"
+                                        icon={Copy}
+                                        ariaLabel="Copy Itinerary to Clipboard"
                                         onClick={handleCopyToClipboard}
-                                    >
-                                        <Copy /> Copy Itinerary
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full"
+                                        fullWidth={true}
+                                    />
+                                    <SecondaryButton
+                                        label="Send to my WhatsApp"
+                                        icon={MessageCircle}
+                                        ariaLabel="Send to my WhatsApp"
                                         onClick={() =>
                                             setShowWhatsAppInput(true)
                                         }
-                                    >
-                                        <MessageCircle /> Send to my WhatsApp
-                                    </Button>
+                                    />
                                 </>
                             )}
                         </div>
-                        <Button
-                            asChild
-                            variant="default"
-                            className="w-full sm:w-auto"
+                        <GradientButton
+                            type="button"
+                            size="sm"
+                            variant="accent"
+                            fullWidth={false}
+                            className={cn("hover:scale-[1.02]", "px-3")}
+                            icon={
+                                <WhatsAppIcon className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
+                            }
+                            iconPosition="right"
+                            textShadow="light"
+                            aria-label="Contact Us"
+                            aria-describedby="Contact Us on WhatsApp"
+                            aria-expanded={false}
+                            aria-pressed={true}
+                            onClick={() => {
+                                window.open(
+                                    businessWhatsAppUrl,
+                                    "_blank",
+                                    "noopener noreferrer",
+                                );
+                            }}
                         >
-                            <a
-                                href={businessWhatsAppUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Contact Us
-                            </a>
-                        </Button>
+                            Contact Us
+                        </GradientButton>
                         <AlertDialogAction
                             onClick={closeDialog}
-                            className="w-full sm:w-auto"
+                            className={cn(
+                                "w-full sm:w-auto hover:scale-[1.02]",
+                                "text-shadow-gradient",
+                                accentClasses,
+                            )}
                         >
                             Close
                         </AlertDialogAction>

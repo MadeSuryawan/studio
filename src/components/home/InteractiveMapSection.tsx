@@ -383,7 +383,7 @@ MapSectionCard.displayName = "MapSectionCard";
 const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
         <ButtonFunc
-            className={isMobile ? "mt-9" : "mt-0 left-0 translate-x-0"}
+            className={cn(isMobile ? "mt-9" : "mt-0 left-0 translate-x-0 z-40")}
             text="Explore All Destinations"
             link="#destinations"
             ariaLabel="Explore all destinations"

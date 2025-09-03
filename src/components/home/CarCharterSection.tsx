@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { type JSX } from "react";
 import Link from "next/link";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { ChevronRight } from "lucide-react";
 
-export default function CarCharterSection(): React.JSX.Element {
+export default function CarCharterSection(): JSX.Element {
     return (
         <section
             id="car-charter"
@@ -16,7 +16,8 @@ export default function CarCharterSection(): React.JSX.Element {
             {/* Left gradient */}
             <div
                 className={cn(
-                    "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md mx-auto shadow-xl shadow-black/50 rounded-[20px] border-y border-[#2C5263]",
+                    "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md",
+                    "mx-auto shadow-xl shadow-black/50 rounded-[20px] border-y border-[#2C5263]",
                     "bg-gradient-to-l from-background via-[#1D3844] to-background ",
                     // "bg-[linear-gradient(to_right,transparent_0%,#1D3844_25%,#1D3844_50%,#1D3844_75%,transparent_100%)]",
                 )}
@@ -31,7 +32,7 @@ export default function CarCharterSection(): React.JSX.Element {
             >
                 <div
                     className={cn(
-                        "inline-block text-grey/60 px-3 py-1 text-sm font-semibold",
+                        "inline-block text-white/90 px-3 py-1 text-sm font-semibold",
                         "shadow-md shadow-black/50",
                         "text-shadow-gradient-small",
                         "bg-gradient-to-b from-[#2f5d71] to-[#103444]",

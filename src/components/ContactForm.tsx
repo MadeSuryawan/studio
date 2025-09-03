@@ -17,7 +17,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { handleContactRequest } from "@/app/actions";
 import {
     AlertDialog,
@@ -28,6 +28,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { GradientButton } from "@/components/ui/gradient-button";
+import { cn } from "@/lib/utils";
 
 // ============================================================================
 // CONSTANTS AND CONFIGURATION
@@ -77,12 +79,12 @@ const ANIMATION_CONFIG = {
  * CSS class constants for consistent styling
  */
 const FORM_STYLES = {
-    CONTAINER: "mx-auto w-full max-w-sm lg:max-w-md",
-    FORM: "grid gap-4",
+    CONTAINER: "mx-auto w-full max-w-sm md:max-w-lg",
+    FORM: "grid gap-3",
     INPUT_BASE:
-        "bg-bg-alternate text-special-card-fg placeholder:text-special-card-fg/70",
+        "bg-bg-alternate text-special-card-fg placeholder:text-white/40",
     TEXTAREA:
-        "min-h-[120px] bg-bg-alternate text-special-card-fg placeholder:text-special-card-fg/70",
+        "min-h-[120px] bg-bg-alternate text-special-card-fg placeholder:text-white/40",
     BUTTON: "w-full",
 } as const;
 
@@ -94,8 +96,8 @@ const ACCESSIBILITY = {
     NAME_LABEL: "Your Name",
     EMAIL_LABEL: "Your Email",
     MESSAGE_LABEL: "Your Message",
-    SUBMIT_IDLE: "Send Message",
-    SUBMIT_LOADING: "Sending message...",
+    SUBMIT_IDLE: "Send Email",
+    SUBMIT_LOADING: "Sending email...",
     CLOSE_DIALOG: "Close dialog",
 } as const;
 
@@ -406,34 +408,6 @@ const ContactForm = memo(() => {
         return ANIMATION_CONFIG.FORM_CONTAINER;
     }, [prefersReducedMotion]);
 
-    // Memoized button animation for loading state
-    const buttonVariants = useMemo(() => {
-        if (prefersReducedMotion) {
-            return {};
-        }
-        return ANIMATION_CONFIG.BUTTON_LOADING;
-    }, [prefersReducedMotion]);
-
-    // Memoized submit button content to prevent re-renders
-    const submitButtonContent = useMemo(() => {
-        if (isLoading) {
-            return (
-                <motion.div
-                    className="flex items-center gap-2"
-                    variants={buttonVariants}
-                    initial="initial"
-                    animate="animate"
-                >
-                    <Loader2 className="animate-spin" aria-hidden="true" />
-                    <span className="sr-only">
-                        {ACCESSIBILITY.SUBMIT_LOADING}
-                    </span>
-                </motion.div>
-            );
-        }
-        return ACCESSIBILITY.SUBMIT_IDLE;
-    }, [isLoading, buttonVariants]);
-
     // Memoized form submit handler to prevent re-renders
     const onSubmit = useCallback(
         (data: ContactFormData) => {
@@ -507,19 +481,52 @@ const ContactForm = memo(() => {
                             initial="initial"
                             animate="animate"
                         >
-                            <Button
+                            <GradientButton
                                 type="submit"
-                                className={FORM_STYLES.BUTTON}
+                                size="lg"
+                                variant="accent"
+                                className={cn(
+                                    "flex flex-row items-start justify-center gap-4",
+                                    "left-1/2 -translate-x-1/2",
+                                    "w-1/2",
+                                    "hover:scale-[1.01]",
+                                    "p-1",
+                                    "shadow-md",
+                                )}
                                 disabled={isLoading}
-                                aria-busy={isLoading}
+                                loading={isLoading}
+                                textShadow={isLoading ? "none" : "light"}
+                                icon={
+                                    <Mail className="drop-shadow-[1px_1px_1px_#1f1f1f]" />
+                                }
+                                iconPosition="right"
+                                loadingText={ACCESSIBILITY.SUBMIT_LOADING}
                                 aria-label={
                                     isLoading
                                         ? ACCESSIBILITY.SUBMIT_LOADING
                                         : ACCESSIBILITY.SUBMIT_IDLE
                                 }
+                                aria-describedby={ACCESSIBILITY.SUBMIT_IDLE}
+                                aria-expanded={false}
+                                aria-pressed={true}
+                                aria-busy={isLoading}
+                                hapticFeedback={true}
                             >
-                                {submitButtonContent}
-                            </Button>
+                                {ACCESSIBILITY.SUBMIT_IDLE}
+                            </GradientButton>
+                            {/* <div> */}
+                            <p
+                                id="contact-disclaimer"
+                                className={cn(
+                                    "text-center text-muted-foreground leading-relaxed tracking-wide",
+                                    "pt-4",
+                                )}
+                            >
+                                We&#39;ll respond within 2 hours during business
+                                hours. For immediate assistance, contact us via
+                                WhatsApp.
+                            </p>
+                            {/* </div> */}
                         </motion.div>
                     </motion.form>
                 </Form>

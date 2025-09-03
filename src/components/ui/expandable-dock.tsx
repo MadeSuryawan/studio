@@ -331,7 +331,7 @@ const ExpandableDock = ({
                                 <X
                                     className={cn(
                                         "scale-[1.5] text-foreground/80",
-                                        "drop-shadow-[2px_3px_1px_#1f1f1f]",
+                                        "drop-shadow-[1px_2px_1px_#1f1f1f]",
                                     )}
                                 />
                             </motion.span>

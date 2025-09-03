@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import { type JSX, cloneElement, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -342,7 +342,7 @@ function WhyChooseSection(): React.JSX.Element {
                         >
                             <CardHeader className="p-0 my-1 md:my-2 flex-shrink-0 mx-auto text-accent">
                                 <div>
-                                    {React.cloneElement(feature.icon, {
+                                    {cloneElement(feature.icon, {
                                         className:
                                             "w-5 h-full lg:w-8 md:w-8 text-accent",
                                     })}
@@ -374,11 +374,11 @@ export default function CarCharter(): JSX.Element {
     return (
         <>
             <HeroSection />
-            <React.Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Loading...</div>}>
                 {pageSections.map((Section, index) => (
                     <Section key={index} />
                 ))}
-            </React.Suspense>
+            </Suspense>
         </>
     );
 }

@@ -1,7 +1,7 @@
 // src/app/gradient-button-demo/page.tsx
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import { GradientButton } from "@/components/ui/gradient-button";
 import {
     Download,
@@ -21,9 +21,9 @@ import {
 } from "lucide-react";
 
 export default function GradientButtonDemo() {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [showSuccess, setShowSuccess] = React.useState(false);
-    const [showError, setShowError] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
 
     const handleAsyncAction = async () => {
         setIsLoading(true);

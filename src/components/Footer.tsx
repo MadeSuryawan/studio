@@ -8,7 +8,7 @@ import LogoIcon from "@/components/icons/LogoIcon";
 import { ScrollToTop } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
-
+import { cn } from "@/lib/utils";
 const SocialLink = ({
     href,
     children,
@@ -63,7 +63,11 @@ export default function Footer(): JSX.Element {
                                 <LogoIcon
                                     role="button"
                                     onClick={ScrollToTop}
-                                    className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
+                                    className={cn(
+                                        "relative h-full w-[96px] md:w-[150px]",
+                                        "md:left-0 md:translate-x-0",
+                                        "brightness-[1.12] saturate-150",
+                                    )}
                                 />
                                 <h3
                                     className="text-balibanat text-2xl md:text-3xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out top-1/2 translate-y-1/4 md:translate-y-1/2 "

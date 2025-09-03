@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type JSX, type FC, Suspense, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import HeroSection from "@/components/home/HeroSection";
 import SearchSection from "@/components/home/SearchSection";
@@ -14,18 +14,18 @@ import InteractiveMapSection from "@/components/home/InteractiveMapSection";
 import AnimatedSection from "@/components/home/AnimatedSection";
 
 type SectionWrapperProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     className?: string;
 };
 
-const SectionWrapper: React.FC<SectionWrapperProps> = ({
+const SectionWrapper: FC<SectionWrapperProps> = ({
     children,
     className,
 }: SectionWrapperProps) => {
     return <div className={className}>{children}</div>;
 };
 
-export default function Home(): React.JSX.Element {
+export default function Home(): JSX.Element {
     const pageSections = [
         SearchSection,
         CarCharterSection,
@@ -40,7 +40,7 @@ export default function Home(): React.JSX.Element {
     return (
         <>
             <HeroSection />
-            <React.Suspense>
+            <Suspense>
                 {pageSections.map((SectionComponent, index) => (
                     <SectionWrapper key={index} className={cn("bg-background")}>
                         <AnimatedSection>
@@ -48,7 +48,7 @@ export default function Home(): React.JSX.Element {
                         </AnimatedSection>
                     </SectionWrapper>
                 ))}
-            </React.Suspense>
+            </Suspense>
         </>
     );
 }

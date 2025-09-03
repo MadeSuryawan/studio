@@ -1,7 +1,7 @@
 // src/components/ui/gradient-button.tsx
 "use client";
 
-import * as React from "react";
+import { forwardRef, useMemo } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -43,15 +43,17 @@ const SHADOW_CONFIG = {
 const gradientButtonVariants = cva(
     [
         // Base styles
-        `relative inline-flex items-center justify-center`,
-        `text-center align-middle cursor-pointer`,
+        "relative inline-flex items-center justify-center",
+        "text-center align-middle cursor-pointer",
         `font-bold text-white no-underline`,
-        `border border-solid rounded-lg`,
-        `transition-all duration-500 ease-in-out`,
-        `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`,
-        `disabled:pointer-events-none disabled:opacity-50`,
-        `active:translate-y-px`,
-        `[&_svg]:pointer-events-none [&_svg]:shrink-0`,
+        "border border-solid rounded-lg",
+        "transition-all duration-500 ease-in-out",
+        "focus-visible:outline-none focus-visible:ring-2",
+        "focus-visible:ring-ring focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50",
+        "active:translate-y-px",
+        "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "will-change-auto",
     ],
     {
         variants: {
@@ -70,7 +72,6 @@ const gradientButtonVariants = cva(
                     cn("bg-gradient-to-b from-[#4e5254] to-[#1c2529]"),
                     cn("border-[#374151] border-[1px]"),
                     cn("shadow-black/50"),
-                    "hover:scale-[1.02]",
                     cn("hover:from-[#5f6466] hover:to-[#232e32]"),
                     cn("hover:border-[#4b5563]"),
                     cn(`hover:text-white`),
@@ -83,6 +84,14 @@ const gradientButtonVariants = cva(
                     cn("border-[#43809b] text-[#43809b]"),
                     cn("hover:bg-[#43809b] hover:text-white"),
                     "shadow-none hover:shadow-[0px_3px_5px_0px_rgba(67,128,155,0.3)]",
+                ],
+                accent: [
+                    cn(
+                        "shadow-sm shadow-black/50",
+                        "bg-gradient-to-b from-[#F79244] to-[#aa5a1d]",
+                        "hover:from-[#f89950] hover:to-[#be6b2c]",
+                        "hover:shadow-sm hover:shadow-black/30",
+                    ),
                 ],
             },
             size: {
@@ -127,7 +136,7 @@ export interface GradientButtonProps
 }
 
 // Main component
-const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
+const GradientButton = forwardRef<HTMLButtonElement, GradientButtonProps>(
     (
         {
             className,
@@ -180,7 +189,7 @@ const GradientButton = React.forwardRef<HTMLButtonElement, GradientButtonProps>(
         });
 
         // Determine the icon to display with state-based icons
-        const displayIcon = React.useMemo(() => {
+        const displayIcon = useMemo(() => {
             if (isLoading) {
                 return <Loader2 className="animate-spin drop-shadow-none" />;
             }
