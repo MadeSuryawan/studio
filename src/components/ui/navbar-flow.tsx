@@ -7,7 +7,6 @@ import React, {
     useCallback,
     useId,
     useMemo,
-    cloneElement,
 } from "react";
 import { motion, useAnimation, useReducedMotion } from "framer-motion";
 import {
@@ -18,11 +17,14 @@ import {
 } from "lucide-react";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
+import { useContactModal } from "@/hooks/use-contact-modal";
+import { usePathname } from "next/navigation";
 
 interface NavLink {
     text: string;
     url?: string;
     submenu?: React.ReactNode;
+    isModal?: boolean;
 }
 
 interface NavbarFlowProps {
@@ -346,6 +348,8 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
     const switchMotion = useAnimation();
     const svgMotion = useAnimation();
     // Hooks
+    const contactModal = useContactModal();
+    const pathname = usePathname();
     const prefersReducedMotion = useReducedMotion();
     const mobileMenuId = useId();
 
@@ -424,15 +428,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
 
                 if (mobileView) {
                     await Promise.all([
-                        // emblemMotion.start({
-                        //     opacity: 1,
-                        //     x: 0,
-                        //     transition: {
-                        //         duration: quick,
-                        //         ease: "easeOut",
-                        //         delay: 0.5,
-                        //     },
-                        // }),
                         navMotion.start({
                             opacity: 1,
                             transition: { duration: quick, ease: "easeOut" },
@@ -689,18 +684,18 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         aria-label="Primary navigation"
                         onMouseLeave={clearSelectedSubmenu}
                     >
-                        {links.map((element, idx) => (
+                        {links.map((link) => (
                             <div
-                                key={element.text}
+                                key={link.text}
                                 className={`z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`}
                             >
-                                {element.submenu ? (
+                                {link.submenu ? (
                                     <ListItem
                                         setSelected={setSelectedSubmenu}
                                         selected={selectedSubmenu}
-                                        element={element.text}
+                                        element={link.text}
                                     >
-                                        {element.submenu}
+                                        {link.submenu}
                                     </ListItem>
                                 ) : (
                                     <motion.div
@@ -715,22 +710,36 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                                 : NAVBAR_CONSTANTS.QUICK_DURATION,
                                             ease: "easeOut",
                                             delay: linksReady
-                                                ? idx *
+                                                ? links.indexOf(link) *
                                                   NAVBAR_CONSTANTS.LINK_STAGGER_DELAY
                                                 : 0,
                                         }}
                                     >
                                         <a
-                                            href={element.url || "#"}
+                                            href={
+                                                link.isModal && pathname !== "/"
+                                                    ? "#"
+                                                    : link.url || "#"
+                                            }
+                                            onClick={(e) => {
+                                                if (
+                                                    link.isModal &&
+                                                    pathname !== "/"
+                                                ) {
+                                                    e.preventDefault();
+                                                    contactModal.onOpen();
+                                                }
+                                            }}
                                             className={cn(
                                                 "text-special-card-fg font-medium text-base text-xl",
                                                 "hover:text-primary",
                                                 "focus:ring-1 focus:ring-primary focus:ring-offset-0",
                                                 "rounded-md px-2",
+                                                "cursor-pointer",
                                             )}
-                                            aria-label={`Navigate to ${element.text}`}
+                                            aria-label={`Navigate to ${link.text}`}
                                         >
-                                            {element.text}
+                                            {link.text}
                                         </a>
                                     </motion.div>
                                 )}
@@ -775,13 +784,12 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                         initial={{ opacity: 0 }}
                         animate={svgMotion}
                         className={cn(
-                            "absolute inset-0 w-[98vw] h-full z-0",
+                            "absolute inset-0 w-full h-full z-0",
                             "pointer-events-none -mt-2 translate-y-1/2 left-1/2 -translate-x-1/2",
-                            // "bg-white",
                         )}
                         aria-hidden="true"
                         focusable="false"
-                        viewBox="0 0 1400 96"
+                        viewBox="-200 0 1800 96"
                         preserveAspectRatio="none"
                     >
                         <defs>
@@ -797,7 +805,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
-                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -821,7 +828,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
-                                // transform="translate(-1500,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -845,7 +851,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
-                                // transform="translate(-100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -892,7 +897,6 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                 y1="0%"
                                 x2="100%"
                                 y2="0%"
-                                // transform="translate(100,0)"
                             >
                                 <stop
                                     offset="0%"
@@ -1208,10 +1212,7 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                     : { opacity: 0, x: 20 }
                             }
                             className={cn(
-                                // "flex items-center",
-                                // "my-3",
                                 "will-change-[transform,opacity]",
-                                // "bg-white",
                                 "transition-auto",
                                 prefersReducedMotion
                                     ? "duration-200 ease-out"
@@ -1369,8 +1370,18 @@ const NavbarFlow: React.FC<NavbarFlowProps> = ({
                                             </>
                                         ) : (
                                             <a
-                                                href={element.url || "#"}
-                                                onClick={hideMobileMenu}
+                                                href={
+                                                    element.isModal
+                                                        ? "#"
+                                                        : element.url || "#"
+                                                }
+                                                onClick={(e) => {
+                                                    if (element.isModal) {
+                                                        e.preventDefault();
+                                                        contactModal.onOpen();
+                                                    }
+                                                    hideMobileMenu();
+                                                }}
                                                 className="text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800 block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                                                 aria-label={`Navigate to ${element.text}`}
                                             >
