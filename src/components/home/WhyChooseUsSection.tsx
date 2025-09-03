@@ -1,10 +1,17 @@
 "use client";
 
-import * as React from "react";
+import { JSX, memo } from "react";
+import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Users, SlidersHorizontal, Phone, Sparkles } from "lucide-react";
 
-const benefits = [
+interface Benefit {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+}
+
+const benefits: Benefit[] = [
     {
         icon: <Users />,
         title: "Local Expertise",
@@ -29,51 +36,72 @@ const benefits = [
         description:
             "We go beyond the typical tourist spots to offer unique cultural interactions and hidden gems you won't find elsewhere.",
     },
-];
+] as Benefit[];
 
-export default function WhyChooseUsSection(): React.JSX.Element {
+const SectionTitle = ({ divClass }: { divClass?: string }) => {
+    return (
+        <div className={cn("text-center mb-12", divClass)}>
+            <h2
+                className={cn(
+                    "font-bold tracking-normal font-headline text-special-card-fg",
+                    "text-3xl md:text-5xl",
+                )}
+            >
+                Why Choose BaliBlissed?
+            </h2>
+            <p
+                className={cn(
+                    "mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4",
+                )}
+            >
+                We&rsquo;re more than just a travel agency. We&rsquo;re your
+                personal guide to the Island of the Gods.
+            </p>
+        </div>
+    );
+};
+SectionTitle.displayName = "BlogTitle";
+
+const BenefitCard = memo(({ benefit }: { benefit: Benefit }) => {
+    return (
+        <Card
+            className={cn(
+                "text-center p-2 md:p-4 flex flex-col items-center justify-between shadow-xl",
+                "hover:shadow-lg transition-shadow duration-300 h-44 sm:h-48 md:h-full",
+            )}
+        >
+            <CardHeader className="p-0 my-1 md:my-2 flex-shrink-0 mx-auto text-accent">
+                <div className="h-full w-5 md:w-8 text-accent">
+                    {benefit.icon}
+                </div>
+            </CardHeader>
+
+            <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
+                <CardTitle
+                    className={cn(
+                        "text-md md:text-xl mb-3 md:mb-6 flex-shrink-0",
+                        "leading-relaxed text-special-card-fg",
+                    )}
+                >
+                    {benefit.title}
+                </CardTitle>
+                <p className="text-muted-foreground text-xs md:text-sm leading-relaxed -mt-1 md:mt-0">
+                    {benefit.description}
+                </p>
+            </CardContent>
+        </Card>
+    );
+});
+BenefitCard.displayName = "BenefitCard";
+
+export default function WhyChooseUsSection(): JSX.Element {
     return (
         <section id="why-choose-us" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2
-                        className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline
-                    text-special-card-fg"
-                    >
-                        Why Choose BaliBlissed?
-                    </h2>
-                    <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed mt-4">
-                        We&rsquo;re more than just a travel agency. We&rsquo;re
-                        your personal guide to the Island of the Gods.
-                    </p>
-                </div>
+                <SectionTitle />
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 md:auto-rows-fr">
-                    {benefits.map((benefit, index) => (
-                        <Card
-                            key={index}
-                            className="text-center p-2 md:p-4 flex flex-col items-center justify-between shadow-lg hover:shadow-xl transition-shadow duration-300 h-44 sm:h-48 md:h-full "
-                        >
-                            <CardHeader className="p-0 my-1 md:my-2 flex-shrink-0 mx-auto text-accent">
-                                <div>
-                                    {React.cloneElement(benefit.icon, {
-                                        className:
-                                            "w-5 h-full lg:w-8 md:w-8 text-accent",
-                                    })}
-                                </div>
-                            </CardHeader>
-
-                            <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
-                                <CardTitle
-                                    className="text-md md:text-xl mb-3 md:mb-6 flex-shrink-0 leading-relaxed
-                                text-special-card-fg"
-                                >
-                                    {benefit.title}
-                                </CardTitle>
-                                <p className="text-muted-foreground text-xs md:text-sm leading-relaxed -mt-1 md:mt-0">
-                                    {benefit.description}
-                                </p>
-                            </CardContent>
-                        </Card>
+                    {benefits.map((benefit) => (
+                        <BenefitCard key={benefit.title} benefit={benefit} />
                     ))}
                 </div>
             </div>

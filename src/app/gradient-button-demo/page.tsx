@@ -722,8 +722,8 @@ function CustomButton() {
                     <div className="bg-card p-6 rounded-lg border space-y-4">
                         <p className="text-muted-foreground">
                             All buttons include proper ARIA labels, keyboard
-                            navigation, focus management, and respect user's
-                            motion preferences.
+                            navigation, focus management, and respect
+                            user&apos;s motion preferences.
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <GradientButton

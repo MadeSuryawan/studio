@@ -1,17 +1,16 @@
 "use client";
 
-import * as React from "react";
-import Image from "next/image";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { JSX, memo, useRef } from "react";
 import { Waves, Utensils, Users, BedDouble, Plane } from "lucide-react";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { SectionCard, CardData, ButtonFunc } from "./SectionCard";
+import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
+import { cn } from "@/lib/utils";
 
-const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const TempleIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
     <svg
         aria-hidden="true"
         focusable="false"
@@ -28,9 +27,10 @@ const TempleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     >
         <path d="M11.99 2.25L2.69 9.33l-1.39 1.58v1.8l4.6-1.58v6.75h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5V11.13l4.6 1.58v-1.8l-1.39-1.58L11.99 2.25zM9.25 11.25H14.75"></path>
     </svg>
-);
+));
+TempleIcon.displayName = "TempleIcon";
 
-const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const DanceIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
     <svg
         aria-hidden="true"
         focusable="false"
@@ -50,7 +50,8 @@ const DanceIcon = (props: React.SVGProps<SVGSVGElement>) => (
         <path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6" />
         <path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18" />
     </svg>
-);
+));
+DanceIcon.displayName = "DanceIcon";
 
 const packages: CardData[] = [
     {
@@ -153,73 +154,97 @@ const packages: CardData[] = [
         aiHint: "bali volcano",
         link: "#",
     },
-];
+] as CardData[];
 
-const Titles: React.FC = () => (
-    <div>
-        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-            Curated Travel Packages
-        </h2>
-        <p className="text-lg text-muted-foreground mt-2">
-            Hand-picked experiences designed to give you the very best of Bali.
-        </p>
-    </div>
-);
-
-export default function PackagesSection(): React.JSX.Element {
-    const cardRef = React.useRef<HTMLDivElement>(null);
+const SectionTitle = ({ divClass }: { divClass: string }) => {
     return (
-        <section id="packages" className="relative w-full mt-8 py-16 md:py-28">
-            <div className="container px-4 md:px-6">
-                {/* Desktop view */}
-                <div className="hidden md:block">
-                    <div className="flex justify-between items-center mb-12">
-                        <Titles />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:gap-3 mb-12">
-                        {packages.map((pkg) => (
-                            <SectionCard
-                                ref={cardRef}
-                                key={pkg.name}
-                                data={pkg}
-                                buttonText="View Details"
-                                buttonLink={pkg.link}
-                                packageCard={true}
-                                className="md:flex-row"
-                            />
-                        ))}
-                    </div>
-                    <ButtonFunc
-                        text="View All Packages"
-                        ariaLabel="View all packages"
-                    />
-                </div>
+        <div className={cn(divClass)}>
+            <h2
+                className={cn(
+                    "font-bold tracking-normal font-headline",
+                    "text-3xl md:text-5xl",
+                )}
+            >
+                Curated Travel Packages
+            </h2>
+            <p className={cn("text-lg text-muted-foreground mt-2")}>
+                Hand-picked experiences designed to give you the very best of
+                Bali.
+            </p>
+        </div>
+    );
+};
+SectionTitle.displayName = "PackageTitle";
 
-                {/* Mobile view */}
-                <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
-                    <div className="text-center py-4">
-                        <Titles />
-                    </div>
-                    <CarouselContent paginationMt="mt-40">
-                        {packages.map((pkg) => (
-                            <CarouselItem key={pkg.name}>
-                                <SectionCard
-                                    key={pkg.name}
-                                    ref={cardRef}
-                                    data={pkg}
-                                    buttonText="View Details"
-                                    buttonLink={pkg.link}
-                                    packageCard={true}
-                                />
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                    <ButtonFunc
-                        text="View All Packages"
-                        ariaLabel="View all packages"
-                    />
-                </Carousel>
+const PackageCard = memo(
+    ({
+        cardRef,
+        pkg,
+        className,
+    }: {
+        cardRef: React.RefObject<HTMLDivElement>;
+        pkg: CardData;
+        className?: string;
+    }) => {
+        return (
+            <>
+                <SectionCard
+                    ref={cardRef}
+                    data={pkg}
+                    buttonText="View Details"
+                    buttonLink={pkg.link}
+                    packageCard={true}
+                    className={className}
+                />
+            </>
+        );
+    },
+);
+PackageCard.displayName = "PackageCard";
+
+const SectionButton = ({ buttonClass }: { buttonClass?: string }) => {
+    return (
+        <ButtonFunc
+            className={buttonClass}
+            text="View All Packages"
+            ariaLabel="View all packages"
+        />
+    );
+};
+SectionButton.displayName = "PackagesButton";
+
+export default function PackagesSection(): JSX.Element {
+    const cardRef = useRef<HTMLDivElement>(null);
+    return (
+        <section id="packages" className="relative w-full">
+            {/* Desktop view */}
+            <div className="hidden md:block container px-6 py-12">
+                <SectionTitle divClass="items-center mb-12 text-left" />
+                <div className="grid grid-cols-2 gap-3 mb-12">
+                    {packages.map((pkg) => (
+                        <PackageCard
+                            key={pkg.name}
+                            cardRef={cardRef}
+                            pkg={pkg}
+                            className="flex-row"
+                        />
+                    ))}
+                </div>
+                <SectionButton />
             </div>
+
+            {/* Mobile view */}
+            <Carousel className="md:hidden mx-auto max-w-xs py-8">
+                <SectionTitle divClass="text-center py-4" />
+                <CarouselContent paginationMt="mt-32">
+                    {packages.map((pkg) => (
+                        <CarouselItem key={pkg.name}>
+                            <PackageCard cardRef={cardRef} pkg={pkg} />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <SectionButton />
+            </Carousel>
         </section>
     );
 }

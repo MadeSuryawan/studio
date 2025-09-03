@@ -1,14 +1,12 @@
 "use client";
 
-import * as React from "react";
+import { JSX, memo, useRef } from "react";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { SectionCard, CardData, ButtonFunc } from "./SectionCard";
-import { GradientButton } from "../ui/gradient-button";
-import { ArrowRight } from "lucide-react";
+import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { cn } from "@/lib/utils";
 
 const destinations: CardData[] = [
@@ -44,69 +42,98 @@ const destinations: CardData[] = [
         aiHint: "nusa penida",
         link: "#",
     },
-];
+] as CardData[];
 
-const Titles = () => (
-    <div>
-        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-            Featured Destinations
-        </h2>
-        <p className="mx-auto max-w-3xl text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed mt-4">
-            Explore the diverse landscapes and vibrant culture that make Bali a
-            world-renowned destination.
-        </p>
-    </div>
-);
-
-export default function DestinationsSection(): React.JSX.Element {
-    const cardRef = React.useRef<HTMLDivElement>(null);
+const SectionTitle = ({ divClass }: { divClass: string }) => {
     return (
-        <section id="destinations" className=" w-full">
+        <div className={cn(divClass)}>
+            <h2
+                className={cn(
+                    "font-bold tracking-normal font-headline",
+                    "text-3xl md:text-5xl",
+                )}
+            >
+                Featured Destinations
+            </h2>
+            <p className={cn("text-lg text-muted-foreground mt-2")}>
+                Explore the diverse landscapes and vibrant culture that make
+                Bali a world-renowned destination.
+            </p>
+        </div>
+    );
+};
+SectionTitle.displayName = "DestinationsTitle";
+
+const DestinationCard = memo(
+    ({
+        cardRef,
+        destination,
+        spotlight = false,
+    }: {
+        cardRef: React.RefObject<HTMLDivElement>;
+        destination: CardData;
+        spotlight?: boolean;
+    }) => {
+        return (
+            <>
+                <SectionCard
+                    ref={cardRef}
+                    data={destination}
+                    buttonText="View Details"
+                    buttonLink={destination.link}
+                    spotlight={spotlight}
+                />
+            </>
+        );
+    },
+);
+DestinationCard.displayName = "DestinationCard";
+
+const SectionButton = () => {
+    return (
+        <ButtonFunc
+            className="mt-8 md:mt-0"
+            text="View All Destinations"
+            ariaLabel="View all destinations"
+        />
+    );
+};
+SectionButton.displayName = "DestinationsButton";
+
+export default function DestinationsSection(): JSX.Element {
+    const cardRef = useRef<HTMLDivElement>(null);
+    return (
+        <section id="destinations" className="relative w-full">
             {/* Desktop view */}
-            <div className="container px-6 z-10 hidden md:block">
-                <div className="flex justify-between items-center mb-12">
-                    <Titles />
-                </div>
+            <div className="hidden md:block container px-6 z-10">
+                <SectionTitle divClass="mb-12 text-left" />
                 <div className="grid grid-cols-4 gap-3 mb-12">
-                    {destinations.map((dest) => (
-                        <SectionCard
-                            ref={cardRef}
-                            key={dest.name}
-                            data={dest}
-                            buttonText="View Details"
-                            buttonLink={dest.link}
+                    {destinations.map((destination) => (
+                        <DestinationCard
+                            key={destination.name}
+                            cardRef={cardRef}
+                            destination={destination}
                             spotlight={true}
                         />
                     ))}
                 </div>
-                <ButtonFunc
-                    text="View All Destinations"
-                    ariaLabel="View all destinations"
-                />
+                <SectionButton />
             </div>
+
             {/* Mobile view */}
-            <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
-                <div className="text-center py-4">
-                    <Titles />
-                </div>
+            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm z-10">
+                <SectionTitle divClass="text-center mb-8" />
                 <CarouselContent paginationMt="mt-32">
-                    {destinations.map((dest) => (
-                        <CarouselItem key={dest.name}>
-                            <SectionCard
-                                ref={cardRef}
-                                key={dest.name}
-                                data={dest}
-                                buttonText="View Details"
-                                buttonLink={dest.link}
-                                // spotlight={true}
+                    {destinations.map((destination) => (
+                        <CarouselItem key={destination.name}>
+                            <DestinationCard
+                                cardRef={cardRef}
+                                destination={destination}
                             />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <ButtonFunc
-                    text="View All Destinations"
-                    ariaLabel="View all destinations"
-                />
+                <SectionButton />
             </Carousel>
         </section>
     );

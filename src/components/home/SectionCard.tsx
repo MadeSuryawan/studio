@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, memo } from "react";
+import { forwardRef } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export type CardData = {
 };
 
 // Props for the new component
-type GenericCardProps = {
+type CardProps = {
     data: CardData;
     buttonText: string;
     buttonLink: string;
@@ -33,115 +33,125 @@ type GenericCardProps = {
     baliMap?: boolean;
 };
 
-const SectionCard = memo(
-    forwardRef<HTMLDivElement, GenericCardProps>((props, ref) => {
-        const {
-            data,
-            buttonText,
-            buttonLink,
-            spotlight,
-            className,
-            packageCard,
-            baliMap,
-        } = props;
-        const UseCard = spotlight ? SpotlightCard : Card;
-        return (
-            // The forwarded ref is attached to the root element of the card
-            <UseCard
-                ref={ref}
+const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
+    const {
+        data,
+        buttonText,
+        buttonLink,
+        spotlight,
+        className,
+        packageCard,
+        baliMap,
+    } = props;
+    const UseCard = spotlight ? SpotlightCard : Card;
+    return (
+        // The forwarded ref is attached to the root element of the card
+        <UseCard
+            ref={ref}
+            className={cn(
+                "flex flex-col shadow-lg",
+                "hover:shadow-xl hover:scale-[1.02]",
+                "will-change-transform transition-all duration-300 ease-in-out",
+                "bg-card border-t-[0px]",
+                className,
+            )}
+        >
+            {/* Image */}
+            <div
                 className={cn(
-                    "flex flex-col shadow-lg hover:shadow-xl hover:scale-[1.02] will-change-transform transition-all duration-300 ease-in-out bg-card border-t-[0px]",
-                    className,
+                    `card-image ${packageCard ? "py-1 px-1 md:pr-0 w-full md:w-1/2" : "p-1"}`,
                 )}
             >
-                {/* Image */}
+                <Image
+                    src={data.image}
+                    alt={data.name}
+                    width={600}
+                    height={400}
+                    className={`h-48 object-cover rounded-t-md ${
+                        packageCard
+                            ? "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none"
+                            : ""
+                    }`}
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    data-ai-hint={data.aiHint}
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                />
+            </div>
+
+            <CardContent
+                className={cn(
+                    "card-content flex flex-col p-3 justify-between flex-grow",
+                    // "bg-purple-600/60",
+                )}
+            >
+                <CardTitle
+                    className={cn(
+                        "card-title text-special-card-fg text-xl font-bold leading-relaxed line-clamp-1",
+                        // "bg-green-400",
+                    )}
+                >
+                    {data.name}
+                </CardTitle>
+                {data.description && (
+                    <p
+                        className={cn(
+                            "card-description my-3 text-muted-foreground text-sm leading-relaxed",
+                            baliMap ? "min-h-[4.5rem]" : "",
+                            "line-clamp-3",
+                        )}
+                    >
+                        {data.description}
+                    </p>
+                )}
+                {data.features && (
+                    <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
+                        {data.features.map((feature) => (
+                            <li
+                                key={feature.text}
+                                className="flex items-center gap-3"
+                            >
+                                {feature.icon}
+                                <span className="line-clamp-1">
+                                    {feature.text}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                )}
                 <div
                     className={cn(
-                        `card-image ${packageCard ? "py-1 px-1 md:pr-0 w-full md:w-1/2" : "p-1"}`,
+                        "card-button relative flex flex-shrink-0 place-content-start place-items-start bottom-0 mt-auto h-auto",
+                        `${baliMap ? "left-1/2 -translate-x-1/2 mr-auto" : "ml-auto"} `,
+                        // "bg-orange-300/60",
                     )}
                 >
-                    <Image
-                        src={data.image}
-                        alt={data.name}
-                        width={600}
-                        height={400}
-                        className={`h-48 object-cover rounded-t-md ${
-                            packageCard
-                                ? "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none"
-                                : ""
-                        }`}
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        data-ai-hint={data.aiHint}
-                        loading="lazy"
-                        decoding="async"
-                        draggable={false}
+                    <ButtonFunc
+                        className={cn(
+                            "shadow-lg",
+                            "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
+                            "hover:shadow-black/30 hover:scale-100 hover:text-white",
+                            "hover:from-[#163f53] hover:to-[#0f2f3b]",
+                            "transtition-all duration-300 ease-in-out",
+                            "shadow-sm",
+                            // "border-[1px] border-black/50 border-t-0",
+                            "border-none",
+                            "mt-0",
+                        )}
+                        text={buttonText}
+                        link={buttonLink}
+                        arrow={false}
+                        ariaLabel={`${buttonText} for ${data.name}`}
                     />
                 </div>
-
-                <CardContent
-                    className={cn(
-                        "card-content flex flex-col p-3 justify-between flex-grow",
-                    )}
-                >
-                    <CardTitle
-                        className={cn(
-                            "card-title text-special-card-fg text-xl font-bold leading-relaxed line-clamp-1",
-                        )}
-                    >
-                        {data.name}
-                    </CardTitle>
-                    {data.description && (
-                        <p
-                            className={cn(
-                                `card-description my-3 text-muted-foreground text-sm leading-relaxed ${baliMap ? "min-h-[4.5rem]" : ""} line-clamp-3 `,
-                            )}
-                        >
-                            {data.description}
-                        </p>
-                    )}
-                    {data.features && (
-                        <ul className="my-4 space-y-2 text-sm text-special-card-fg mb-2">
-                            {data.features.map((feature) => (
-                                <li
-                                    key={feature.text}
-                                    className="flex items-center gap-3"
-                                >
-                                    {feature.icon}
-                                    <span className="line-clamp-1">
-                                        {feature.text}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                    <div
-                        className={cn(
-                            `card-button relative bottom-0 mt-auto ${baliMap ? "left-1/2 -translate-x-1/2 mr-auto" : "ml-auto"} `,
-                        )}
-                    >
-                        <ButtonFunc
-                            className={cn(
-                                "shadow-lg",
-                                "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
-                                "hover:shadow-black/30 hover:scale-[1] hover:text-white hover:from-[#163f53] hover:to-[#0f2f3b]",
-                                "transtition-all duration-300 ease-in-out",
-                                "shadow-none",
-                                "border-[1px] border-black/30",
-                            )}
-                            text={buttonText}
-                            link={buttonLink}
-                            arrow={false}
-                            ariaLabel={`${buttonText} for ${data.name}`}
-                        />
-                    </div>
-                </CardContent>
-            </UseCard>
-        );
-    }),
-);
+            </CardContent>
+        </UseCard>
+    );
+});
 
 SectionCard.displayName = "SectionCard";
-export { SectionCard };
+export default SectionCard;
 
 export const ButtonFunc = ({
     className,

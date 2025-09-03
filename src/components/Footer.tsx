@@ -28,7 +28,7 @@ const imageUrl = "/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp";
 export default function Footer(): JSX.Element {
     return (
         <footer
-            className="bg-[#212224] md:px-4 py-3 md:py-8"
+            className="bg-[#212224] md:px-4 py-3 md:py-8 rounded-lg"
             style={{
                 backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url(${imageUrl})`,
                 backgroundSize: "cover",
@@ -49,12 +49,12 @@ export default function Footer(): JSX.Element {
                                     onClick={ScrollToTop}
                                     className="relative h-full w-[96px] md:w-[150px] md:left-0 md:translate-x-0"
                                 />
-                                <span
+                                <h3
                                     className="text-balibanat text-2xl md:text-3xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out top-1/2 translate-y-1/4 md:translate-y-1/2 "
                                     aria-label="Thank You"
                                 >
                                     ᬫᬵᬢᬸᬃᬲᬸᬓ᭄ᬱ᭄ᬫ
-                                </span>
+                                </h3>
                             </div>
                             <p className="max-w-sm text-sm pb-4 text-center md:text-left md:max-w-md">
                                 Crafting personalized and unforgettable travel

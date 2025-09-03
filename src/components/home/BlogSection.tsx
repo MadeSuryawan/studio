@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { JSX, memo, useRef, useEffect } from "react";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel";
-import { SectionCard, CardData, ButtonFunc } from "./SectionCard";
+import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
+import { cn } from "@/lib/utils";
 
 const blogPosts: CardData[] = [
     {
@@ -41,62 +42,110 @@ const blogPosts: CardData[] = [
         link: "/blog/nusa-penida-gems",
         aiHint: "Nusa Penida cliffside",
     },
-];
+] as CardData[];
 
-const Titles: React.FC = () => (
-    <div>
-        <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
-            From Our Blog
-        </h2>
-        <p className="text-lg text-muted-foreground mt-2">
-            Get inspired for your Bali adventure.
-        </p>
-    </div>
+const SectionTitle = ({ divClass }: { divClass: string }) => {
+    return (
+        <div className={cn(divClass)}>
+            <h2
+                className={cn(
+                    "font-bold tracking-normal font-headline",
+                    "text-3xl md:text-5xl",
+                )}
+            >
+                From Our Blog
+            </h2>
+            <p className={cn("text-lg text-muted-foreground mt-2")}>
+                Get inspired for your Bali adventure.
+            </p>
+        </div>
+    );
+};
+SectionTitle.displayName = "BlogTitle";
+
+const BlogCard = memo(
+    ({
+        cardRef,
+        post,
+        spotlight = false,
+    }: {
+        cardRef: React.RefObject<HTMLDivElement>;
+        post: CardData;
+        spotlight?: boolean;
+    }) => {
+        return (
+            <>
+                <SectionCard
+                    ref={cardRef}
+                    data={post}
+                    buttonText="Read More"
+                    buttonLink={post.link}
+                    spotlight={spotlight}
+                />
+            </>
+        );
+    },
 );
+BlogCard.displayName = "BlogCard";
 
-export default function BlogSection(): React.JSX.Element {
-    const cardRef = React.useRef<HTMLDivElement>(null);
+const SectionButton = () => {
+    return (
+        <ButtonFunc
+            className="mt-8 md:mt-0"
+            text="View All Posts"
+            link="#blog"
+            ariaLabel="View All Posts"
+        />
+    );
+};
+SectionButton.displayName = "BlogsButton";
+
+export default function BlogSection(): JSX.Element {
+    const cardRef = useRef<HTMLDivElement>(null);
+    // Apply custom classes to the card example
+    useEffect(() => {
+        if (cardRef.current) {
+            // // Apply custom classes to the card's root element
+            // cardRef.current.classList.add("w-full", "max-w-sm");
+            // // Find the button wrapper and apply custom classes
+            // console.log(cardRef.current);
+            // const buttonWrapper = cardRef.current.querySelector(".card-button");
+            // if (buttonWrapper) {
+            //     console.log(buttonWrapper);
+            //     buttonWrapper.classList.remove("justify-end");
+            //     buttonWrapper.classList.add("justify-center", "mb-12");
+            // }
+        }
+    }, []);
     return (
         <section id="blog" className="relative w-full">
             {/* Desktop view */}
-            <div className="container px-6 z-10 hidden md:block">
-                <div className="flex justify-between items-center mb-12">
-                    <Titles />
-                </div>
+            <div className="hidden md:block container px-6 z-10">
+                <SectionTitle divClass="mb-12 text-left" />
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {blogPosts.map((post) => (
-                        <SectionCard
-                            ref={cardRef}
+                        <BlogCard
                             key={post.name}
-                            data={post}
-                            buttonText="Read More"
-                            buttonLink={post.link}
+                            cardRef={cardRef}
+                            post={post}
                             spotlight={true}
                         />
                     ))}
                 </div>
-                <ButtonFunc text="View All Posts" ariaLabel="View all posts" />
+                <SectionButton />
             </div>
 
             {/* Mobile view */}
-            <Carousel className="mx-auto max-w-xs sm:max-w-sm md:hidden z-10">
-                <div className="text-center py-4">
-                    <Titles />
-                </div>
-                <CarouselContent paginationMt="mt-40">
+            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm z-10">
+                <SectionTitle divClass="text-center mb-8" />
+                <CarouselContent paginationMt="mt-32">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
-                            <SectionCard
-                                ref={cardRef}
-                                key={post.name}
-                                data={post}
-                                buttonText="Read More"
-                                buttonLink={post.link}
-                            />
+                            <BlogCard cardRef={cardRef} post={post} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <ButtonFunc text="View All Posts" ariaLabel="View all posts" />
+                <SectionButton />
             </Carousel>
         </section>
     );
