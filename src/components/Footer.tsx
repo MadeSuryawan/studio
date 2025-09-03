@@ -1,3 +1,4 @@
+// src/components/Footer.tsx
 "use client";
 import Link from "next/link";
 import { Facebook, Twitter, Instagram } from "lucide-react";
@@ -5,6 +6,8 @@ import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import LogoIcon from "@/components/icons/LogoIcon";
 import { ScrollToTop } from "@/lib/utils";
+import { useContactModal } from "@/hooks/use-contact-modal";
+import { usePathname } from "next/navigation";
 
 const SocialLink = ({
     href,
@@ -25,7 +28,20 @@ const SocialLink = ({
 );
 
 const imageUrl = "/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp";
+
 export default function Footer(): JSX.Element {
+    const contactModal = useContactModal();
+    const pathname = usePathname();
+
+    const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        // If not on the homepage, prevent default and open modal
+        if (pathname !== "/") {
+            e.preventDefault();
+            contactModal.onOpen();
+        }
+        // On homepage, let the default anchor behavior (#contact) work
+    };
+
     return (
         <footer
             className="bg-[#212224] md:px-4 py-3 md:py-8 rounded-lg"
@@ -95,7 +111,8 @@ export default function Footer(): JSX.Element {
                                     </Link>
                                     <Link
                                         href="/#contact"
-                                        className="text-sm hover:text-white hover:underline underline-offset-4"
+                                        className="text-sm hover:text-white hover:underline underline-offset-4 cursor-pointer"
+                                        onClick={handleContactClick}
                                     >
                                         Contact
                                     </Link>

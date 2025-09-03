@@ -11,6 +11,7 @@ export interface NavigationLink {
     url?: string;
     submenu?: React.ReactNode;
     ariaLabel?: string;
+    isModal?: boolean; // Flag to indicate if the link opens a modal
 }
 
 // Main navigation links
@@ -38,7 +39,8 @@ export const NAVIGATION_LINKS: NavigationLink[] = [
     {
         text: "Contact",
         url: "/#contact",
-        ariaLabel: "Navigate to contact section",
+        ariaLabel: "Open contact form modal",
+        isModal: true, // This link will now open the modal
     },
 ] as const;
 

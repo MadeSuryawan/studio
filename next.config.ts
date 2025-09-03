@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
                 pathname: "/**",
             },
         ],
+        qualities: [25, 50, 85],
     },
     // webpack: (config) => {
     //     config.ignoreWarnings = [

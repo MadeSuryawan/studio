@@ -1,3 +1,4 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import { PT_Sans } from "next/font/google";
 import Script from "next/script";
@@ -9,6 +10,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import FloatingButtons from "@/components/FloatingButtons";
 import { ScrollProvider } from "@/context/ScrollContext";
 import { balibanat, mangusastra } from "./font";
+import { ContactModal } from "@/components/ContactModal";
 
 export const metadata: Metadata = {
     title: "BaliBlissed",
@@ -158,6 +160,7 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
+                        <ContactModal />
                         <div className="relative flex min-h-dvh flex-col bg-background">
                             <Header />
                             <main className="flex-1">{children}</main>
