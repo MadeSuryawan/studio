@@ -63,6 +63,8 @@ import {
     gradientButtonVariants,
 } from "@/components/ui/gradient-button";
 import { NotepadText, Send } from "lucide-react";
+import { useIsMobile } from "../../hooks/use-mobile";
+import LogoIcon from "../icons/LogoIcon";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
@@ -106,11 +108,10 @@ const SecondaryButton = ({
             fullWidth={fullWidth}
             className={cn(
                 "shadow-sm border-none hover:scale-1 text-nowrap",
+                "w-fit",
                 className,
             )}
-            icon={
-                <Icon className="scale-[1.1] drop-shadow-[1px_2px_1px_#1f1f1f]" />
-            }
+            icon={<Icon className="scale-[1.1] icon-shadow-sm" />}
             iconPosition="left"
             textShadow="medium"
             aria-label={ariaLabel}
@@ -131,6 +132,7 @@ export default function SearchSection(): JSX.Element {
     const [showWhatsAppInput, setShowWhatsAppInput] = useState(false);
     const [whatsAppNumber, setWhatsAppNumber] = useState("");
     const { toast } = useToast();
+    const isMobile = useIsMobile();
 
     const form = useForm<z.infer<typeof searchSchema>>({
         resolver: zodResolver(searchSchema),
@@ -195,9 +197,10 @@ export default function SearchSection(): JSX.Element {
         );
     };
 
-    const whatsAppMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
-    const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hello! I created a custom itinerary and would like to ask some questions.`)}`;
-    const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(whatsAppMessage)}`;
+    const businessMessage = `Hello! I created a custom itinerary and would like to ask some questions.`;
+    const userMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
+    const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(businessMessage)}`;
+    const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(userMessage)}`;
 
     return (
         <section
@@ -275,7 +278,12 @@ export default function SearchSection(): JSX.Element {
                                             </FormLabel>
                                             <Popover>
                                                 <PopoverTrigger asChild>
-                                                    <FormControl className=" border-[1px] dark:border-white/50 border-black/60 text-muted-foreground bg-bg-alternate">
+                                                    <FormControl
+                                                        className={cn(
+                                                            "border-[1px] dark:border-white/50",
+                                                            "border-black/60 text-muted-foreground bg-bg-alternate",
+                                                        )}
+                                                    >
                                                         <Button
                                                             variant={"outline"}
                                                             className={cn(
@@ -323,8 +331,11 @@ export default function SearchSection(): JSX.Element {
                                                     </FormControl>
                                                 </PopoverTrigger>
                                                 <PopoverContent
-                                                    className="w-auto p-0"
-                                                    align="start"
+                                                    className="w-full md:w-auto p-0"
+                                                    align="center"
+                                                    sideOffset={
+                                                        isMobile ? -90 : -400
+                                                    }
                                                 >
                                                     <Calendar
                                                         mode="range"
@@ -370,44 +381,45 @@ export default function SearchSection(): JSX.Element {
                                                     name="budget"
                                                     autoComplete="off"
                                                     placeholder="Your budget"
-                                                    className="border-[1px] dark:border-white/50 border-black/60 bg-bg-alternate text-special-card-fg placeholder:-muted-foreground"
+                                                    className={cn(
+                                                        "border-[1px] dark:border-white/50 border-black/60",
+                                                        "bg-bg-alternate text-special-card-fg",
+                                                        "placeholder:-muted-foreground",
+                                                    )}
                                                 />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                                <div className="md:col-start-3 relative flex flex-row justify-center">
-                                    <GradientButton
-                                        type="submit"
-                                        size="sm"
-                                        variant="accent"
-                                        fullWidth={false}
-                                        className={cn(
-                                            "justify-evenly",
-                                            "left-1/2 -translate-x-1/2",
-                                            " w-1/2 md:w-48",
-                                            "hover:scale-[1.01]",
-                                        )}
-                                        disabled={isLoading}
-                                        loading={isLoading}
-                                        textShadow={
-                                            isLoading ? "none" : "light"
-                                        }
-                                        icon={
-                                            <NotepadText className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
-                                        }
-                                        iconPosition="right"
-                                        loadingText="Processing..."
-                                        aria-label="Create My Itinerary"
-                                        aria-describedby="Create My Itinerary"
-                                        aria-expanded={false}
-                                        aria-pressed={true}
-                                        hapticFeedback={true}
-                                    >
-                                        Create My Itinerary
-                                    </GradientButton>
-                                </div>
+                                <GradientButton
+                                    type="submit"
+                                    size="sm"
+                                    variant="accent"
+                                    fullWidth={false}
+                                    className={cn(
+                                        "justify-evenly",
+                                        "left-1/2 -translate-x-1/2",
+                                        "md:col-start-3",
+                                        "mx-auto",
+                                        "hover:scale-[1.01]",
+                                    )}
+                                    disabled={isLoading}
+                                    loading={isLoading}
+                                    textShadow={isLoading ? "none" : "light"}
+                                    icon={
+                                        <NotepadText className="scale-[1.1] icon-shadow-sm" />
+                                    }
+                                    iconPosition="right"
+                                    loadingText="Processing..."
+                                    aria-label="Create My Itinerary"
+                                    aria-describedby="Create My Itinerary"
+                                    aria-expanded={false}
+                                    aria-pressed={true}
+                                    hapticFeedback={true}
+                                >
+                                    Create My Itinerary
+                                </GradientButton>
                             </form>
                         </Form>
                     </CardContent>
@@ -417,14 +429,21 @@ export default function SearchSection(): JSX.Element {
                 open={!!itinerary || !!error}
                 onOpenChange={closeDialog}
             >
-                <AlertDialogContent className="max-w-2xl">
+                <AlertDialogContent className="w-fit md:max-w-2xl p-2">
                     <AlertDialogHeader>
                         <AlertDialogTitle>
                             {error
                                 ? "Oh no!"
                                 : "Your Custom Bali Itinerary is Ready!"}
                         </AlertDialogTitle>
-                        <AlertDialogDescription className="whitespace-pre-wrap text-sm max-h-[60vh] overflow-y-auto">
+                        <AlertDialogDescription
+                            className={cn(
+                                "whitespace-pre-wrap text-sm",
+                                "max-h-[60vh] overflow-y-auto",
+                                "text-left",
+                                "p-2",
+                            )}
+                        >
                             {error || itinerary}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -445,30 +464,6 @@ export default function SearchSection(): JSX.Element {
                                             setWhatsAppNumber(e.target.value)
                                         }
                                     />
-                                    {/* <Button
-                                        disabled={!whatsAppNumber}
-                                        className={cn(
-                                            "flex flex-row items-center justify-center",
-                                            "bg-gradient-to-b from-[#3cd8d8] to-[#278888]",
-                                            "hover:from-[#3de0e0] hover:to-[#2db0af]",
-                                            "shadow-sm shadow-black/50",
-                                            "hover:shadow-sm hover:shadow-black/30",
-                                            "transtition-all duration-500 ease-out",
-                                            "will-change-auto",
-                                            "hover:scale-[1.01]",
-                                            "text-white font-bold",
-                                            "text-shadow-light",
-                                        )}
-                                    >
-                                        <a
-                                            href={userWhatsAppUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Send
-                                        </a>
-                                        <Send className="h-4 w-4 drop-shadow-[1px_1px_1px_#1f1f1f]" />
-                                    </Button> */}
                                     <GradientButton
                                         type="button"
                                         size="sm"
@@ -481,7 +476,7 @@ export default function SearchSection(): JSX.Element {
                                             "hover:shadow-sm hover:shadow-black/30",
                                         )}
                                         icon={
-                                            <Send className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
+                                            <Send className="scale-[1.1] icon-shadow-sm" />
                                         }
                                         iconPosition="right"
                                         textShadow="light"
@@ -504,21 +499,28 @@ export default function SearchSection(): JSX.Element {
                             </div>
                         )}
                     </div>
-                    <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-                        <div className="flex-1 flex flex-col sm:flex-row gap-3">
+                    <AlertDialogFooter className="flex-col md:flex-row gap-2 md:gap-1">
+                        <div
+                            className={cn(
+                                "flex-1 flex flex-row gap-1 md:gap-3 justify-evenly",
+                            )}
+                        >
                             {!error && (
                                 <>
                                     <SecondaryButton
-                                        className="gap-4"
+                                        className={cn(
+                                            "gap-3 w-1/2",
+                                            "tracking-wide",
+                                        )}
                                         label="Copy Itinerary"
                                         icon={Copy}
                                         ariaLabel="Copy Itinerary to Clipboard"
                                         onClick={handleCopyToClipboard}
-                                        fullWidth={true}
                                     />
                                     <SecondaryButton
+                                        className={cn("w-1/2")}
                                         label="Send to my WhatsApp"
-                                        icon={MessageCircle}
+                                        icon={WhatsAppIcon}
                                         ariaLabel="Send to my WhatsApp"
                                         onClick={() =>
                                             setShowWhatsAppInput(true)
@@ -527,41 +529,55 @@ export default function SearchSection(): JSX.Element {
                                 </>
                             )}
                         </div>
-                        <GradientButton
-                            type="button"
-                            size="sm"
-                            variant="accent"
-                            fullWidth={false}
-                            className={cn("hover:scale-[1.02]", "px-3")}
-                            icon={
-                                <WhatsAppIcon className="scale-[1.1] drop-shadow-[1px_1px_1px_#1f1f1f]" />
-                            }
-                            iconPosition="right"
-                            textShadow="light"
-                            aria-label="Contact Us"
-                            aria-describedby="Contact Us on WhatsApp"
-                            aria-expanded={false}
-                            aria-pressed={true}
-                            onClick={() => {
-                                window.open(
-                                    businessWhatsAppUrl,
-                                    "_blank",
-                                    "noopener noreferrer",
-                                );
-                            }}
-                        >
-                            Contact Us
-                        </GradientButton>
-                        <AlertDialogAction
-                            onClick={closeDialog}
+                        <div
                             className={cn(
-                                "w-full sm:w-auto hover:scale-[1.02]",
-                                "text-shadow-gradient",
-                                accentClasses,
+                                "flex flex-row-reverse items-center justify-between",
+                                "md:flex-row md:gap-3",
                             )}
                         >
-                            Close
-                        </AlertDialogAction>
+                            <GradientButton
+                                type="button"
+                                size="sm"
+                                variant="accent"
+                                fullWidth={false}
+                                className={cn(
+                                    "hover:scale-[1.02]",
+                                    "px-2",
+                                    "w-1/2 space-x-1",
+                                    "md:w-auto",
+                                )}
+                                icon={
+                                    <WhatsAppIcon className="scale-[1.2] icon-shadow-sm" />
+                                }
+                                iconPosition="right"
+                                textShadow="light"
+                                aria-label="Contact Us"
+                                aria-describedby="Contact Us on WhatsApp"
+                                aria-expanded={false}
+                                aria-pressed={true}
+                                onClick={() => {
+                                    window.open(
+                                        businessWhatsAppUrl,
+                                        "_blank",
+                                        "noopener noreferrer",
+                                    );
+                                }}
+                            >
+                                Contact Us
+                            </GradientButton>
+                            {isMobile && <LogoIcon className="w-1/5 h-auto" />}
+                            <AlertDialogAction
+                                onClick={closeDialog}
+                                className={cn(
+                                    "w-fit sm:w-auto hover:scale-[1.02]",
+                                    "text-shadow-md",
+                                    accentClasses,
+                                    "w-1/4",
+                                )}
+                            >
+                                Close
+                            </AlertDialogAction>
+                        </div>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

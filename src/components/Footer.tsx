@@ -1,7 +1,6 @@
 // src/components/Footer.tsx
 "use client";
 import Link from "next/link";
-import { Facebook, Twitter, Instagram } from "lucide-react";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
 import LogoIcon from "@/components/icons/LogoIcon";
@@ -9,6 +8,11 @@ import { ScrollToTop } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+
 const SocialLink = ({
     href,
     children,
@@ -27,8 +31,6 @@ const SocialLink = ({
     </Link>
 );
 
-const imageUrl = "/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp";
-
 export default function Footer(): JSX.Element {
     const contactModal = useContactModal();
     const pathname = usePathname();
@@ -44,18 +46,37 @@ export default function Footer(): JSX.Element {
 
     return (
         <footer
-            className="bg-[#212224] md:px-4 py-3 md:py-8 rounded-lg"
-            style={{
-                backgroundImage: `linear-gradient(rgba(35, 37, 39, 0.97), rgba(29, 31, 32, 0.97)), url(${imageUrl})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                filter: "brightness(0.78)",
-            }}
+            className={cn(
+                "relative",
+                "py-3 md:py-8",
+                "rounded-xl",
+                "bg-[#212224]",
+                "overflow-hidden",
+                "text-white/70",
+            )}
         >
-            <div className="flex flex-col justify-start items-center content-start">
+            <div
+                className={cn(
+                    "absolute inset-0",
+                    "bg-cover bg-center bg-no-repeat",
+                    "brightness-[.51]",
+                    "blur-[6px]",
+                    `bg-[url(/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp)]`,
+                    "mix-blend-screen",
+                    "pointer-events-none",
+                )}
+            />
+            <div
+                className={cn(
+                    "absolute inset-0",
+                    "bg-gradient-to-b from-[#191b1c] via-[#17191a] from 60% to-[#131516]",
+                    "opacity-[.93]",
+                    "pointer-events-none",
+                )}
+            />
+            <div className="relative flex flex-col justify-start items-center content-start z-10">
                 {/* Top */}
-                <div className="w-full h-full self-center">
+                <div className="size-full self-center">
                     <div className="container grid grid-row md:grid-cols-4">
                         {/* Company Info */}
                         <div className="grid grid-rows-2 mb-4 md:mb-0 md:col-span-3 md:gap-4">
@@ -64,13 +85,18 @@ export default function Footer(): JSX.Element {
                                     role="button"
                                     onClick={ScrollToTop}
                                     className={cn(
-                                        "relative h-full w-[96px] md:w-[150px]",
+                                        "relative h-full w-[96px] md:w-[120px]",
                                         "md:left-0 md:translate-x-0",
-                                        "brightness-[1.12] saturate-150",
                                     )}
                                 />
                                 <h3
-                                    className="text-balibanat text-2xl md:text-3xl will-change:color hover:text-accent hover:scale-105 pt-2 md:pt-0 transition-all duration-300 ease-in-out top-1/2 translate-y-1/4 md:translate-y-1/2 "
+                                    className={cn(
+                                        "text-balibanat text-2xl md:text-3xl",
+                                        "will-change:[color,transform]",
+                                        "hover:text-accent hover:scale-105 pt-2 md:pt-0",
+                                        "transition-all duration-300 ease-in-out",
+                                        "top-1/2 translate-y-1/4 md:translate-y-1/2 ",
+                                    )}
                                     aria-label="Thank You"
                                 >
                                     ᬫᬵᬢᬸᬃᬲᬸᬓ᭄ᬱ᭄ᬫ
@@ -85,7 +111,7 @@ export default function Footer(): JSX.Element {
                         <div className="flex flex-cols-2 justify-between">
                             {/* Quick Links */}
                             <div className="md:-translate-x-32">
-                                <h3 className="font-semibold text-white mb-4">
+                                <h3 className="font-semibold mb-4">
                                     Quick Links
                                 </h3>
                                 <nav className="flex flex-col gap-2 pb-4 text-center">
@@ -124,7 +150,7 @@ export default function Footer(): JSX.Element {
                             </div>
                             {/* Contact & Socials */}
                             <div className="flex flex-col md:-translate-x-12 justify-start items-end">
-                                <h3 className="font-semibold text-white mb-4">
+                                <h3 className="font-semibold mb-4">
                                     Contact Us
                                 </h3>
                                 <div className="space-y-2 text-sm text-right">
@@ -150,19 +176,31 @@ export default function Footer(): JSX.Element {
                                         href="#"
                                         aria-label="Follow us on Facebook"
                                     >
-                                        <Facebook className="w-5 h-5" />
+                                        <FontAwesomeIcon
+                                            icon={faFacebookSquare}
+                                            className="w-5 h-5 icon-shadow-lg"
+                                            title="Follow us on Facebook"
+                                        />
                                     </SocialLink>
                                     <SocialLink
                                         href="#"
                                         aria-label="Follow us on Instagram"
                                     >
-                                        <Instagram className="w-5 h-5" />
+                                        <FontAwesomeIcon
+                                            icon={faInstagram}
+                                            className="w-5 h-5 icon-shadow-lg"
+                                            title="Follow us on Instagram"
+                                        />
                                     </SocialLink>
                                     <SocialLink
                                         href="#"
                                         aria-label="Follow us on Twitter"
                                     >
-                                        <Twitter className="w-5 h-5" />
+                                        <FontAwesomeIcon
+                                            icon={faXTwitter}
+                                            className="w-5 h-5 icon-shadow-lg"
+                                            title="Follow us on X"
+                                        />
                                     </SocialLink>
                                 </div>
                             </div>
@@ -171,23 +209,42 @@ export default function Footer(): JSX.Element {
                 </div>
 
                 {/* Bottom */}
-                <div className="w-full h-full self-center">
-                    <div className="pt-4 md:pt-8 border-t border-gray-700 flex flex-col sm:flex-row items-center justify-between">
-                        <p className="text-sm text-center md:text-left mb-2 md:mb-0 md:pl-20">
+                <div className="size-full self-center">
+                    <div
+                        className={cn(
+                            "pt-4 md:pt-8 border-t border-gray-700",
+                            "flex flex-col md:flex-row items-center justify-between",
+                            "rounded-xl",
+                            "text-sm",
+                        )}
+                    >
+                        <p
+                            className={cn(
+                                "text-center md:text-left",
+                                "mb-2 md:mb-0 md:ml-24",
+                                "w-fit",
+                            )}
+                        >
                             &copy; {new Date().getFullYear()} BaliBlissed. All
                             rights reserved.
                         </p>
 
-                        <nav className="flex gap-4 md:gap-7 md:pr-24">
+                        <nav
+                            className={cn(
+                                "flex flex-row items-center",
+                                "gap-4 md:gap-7 md:mr-24",
+                                "w-fit",
+                            )}
+                        >
                             <Link
                                 href="#"
-                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                                className="hover:text-white hover:underline underline-offset-4"
                             >
                                 Privacy Policy
                             </Link>
                             <Link
                                 href="#"
-                                className="text-sm hover:text-white hover:underline underline-offset-4"
+                                className="hover:text-white hover:underline underline-offset-4"
                             >
                                 Terms of Service
                             </Link>

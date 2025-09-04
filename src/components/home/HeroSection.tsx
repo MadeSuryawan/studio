@@ -152,7 +152,7 @@ export default function HeroSection(): JSX.Element {
                     "absolute z-10 grid grid-rows-1 gap-3",
                     "w-full md:w-auto h-auto",
                     "items-center text-center",
-                    "top-1/2 -translate-y-1/2 md:-translate-y-12 mx-auto",
+                    "top-1/2 -translate-y-1/2 md:-translate-y-6 mx-auto",
                     "left-1/2 -translate-x-1/2",
                 )}
             >
@@ -163,7 +163,7 @@ export default function HeroSection(): JSX.Element {
                     className={cn(
                         "relative font-balibanat pb-3 md:pb-12 mx-auto",
                         "text-5xl sm:text-6xl md:text-8xl",
-                        "text-shadow-light",
+                        "text-shadow-sm",
                         !prefersReducedMotion &&
                             "hover:text-accent hover:scale-105",
                         `transition-all ${transitionDuration} ease-in-out`,
@@ -186,7 +186,7 @@ export default function HeroSection(): JSX.Element {
                             "will-change-[transform,opacity]",
                         getAnimationClasses("slideLeft"),
                         // "bg-green-300",
-                        "text-shadow-light",
+                        "text-shadow-sm",
                     )}
                 >
                     Discover Your Bali Bliss
@@ -201,7 +201,7 @@ export default function HeroSection(): JSX.Element {
                             "will-change-[transform,opacity]",
                         getAnimationClasses("slideUp"),
                         // "bg-red-300",
-                        "text-shadow-light",
+                        "text-shadow-sm",
                     )}
                 >
                     We craft personalized, unforgettable journeys to the Island

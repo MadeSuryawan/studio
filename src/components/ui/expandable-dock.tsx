@@ -331,7 +331,7 @@ const ExpandableDock = ({
                                 <X
                                     className={cn(
                                         "scale-[1.5] text-foreground/80",
-                                        "drop-shadow-[1px_2px_1px_#1f1f1f]",
+                                        "icon-shadow-md",
                                     )}
                                 />
                             </motion.span>
@@ -359,7 +359,7 @@ const ExpandableDock = ({
                                 <BotMessageSquare
                                     className={cn(
                                         "scale-[2.2] sm:scale-[2.8] text-foreground/80",
-                                        "drop-shadow-[1px_1px_1px_#1f1f1f]",
+                                        "icon-shadow-sm",
                                     )}
                                 />
                             </motion.span>

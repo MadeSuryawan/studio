@@ -191,7 +191,7 @@ const GradientButton = forwardRef<HTMLButtonElement, GradientButtonProps>(
         // Determine the icon to display with state-based icons
         const displayIcon = useMemo(() => {
             if (isLoading) {
-                return <Loader2 className="animate-spin drop-shadow-none" />;
+                return <Loader2 className="animate-spin icon-shadow-none" />;
             }
             if (errorState) {
                 return <AlertCircle className="text-red-400" />;
@@ -225,12 +225,12 @@ const GradientButton = forwardRef<HTMLButtonElement, GradientButtonProps>(
                 "border-green-500 bg-gradient-to-b from-green-500 to-green-700",
             // Apply text-shadow for primary and secondary variants (not outline)
             // (variant === "primary" || variant === "secondary") &&
-            //     "text-shadow-gradient",
+            //     "text-shadow-md",
             variant === "outline" && "text-shadow-none",
             textShadow === "none" && "text-shadow-none",
-            textShadow === "light" && "text-shadow-light",
-            textShadow === "medium" && "text-shadow-gradient",
-            textShadow === "large" && "text-shadow-gradient-large",
+            textShadow === "light" && "text-shadow-sm",
+            textShadow === "medium" && "text-shadow-md",
+            textShadow === "large" && "text-shadow-lg",
         );
 
         return (

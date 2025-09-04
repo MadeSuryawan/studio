@@ -496,9 +496,7 @@ const ContactForm = memo(() => {
                                 disabled={isLoading}
                                 loading={isLoading}
                                 textShadow={isLoading ? "none" : "light"}
-                                icon={
-                                    <Mail className="drop-shadow-[1px_1px_1px_#1f1f1f]" />
-                                }
+                                icon={<Mail className="icon-shadow-sm" />}
                                 iconPosition="right"
                                 loadingText={ACCESSIBILITY.SUBMIT_LOADING}
                                 aria-label={
@@ -514,19 +512,17 @@ const ContactForm = memo(() => {
                             >
                                 {ACCESSIBILITY.SUBMIT_IDLE}
                             </GradientButton>
-                            {/* <div> */}
                             <p
                                 id="contact-disclaimer"
                                 className={cn(
                                     "text-center text-muted-foreground leading-relaxed tracking-wide",
                                     "pt-4",
+                                    "whitespace-pre-line",
                                 )}
                             >
-                                We&#39;ll respond within 2 hours during business
-                                hours. For immediate assistance, contact us via
-                                WhatsApp.
+                                {`We'll respond within 2 hours during business hours.
+                                For immediate assistance, contact us via WhatsApp.`}
                             </p>
-                            {/* </div> */}
                         </motion.div>
                     </motion.form>
                 </Form>

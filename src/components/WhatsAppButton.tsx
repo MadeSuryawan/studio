@@ -15,17 +15,22 @@ export default function WhatsAppButton(): React.JSX.Element {
             size="icon"
             asChild
             className={cn(
-                "w-12 h-12 md:w-16 md:h-16",
+                "aspect-square",
+                "w-12 h-auto md:w-16",
                 "bg-[#25d366]",
-                "rounded-[21%_9%_21%_9%_/_21%_9%_21%_9%]",
+                // "rounded-[21%_9%_21%_9%_/_21%_9%_21%_9%]",
+                "rounded-lg",
                 "hover:bg-[#128747]",
                 "shadow-lg hover:scale-110 transition-transform duration-200",
-                "drop-shadow-[2px_3px_1px_#1f1f1f]",
+                "icon-shadow-lg",
             )}
             aria-label="Contact on WhatsApp"
         >
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                <WhatsAppIcon className="scale-[3.1] md:scale-[4]" />
+                <WhatsAppIcon
+                    className="scale-[2.4] md:scale-[3.2]"
+                    fill="#ffffff"
+                />
             </a>
         </Button>
     );

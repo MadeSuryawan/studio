@@ -34,7 +34,7 @@ export default function CarCharterSection(): JSX.Element {
                     className={cn(
                         "inline-block text-white/90 px-3 py-1 text-sm font-semibold",
                         "shadow-md shadow-black/50",
-                        "text-shadow-gradient-small",
+                        "text-shadow-xs",
                         "bg-gradient-to-b from-[#2f5d71] to-[#103444]",
                         "rounded-[3%_15%_3%_15%_/_9%_50%_9%_50%]",
                         "border-[1px] border-accent",
@@ -44,17 +44,23 @@ export default function CarCharterSection(): JSX.Element {
                 </div>
                 <h2
                     className={cn(
-                        "text-3xl font-bold tracking-light",
+                        "text-3xl font-bold tracking-wide",
                         "sm:text-4xl md:text-5xl font-headline",
+                        "text-shadow-md",
                     )}
                 >
                     Explore Bali Your Way
                 </h2>
-                <p className="mt-4 text-lg md:text-xl text-special-card-fg/80">
-                    Discover the ultimate freedom with your own private car and
-                    English-speaking driver. Create your custom itinerary and
-                    explore Bali&#39;s hidden gems, famous landmarks, and
-                    everything in between at your own pace.
+                <p
+                    className={cn(
+                        "mt-4 text-lg md:text-xl text-special-card-fg/80",
+                        "text-shadow-sm",
+                        "whitespace-pre-line",
+                    )}
+                >
+                    {`Discover the ultimate freedom with your own private car.
+                    Create your custom itinerary and explore Bali's hidden gems,
+                    famous landmarks, and everything in between at your own pace.`}
                 </p>
                 <div className="mt-6 flex flex-row flex-0">
                     <AnimatedButton
@@ -81,7 +87,7 @@ export default function CarCharterSection(): JSX.Element {
                         variant={"primary"}
                         size="sm"
                         icon={
-                            <ChevronRight className="h-4 w-4 drop-shadow-[1px_3px_1px_#1f1f1f]" />
+                            <ChevronRight className="h-4 w-4 icon-shadow-lg" />
                         }
                         iconPosition="right"
                         fullWidth={false}

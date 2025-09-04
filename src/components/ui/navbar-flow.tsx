@@ -330,7 +330,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     emblem,
     links = [],
     extraIcons = [],
-    styleName = "",
+    styleName,
     rightComponent,
     linksHeadStartMs = 0,
 }) => {
@@ -639,7 +639,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         );
     }
 
-    const borderColor = cn("border-[#1496a2]");
+    const borderColor = cn("border-[#0c8b96]");
     return (
         <div
             className={`fixed top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
@@ -1175,249 +1175,276 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             </div>
 
             {/* Mobile Navigation */}
-            <div className={cn("container block md:hidden rounded-b-sm px-1")}>
-                <div
-                    className={`top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full relative`}
+            <div
+                className={cn(
+                    "flex inline-flex justify-between items-center",
+                    "w-full md:hidden rounded-b-sm",
+                    "h-12",
+                    "px-3",
+                    // "bg-red-400",
+                    `z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR}`,
+                )}
+            >
+                {/* Mobile Logo/Emblem */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={
+                        sequenceDone
+                            ? { opacity: 1, x: 0 }
+                            : { opacity: 0, x: -20 }
+                    }
+                    className={cn(
+                        `border-b-[2px] border-x ${borderColor} rounded-sm`,
+                        "will-change-[transform,opacity]",
+                        "transition-auto",
+                        "w-fit",
+                        "mt-4",
+                        // "dark:bg-blue-400",
+                        " brightness-[1.03] saturate-[1.1]",
+                        prefersReducedMotion
+                            ? "duration-200 ease-out"
+                            : "duration-500 ease-out",
+                    )}
+                    role="banner"
+                    aria-label="Site logo"
                 >
+                    {emblem}
+                </motion.div>
+
+                {/* Mobile Right Section */}
+                <div
+                    className={cn(
+                        "w-fit h-fit",
+                        "mt-2",
+                        "flex flex-row items-center justify-evenly",
+                        "pr-2 space-x-2",
+                        "bg-white/50 dark:bg-gray-400/20",
+                        // "dark:bg-green-400",
+                        "rounded-md backdrop-blur-lg",
+                        `border ${borderColor}`,
+                        sequenceDone ? "opacity-100" : "opacity-0",
+                        "will-change-[transform,opacity]",
+                        "transition-auto",
+                        prefersReducedMotion
+                            ? "duration-200 ease-out"
+                            : "duration-500 ease-out",
+                    )}
+                >
+                    {/* Mobile Right Icons */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: 20 }}
                         animate={
                             sequenceDone
                                 ? { opacity: 1, x: 0 }
-                                : { opacity: 0, x: -20 }
+                                : { opacity: 0, x: 20 }
                         }
                         className={cn(
-                            "absolute ml-3 mt-2",
-                            "ml-3 mt-2",
-                            "w-[calc(100vw_-_20.7rem)]",
-                            `border-b-[2px] border-x ${borderColor} rounded-sm`,
                             "will-change-[transform,opacity]",
                             "transition-auto",
                             prefersReducedMotion
                                 ? "duration-200 ease-out"
                                 : "duration-500 ease-out",
                         )}
-                        role="banner"
-                        aria-label="Site logo"
+                        role="complementary"
+                        aria-label="Additional navigation tools"
                     >
-                        <div>{emblem}</div>
+                        {extraIcons.map((icon, idx) => (
+                            <div
+                                key={idx}
+                                className="flex items-center justify-center"
+                                role="presentation"
+                            >
+                                {icon}
+                            </div>
+                        ))}
+
+                        {rightComponent}
                     </motion.div>
 
-                    {/* Mobile Right Section */}
-                    <div
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        type="button"
+                        onClick={toggleMobileMenu}
                         className={cn(
-                            "absolute top-0 max-w-sm right-0",
-                            "flex flex-row items-center justify-end gap-3 pr-2",
-                            "dark:bg-white/20 bg-white/50",
-                            "w-[calc(100vw_-_21.5rem)]",
-                            "my-2 mx-auto right-0 left-1/2 translate-x-3/4",
-                            "rounded-md backdrop-blur-sm",
-                            `border ${borderColor}`,
-                            "mr-[77px]",
-                            sequenceDone ? "opacity-100" : "opacity-0",
-                            "will-change-[transform,opacity]",
-                            "transition-auto",
-                            prefersReducedMotion
-                                ? "duration-200 ease-out"
-                                : "duration-500 ease-out",
+                            " text-gray-700 dark:text-gray-200",
+                            " hover:text-gray-900 dark:hover:text-white",
+                            "transition-colors",
+                            "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-md",
+                            "scale-[1.1]",
                         )}
+                        aria-expanded={mobileMenuVisible}
+                        aria-controls={mobileMenuId}
+                        aria-label={
+                            mobileMenuVisible
+                                ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
+                        }
                     >
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={
-                                sequenceDone
-                                    ? { opacity: 1, x: 0 }
-                                    : { opacity: 0, x: 20 }
-                            }
-                            className={cn(
-                                // "flex items-center",
-                                // "my-3",
-                                "will-change-[transform,opacity]",
-                                // "bg-white",
-                                "transition-auto",
-                                prefersReducedMotion
-                                    ? "duration-200 ease-out"
-                                    : "duration-500 ease-out",
-                            )}
-                            role="complementary"
-                            aria-label="Additional navigation tools"
-                        >
-                            {extraIcons.map((icon, idx) => (
-                                <div
-                                    key={idx}
-                                    className="flex items-center justify-center"
-                                    role="presentation"
-                                >
-                                    {icon}
-                                </div>
-                            ))}
-
-                            {rightComponent}
-                        </motion.div>
-
-                        {/* Mobile Menu Toggle */}
-                        <button
-                            type="button"
-                            onClick={toggleMobileMenu}
-                            className={cn(
-                                "flex items-center justify-center",
-                                " text-gray-700 dark:text-gray-200",
-                                " hover:text-gray-900 dark:hover:text-white transition-colors",
-                                "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-1 rounded-md",
-                                "scale-[1.2]",
-                            )}
-                            aria-expanded={mobileMenuVisible}
-                            aria-controls={mobileMenuId}
-                            aria-label={
-                                mobileMenuVisible
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
-                            }
-                        >
-                            {mobileMenuVisible ? (
-                                <Close className="h-7 w-7" aria-hidden="true" />
-                            ) : (
-                                <List className="h-7 w-7" aria-hidden="true" />
-                            )}
-                            <span className="sr-only">
-                                {mobileMenuVisible
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
-                            </span>
-                        </button>
-                    </div>
-
-                    {/* Mobile Menu Dropdown */}
-                    <motion.div
-                        initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-                        animate={{
-                            opacity: mobileMenuVisible ? 1 : 0,
-                            clipPath: mobileMenuVisible
-                                ? "inset(0 0 0% 0)"
-                                : "inset(0 0 100% 0)",
-                        }}
-                        transition={{
-                            duration: prefersReducedMotion
-                                ? 0
-                                : NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
-                            ease: "easeOut",
-                        }}
-                        id={mobileMenuId}
-                        aria-hidden={!mobileMenuVisible}
-                        role="region"
-                        aria-label="Mobile navigation menu"
-                        className={cn(
-                            "absolute left-1/2 right-0 top-full mt-12 mr-3",
-                            `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
-                            "overflow-y-auto border-t border-gray-200/40 dark:border-gray-800/40 bg-background md:backdrop-blur",
+                        {mobileMenuVisible ? (
+                            <Close
+                                className="h-7 w-7 icon-shadow-md"
+                                aria-hidden="true"
+                            />
+                        ) : (
+                            <List
+                                className="h-7 w-7 icon-shadow-md"
+                                aria-hidden="true"
+                            />
                         )}
-                        style={{ willChange: "clip-path, opacity" }}
-                    >
-                        <div className="container py-4 px-4">
-                            <nav
-                                className="flex flex-col space-y-3"
-                                aria-label="Primary mobile navigation"
-                            >
-                                {links.map((element, idx) => (
-                                    <div
-                                        key={element.text}
-                                        className="space-y-2"
-                                    >
-                                        {element.submenu ? (
-                                            <>
-                                                <button
-                                                    type="button"
-                                                    className="flex items-center justify-between w-full text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                                                    onClick={() =>
-                                                        toggleSection(
-                                                            element.text,
-                                                        )
-                                                    }
-                                                    aria-expanded={
-                                                        !!openedSections[
-                                                            element.text
-                                                        ]
-                                                    }
-                                                    aria-controls={`${mobileMenuId}-section-${idx}`}
-                                                    aria-label={`Toggle ${element.text} submenu`}
-                                                >
-                                                    <span>{element.text}</span>
-                                                    <span aria-hidden="true">
-                                                        {openedSections[
-                                                            element.text
-                                                        ] ? (
-                                                            <ArrowUp className="h-4 w-4" />
-                                                        ) : (
-                                                            <ArrowDown className="h-4 w-4" />
-                                                        )}
-                                                    </span>
-                                                </button>
+                        <span className="sr-only">
+                            {mobileMenuVisible
+                                ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
+                        </span>
+                    </button>
+                </div>
 
-                                                {openedSections[
-                                                    element.text
-                                                ] && (
-                                                    <motion.div
-                                                        initial={{
-                                                            opacity: 0,
-                                                            clipPath:
-                                                                "inset(0 0 100% 0)",
-                                                        }}
-                                                        animate={{
-                                                            opacity: 1,
-                                                            clipPath:
-                                                                "inset(0 0 0% 0)",
-                                                        }}
-                                                        transition={{
-                                                            duration:
-                                                                prefersReducedMotion
-                                                                    ? 0
-                                                                    : NAVBAR_CONSTANTS.SUBMENU_DURATION,
-                                                            ease: "easeOut",
-                                                        }}
-                                                        id={`${mobileMenuId}-section-${idx}`}
-                                                        role="region"
-                                                        aria-label={`${element.text} submenu`}
-                                                        className="pl-4 space-y-1 overflow-hidden"
-                                                        style={{
-                                                            willChange:
-                                                                "clip-path, opacity",
-                                                        }}
-                                                    >
-                                                        {renderSubmenuItems(
-                                                            element.submenu,
-                                                        )}
-                                                    </motion.div>
+                {/* Mobile Menu Dropdown */}
+                <motion.div
+                    initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
+                    animate={{
+                        opacity: mobileMenuVisible ? 1 : 0,
+                        clipPath: mobileMenuVisible
+                            ? "inset(0 0 0% 0)"
+                            : "inset(0 0 100% 0)",
+                    }}
+                    transition={{
+                        duration: prefersReducedMotion
+                            ? 0
+                            : NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
+                        ease: "easeOut",
+                    }}
+                    id={mobileMenuId}
+                    aria-hidden={!mobileMenuVisible}
+                    role="region"
+                    aria-label="Mobile navigation menu"
+                    className={cn(
+                        "absolute left-1/2 right-0 top-full mr-3",
+                        `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
+                        "overflow-y-auto",
+                        "bg-slate-50 dark:bg-slate-800/70",
+                        "backdrop-blur-xl",
+                        "rounded-lg",
+                        "text-center",
+                        `border-[1px] ${borderColor} border-t-0 border-b-[2px]`,
+                    )}
+                    style={{ willChange: "clip-path, opacity" }}
+                >
+                    <div className="container py-4 px-4">
+                        <nav
+                            className="flex flex-col space-y-3"
+                            aria-label="Primary mobile navigation"
+                        >
+                            {links.map((element, idx) => (
+                                <div key={element.text} className="space-y-2">
+                                    {element.submenu ? (
+                                        <>
+                                            <button
+                                                type="button"
+                                                className={cn(
+                                                    "flex items-center justify-between w-full",
+                                                    "text-gray-800 dark:text-gray-200 font-medium",
+                                                    "text-base py-2 px-4 rounded-lg",
+                                                    "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
+                                                    "transition-colors duration-300 ease-out border-b",
+                                                    "border-gray-200 dark:border-gray-800",
+                                                    "focus:outline-none focus:ring-1 focus:ring-primary",
+                                                    "focus:ring-offset-0",
                                                 )}
-                                            </>
-                                        ) : (
-                                            <a
-                                                href={
+                                                onClick={() =>
+                                                    toggleSection(element.text)
+                                                }
+                                                aria-expanded={
+                                                    !!openedSections[
+                                                        element.text
+                                                    ]
+                                                }
+                                                aria-controls={`${mobileMenuId}-section-${idx}`}
+                                                aria-label={`Toggle ${element.text} submenu`}
+                                            >
+                                                <span>{element.text}</span>
+                                                <span aria-hidden="true">
+                                                    {openedSections[
+                                                        element.text
+                                                    ] ? (
+                                                        <ArrowUp className="h-4 w-4" />
+                                                    ) : (
+                                                        <ArrowDown className="h-4 w-4" />
+                                                    )}
+                                                </span>
+                                            </button>
+
+                                            {openedSections[element.text] && (
+                                                <motion.div
+                                                    initial={{
+                                                        opacity: 0,
+                                                        clipPath:
+                                                            "inset(0 0 100% 0)",
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                        clipPath:
+                                                            "inset(0 0 0% 0)",
+                                                    }}
+                                                    transition={{
+                                                        duration:
+                                                            prefersReducedMotion
+                                                                ? 0
+                                                                : NAVBAR_CONSTANTS.SUBMENU_DURATION,
+                                                        ease: "easeOut",
+                                                    }}
+                                                    id={`${mobileMenuId}-section-${idx}`}
+                                                    role="region"
+                                                    aria-label={`${element.text} submenu`}
+                                                    className="pl-4 space-y-1 overflow-hidden text-shadow-lg"
+                                                    style={{
+                                                        willChange:
+                                                            "clip-path, opacity",
+                                                    }}
+                                                >
+                                                    {renderSubmenuItems(
+                                                        element.submenu,
+                                                    )}
+                                                </motion.div>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <a
+                                            href={
+                                                element.isModal &&
+                                                pathname !== "/"
+                                                    ? "#"
+                                                    : element.url || "#"
+                                            }
+                                            onClick={(e) => {
+                                                if (
                                                     element.isModal &&
                                                     pathname !== "/"
-                                                        ? "#"
-                                                        : element.url || "#"
+                                                ) {
+                                                    e.preventDefault();
+                                                    contactModal.onOpen();
                                                 }
-                                                onClick={(e) => {
-                                                    if (
-                                                        element.isModal &&
-                                                        pathname !== "/"
-                                                    ) {
-                                                        e.preventDefault();
-                                                        contactModal.onOpen();
-                                                    }
-                                                }}
-                                                className="text-gray-800 dark:text-gray-200 font-medium text-base py-2 px-4 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition-colors duration-300 ease-out border-b border-gray-200 dark:border-gray-800 block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                                                aria-label={`Navigate to ${element.text}`}
-                                            >
-                                                {element.text}
-                                            </a>
-                                        )}
-                                    </div>
-                                ))}
-                            </nav>
-                        </div>
-                    </motion.div>
-                </div>
+                                            }}
+                                            className={cn(
+                                                "text-gray-800 dark:text-gray-200 font-medium",
+                                                "text-base py-2 px-4 rounded-lg",
+                                                "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
+                                                "transition-colors duration-300 ease-out",
+                                                "border-b border-gray-200 dark:border-gray-500 block",
+                                                "focus:outline-none focus:ring-1 focus:ring-primary",
+                                                "focus:ring-offset-0",
+                                                "text-shadow-md",
+                                            )}
+                                            aria-label={`Navigate to ${element.text}`}
+                                        >
+                                            {element.text}
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </nav>
+                    </div>
+                </motion.div>
             </div>
         </div>
     );
