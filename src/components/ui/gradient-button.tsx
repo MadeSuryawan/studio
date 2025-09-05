@@ -74,7 +74,7 @@ const gradientButtonVariants = cva(
                     cn("shadow-black/50"),
                     cn("hover:from-[#5f6466] hover:to-[#232e32]"),
                     cn("hover:border-[#4b5563]"),
-                    cn(`hover:text-white`),
+                    cn(`dark:hover:text-white hover:text-black`),
                     cn(`hover:shadow-black/40`),
                     cn("active:from-[#374151] active:to-[#374151]"),
                     "active:shadow-[0px_2px_3px_0px_rgba(82,82,82,0.4)]",

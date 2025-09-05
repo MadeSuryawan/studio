@@ -21,7 +21,10 @@ export function ThemeSwitcher(): React.JSX.Element {
                 <Button
                     variant="outline"
                     size="icon"
-                    className="right-12 h-9 w-9 md:h-11 md:w-11"
+                    className={cn(
+                        "right-12 h-9 w-9 md:h-11 md:w-11",
+                        "neumorphic-button",
+                    )}
                 >
                     <Sun
                         className={cn(

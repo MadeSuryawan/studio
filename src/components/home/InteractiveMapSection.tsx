@@ -264,7 +264,7 @@ const LocationPin = ({
 }) => (
     <button
         type="button"
-        className="absolute -translate-x-1/2 -translate-y-1/2 group"
+        className="absolute -translate-x-1/2 -translate-y-1/2 group pointer-events-auto"
         style={{ left: location.x, top: location.y }}
         onClick={() => handleLocationClick(location, onClick)}
         aria-label={`Show details for ${location.name}`}
@@ -287,18 +287,6 @@ const LocationPin = ({
         </span>
     </button>
 );
-
-/**
- * Bali map component that switches between light and dark themes
- */
-const BaliMap = memo(({ className }: { className?: string }) => {
-    const { resolvedTheme } = useTheme();
-    const MapComponent = resolvedTheme === "light" ? BaliMapLight : BaliMapDark;
-
-    return <MapComponent className={className} />;
-});
-// Set the display name for better debugging and to satisfy ESLint
-BaliMap.displayName = "BaliMap";
 
 const SectionTitle = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
@@ -383,7 +371,7 @@ MapSectionCard.displayName = "MapSectionCard";
 const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
         <ButtonFunc
-            className={cn(isMobile ? "mt-9" : "mt-0 left-0 translate-x-0 z-40")}
+            className={cn(isMobile ? "mt-9" : "mt-0 left-0 translate-x-0")}
             text="Explore All Destinations"
             link="#destinations"
             ariaLabel="Explore all destinations"
@@ -447,9 +435,11 @@ export default function InteractiveMapSection(): JSX.Element {
         };
         isMobile?: boolean;
     }) => {
+        const { resolvedTheme } = useTheme();
+        const BaliMap = resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
         return (
             <div className={cn("flex items-center", divClass)}>
-                <div className={cn(mapConfig.divClass)}>
+                <div className={cn(mapConfig.divClass, "pointer-events-none")}>
                     <BaliMap
                         className={cn("w-full h-full", mapConfig.mapClass)}
                     />

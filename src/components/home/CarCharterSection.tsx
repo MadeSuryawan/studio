@@ -17,8 +17,10 @@ export default function CarCharterSection(): JSX.Element {
             <div
                 className={cn(
                     "pointer-events-none absolute size-full inset-0 max-w-sm md:max-w-screen-md",
-                    "mx-auto shadow-xl shadow-black/50 rounded-[20px] border-y border-[#2C5263]",
-                    "bg-gradient-to-l from-background via-[#1D3844] to-background ",
+                    "mx-auto shadow-xl shadow-black/20 rounded-[20px]",
+                    "dark:border-y dark:border-[#2C5263]",
+                    "bg-gradient-to-l from-background via-[#edf4f4] to-background ",
+                    "dark:bg-gradient-to-l from-background dark:via-[#1D3844] to-background ",
                     // "bg-[linear-gradient(to_right,transparent_0%,#1D3844_25%,#1D3844_50%,#1D3844_75%,transparent_100%)]",
                 )}
                 aria-hidden="true"
