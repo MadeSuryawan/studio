@@ -57,6 +57,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                 "bg-card border-t-[0px]",
                 className,
                 // "neumorphic-card",
+                // baliMap && "h-[200px]",
             )}
         >
             {/* Image */}
@@ -101,7 +102,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     <p
                         className={cn(
                             "card-description my-3 text-muted-foreground text-sm leading-relaxed",
-                            baliMap ? "min-h-[4.5rem]" : "",
+                            baliMap && "min-h-[4.5rem]",
                             "line-clamp-3",
                         )}
                     >
@@ -132,16 +133,6 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     )}
                 >
                     <ButtonFunc
-                        className={cn(
-                            "shadow-lg",
-                            "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
-                            "hover:shadow-black/30 hover:scale-100",
-                            "hover:from-[#163f53] hover:to-[#0f2f3b]",
-                            "transtition-all duration-300 ease-in-out",
-                            "shadow-sm",
-                            "border-y border-x-0",
-                            "bg-bg-alternate",
-                        )}
                         text={buttonText}
                         link={buttonLink}
                         arrow={false}
@@ -172,22 +163,20 @@ export const ButtonFunc = ({
     onClick?: () => void;
 }) => {
     return (
-        <Button
-            variant={"secondary"}
+        <GradientButton
+            variant={"outline"}
             size="sm"
-            // icon={arrow && <ChevronRight className="icon-shadow-lg" />}
-            // iconPosition={arrow ? "right" : "none"}
-            // fullWidth={false}
-            // hapticFeedback={true}
-            // textShadow="none"
+            icon={arrow && <ChevronRight />}
+            iconPosition={arrow ? "right" : "none"}
+            fullWidth={false}
+            hapticFeedback={true}
+            textShadow="none"
             className={cn(
-                "shadow-md mx-auto text-black/60 dark:text-white/70 mt-8 md:mt-auto",
+                "mx-auto",
+                "mt-8 md:mt-auto",
                 "md:flex flex-row items-center justify-center",
                 "left-1/2 -translate-x-1/2",
-                "hover:scale-1",
-                "bg-bg-alternate",
                 "neumorphic-button",
-                "border-y border-x-0",
                 className,
             )}
             aria-label={ariaLabel}
@@ -197,7 +186,7 @@ export const ButtonFunc = ({
             onClick={onClick}
         >
             <Link href={link || "#"}>{text}</Link>
-            {arrow && <ChevronRight className="icon-shadow-lg" />}
-        </Button>
+            {/* {arrow && <ChevronRight className="icon-shadow-lg" />} */}
+        </GradientButton>
     );
 };

@@ -44,9 +44,9 @@
 /* @layer base { */
 :root {
     --radius: 0.625rem;
-    --background: #e0e5ec;
+    --background: #dadfe6;
     --foreground: hsl(224 71.4% 4.1%);
-    --card: #e0e5ec;
+    --card: hsl(212, 40%, 92%);
     --card-foreground: hsl(224 71.4% 4.1%);
     --popover: hsl(60 29% 92%);
     --popover-foreground: hsl(224 71.4% 4.1%);
@@ -79,7 +79,7 @@
     --sidebar-border: hsl(220 13% 91%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
     /* Light slate gray for light theme */
-    --bg-alternate: hsl(240, 18%, 93%);
+    --bg-alternate: hsl(212, 40%, 92%);
     --special-card-fg: hsl(224 71.4% 4.1%);
 }
 
@@ -180,35 +180,38 @@
 /* NEUMORPHISM STYLES */
 @layer components {
     .neumorphic-card {
-        @apply bg-background;
+        @apply bg-background border-none;
         box-shadow:
-            inset -5px -5px 10px rgba(255, 255, 255, 0.8),
-            inset 5px 5px 10px rgba(163, 177, 198, 0.4),
-            -5px -5px 10px rgba(255, 255, 255, 0.8),
-            5px 5px 10px rgba(163, 177, 198, 0.4);
+            inset 7px 7px 3px rgba(244, 244, 244, 0.8),
+            inset -5px -5px 3px rgba(163, 177, 198, 0.4),
+            -5px -5px 5px rgba(244, 244, 244, 0.8),
+            5px 5px 5px rgba(163, 177, 198, 0.4);
     }
     .dark .neumorphic-card {
+        @apply border-none;
         box-shadow:
-            inset -5px -5px 10px rgba(255, 255, 255, 0.05),
-            inset 5px 5px 10px rgba(0, 0, 0, 0.5),
-            -5px -5px 10px rgba(255, 255, 255, 0.05),
-            5px 5px 10px rgba(0, 0, 0, 0.5);
+            inset 5px 5px 4px rgba(255, 255, 255, 0.05),
+            inset -5px -5px 4px rgba(0, 0, 0, 0.5),
+            -5px -5px 7px rgba(255, 255, 255, 0.05),
+            5px 5px 7px rgba(0, 0, 0, 0.5);
     }
     .neumorphic-button {
         @apply bg-background transition-all duration-200;
         box-shadow:
             -5px -5px 10px rgba(255, 255, 255, 0.8),
-            5px 5px 10px rgba(163, 177, 198, 0.4);
+            5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-button:hover {
+        /* @apply text-black/40 text-shadow-none transition-none; */
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.8),
-            inset 2px 2px 5px rgba(163, 177, 198, 0.4);
+            inset 2px 2px 5px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-button:active {
+        @apply text-black/20 transition-none;
         box-shadow:
             inset -5px -5px 10px rgba(255, 255, 255, 0.8),
-            inset 5px 5px 10px rgba(163, 177, 198, 0.4);
+            inset 5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-button {
         box-shadow:
@@ -216,11 +219,13 @@
             5px 5px 10px rgba(0, 0, 0, 0.5);
     }
     .dark .neumorphic-button:hover {
+        /* @apply text-white/40 text-shadow-none transition-none; */
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.05),
             inset 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
     .dark .neumorphic-button:active {
+        @apply text-white/20 transition-none;
         box-shadow:
             inset -5px -5px 10px rgba(255, 255, 255, 0.05),
             inset 5px 5px 10px rgba(0, 0, 0, 0.5);
@@ -229,19 +234,19 @@
         @apply bg-primary text-primary-foreground transition-all duration-200;
         box-shadow:
             -5px -5px 10px rgba(255, 255, 255, 0.8),
-            5px 5px 10px rgba(163, 177, 198, 0.4);
+            5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-button-primary:hover {
         @apply bg-primary;
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.8),
-            inset 2px 2px 5px rgba(163, 177, 198, 0.4);
+            inset 2px 2px 5px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-input {
         @apply bg-background;
         box-shadow:
             inset -5px -5px 10px rgba(255, 255, 255, 0.8),
-            inset 5px 5px 10px rgba(163, 177, 198, 0.4);
+            inset 5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-input {
         box-shadow:
@@ -252,7 +257,7 @@
         @apply bg-background;
         box-shadow:
             -3px -3px 6px rgba(255, 255, 255, 0.8),
-            3px 3px 6px rgba(163, 177, 198, 0.4);
+            3px 3px 6px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-logo {
         box-shadow:
@@ -263,7 +268,7 @@
         @apply bg-background;
         box-shadow:
             -10px -10px 20px rgba(255, 255, 255, 0.8),
-            10px 10px 20px rgba(163, 177, 198, 0.4);
+            10px 10px 20px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-hero-image {
         box-shadow:
@@ -274,7 +279,7 @@
         @apply bg-background/90;
         box-shadow:
             -5px -5px 10px rgba(255, 255, 255, 0.8),
-            5px 5px 10px rgba(163, 177, 198, 0.4);
+            5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-floating-card {
         @apply bg-background;
@@ -286,7 +291,7 @@
         @apply bg-background;
         box-shadow:
             inset -3px -3px 6px rgba(255, 255, 255, 0.8),
-            inset 3px 3px 6px rgba(163, 177, 198, 0.4);
+            inset 3px 3px 6px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-icon-container {
         box-shadow:
@@ -297,9 +302,9 @@
         @apply bg-background;
         box-shadow:
             inset -10px -10px 20px rgba(255, 255, 255, 0.8),
-            inset 10px 10px 20px rgba(163, 177, 198, 0.4),
+            inset 10px 10px 20px rgba(129, 140, 155, 0.4),
             -10px -10px 20px rgba(255, 255, 255, 0.8),
-            10px 10px 20px rgba(163, 177, 198, 0.4);
+            10px 10px 20px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-cta-card {
         box-shadow:

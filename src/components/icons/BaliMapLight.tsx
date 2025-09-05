@@ -1,8 +1,8 @@
-import * as React from "react";
+import { type SVGProps, type JSX } from "react";
 
-export default function BaliMap(
-    props: React.SVGProps<SVGSVGElement>,
-): React.JSX.Element {
+export default function BaliMapLight(
+    props: SVGProps<SVGSVGElement>,
+): JSX.Element {
     return (
         <svg
             width={500}

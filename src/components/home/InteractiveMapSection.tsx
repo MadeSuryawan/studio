@@ -387,6 +387,11 @@ export default function InteractiveMapSection(): JSX.Element {
     const cardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerHeight, setContainerHeight] = useState<number>(0);
+    const [isMounted, setIsMounted] = useState(false);
+    // Prevent hydration mismatch by waiting for client-side mount
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Update container height when card changes
     useEffect(() => {
@@ -436,33 +441,50 @@ export default function InteractiveMapSection(): JSX.Element {
         isMobile?: boolean;
     }) => {
         const { resolvedTheme } = useTheme();
-        const BaliMap = resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
-        return (
-            <div className={cn("flex items-center", divClass)}>
-                <div className={cn(mapConfig.divClass, "pointer-events-none")}>
-                    <BaliMap
-                        className={cn("w-full h-full", mapConfig.mapClass)}
-                    />
-                    {mapPins.map((loc, index) => (
-                        <LocationPin
-                            key={index}
-                            location={loc}
-                            isActive={activeLocation.name === loc.name}
-                            onClick={setActiveLocation}
+        if (isMounted) {
+            const BaliMap =
+                resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
+            return (
+                <div className={cn("flex items-center", divClass)}>
+                    <div
+                        className={cn(
+                            mapConfig.divClass,
+                            "pointer-events-none",
+                        )}
+                    >
+                        <BaliMap
+                            className={cn(
+                                "w-full h-full icon-shadow-md",
+                                mapConfig.mapClass,
+                            )}
                         />
-                    ))}
+                        {mapPins.map((loc, index) => (
+                            <LocationPin
+                                key={index}
+                                location={loc}
+                                isActive={activeLocation.name === loc.name}
+                                onClick={setActiveLocation}
+                            />
+                        ))}
+                    </div>
+                    <div
+                        ref={containerRef}
+                        className={cn(cardConfig?.divClass)}
+                    >
+                        <MapSectionCard
+                            activeLocation={activeLocation}
+                            cardRef={cardRef}
+                            containerHeight={containerHeight}
+                            isMobile={isMobile}
+                        />
+                    </div>
                 </div>
-                <div ref={containerRef} className={cn(cardConfig?.divClass)}>
-                    <MapSectionCard
-                        activeLocation={activeLocation}
-                        cardRef={cardRef}
-                        containerHeight={containerHeight}
-                        isMobile={isMobile}
-                    />
-                </div>
-            </div>
-        );
+            );
+        } else {
+            return null;
+        }
     };
+    MapAndCard.displayName = "MapAndCard";
 
     return (
         <section id="map" className={cn("relative")}>

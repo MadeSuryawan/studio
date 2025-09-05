@@ -66,26 +66,31 @@ const BenefitCard = memo(({ benefit }: { benefit: Benefit }) => {
     return (
         <Card
             className={cn(
-                "text-center p-2 md:p-4 flex flex-col items-center justify-between shadow-xl",
+                "text-center p-1 md:p-4 flex flex-col items-center justify-between shadow-xl",
                 "hover:shadow-lg transition-shadow duration-300 h-44 sm:h-48 md:h-full",
             )}
         >
-            <CardHeader className="p-0 my-1 md:my-2 flex-shrink-0 mx-auto text-accent">
-                <div className="h-full w-5 md:w-8 text-accent">
-                    {benefit.icon}
-                </div>
+            <CardHeader
+                className={cn(
+                    "p-0 mb-1 md:my-2 flex-shrink-0 mx-auto text-accent",
+                    "neumorphic-icon-container",
+                    "rounded-md",
+                    "p-2 md:p-3",
+                )}
+            >
+                {benefit.icon}
             </CardHeader>
 
             <CardContent className="p-0 flex-1 flex flex-col justify-center min-h-0 my-2 md:my-0">
                 <CardTitle
                     className={cn(
-                        "text-md md:text-xl mb-3 md:mb-6 flex-shrink-0",
+                        "text-md md:text-xl mb-2 md:mb-6 flex-shrink-0",
                         "leading-relaxed text-special-card-fg",
                     )}
                 >
                     {benefit.title}
                 </CardTitle>
-                <p className="text-muted-foreground text-xs md:text-sm leading-relaxed -mt-1 md:mt-0">
+                <p className="text-muted-foreground text-xs md:text-sm leading-normal -mt-1 md:mt-0">
                     {benefit.description}
                 </p>
             </CardContent>

@@ -330,7 +330,7 @@ const ExpandableDock = ({
                             >
                                 <X
                                     className={cn(
-                                        "scale-[1.5] text-foreground/80",
+                                        "scale-[1.5] text-white/70",
                                         "icon-shadow-md",
                                     )}
                                 />
@@ -358,7 +358,7 @@ const ExpandableDock = ({
                             >
                                 <BotMessageSquare
                                     className={cn(
-                                        "scale-[2.2] sm:scale-[2.8] text-foreground/80",
+                                        "scale-[2.2] sm:scale-[2.8] text-black/60",
                                         "icon-shadow-sm",
                                     )}
                                 />

@@ -22,7 +22,6 @@ export default function WhatsAppButton(): React.JSX.Element {
                 "rounded-lg",
                 "hover:bg-[#128747]",
                 "shadow-lg hover:scale-110 transition-transform duration-200",
-                "icon-shadow-lg",
             )}
             aria-label="Contact on WhatsApp"
         >

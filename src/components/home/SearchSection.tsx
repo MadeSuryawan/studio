@@ -205,15 +205,14 @@ export default function SearchSection(): JSX.Element {
     return (
         <section
             id="search"
-            className="relative w-full rounded-t-lg border-t-2"
+            className={cn("relative w-full rounded-t-lg", "border-t-0", "py-8")}
         >
             <Card
                 className={cn(
                     "max-w-4xl relative",
                     "left-1/2 -translate-x-1/2",
-                    // "border-border/50 border-b-0 ",
-                    // "bg-bg-alternate",
-                    "-mt-32",
+                    "bg-bg-alternate",
+                    // "-mt-32",
                     "neumorphic-card",
                 )}
             >
@@ -289,7 +288,9 @@ export default function SearchSection(): JSX.Element {
                                                     <Button
                                                         variant={"outline"}
                                                         className={cn(
-                                                            "pl-3 text-left font-normal hover:scale-none focus:ring-1 focus:ring-ring",
+                                                            "pl-3 text-left font-normal hover:scale-none",
+                                                            "focus:ring-1 focus:ring-ring focus;ring-offset-0",
+                                                            "ring-offset-background",
                                                             !field.value
                                                                 ?.from &&
                                                                 "text-muted-foreground bg-bg-alternate",
@@ -398,6 +399,7 @@ export default function SearchSection(): JSX.Element {
                                     "md:col-start-3",
                                     "mx-auto",
                                     "neumorphic-button",
+                                    "border-none",
                                 )}
                                 disabled={isLoading}
                                 loading={isLoading}

@@ -782,12 +782,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         ))}
 
                         {rightComponent && (
-                            <div
-                                className={cn(
-                                    `right-0 mt-12 rounded-md border-b-[2px] border-x`,
-                                    borderColor,
-                                )}
-                            >
+                            <div className={cn("right-0 mt-12 rounded-md")}>
                                 {rightComponent}
                             </div>
                         )}

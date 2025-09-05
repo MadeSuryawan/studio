@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, throttle } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 /**
  * HeroSection Component
@@ -154,6 +155,8 @@ export default function HeroSection(): JSX.Element {
                     "items-center text-center",
                     "top-1/2 -translate-y-1/2 md:-translate-y-6 mx-auto",
                     "left-1/2 -translate-x-1/2",
+                    "text-hero-title",
+                    "text-shadow-sm",
                 )}
             >
                 {/* Balinese Greeting - Om Swastyastu */}
@@ -161,9 +164,8 @@ export default function HeroSection(): JSX.Element {
                     aria-label="Om Swastyastu - Traditional Balinese greeting meaning 'May all be well'"
                     lang="ban-Bali" // Proper language code for Balinese script
                     className={cn(
-                        "relative font-balibanat pb-3 md:pb-12 mx-auto",
+                        "relative font-balibanat pb-3 md:pb-12",
                         "text-5xl sm:text-6xl md:text-8xl",
-                        "text-shadow-sm",
                         !prefersReducedMotion &&
                             "hover:text-accent hover:scale-105",
                         `transition-all ${transitionDuration} ease-in-out`,
@@ -180,13 +182,13 @@ export default function HeroSection(): JSX.Element {
                 <h1
                     id="hero-heading"
                     className={cn(
-                        "relative text-center text-3xl sm:text-4xl md:text-6xl font-bold tracking-wide text-hero-title mx-auto",
+                        "relative text-3xl sm:text-4xl md:text-6xl",
+                        "font-bold tracking-wide",
                         `transition-all ${transitionDuration} ease-in-out`,
                         !prefersReducedMotion &&
                             "will-change-[transform,opacity]",
                         getAnimationClasses("slideLeft"),
                         // "bg-green-300",
-                        "text-shadow-sm",
                     )}
                 >
                     Discover Your Bali Bliss
@@ -194,14 +196,15 @@ export default function HeroSection(): JSX.Element {
 
                 {/* Subheading/Description */}
                 <p
+                    aria-label="We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us."
                     className={cn(
-                        "relative text-center max-w-sm md:max-w-screen-lg sm:text-lg md:text-2xl text-hero-title mx-auto",
+                        "relative max-w-sm md:max-w-screen-lg",
+                        "sm:text-lg md:text-2xl",
                         `transition-all ${transitionDuration} ease-in-out`,
                         !prefersReducedMotion &&
                             "will-change-[transform,opacity]",
                         getAnimationClasses("slideUp"),
                         // "bg-red-300",
-                        "text-shadow-sm",
                     )}
                 >
                     We craft personalized, unforgettable journeys to the Island

@@ -98,9 +98,11 @@ export default function CarCharterSection(): JSX.Element {
                             "shadow-md absolute",
                             "bg-gradient-to-b from-[#43809b] to-[#244452]",
                             "shadow-black/50",
-                            "hover:shadow-black/50 hover:scale-[1.04]",
+                            "hover:shadow-black/50",
+                            // "hover:scale-[1.04]",
                             "active:scale-[1.01]",
                             "left-1/2 -translate-x-1/2 translate-y-[1px]",
+                            "neumorphic-button",
                         )}
                         aria-label="View charter options"
                         aria-describedby="charter-options"

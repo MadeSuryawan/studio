@@ -24,18 +24,21 @@ export function ThemeSwitcher(): React.JSX.Element {
                     className={cn(
                         "right-12 h-9 w-9 md:h-11 md:w-11",
                         "neumorphic-button",
+                        "focus:ring-0 focus:ring-offset-0",
                     )}
                 >
                     <Sun
                         className={cn(
                             "h-[1.2rem] w-[1.2rem] rotate-0 scale-[1.3]",
-                            "md:scale-[1.4] transition-all dark:-rotate-90 dark:scale-0",
+                            "md:scale-[1.5] transition-all dark:-rotate-90 dark:scale-0",
                         )}
                     />
                     <Moon
                         className={cn(
                             "absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all",
                             "dark:rotate-0 dark:scale-[1.3] md:dark:scale-[1.4]",
+                            // "text-white/80",
+                            // "hover:scale-[2.0]",
                         )}
                     />
                     {/* <Laptop2

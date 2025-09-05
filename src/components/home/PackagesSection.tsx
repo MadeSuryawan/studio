@@ -236,7 +236,7 @@ export default function PackagesSection(): JSX.Element {
             {/* Mobile view */}
             <Carousel className="md:hidden mx-auto max-w-xs py-8">
                 <SectionTitle divClass="text-center py-4" />
-                <CarouselContent paginationMt="mt-32">
+                <CarouselContent paginationMt="mt-36">
                     {packages.map((pkg) => (
                         <CarouselItem key={pkg.name}>
                             <PackageCard cardRef={cardRef} pkg={pkg} />
