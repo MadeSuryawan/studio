@@ -176,7 +176,10 @@ export const ButtonFunc = ({
                 "mt-8 md:mt-auto",
                 "md:flex flex-row items-center justify-center",
                 "left-1/2 -translate-x-1/2",
+                "border-black/10",
+                "dark:border-blue-400/20",
                 "neumorphic-button",
+                "will-change-auto",
                 className,
             )}
             aria-label={ariaLabel}

@@ -22,7 +22,12 @@ export default function ContactSection(): React.JSX.Element {
                 )}
             >
                 <div className="space-y-3 bg-blue-400/0">
-                    <h2 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline">
+                    <h2
+                        className={cn(
+                            "text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl font-headline",
+                            "text-special-card-fg",
+                        )}
+                    >
                         Get in Touch
                     </h2>
                     <p

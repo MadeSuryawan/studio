@@ -68,7 +68,12 @@ export default function RootLayout({
     };
 
     return (
-        <html lang="en" suppressHydrationWarning className={ptSans.variable}>
+        <html
+            lang="en"
+            suppressHydrationWarning
+            className={ptSans.variable}
+            data-scroll-behavior="smooth"
+        >
             <head>
                 {/* <!-- Favicon -->
                 <!-- - For old IEs --> */}

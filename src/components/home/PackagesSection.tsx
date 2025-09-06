@@ -161,7 +161,7 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
         <div className={cn(divClass)}>
             <h2
                 className={cn(
-                    "font-bold tracking-normal font-headline",
+                    "font-bold tracking-normal font-headline text-special-card-fg",
                     "text-3xl md:text-5xl",
                 )}
             >

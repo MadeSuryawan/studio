@@ -27,6 +27,9 @@ const nextConfig: NextConfig = {
     //     return config;
     // },
     allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
+    experimental: {
+        optimizeRouterScrolling: true,
+    },
 };
 
 export default nextConfig;

@@ -82,22 +82,16 @@ const gradientButtonVariants = cva(
                 outline: [
                     "bg-card",
                     "text-black/60 dark:text-white/60",
-                    cn("border-black/10 border-spacing-1"),
-                    cn("dark:border-[#43809b]"),
-                    "dark:border-sm dark:border-blue-400/20 dark:border-spacing-0",
-                    // "dark:hover:bg-secondary",
-                    "hover:bg-card",
                     "focus-visible:ring-0",
                     "focus-visible:ring-offset-0",
                     "focus-visible:outline-none",
                 ],
                 accent: [
-                    cn(
-                        "shadow-sm shadow-black/50",
-                        "bg-gradient-to-b from-[#F79244] to-[#aa5a1d]",
-                        // "hover:from-[#f89950] hover:to-[#be6b2c]",
-                        // "hover:shadow-sm hover:shadow-black/30",
-                    ),
+                    // "shadow-sm shadow-black/50",
+                    cn("bg-gradient-to-b from-[#F79244] to-[#aa5a1d]"),
+                    cn("border-[#8c4d1d]"),
+                    // "hover:from-[#f89950] hover:to-[#be6b2c]",
+                    // "hover:shadow-sm hover:shadow-black/30",
                 ],
             },
             size: {

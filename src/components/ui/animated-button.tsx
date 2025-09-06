@@ -17,7 +17,12 @@ interface CustomCSSProperties extends React.CSSProperties {
 }
 
 const buttonVariants = cva(
-    `group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap transform-gpu transition-all duration-300 ease-in-out active:translate-y-px`,
+    [
+        "group relative z-0 flex cursor-pointer",
+        "items-center justify-center overflow-hidden",
+        "whitespace-nowrap transform-gpu transition-all duration-300 ease-in-out",
+        "active:translate-y-px",
+    ],
     {
         variants: {
             variant: {

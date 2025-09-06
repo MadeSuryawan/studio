@@ -486,12 +486,16 @@ const ContactForm = memo(() => {
                                 size="lg"
                                 variant="accent"
                                 className={cn(
-                                    "flex flex-row items-start justify-center gap-4",
-                                    "left-1/2 -translate-x-1/2",
+                                    "flex gap-4",
+                                    "mx-auto",
                                     "w-1/2",
-                                    "hover:scale-[1.01]",
-                                    "p-1",
-                                    "shadow-md",
+                                    "p-1 md:p-2",
+                                    // "shadow-sm",
+                                    "transition-none",
+                                    "bg-[#fd8e39]",
+                                    "dark:bg-[#0c6780]",
+                                    "border-none",
+                                    "neumorphic-accent-button",
                                 )}
                                 disabled={isLoading}
                                 loading={isLoading}

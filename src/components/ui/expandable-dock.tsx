@@ -298,11 +298,14 @@ const ExpandableDock = ({
                 className={cn(
                     "relative w-full h-[52px] md:h-[64px] will-change-auto",
                     "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
-                    `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#c06622]"}`,
+                    // `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#c06622]"}`,
+                    `${isExpanded ? "bg-[#063842]" : "dark:bg-[#dd7526] bg-[#ff8629]"}`,
                     "transition-all duration-300 ease-out",
                     "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
-                    "hover:scale-[1.05]",
+                    // "hover:scale-[1.05]",
                     "shadow-lg",
+                    "hover:bg-[#ff9645]",
+                    // "neumorphic-accent-button",
                 )}
             >
                 <div className="pointer-events-none">
@@ -358,8 +361,10 @@ const ExpandableDock = ({
                             >
                                 <BotMessageSquare
                                     className={cn(
-                                        "scale-[2.2] sm:scale-[2.8] text-black/60",
-                                        "icon-shadow-sm",
+                                        "scale-[2.2] sm:scale-[4] text-white/80",
+                                        " dark:text-white/90",
+                                        // "icon-shadow-sm",
+                                        "neumorphic-accent-icon-container",
                                     )}
                                 />
                             </motion.span>
@@ -378,7 +383,8 @@ const ExpandableDock = ({
                 animate={animationProps}
                 transition={motionVariants.container}
                 className={cn(
-                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
+                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl",
+                    "transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
                     className,
                 )}
             >

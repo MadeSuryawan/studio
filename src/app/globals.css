@@ -41,86 +41,86 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 }
-/* @layer base { */
-:root {
-    --radius: 0.625rem;
-    --background: #dadfe6;
-    --foreground: hsl(224 71.4% 4.1%);
-    --card: hsl(212, 40%, 92%);
-    --card-foreground: hsl(224 71.4% 4.1%);
-    --popover: hsl(60 29% 92%);
-    --popover-foreground: hsl(224 71.4% 4.1%);
-    --primary: hsl(174 71% 57%);
-    --hero-title: hsl(170 14% 90%);
-    --primary-foreground: hsl(224 71.4% 4.1%);
-    --secondary: hsl(60 4.8% 95.9%);
-    --secondary-foreground: hsl(222.2 84% 4.9%);
-    --muted: hsl(60 4.8% 95.9%);
-    --muted-foreground: hsl(215.4 16.3% 36%);
-    --accent: hsl(16 100% 66%);
-    --accent-foreground: hsl(0 0% 98%);
-    --destructive: hsl(0 84.2% 60.2%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(60 5.9% 90%);
-    --input: hsl(60 5.9% 90%);
-    --ring: hsl(174 71% 57%);
-    --chart-1: hsl(12 76% 61%);
-    --chart-2: hsl(173 58% 39%);
-    --chart-3: hsl(197 37% 24%);
-    --chart-4: hsl(43 74% 66%);
-    --chart-5: hsl(27 87% 67%);
-    /* --radius: 0.5rem; */
-    --sidebar-background: hsl(0 0% 98%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(240 5.9% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(240 4.8% 95.9%);
-    --sidebar-accent-foreground: hsl(240 5.9% 10%);
-    --sidebar-border: hsl(220 13% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    /* Light slate gray for light theme */
-    --bg-alternate: hsl(212, 40%, 92%);
-    --special-card-fg: hsl(224 71.4% 4.1%);
-}
+@layer base {
+    :root {
+        --radius: 0.625rem;
+        --background: #dadfe6;
+        --foreground: hsl(224 71.4% 4.1%);
+        --card: hsl(212, 40%, 92%);
+        --card-foreground: hsl(224 71.4% 4.1%);
+        --popover: hsl(210, 50%, 81%);
+        --popover-foreground: hsl(224 71.4% 4.1%);
+        --primary: hsl(174 71% 57%);
+        --hero-title: hsl(170 14% 90%);
+        --primary-foreground: hsl(224 71.4% 4.1%);
+        --secondary: hsl(60 4.8% 95.9%);
+        --secondary-foreground: hsl(222.2 84% 4.9%);
+        --muted: hsl(60 4.8% 95.9%);
+        --muted-foreground: hsl(215.4 16.3% 36%);
+        --accent: hsl(16 100% 66%);
+        --accent-foreground: hsl(0 0% 98%);
+        --destructive: hsl(0 84.2% 60.2%);
+        --destructive-foreground: hsl(0 0% 98%);
+        --border: hsl(60 5.9% 90%);
+        --input: hsl(60 5.9% 90%);
+        --ring: hsl(174 71% 57%);
+        --chart-1: hsl(12 76% 61%);
+        --chart-2: hsl(173 58% 39%);
+        --chart-3: hsl(197 37% 24%);
+        --chart-4: hsl(43 74% 66%);
+        --chart-5: hsl(27 87% 67%);
+        /* --radius: 0.5rem; */
+        --sidebar-background: hsl(0 0% 98%);
+        --sidebar-foreground: hsl(240 5.3% 26.1%);
+        --sidebar-primary: hsl(240 5.9% 10%);
+        --sidebar-primary-foreground: hsl(0 0% 98%);
+        --sidebar-accent: hsl(240 4.8% 95.9%);
+        --sidebar-accent-foreground: hsl(240 5.9% 10%);
+        --sidebar-border: hsl(220 13% 91%);
+        --sidebar-ring: hsl(217.2 91.2% 59.8%);
+        /* Light slate gray for light theme */
+        --bg-alternate: hsl(212, 40%, 92%);
+        --special-card-fg: hsla(225, 38%, 19%, 0.98);
+    }
 
-.dark {
-    --background: #1a202c;
-    --foreground: hsl(60 9.1% 97.8%);
-    --card: hsl(210 16% 15%);
-    --card-foreground: hsl(60 9.1% 97.8%);
-    --popover: hsl(214, 41%, 12%);
-    --popover-foreground: hsl(60 9.1% 97.8%);
-    --primary: hsl(180 66% 54%);
-    --primary-foreground: hsl(224 71.4% 4.1%);
-    --secondary: hsl(197 51% 12%);
-    --secondary-foreground: hsl(60 9.1% 97.8%);
-    --muted: hsl(217.2 32.6% 17.5%);
-    --muted-foreground: hsl(215 20.2% 65.1%);
-    --accent: hsl(16 100% 66%);
-    --accent-foreground: hsl(0 0% 98%);
-    --destructive: hsl(0 62.8% 30.6%);
-    --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(217.2 32.6% 32%);
-    --input: hsl(217.2 32.6% 17.5%);
-    --ring: hsl(30, 100%, 57%);
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
-    --sidebar-background: hsl(240 5.9% 10%);
-    --sidebar-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-primary: hsl(224.3 76.3% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.7% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(240 3.7% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    /* Dark slate gray for dark theme */
-    --bg-alternate: hsl(214 15% 16%);
-    --special-card-fg: hsl(0 5% 88%);
+    .dark {
+        --background: #1a202c;
+        --foreground: hsl(60 9.1% 97.8%);
+        --card: hsl(210 16% 15%);
+        --card-foreground: hsl(60 9.1% 97.8%);
+        --popover: hsl(214, 41%, 12%);
+        --popover-foreground: hsl(60 9.1% 97.8%);
+        --primary: hsl(180 66% 54%);
+        --primary-foreground: hsl(224 71.4% 4.1%);
+        --secondary: hsl(197 51% 12%);
+        --secondary-foreground: hsl(60 9.1% 97.8%);
+        --muted: hsl(217.2 32.6% 17.5%);
+        --muted-foreground: hsl(215 20.2% 65.1%);
+        --accent: hsl(16 100% 66%);
+        --accent-foreground: hsl(0 0% 98%);
+        --destructive: hsl(0 62.8% 30.6%);
+        --destructive-foreground: hsl(0 0% 98%);
+        --border: hsl(217.2 32.6% 32%);
+        --input: hsl(217.2 32.6% 17.5%);
+        --ring: hsl(30, 100%, 57%);
+        --chart-1: hsl(220 70% 50%);
+        --chart-2: hsl(160 60% 45%);
+        --chart-3: hsl(30 80% 55%);
+        --chart-4: hsl(280 65% 60%);
+        --chart-5: hsl(340 75% 55%);
+        --sidebar-background: hsl(240 5.9% 10%);
+        --sidebar-foreground: hsl(240 4.8% 95.9%);
+        --sidebar-primary: hsl(224.3 76.3% 48%);
+        --sidebar-primary-foreground: hsl(0 0% 100%);
+        --sidebar-accent: hsl(240 3.7% 15.9%);
+        --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+        --sidebar-border: hsl(240 3.7% 15.9%);
+        --sidebar-ring: hsl(217.2 91.2% 59.8%);
+        /* Dark slate gray for dark theme */
+        --bg-alternate: hsl(214 15% 16%);
+        --special-card-fg: hsl(0 5% 88%);
+    }
 }
-/* } */
 
 @layer base {
     * {
@@ -180,20 +180,20 @@
 /* NEUMORPHISM STYLES */
 @layer components {
     .neumorphic-card {
-        @apply bg-background border-none;
+        @apply bg-card border-none;
         box-shadow:
-            inset 7px 7px 3px rgba(244, 244, 244, 0.8),
-            inset -5px -5px 3px rgba(163, 177, 198, 0.4),
-            -5px -5px 5px rgba(244, 244, 244, 0.8),
-            5px 5px 5px rgba(163, 177, 198, 0.4);
+            inset 7px 7px 4px rgb(241, 245, 255),
+            inset -1px -3px 4px rgba(124, 123, 123, 0.6),
+            1px -8px 30px rgba(83, 83, 83, 0.1),
+            -1px 4px 10px rgba(0, 0, 0, 0.144);
     }
     .dark .neumorphic-card {
         @apply border-none;
         box-shadow:
-            inset 5px 5px 4px rgba(255, 255, 255, 0.05),
-            inset -5px -5px 4px rgba(0, 0, 0, 0.5),
-            -5px -5px 7px rgba(255, 255, 255, 0.05),
-            5px 5px 7px rgba(0, 0, 0, 0.5);
+            inset 5px 5px 4px rgba(255, 255, 255, 0.06),
+            inset -1px -3px 4px rgba(0, 0, 0, 0.6),
+            1px -8px 10px rgb(0, 0, 0, 0.1),
+            -4px 8px 10px rgba(0, 0, 0, 0.1);
     }
     .neumorphic-button {
         @apply bg-background transition-all duration-200;
@@ -202,7 +202,6 @@
             5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-button:hover {
-        /* @apply text-black/40 text-shadow-none transition-none; */
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.8),
             inset 2px 2px 5px rgba(129, 140, 155, 0.4);
@@ -219,16 +218,45 @@
             5px 5px 10px rgba(0, 0, 0, 0.5);
     }
     .dark .neumorphic-button:hover {
-        /* @apply text-white/40 text-shadow-none transition-none; */
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.05),
             inset 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
     .dark .neumorphic-button:active {
-        @apply text-white/20 transition-none;
         box-shadow:
             inset -5px -5px 10px rgba(255, 255, 255, 0.05),
             inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+    .neumorphic-accent-button {
+        box-shadow:
+            -5px -5px 10px #ffffff,
+            5px 5px 10px rgb(77, 77, 81);
+    }
+    .neumorphic-accent-button:hover {
+        box-shadow:
+            inset 2px 2px 7px rgba(0, 0, 0, 0.5),
+            inset -2px -2px 7px rgba(246, 240, 123, 0.749);
+    }
+    .neumorphic-accent-button:active {
+        box-shadow:
+            inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+            inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+    .dark .neumorphic-accent-button {
+        @apply bg-background;
+        box-shadow:
+            -5px -5px 10px #44444470,
+            5px 5px 10px #181819ff;
+    }
+    .dark .neumorphic-accent-button:hover {
+        box-shadow:
+            inset 2px 5px 10px rgba(36, 41, 40, 0.799),
+            inset -2px -5px 10px rgba(135, 205, 194, 0.4);
+    }
+    .dark .neumorphic-accent-button:active {
+        box-shadow:
+            inset -5px -5px 7px rgba(255, 255, 255, 0.05),
+            inset 5px 5px 7px rgba(36, 41, 40, 0.799);
     }
     .neumorphic-button-primary {
         @apply bg-primary text-primary-foreground transition-all duration-200;
@@ -288,15 +316,28 @@
             5px 5px 10px rgba(0, 0, 0, 0.5);
     }
     .neumorphic-icon-container {
-        @apply bg-background;
+        /* @apply bg-background; */
         box-shadow:
             inset -3px -3px 6px rgba(255, 255, 255, 0.8),
             inset 3px 3px 6px rgba(129, 140, 155, 0.4);
     }
+
     .dark .neumorphic-icon-container {
         box-shadow:
             inset -3px -3px 6px rgba(255, 255, 255, 0.05),
             inset 3px 3px 6px rgba(0, 0, 0, 0.5);
+    }
+    .neumorphic-accent-icon-container {
+        @apply p-[2px] rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%];
+        box-shadow:
+            inset -1px -1px 1px rgba(255, 247, 238, 0.531),
+            inset 1px 1px 1px rgba(35, 33, 23, 0.3);
+    }
+    .dark .neumorphic-accent-icon-container {
+        @apply p-[2px] rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%];
+        box-shadow:
+            inset -1px -1px 1px rgba(236, 182, 120, 0.503),
+            inset 1px 1px 1px rgba(33, 30, 17, 0.591);
     }
     .neumorphic-cta-card {
         @apply bg-background;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, JSX, memo } from "react";
+import { useEffect, useState, useRef, type JSX, memo, type FC } from "react";
 import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -42,10 +42,10 @@ const STYLING_CONFIG = {
         tooltipActive: "opacity-100",
     },
     desktop: {
-        mapContainer: "relative aspect-square group scale-[1.3] z-10",
+        mapContainer: "relative group scale-[1.4]",
     },
     mobile: {
-        mapContainer: "relative aspect-square mx-auto group scale-[0.9] -my-16",
+        mapContainer: "relative group scale-[.8] xs:scale-[.8] sm:scale-[.8]",
     },
 } as const;
 
@@ -73,7 +73,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "bali canggu",
         x: "56%",
-        y: "66%",
+        y: "77%",
         link: "#",
     },
     {
@@ -83,7 +83,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "mount batur",
         x: "70%",
-        y: "33%",
+        y: "20%",
         link: "/#",
     },
     {
@@ -93,7 +93,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "nusa penida",
         x: "85%",
-        y: "71%",
+        y: "84%",
         link: "/#",
     },
     {
@@ -103,7 +103,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "uluwatu temple",
         x: "52%",
-        y: "78%",
+        y: "97%",
         link: "/#",
     },
     {
@@ -113,7 +113,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "bali seminyak",
         x: "57%",
-        y: "69%",
+        y: "82%",
         link: "/#",
     },
     {
@@ -123,7 +123,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "amed beach",
         x: "93%",
-        y: "40%",
+        y: "32%",
         link: "/#",
     },
     {
@@ -133,7 +133,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "bali dolphins",
         x: "50%",
-        y: "25%",
+        y: "8%",
         link: "/#",
     },
     {
@@ -143,7 +143,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "bali snorkeling",
         x: "20%",
-        y: "27%",
+        y: "12%",
         link: "/#",
     },
     {
@@ -163,7 +163,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "beratan temple bali",
         x: "58%",
-        y: "39%",
+        y: "30%",
         link: "/#",
     },
     {
@@ -173,7 +173,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "munduk bali",
         x: "49%",
-        y: "37%",
+        y: "29%",
         link: "/#",
     },
     {
@@ -182,8 +182,8 @@ const mapPins: Location[] = [
             "A conservation area featuring diverse ecosystems, from rainforests to coral reefs, home to the rare Bali Starling.",
         image: "https://placehold.co/600x400.png",
         aiHint: "west bali park",
-        x: "5%",
-        y: "25%",
+        x: "3%",
+        y: "8%",
         link: "/#",
     },
     {
@@ -203,7 +203,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "sekumpul waterfall",
         x: "59%",
-        y: "26%",
+        y: "10%",
         link: "/#",
     },
     {
@@ -213,7 +213,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "denpasar bali",
         x: "62%",
-        y: "66%",
+        y: "78%",
         link: "/#",
     },
     {
@@ -223,7 +223,7 @@ const mapPins: Location[] = [
         image: "https://placehold.co/600x400.png",
         aiHint: "candidasa beach",
         x: "86%",
-        y: "53%",
+        y: "56%",
         link: "/#",
     },
 ] as Location[];
@@ -293,7 +293,7 @@ const SectionTitle = ({ isMobile = false }: { isMobile?: boolean }) => {
         <div className={cn("text-center")}>
             <h2
                 className={cn(
-                    "font-bold tracking-normal font-headline",
+                    "font-bold tracking-normal font-headline text-special-card-fg",
                     isMobile ? "text-3xl" : "text-5xl",
                 )}
             >
@@ -371,7 +371,7 @@ MapSectionCard.displayName = "MapSectionCard";
 const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
         <ButtonFunc
-            className={cn(isMobile ? "mt-9" : "mt-0 left-0 translate-x-0")}
+            className={cn(isMobile ? "mt-9" : "left-0 translate-x-0")}
             text="Explore All Destinations"
             link="#destinations"
             ariaLabel="Explore all destinations"
@@ -388,6 +388,8 @@ export default function InteractiveMapSection(): JSX.Element {
     const containerRef = useRef<HTMLDivElement>(null);
     const [containerHeight, setContainerHeight] = useState<number>(0);
     const [isMounted, setIsMounted] = useState(false);
+    const { resolvedTheme } = useTheme();
+
     // Prevent hydration mismatch by waiting for client-side mount
     useEffect(() => {
         setIsMounted(true);
@@ -424,72 +426,71 @@ export default function InteractiveMapSection(): JSX.Element {
         }
     }, [containerHeight]);
 
-    const MapAndCard = ({
-        divClass,
-        mapConfig,
-        cardConfig,
-        isMobile = false,
-    }: {
-        divClass: string;
-        mapConfig: {
+    const MapAndCard = memo(
+        ({
+            divClass,
+            mapConfig,
+            cardConfig,
+            isMobile = false,
+        }: {
             divClass: string;
-            mapClass?: string;
-        };
-        cardConfig?: {
-            divClass: string;
-        };
-        isMobile?: boolean;
-    }) => {
-        const { resolvedTheme } = useTheme();
-        if (isMounted) {
-            const BaliMap =
-                resolvedTheme === "dark" ? BaliMapDark : BaliMapLight;
-            return (
-                <div className={cn("flex items-center", divClass)}>
-                    <div
-                        className={cn(
-                            mapConfig.divClass,
-                            "pointer-events-none",
-                        )}
-                    >
-                        <BaliMap
-                            className={cn(
-                                "w-full h-full icon-shadow-md",
-                                mapConfig.mapClass,
-                            )}
-                        />
-                        {mapPins.map((loc, index) => (
-                            <LocationPin
-                                key={index}
-                                location={loc}
-                                isActive={activeLocation.name === loc.name}
-                                onClick={setActiveLocation}
+            mapConfig: {
+                divClass: string;
+                mapClass?: string;
+            };
+            cardConfig?: {
+                divClass: string;
+            };
+            isMobile?: boolean;
+        }) => {
+            if (isMounted) {
+                const BaliMap =
+                    resolvedTheme === "dark" ? BaliMapLight : BaliMapDark;
+                return (
+                    <div className={cn("flex items-center", divClass)}>
+                        <div className={cn(mapConfig.divClass)}>
+                            <BaliMapDark
+                                className={cn(
+                                    "dark:contrast-[1.07]",
+                                    "dark:icon-shadow-md",
+                                    "dark:brightness-[.9]",
+                                    mapConfig.mapClass,
+                                )}
                             />
-                        ))}
+                            {mapPins.map((loc, index) => (
+                                <LocationPin
+                                    key={index}
+                                    location={loc}
+                                    isActive={activeLocation.name === loc.name}
+                                    onClick={setActiveLocation}
+                                />
+                            ))}
+                        </div>
+                        <div
+                            ref={containerRef}
+                            className={cn(cardConfig?.divClass)}
+                        >
+                            <MapSectionCard
+                                activeLocation={activeLocation}
+                                cardRef={cardRef}
+                                containerHeight={containerHeight}
+                                isMobile={isMobile}
+                            />
+                        </div>
                     </div>
-                    <div
-                        ref={containerRef}
-                        className={cn(cardConfig?.divClass)}
-                    >
-                        <MapSectionCard
-                            activeLocation={activeLocation}
-                            cardRef={cardRef}
-                            containerHeight={containerHeight}
-                            isMobile={isMobile}
-                        />
-                    </div>
-                </div>
-            );
-        } else {
-            return null;
-        }
-    };
+                );
+            } else {
+                return null;
+            }
+        },
+    );
+
     MapAndCard.displayName = "MapAndCard";
 
     return (
         <section id="map" className={cn("relative")}>
             {/* Desktop view */}
-            <div className={cn("hidden md:block py-10")}>
+            <div className={cn("hidden md:block py-10 space-y-12")}>
                 <SectionTitle />
                 <MapAndCard
                     divClass={cn("flex-row-reverse justify-evenly")}

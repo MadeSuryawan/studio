@@ -205,15 +205,17 @@ export default function SearchSection(): JSX.Element {
     return (
         <section
             id="search"
-            className={cn("relative w-full rounded-t-lg", "border-t-0", "py-8")}
+            className={cn("relative w-full rounded-t-lg", "border-t-0", "pt-6")}
         >
             <Card
                 className={cn(
                     "max-w-4xl relative",
                     "left-1/2 -translate-x-1/2",
-                    "bg-bg-alternate",
-                    // "-mt-32",
+                    "bg-card",
+                    "-mt-32",
                     "neumorphic-card",
+                    "rounded-lg",
+                    "flex flex-col",
                 )}
             >
                 <CardHeader>
@@ -229,7 +231,10 @@ export default function SearchSection(): JSX.Element {
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"
+                            className={cn(
+                                "grid grid-cols-1 md:grid-cols-3 gap-4 items-end",
+                                // "bg-blue-600",
+                            )}
                         >
                             <FormField
                                 control={form.control}
@@ -394,18 +399,30 @@ export default function SearchSection(): JSX.Element {
                                 variant="accent"
                                 fullWidth={false}
                                 className={cn(
-                                    "justify-evenly",
-                                    "left-1/2 -translate-x-1/2",
+                                    "text-nowrap w-1/2 md:w-3/5",
+                                    "flex justify-evenly",
                                     "md:col-start-3",
-                                    "mx-auto",
+                                    "ml-auto",
                                     "neumorphic-button",
-                                    "border-none",
+                                    "bg-background",
+                                    "text-black/60",
+                                    "border-black/10 border-spacing-1",
+                                    "hover:text-accent",
+                                    // "dark:neumorphic-accent-button",
+                                    "dark:border-[#43819b58]",
+                                    "dark:bg-bg-alternate",
+                                    // "dark:border-white/10",
+                                    "dark:text-white/60 ",
+                                    "dark:hover:text-primary",
+                                    // "dark:hover:border-bg-alternate",
+                                    "active:text-white/30",
+                                    "transition-none",
                                 )}
                                 disabled={isLoading}
                                 loading={isLoading}
-                                textShadow={isLoading ? "none" : "light"}
+                                textShadow={"none"}
                                 icon={
-                                    <NotepadText className="scale-[1.1] icon-shadow-sm" />
+                                    <NotepadText className="scale-[1.2] mr-3" />
                                 }
                                 iconPosition="right"
                                 loadingText="Processing..."
