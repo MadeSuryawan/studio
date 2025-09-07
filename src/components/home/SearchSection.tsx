@@ -212,7 +212,7 @@ export default function SearchSection(): JSX.Element {
                     "max-w-4xl relative",
                     "left-1/2 -translate-x-1/2",
                     "bg-card",
-                    "-mt-32",
+                    // "-mt-32",
                     "neumorphic-card",
                     "rounded-lg",
                     "flex flex-col",

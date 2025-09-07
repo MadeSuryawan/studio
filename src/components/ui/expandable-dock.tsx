@@ -361,9 +361,8 @@ const ExpandableDock = ({
                             >
                                 <BotMessageSquare
                                     className={cn(
-                                        "scale-[2.2] sm:scale-[4] text-white/80",
+                                        "scale-[3.1] md:scale-[3.9] text-white/80",
                                         " dark:text-white/90",
-                                        // "icon-shadow-sm",
                                         "neumorphic-accent-icon-container",
                                     )}
                                 />

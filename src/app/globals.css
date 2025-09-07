@@ -51,7 +51,7 @@
         --popover: hsl(210, 50%, 81%);
         --popover-foreground: hsl(224 71.4% 4.1%);
         --primary: hsl(174 71% 57%);
-        --hero-title: hsl(170 14% 90%);
+        --hero-title: hsl(210, 16%, 19%);
         --primary-foreground: hsl(224 71.4% 4.1%);
         --secondary: hsl(60 4.8% 95.9%);
         --secondary-foreground: hsl(222.2 84% 4.9%);
@@ -91,6 +91,7 @@
         --popover: hsl(214, 41%, 12%);
         --popover-foreground: hsl(60 9.1% 97.8%);
         --primary: hsl(180 66% 54%);
+        --hero-title: hsl(212, 31%, 77%);
         --primary-foreground: hsl(224 71.4% 4.1%);
         --secondary: hsl(197 51% 12%);
         --secondary-foreground: hsl(60 9.1% 97.8%);
@@ -148,7 +149,7 @@
     }
 
     .text-shadow-sm {
-        text-shadow: 1px 2px 1px rgba(31, 31, 31, 0.8);
+        text-shadow: 1px 2px 5px rgba(31, 31, 31, 0.8);
     }
 
     .text-shadow-lg {
@@ -182,7 +183,7 @@
     .neumorphic-card {
         @apply bg-card border-none;
         box-shadow:
-            inset 7px 7px 4px rgb(241, 245, 255),
+            inset 5px 5px 3px rgb(241, 245, 255),
             inset -1px -3px 4px rgba(124, 123, 123, 0.6),
             1px -8px 30px rgba(83, 83, 83, 0.1),
             -1px 4px 10px rgba(0, 0, 0, 0.144);
@@ -300,8 +301,8 @@
     }
     .dark .neumorphic-hero-image {
         box-shadow:
-            -10px -10px 20px rgba(255, 255, 255, 0.05),
-            10px 10px 20px rgba(0, 0, 0, 0.5);
+            -10px -10px 10px rgba(255, 255, 255, 0.05),
+            10px 10px 10px rgba(0, 0, 0, 0.5);
     }
     .neumorphic-floating-card {
         @apply bg-background/90;
@@ -349,10 +350,10 @@
     }
     .dark .neumorphic-cta-card {
         box-shadow:
-            inset -10px -10px 20px rgba(255, 255, 255, 0.05),
-            inset 10px 10px 20px rgba(0, 0, 0, 0.5),
-            -10px -10px 20px rgba(255, 255, 255, 0.05),
-            10px 10px 20px rgba(0, 0, 0, 0.5);
+            inset -10px -10px 15px rgba(255, 255, 255, 0.05),
+            inset 10px 10px 15px rgba(0, 0, 0, 0.5),
+            -10px -10px 10px rgba(255, 255, 255, 0.05),
+            10px 10px 10px rgba(0, 0, 0, 0.5);
     }
     .line-clamp-2 {
         display: -webkit-box;

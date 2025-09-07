@@ -663,9 +663,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         // "-top-1/4",
                         "px-2 will-change-opacity",
                         NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP,
-                        borderColor,
+                        // borderColor,
                         // "border-x",
                         // sequenceDone && "border-b",
+                        "shadow-lg",
                     )}
                 >
                     {/* Logo/Emblem */}
@@ -698,8 +699,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             // " bg-[radial-gradient(_var(--background),_0%,_var(--background)_50%,_var(--background)_60%,_#74747400_90%)] ",
                             "rounded-[8px] flex items-center justify-center",
                             "gap-9 flex-shrink-0 overflow-hidden",
-                            // "border-b-[2px] border-x",
-                            // borderColor,
+                            "border border-b-0",
+                            borderColor,
                             `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
                             // "-mt-2",
                             "px-2",
@@ -1205,8 +1206,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         `border-b-[2px] border-x ${borderColor} rounded-sm`,
                         "will-change-[transform,opacity]",
                         "transition-auto",
+                        "icon-shadow-sm",
                         "w-fit",
-                        "mt-4",
+                        "mt-6",
                         // "dark:bg-blue-400",
                         " brightness-[1.03] saturate-[1.1]",
                         prefersReducedMotion
