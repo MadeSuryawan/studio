@@ -101,7 +101,7 @@ BenefitCard.displayName = "BenefitCard";
 
 export default function WhyChooseUsSection(): JSX.Element {
     return (
-        <section id="why-choose-us" className="w-full py-12 md:py-24">
+        <section id="why-choose-us">
             <div className="container px-4 md:px-6">
                 <SectionTitle />
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 md:auto-rows-fr">

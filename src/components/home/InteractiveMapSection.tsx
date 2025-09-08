@@ -380,7 +380,7 @@ const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
 };
 SectionButton.displayName = "MapSectionButton";
 
-export default function InteractiveMapSection(): JSX.Element {
+const InteractiveMapSection = (): JSX.Element => {
     const [activeLocation, setActiveLocation] = useState<Location>(mapPins[0]);
 
     // Refs for height management
@@ -449,11 +449,10 @@ export default function InteractiveMapSection(): JSX.Element {
                 return (
                     <div className={cn("flex items-center", divClass)}>
                         <div className={cn(mapConfig.divClass)}>
-                            <BaliMapDark
+                            <BaliMap
                                 className={cn(
                                     "dark:contrast-[1.07]",
-                                    "dark:icon-shadow-md",
-                                    "dark:brightness-[.9]",
+                                    "dark:brightness-[1.3]",
                                     mapConfig.mapClass,
                                 )}
                             />
@@ -488,9 +487,9 @@ export default function InteractiveMapSection(): JSX.Element {
     MapAndCard.displayName = "MapAndCard";
 
     return (
-        <section id="map" className={cn("relative")}>
+        <section id="map">
             {/* Desktop view */}
-            <div className={cn("hidden md:block py-10 space-y-12")}>
+            <div className={cn("hidden md:block space-y-12")}>
                 <SectionTitle />
                 <MapAndCard
                     divClass={cn("flex-row-reverse justify-evenly")}
@@ -517,4 +516,6 @@ export default function InteractiveMapSection(): JSX.Element {
             </div>
         </section>
     );
-}
+};
+
+export default InteractiveMapSection;

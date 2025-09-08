@@ -118,7 +118,7 @@ export default function BlogSection(): JSX.Element {
         }
     }, []);
     return (
-        <section id="blog" className="relative w-full">
+        <section id="blog">
             {/* Desktop view */}
             <div className="hidden md:block container px-6 z-10">
                 <SectionTitle divClass="mb-12 text-left" />

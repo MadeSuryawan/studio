@@ -18,7 +18,7 @@ import {
     SheetTrigger,
     SheetClose,
 } from "./ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
+import useIsMobile from "@/hooks/use-mobile";
 
 type Message = {
     role: "user" | "assistant";

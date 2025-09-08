@@ -216,9 +216,9 @@ SectionButton.displayName = "PackagesButton";
 export default function PackagesSection(): JSX.Element {
     const cardRef = useRef<HTMLDivElement>(null);
     return (
-        <section id="packages" className="relative w-full">
+        <section id="packages">
             {/* Desktop view */}
-            <div className="hidden md:block container px-6 py-12">
+            <div className="hidden md:block container px-6">
                 <SectionTitle divClass="items-center mb-12 text-left" />
                 <div className="grid grid-cols-2 gap-3 mb-12">
                     {packages.map((pkg) => (
@@ -234,7 +234,7 @@ export default function PackagesSection(): JSX.Element {
             </div>
 
             {/* Mobile view */}
-            <Carousel className="md:hidden mx-auto max-w-xs py-8">
+            <Carousel className="md:hidden mx-auto max-w-xs">
                 <SectionTitle divClass="text-center py-4" />
                 <CarouselContent paginationMt="mt-36">
                     {packages.map((pkg) => (

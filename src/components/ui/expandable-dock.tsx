@@ -1,16 +1,17 @@
 "use client";
 
-import React, {
+import {
     useState,
     ReactNode,
     useRef,
     useEffect,
     useCallback,
     useMemo,
+    memo,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import useIsMobile from "@/hooks/use-mobile";
 import { useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { BotMessageSquare, X } from "lucide-react";
@@ -413,4 +414,4 @@ const ExpandableDock = ({
     );
 };
 
-export default React.memo(ExpandableDock);
+export default memo(ExpandableDock);

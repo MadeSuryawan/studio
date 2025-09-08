@@ -10,6 +10,9 @@ export default function BaliMapDark(
             viewBox="0 0 484 304"
             xmlns="http://www.w3.org/2000/svg"
             baseProfile="full"
+            style={{
+                filter: "drop-shadow(1px 5px 3px #3c3c3c97)",
+            }}
             {...props}
         >
             <path

@@ -63,7 +63,7 @@ import {
     gradientButtonVariants,
 } from "@/components/ui/gradient-button";
 import { NotepadText, Send } from "lucide-react";
-import { useIsMobile } from "../../hooks/use-mobile";
+import useIsMobile from "../../hooks/use-mobile";
 import LogoIcon from "../icons/LogoIcon";
 
 const searchSchema = z.object({
@@ -203,10 +203,7 @@ export default function SearchSection(): JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(userMessage)}`;
 
     return (
-        <section
-            id="search"
-            className={cn("relative w-full rounded-t-lg", "border-t-0", "pt-6")}
-        >
+        <section id="search">
             <Card
                 className={cn(
                     "max-w-4xl relative",

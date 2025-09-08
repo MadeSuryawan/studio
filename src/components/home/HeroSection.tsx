@@ -8,13 +8,13 @@ import {
     useRef,
     memo,
     useCallback,
-    useMemo,
 } from "react";
 import Image from "next/image";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, throttle } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";
 import { motion } from "framer-motion";
+import useIsMobile from "@/hooks/use-mobile";
 
 type AnimationType = "fade" | "slideLeft" | "slideRight" | "slideDown";
 
@@ -206,34 +206,19 @@ const newLineByDot = (text: string) =>
         </span>
     ));
 
-export default function HeroSection(): JSX.Element {
+const HeroSection = (): JSX.Element => {
     // Track scroll position for parallax effect
     const [offsetY, setOffsetY] = useState<number>(0);
-    const [isMounted, setIsMounted] = useState(false);
-    const [isDesktop, setIsDesktop] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-
-        // Check if desktop view on mount
-        const checkIsDesktop = throttle(() => {
-            setIsDesktop(window.innerWidth >= 768); // md breakpoint
-        }, 100);
-
-        checkIsDesktop();
-        window.addEventListener("resize", checkIsDesktop);
-
-        return () => window.removeEventListener("resize", checkIsDesktop);
-    }, []);
+    const isMobile = useIsMobile();
 
     // Separate refs for desktop and mobile views
     const desktopHeroContentRef = useRef<HTMLDivElement>(null);
     const mobileHeroContentRef = useRef<HTMLDivElement>(null);
 
     // Use the appropriate ref based on viewport
-    const activeHeroContentRef = isDesktop
-        ? desktopHeroContentRef
-        : mobileHeroContentRef;
+    const activeHeroContentRef = isMobile
+        ? mobileHeroContentRef
+        : desktopHeroContentRef;
 
     // Track if user prefers reduced motion
     const prefersReducedMotion = useReducedMotion();
@@ -280,10 +265,6 @@ export default function HeroSection(): JSX.Element {
     // Determine animation classes based on visibility and motion preference
     const getAnimationClasses = useCallback(
         (type: "fade" | "slideLeft" | "slideRight" | "slideDown"): string => {
-            if (!isMounted) {
-                return "opacity-0";
-            }
-
             // If reduced motion is preferred, use only opacity transitions
             if (prefersReducedMotion) {
                 return isVisible ? "opacity-100" : "opacity-0";
@@ -311,7 +292,7 @@ export default function HeroSection(): JSX.Element {
                     return "";
             }
         },
-        [isMounted, isVisible, prefersReducedMotion],
+        [isVisible, prefersReducedMotion],
     );
 
     // Determine transition duration based on motion preference
@@ -442,4 +423,6 @@ export default function HeroSection(): JSX.Element {
             </div>
         </section>
     );
-}
+};
+
+export default HeroSection;

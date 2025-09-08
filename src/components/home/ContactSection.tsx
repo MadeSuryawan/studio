@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  */
 export default function ContactSection(): React.JSX.Element {
     return (
-        <section id="contact" className="relative w-full pb-12">
+        <section id="contact">
             <div
                 className={cn(
                     "container grid items-center justify-center",

@@ -158,23 +158,25 @@ export default function RootLayout({
                         style={{ display: "none", visibility: "hidden" }}
                     ></iframe>
                 </noscript>
-                <ScrollProvider>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <ContactModal />
-                        <div className="relative flex min-h-dvh flex-col bg-background">
-                            <Header />
-                            <main className="flex-1">{children}</main>
-                            <Footer />
-                        </div>
-                        <FloatingButtons />
-                        <Toaster />
-                    </ThemeProvider>
-                </ScrollProvider>
+                {/* <ScrollProvider> */}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <ContactModal />
+                    <div className="relative grid min-h-dvh grid-cols-1 bg-background">
+                        <Header />
+                        <main className="col-start-1 col-end-1">
+                            {children}
+                        </main>
+                        <Footer />
+                    </div>
+                    <FloatingButtons />
+                    <Toaster />
+                </ThemeProvider>
+                {/* </ScrollProvider> */}
                 {/* Google Analytics Scripts - Replace G-XXXXXXXXXX with your Measurement ID */}
                 <Script
                     src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
