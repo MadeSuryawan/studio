@@ -68,8 +68,24 @@ export default function RootLayout({
     };
 
     return (
-        <html lang="en" suppressHydrationWarning className={ptSans.variable}>
+        <html
+            lang="en"
+            suppressHydrationWarning
+            className={`${ptSans.variable} js-enabled`}
+        >
             <head>
+                {/* Inline script to add js-enabled class immediately */}
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `document.documentElement.classList.add('js-enabled');`,
+                    }}
+                />
+                {/* Preload footer background image to prevent layout shifts */}
+                <link
+                    rel="preload"
+                    as="image"
+                    href="/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp"
+                />
                 {/* <!-- Favicon -->
                 <!-- - For old IEs --> */}
                 <link

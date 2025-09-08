@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useReducedMotion } from "framer-motion";
+import { useHydration } from "@/hooks/use-hydration";
 import { Button } from "@/components/ui/button";
 import { BotMessageSquare, X } from "lucide-react";
 import {
@@ -91,10 +92,12 @@ const ExpandableDock = ({
         defaultExpanded ? "fullyExpanded" : "collapsed",
     );
 
-    const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
     const prefersReducedMotion = useReducedMotion();
+
+    // Use centralized hydration detection instead of manual state management
+    const isHydrated = useHydration();
 
     // Get motion variants based on user preferences
     const motionVariants = useMemo(
@@ -116,10 +119,7 @@ const ExpandableDock = ({
         };
     }, []);
 
-    // Prevent hydration mismatch by waiting for client-side mount
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    // Note: Hydration detection is now handled by useHydration() hook
 
     const handleExpand = useCallback(() => {
         clearTimers();
@@ -262,7 +262,7 @@ const ExpandableDock = ({
     }, [isCollapsed, handleExpand, handleCollapse]);
 
     // Prevent flash of incorrect content during hydration
-    if (!isMounted) {
+    if (!isHydrated) {
         return null;
     }
 

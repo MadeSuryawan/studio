@@ -23,6 +23,7 @@ import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
+import { useHydration } from "@/hooks/use-hydration";
 
 interface NavLink {
     text: string;
@@ -343,8 +344,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     const [openedSections, setOpenedSections] = useState<
         Record<string, boolean>
     >({});
-    const [isMounted, setIsMounted] = useState(false);
     const [hasError, setHasError] = useState(false);
+
+    // Use centralized hydration detection instead of manual state management
+    const isHydrated = useHydration();
 
     // Animation controls
     const navMotion = useAnimation();
@@ -368,9 +371,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         [prefersReducedMotion],
     );
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    // Note: Hydration detection is now handled by useHydration() hook
 
     // Enhanced mobile view detection with error handling
     useEffect(() => {
@@ -412,7 +413,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
     // Enhanced animation sequence with error handling and memoized durations
     useEffect(() => {
-        if (!isMounted || sequenceDone) return;
+        if (!isHydrated || sequenceDone) return;
 
         let linksTimer: number | undefined;
 
@@ -501,7 +502,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         switchMotion,
         svgMotion,
         mobileView,
-        isMounted,
+        isHydrated,
         sequenceDone,
         animationDurations,
         linksHeadStartMs,

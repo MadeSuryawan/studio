@@ -128,4 +128,41 @@
     .icon-shadow-lg {
         filter: drop-shadow(1px 3px 1px #1f1f1f);
     }
+
+    /* Prevent FOUC for footer component */
+    footer {
+        opacity: 0;
+        transition: opacity 300ms ease-in-out;
+        /* Prevent layout shift during loading */
+        min-height: 200px;
+    }
+
+    /* Show footer after hydration - multiple targeting approaches for reliability */
+    footer[data-hydrated="true"],
+    html[data-hydrated="true"] footer {
+        opacity: 1;
+    }
+
+    /* Fallback: Show footer immediately when JavaScript is disabled */
+    html:not(.js-enabled) footer {
+        opacity: 1 !important;
+        transition: none;
+    }
+
+    /* Additional fallback: Show footer after a delay if hydration fails */
+    @media (prefers-reduced-motion: no-preference) {
+        footer {
+            animation: footer-fallback-show 0.3s ease-in-out 2s forwards;
+        }
+
+        footer[data-hydrated="true"] {
+            animation: none;
+        }
+    }
+
+    @keyframes footer-fallback-show {
+        to {
+            opacity: 1;
+        }
+    }
 }

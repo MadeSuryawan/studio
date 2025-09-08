@@ -7,11 +7,34 @@ import LogoIcon from "@/components/icons/LogoIcon";
 import { ScrollToTop } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
+import { useHydration } from "@/hooks/use-hydration";
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import FooterSkeleton from "./FooterSkeleton";
+
+// Constants for better performance and maintainability
+const FOOTER_BACKGROUND_IMAGE =
+    "/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp";
+const SOCIAL_LINKS = [
+    {
+        href: "https://instagram.com/baliblissed",
+        icon: faInstagram,
+        label: "Follow us on Instagram",
+    },
+    {
+        href: "https://facebook.com/baliblissed",
+        icon: faFacebookSquare,
+        label: "Follow us on Facebook",
+    },
+    {
+        href: "https://twitter.com/baliblissed",
+        icon: faXTwitter,
+        label: "Follow us on Twitter",
+    },
+] as const;
 
 const SocialLink = ({
     href,
@@ -35,6 +58,9 @@ export default function Footer(): JSX.Element {
     const contactModal = useContactModal();
     const pathname = usePathname();
 
+    // Use custom hook to detect when hydration is complete and prevent FOUC
+    const isHydrated = useHydration();
+
     const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         // If not on the homepage, prevent default and open modal
         if (pathname !== "/") {
@@ -44,8 +70,14 @@ export default function Footer(): JSX.Element {
         // On homepage, let the default anchor behavior (#contact) work
     };
 
+    // Show skeleton during SSR and initial hydration to prevent FOUC
+    if (!isHydrated) {
+        return <FooterSkeleton />;
+    }
+
     return (
         <footer
+            data-hydrated={isHydrated}
             className={cn(
                 "relative",
                 "py-3 md:py-8",
@@ -61,10 +93,12 @@ export default function Footer(): JSX.Element {
                     "bg-cover bg-center bg-no-repeat",
                     "brightness-[.51]",
                     "blur-[6px]",
-                    `bg-[url(/images/footer/ruben-hutabarat-VvJ0DL_PLR8-unsplash.webp)]`,
                     "mix-blend-screen",
                     "pointer-events-none",
                 )}
+                style={{
+                    backgroundImage: `url(${FOOTER_BACKGROUND_IMAGE})`,
+                }}
             />
             <div
                 className={cn(
@@ -172,36 +206,19 @@ export default function Footer(): JSX.Element {
                                     </p>
                                 </div>
                                 <div className="flex gap-4 mt-6">
-                                    <SocialLink
-                                        href="#"
-                                        aria-label="Follow us on Facebook"
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faFacebookSquare}
-                                            className="w-5 h-5 icon-shadow-lg"
-                                            title="Follow us on Facebook"
-                                        />
-                                    </SocialLink>
-                                    <SocialLink
-                                        href="#"
-                                        aria-label="Follow us on Instagram"
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faInstagram}
-                                            className="w-5 h-5 icon-shadow-lg"
-                                            title="Follow us on Instagram"
-                                        />
-                                    </SocialLink>
-                                    <SocialLink
-                                        href="#"
-                                        aria-label="Follow us on Twitter"
-                                    >
-                                        <FontAwesomeIcon
-                                            icon={faXTwitter}
-                                            className="w-5 h-5 icon-shadow-lg"
-                                            title="Follow us on X"
-                                        />
-                                    </SocialLink>
+                                    {SOCIAL_LINKS.map((social) => (
+                                        <SocialLink
+                                            key={social.href}
+                                            href={social.href}
+                                            aria-label={social.label}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={social.icon}
+                                                className="w-5 h-5 icon-shadow-lg"
+                                                title={social.label}
+                                            />
+                                        </SocialLink>
+                                    ))}
                                 </div>
                             </div>
                         </div>

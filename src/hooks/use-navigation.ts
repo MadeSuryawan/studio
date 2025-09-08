@@ -3,6 +3,7 @@
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
+import { useHydration } from "@/hooks/use-hydration";
 import { NAVIGATION_LINKS, type NavigationLink } from "@/constants/navigation";
 
 /**
@@ -12,7 +13,7 @@ interface NavigationState {
     selectedSubmenu: string | null;
     mobileMenuVisible: boolean;
     openedSections: Record<string, boolean>;
-    isMounted: boolean;
+    isHydrated: boolean;
 }
 
 /**
@@ -48,15 +49,12 @@ export function useNavigation(): UseNavigationReturn {
     const [openedSections, setOpenedSections] = useState<
         Record<string, boolean>
     >({});
-    const [isMounted, setIsMounted] = useState(false);
 
     // Get reduced motion preference - default to false if null
     const prefersReducedMotion = useReducedMotion() ?? false;
 
-    // Set mounted state after hydration
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    // Use centralized hydration detection instead of manual state management
+    const isHydrated = useHydration();
 
     // Memoized navigation links
     const navigationLinks = useMemo(() => NAVIGATION_LINKS, []);
@@ -126,7 +124,7 @@ export function useNavigation(): UseNavigationReturn {
 
     // Effect for keyboard event listeners
     useEffect(() => {
-        if (!isMounted) return;
+        if (!isHydrated) return;
 
         const handleKeyDown = (event: KeyboardEvent) => {
             handleKeyboardNavigation(event);
@@ -136,11 +134,11 @@ export function useNavigation(): UseNavigationReturn {
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, [handleKeyboardNavigation, isMounted]);
+    }, [handleKeyboardNavigation, isHydrated]);
 
     // Effect to close mobile menu on window resize
     useEffect(() => {
-        if (!isMounted) return;
+        if (!isHydrated) return;
 
         const handleResize = () => {
             // Close mobile menu on desktop breakpoint
@@ -153,14 +151,14 @@ export function useNavigation(): UseNavigationReturn {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [mobileMenuVisible, closeMobileMenu, isMounted]);
+    }, [mobileMenuVisible, closeMobileMenu, isHydrated]);
 
     return {
         // State
         selectedSubmenu,
         mobileMenuVisible,
         openedSections,
-        isMounted,
+        isHydrated,
         navigationLinks,
         prefersReducedMotion,
 
