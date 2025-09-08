@@ -20,7 +20,11 @@ const CarCharterSection = (): JSX.Element => {
         return (
             <section
                 id="car-charter"
-                className="relative w-full py-8 text-special-card-fg my-8 md:my-12"
+                className={cn(
+                    "relative w-full py-8 text-special-card-fg",
+                    // "my-8 md:my-12",
+                    // "bg-purple-300",
+                )}
             >
                 <div
                     className={cn(

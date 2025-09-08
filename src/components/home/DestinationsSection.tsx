@@ -103,7 +103,7 @@ SectionButton.displayName = "DestinationsButton";
 export default function DestinationsSection(): JSX.Element {
     const cardRef = useRef<HTMLDivElement>(null);
     return (
-        <section id="destinations" className="relative w-full">
+        <section id="destinations" className={cn("relative w-full", "py-7")}>
             {/* Desktop view */}
             <div className="hidden md:block container px-6 z-10">
                 <SectionTitle divClass="mb-12 text-left" />

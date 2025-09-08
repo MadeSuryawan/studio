@@ -3,7 +3,7 @@
 import { useRef, ReactNode } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import useIsMobile from "@/hooks/use-mobile";
 import { useReducedMotion } from "framer-motion";
 
 interface AnimatedSectionProps {
@@ -29,7 +29,9 @@ const AnimatedSection = ({
         <div
             ref={sectionRef}
             className={cn(
-                "transition-all duration-700 ease-out",
+                prefersReducedMotion
+                    ? "transition-all duration-200 ease-out"
+                    : "transition-all duration-700 ease-out",
                 "will-change-opacity-transform",
                 isVisible
                     ? "opacity-100 translate-y-0"

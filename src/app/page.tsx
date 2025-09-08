@@ -40,15 +40,15 @@ export default function Home(): JSX.Element {
     return (
         <>
             <HeroSection />
-            <Suspense>
-                {pageSections.map((SectionComponent, index) => (
-                    <SectionWrapper key={index} className={cn("bg-background")}>
-                        <AnimatedSection>
-                            <SectionComponent />
-                        </AnimatedSection>
-                    </SectionWrapper>
-                ))}
-            </Suspense>
+            {/* <Suspense> */}
+            {pageSections.map((SectionComponent, index) => (
+                <SectionWrapper key={index} className={cn("bg-background")}>
+                    <AnimatedSection>
+                        <SectionComponent />
+                    </AnimatedSection>
+                </SectionWrapper>
+            ))}
+            {/* </Suspense> */}
         </>
     );
 }
