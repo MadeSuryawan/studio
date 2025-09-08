@@ -12,7 +12,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useReducedMotion } from "framer-motion";
-import { useHydration } from "@/hooks/use-hydration";
 import { Button } from "@/components/ui/button";
 import { BotMessageSquare, X } from "lucide-react";
 import {
@@ -92,12 +91,10 @@ const ExpandableDock = ({
         defaultExpanded ? "fullyExpanded" : "collapsed",
     );
 
+    const [isMounted, setIsMounted] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
     const prefersReducedMotion = useReducedMotion();
-
-    // Use centralized hydration detection instead of manual state management
-    const isHydrated = useHydration();
 
     // Get motion variants based on user preferences
     const motionVariants = useMemo(
@@ -119,7 +116,10 @@ const ExpandableDock = ({
         };
     }, []);
 
-    // Note: Hydration detection is now handled by useHydration() hook
+    // Prevent hydration mismatch by waiting for client-side mount
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const handleExpand = useCallback(() => {
         clearTimers();
@@ -262,7 +262,7 @@ const ExpandableDock = ({
     }, [isCollapsed, handleExpand, handleCollapse]);
 
     // Prevent flash of incorrect content during hydration
-    if (!isHydrated) {
+    if (!isMounted) {
         return null;
     }
 
@@ -298,11 +298,14 @@ const ExpandableDock = ({
                 className={cn(
                     "relative w-full h-[52px] md:h-[64px] will-change-auto",
                     "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
-                    `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#c06622]"}`,
+                    // `${isExpanded ? "bg-[#063842]" : "bg-gradient-to-b from-[#ff9747] to-[#c06622]"}`,
+                    `${isExpanded ? "bg-[#063842]" : "dark:bg-[#dd7526] bg-[#ff8629]"}`,
                     "transition-all duration-300 ease-out",
                     "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
-                    "hover:scale-[1.05]",
+                    // "hover:scale-[1.05]",
                     "shadow-lg",
+                    "hover:bg-[#ff9645]",
+                    // "neumorphic-accent-button",
                 )}
             >
                 <div className="pointer-events-none">
@@ -330,7 +333,7 @@ const ExpandableDock = ({
                             >
                                 <X
                                     className={cn(
-                                        "scale-[1.5] text-foreground/80",
+                                        "scale-[1.5] text-white/70",
                                         "icon-shadow-md",
                                     )}
                                 />
@@ -358,8 +361,9 @@ const ExpandableDock = ({
                             >
                                 <BotMessageSquare
                                     className={cn(
-                                        "scale-[2.2] sm:scale-[2.8] text-foreground/80",
-                                        "icon-shadow-sm",
+                                        "scale-[3.1] md:scale-[3.9] text-white/80",
+                                        " dark:text-white/90",
+                                        "neumorphic-accent-icon-container",
                                     )}
                                 />
                             </motion.span>
@@ -378,7 +382,8 @@ const ExpandableDock = ({
                 animate={animationProps}
                 transition={motionVariants.container}
                 className={cn(
-                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
+                    "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl",
+                    "transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
                     className,
                 )}
             >

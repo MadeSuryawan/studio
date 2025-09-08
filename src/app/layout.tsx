@@ -72,6 +72,7 @@ export default function RootLayout({
             lang="en"
             suppressHydrationWarning
             className={`${ptSans.variable} js-enabled`}
+            data-scroll-behavior="smooth"
         >
             <head>
                 {/* Inline script to add js-enabled class immediately */}

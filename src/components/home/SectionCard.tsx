@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { SpotlightCard } from "@/components/ui/spotlightcard";
 import { GradientButton } from "../ui/gradient-button";
 import { ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // A generic type for the card's data, usable by any section
 export type CardData = {
@@ -46,14 +47,17 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     const UseCard = spotlight ? SpotlightCard : Card;
     return (
         // The forwarded ref is attached to the root element of the card
-        <UseCard
+        <Card
             ref={ref}
             className={cn(
                 "flex flex-col shadow-lg",
-                "hover:shadow-xl hover:scale-[1.02]",
+                "hover:shadow-xl",
+                // "hover:scale-[1.02]",
                 "will-change-transform transition-all duration-300 ease-in-out",
                 "bg-card border-t-[0px]",
                 className,
+                // "neumorphic-card",
+                // baliMap && "h-[200px]",
             )}
         >
             {/* Image */}
@@ -98,7 +102,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     <p
                         className={cn(
                             "card-description my-3 text-muted-foreground text-sm leading-relaxed",
-                            baliMap ? "min-h-[4.5rem]" : "",
+                            baliMap && "min-h-[4.5rem]",
                             "line-clamp-3",
                         )}
                     >
@@ -129,15 +133,6 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     )}
                 >
                     <ButtonFunc
-                        className={cn(
-                            "shadow-lg",
-                            "bg-gradient-to-b from-[#143c4e] to-[#0e2c38] border-2",
-                            "hover:shadow-black/30 hover:scale-100",
-                            "hover:from-[#163f53] hover:to-[#0f2f3b]",
-                            "transtition-all duration-300 ease-in-out",
-                            "shadow-sm",
-                            "border-none",
-                        )}
                         text={buttonText}
                         link={buttonLink}
                         arrow={false}
@@ -145,7 +140,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     />
                 </div>
             </CardContent>
-        </UseCard>
+        </Card>
     );
 });
 
@@ -169,18 +164,22 @@ export const ButtonFunc = ({
 }) => {
     return (
         <GradientButton
-            variant={"secondary"}
+            variant={"outline"}
             size="sm"
-            icon={arrow && <ChevronRight className="icon-shadow-lg" />}
+            icon={arrow && <ChevronRight />}
             iconPosition={arrow ? "right" : "none"}
             fullWidth={false}
             hapticFeedback={true}
-            textShadow="large"
+            textShadow="none"
             className={cn(
-                "shadow-md mx-auto text-white/70 mt-8 md:mt-auto",
+                "mx-auto",
+                "mt-8 md:mt-auto",
                 "md:flex flex-row items-center justify-center",
                 "left-1/2 -translate-x-1/2",
-                "hover:scale-[1.02]",
+                "border-black/10",
+                "dark:border-blue-400/20",
+                "neumorphic-button",
+                "will-change-auto",
                 className,
             )}
             aria-label={ariaLabel}
@@ -190,6 +189,7 @@ export const ButtonFunc = ({
             onClick={onClick}
         >
             <Link href={link || "#"}>{text}</Link>
+            {/* {arrow && <ChevronRight className="icon-shadow-lg" />} */}
         </GradientButton>
     );
 };

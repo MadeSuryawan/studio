@@ -7,13 +7,11 @@ import LogoIcon from "@/components/icons/LogoIcon";
 import { ScrollToTop } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
-import { useHydration } from "@/hooks/use-hydration";
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faFacebookSquare } from "@fortawesome/free-brands-svg-icons";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import FooterSkeleton from "./FooterSkeleton";
 
 // Constants for better performance and maintainability
 const FOOTER_BACKGROUND_IMAGE =
@@ -58,9 +56,6 @@ export default function Footer(): JSX.Element {
     const contactModal = useContactModal();
     const pathname = usePathname();
 
-    // Use custom hook to detect when hydration is complete and prevent FOUC
-    const isHydrated = useHydration();
-
     const handleContactClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         // If not on the homepage, prevent default and open modal
         if (pathname !== "/") {
@@ -70,14 +65,8 @@ export default function Footer(): JSX.Element {
         // On homepage, let the default anchor behavior (#contact) work
     };
 
-    // Show skeleton during SSR and initial hydration to prevent FOUC
-    if (!isHydrated) {
-        return <FooterSkeleton />;
-    }
-
     return (
         <footer
-            data-hydrated={isHydrated}
             className={cn(
                 "relative",
                 "py-3 md:py-8",
@@ -91,7 +80,8 @@ export default function Footer(): JSX.Element {
                 className={cn(
                     "absolute inset-0",
                     "bg-cover bg-center bg-no-repeat",
-                    "brightness-[.51]",
+                    "dark:brightness-[.51]",
+                    "brightness-[1]",
                     "blur-[6px]",
                     "mix-blend-screen",
                     "pointer-events-none",
@@ -103,7 +93,8 @@ export default function Footer(): JSX.Element {
             <div
                 className={cn(
                     "absolute inset-0",
-                    "bg-gradient-to-b from-[#191b1c] via-[#17191a] from 60% to-[#131516]",
+                    "bg-gradient-to-b dark:from-[#191b1c] dark:via-[#17191a] from 60% dark:to-[#131516]",
+                    "bg-gradient-to-b from-[#1e2022] via-[#1d2021] from 60% to-[#131416]",
                     "opacity-[.93]",
                     "pointer-events-none",
                 )}
@@ -119,7 +110,7 @@ export default function Footer(): JSX.Element {
                                     role="button"
                                     onClick={ScrollToTop}
                                     className={cn(
-                                        "relative h-full w-[96px] md:w-[120px]",
+                                        "relative h-full w-[90px] md:w-[100px]",
                                         "md:left-0 md:translate-x-0",
                                     )}
                                 />

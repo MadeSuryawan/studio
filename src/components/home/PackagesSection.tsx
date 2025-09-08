@@ -161,7 +161,7 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
         <div className={cn(divClass)}>
             <h2
                 className={cn(
-                    "font-bold tracking-normal font-headline",
+                    "font-bold tracking-normal font-headline text-special-card-fg",
                     "text-3xl md:text-5xl",
                 )}
             >
@@ -236,7 +236,7 @@ export default function PackagesSection(): JSX.Element {
             {/* Mobile view */}
             <Carousel className="md:hidden mx-auto max-w-xs py-8">
                 <SectionTitle divClass="text-center py-4" />
-                <CarouselContent paginationMt="mt-32">
+                <CarouselContent paginationMt="mt-36">
                     {packages.map((pkg) => (
                         <CarouselItem key={pkg.name}>
                             <PackageCard cardRef={cardRef} pkg={pkg} />

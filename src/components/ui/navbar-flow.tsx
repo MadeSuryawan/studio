@@ -23,7 +23,6 @@ import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
-import { useHydration } from "@/hooks/use-hydration";
 
 interface NavLink {
     text: string;
@@ -90,7 +89,7 @@ const NAVBAR_CONSTANTS = {
     // Dimensions
     NAVBAR_HEIGHT: {
         MOBILE: "h-12",
-        DESKTOP: "md:h-16",
+        DESKTOP: "md:h-[58px]",
     },
 
     // Dropdown positioning
@@ -344,10 +343,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     const [openedSections, setOpenedSections] = useState<
         Record<string, boolean>
     >({});
+    const [isMounted, setIsMounted] = useState(false);
     const [hasError, setHasError] = useState(false);
-
-    // Use centralized hydration detection instead of manual state management
-    const isHydrated = useHydration();
 
     // Animation controls
     const navMotion = useAnimation();
@@ -371,7 +368,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         [prefersReducedMotion],
     );
 
-    // Note: Hydration detection is now handled by useHydration() hook
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Enhanced mobile view detection with error handling
     useEffect(() => {
@@ -413,7 +412,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
     // Enhanced animation sequence with error handling and memoized durations
     useEffect(() => {
-        if (!isHydrated || sequenceDone) return;
+        if (!isMounted || sequenceDone) return;
 
         let linksTimer: number | undefined;
 
@@ -502,7 +501,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         switchMotion,
         svgMotion,
         mobileView,
-        isHydrated,
+        isMounted,
         sequenceDone,
         animationDurations,
         linksHeadStartMs,
@@ -640,7 +639,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         );
     }
 
-    const borderColor = cn("border-[#0c8b96]");
+    const borderColor = cn("border-[#f0992e78] dark:border-[#0c8a9678]");
     return (
         <div
             className={`fixed top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
@@ -648,21 +647,26 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             {/* Desktop Navigation */}
             <div className="hidden md:block">
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={
                         prefersReducedMotion
                             ? { duration: 0 }
                             : { ease: "easeOut", duration: 0.5, delay: 0.5 }
                     }
                     className={cn(
-                        "absolute bg-background",
+                        "relative bg-background",
                         "mx-auto flex items-center justify-between",
                         "rounded-b-lg w-[95vw]",
-                        "left-1/2 -translate-x-1/2 -top-1/3",
-                        "px-2 border-x will-change-opacity",
+                        "mx-auto",
+                        // "left-1/2 -translate-x-1/2",
+                        // "-top-1/4",
+                        "px-2 will-change-opacity",
                         NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP,
-                        borderColor,
+                        // borderColor,
+                        // "border-x",
+                        // sequenceDone && "border-b",
+                        "shadow-lg",
                     )}
                 >
                     {/* Logo/Emblem */}
@@ -670,8 +674,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ opacity: 0, x: -20 }}
                         className={cn(
                             `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                            "mt-16 rounded-sm",
+                            "rounded-sm",
                             `border-b-[2px] border-x ${borderColor}`,
+                            "icon-shadow-sm",
                         )}
                         animate={emblemMotion}
                         role="banner"
@@ -688,11 +693,17 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         }}
                         animate={navMotion}
                         className={cn(
-                            "relative bg-background translate-y-1/2 px-4 py-[10px]",
+                            "relative py-[14px]",
+                            // "translate-y-1/2",
+                            " bg-background ",
+                            // " bg-[radial-gradient(_var(--background),_0%,_var(--background)_50%,_var(--background)_60%,_#74747400_90%)] ",
                             "rounded-[8px] flex items-center justify-center",
-                            "gap-8 flex-shrink-0 overflow-hidden border-b-[2px] border-x",
-                            `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                            "gap-9 flex-shrink-0 overflow-hidden",
+                            "border border-b-0",
                             borderColor,
+                            `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                            // "-mt-2",
+                            "px-2",
                         )}
                         role="navigation"
                         aria-label="Primary navigation"
@@ -746,9 +757,11 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                             }}
                                             className={cn(
                                                 "text-special-card-fg font-medium text-base text-xl",
-                                                "hover:text-primary",
-                                                "focus:ring-1 focus:ring-primary focus:ring-offset-0",
-                                                "rounded-md px-2",
+                                                "dark:hover:text-primary hover:underline underline-offset-4",
+                                                "hover:text-accent",
+                                                "focus:ring-1 focus:ring-offset-0",
+                                                "focus:ring-amber-500 dark:focus:ring-primary",
+                                                "rounded-md px-1",
                                                 "cursor-pointer",
                                             )}
                                             aria-label={`Navigate to ${link.text}`}
@@ -783,12 +796,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         ))}
 
                         {rightComponent && (
-                            <div
-                                className={cn(
-                                    `right-0 mt-12 rounded-md border-b-[2px] border-x`,
-                                    borderColor,
-                                )}
-                            >
+                            <div className={cn("right-0 rounded-md", "")}>
                                 {rightComponent}
                             </div>
                         )}
@@ -799,7 +807,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         animate={svgMotion}
                         className={cn(
                             "absolute inset-0 w-[98vw] h-full z-0",
-                            "pointer-events-none -mt-2 translate-y-1/2 left-1/2 -translate-x-1/2",
+                            "pointer-events-none -mt-7 translate-y-1/2 left-1/2 -translate-x-1/2",
                             // "bg-white",
                         )}
                         aria-hidden="true"
@@ -1198,8 +1206,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         `border-b-[2px] border-x ${borderColor} rounded-sm`,
                         "will-change-[transform,opacity]",
                         "transition-auto",
+                        "icon-shadow-sm",
                         "w-fit",
-                        "mt-4",
+                        "mt-6",
                         // "dark:bg-blue-400",
                         " brightness-[1.03] saturate-[1.1]",
                         prefersReducedMotion

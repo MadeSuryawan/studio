@@ -13,6 +13,7 @@ import {
     HEADER_STYLES,
     ACCESSIBILITY_LABELS,
 } from "@/constants/navigation";
+import { cn } from "@/lib/utils";
 
 /**
  * Error fallback component for Header
@@ -71,7 +72,7 @@ const Header = (): JSX.Element => {
                 }}
             >
                 <LogoIcon
-                    className={HEADER_STYLES.LOGO_CLASSES}
+                    className={cn(HEADER_STYLES.LOGO_CLASSES)}
                     aria-label={ACCESSIBILITY_LABELS.LOGO_ARIA_LABEL}
                     onClick={handleLogoClick}
                 />

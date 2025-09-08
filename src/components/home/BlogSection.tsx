@@ -49,7 +49,7 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
         <div className={cn(divClass)}>
             <h2
                 className={cn(
-                    "font-bold tracking-normal font-headline",
+                    "font-bold tracking-normal font-headline text-special-card-fg",
                     "text-3xl md:text-5xl",
                 )}
             >
@@ -138,7 +138,7 @@ export default function BlogSection(): JSX.Element {
             {/* Mobile view */}
             <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm z-10">
                 <SectionTitle divClass="text-center mb-8" />
-                <CarouselContent paginationMt="mt-32">
+                <CarouselContent paginationMt="mt-36">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
                             <BlogCard cardRef={cardRef} post={post} />
