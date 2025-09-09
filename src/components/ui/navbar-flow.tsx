@@ -40,6 +40,7 @@ interface NavbarFlowProps {
     rightComponent?: React.JSX.Element;
     // How many milliseconds earlier than the nav reveal should the links start animating
     linksHeadStartMs?: number;
+    bouncyText?: boolean;
 }
 
 interface ListItemProps {
@@ -76,7 +77,7 @@ const NAVBAR_CONSTANTS = {
     SUBMENU_DURATION: 0.2,
 
     // Stagger delays
-    LINK_STAGGER_DELAY: 0.08,
+    LINK_STAGGER_DELAY: 0.07,
 
     // Z-index values
     Z_INDEX: {
@@ -334,6 +335,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     styleName,
     rightComponent,
     linksHeadStartMs = 0,
+    bouncyText = false,
 }) => {
     // State management with better organization
     const [sequenceDone, setSequenceDone] = useState(false);
@@ -416,10 +418,11 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 } else {
                     await navMotion.start({
                         opacity: 1,
+                        y: 0,
                         transition: {
-                            duration: navDur,
+                            duration: 0.5,
                             ease: "easeOut",
-                            delay: navDelay,
+                            delay: 0.5,
                         },
                     });
 
@@ -607,12 +610,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             {/* Desktop Navigation */}
             <motion.div
                 initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={
-                    prefersReducedMotion
-                        ? { duration: 0 }
-                        : { ease: "easeOut", duration: 0.5, delay: 0.5 }
-                }
+                animate={navMotion}
                 className={cn(
                     "hidden md:mx-auto flex items-center justify-between",
                     "relative bg-background",
@@ -642,17 +640,13 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 </motion.div>
 
                 {/* Primary Navigation */}
-                <motion.nav
-                    initial={{ opacity: 0 }}
-                    animate={navMotion}
+                <nav
                     className={cn(
                         "relative",
-                        "py-[15px]",
+                        "px-7 pt-5 pb-3",
                         "flex items-center justify-center",
                         "gap-9 flex-shrink-0",
                         `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                        "px-7",
-                        "mt-1",
                     )}
                     role="navigation"
                     aria-label="Primary navigation"
@@ -673,23 +667,24 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                 </ListItem>
                             ) : (
                                 <motion.div
-                                    initial={{ y: -1000 }}
+                                    animate={{
+                                        y: linksReady ? 0 : -200,
+                                    }}
                                     className={cn(
-                                        "transition-all duration-500 ease-out",
+                                        "transition-all",
                                         "rounded-sm",
                                         "p-1",
                                         `border ${borderColor}`,
                                         "neumorphic-nav-link",
                                         "z-50",
+                                        prefersReducedMotion
+                                            ? cn("transition-none duration-0")
+                                            : cn(
+                                                  "will-change-transform ease-out",
+                                                  !bouncyText && "duration-500",
+                                              ),
                                     )}
-                                    animate={{
-                                        y: linksReady ? 0 : -1000,
-                                    }}
                                     transition={{
-                                        duration: prefersReducedMotion
-                                            ? 0
-                                            : NAVBAR_CONSTANTS.QUICK_DURATION,
-                                        ease: "easeOut",
                                         delay: linksReady
                                             ? links.indexOf(link) *
                                               NAVBAR_CONSTANTS.LINK_STAGGER_DELAY
@@ -728,7 +723,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             )}
                         </div>
                     ))}
-                </motion.nav>
+                </nav>
 
                 {/* Right Component Section */}
                 <motion.div
@@ -761,6 +756,13 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 <motion.svg
                     initial={{ opacity: 0 }}
                     animate={svgMotion}
+                    // animate={{
+                    //     opacity: linksReady ? 1 : 0,
+                    // }}
+                    // transition={{
+                    //     duration: prefersReducedMotion ? 0 : 0.2,
+                    //     ease: "easeOut",
+                    // }}
                     className={cn(
                         "absolute inset-0",
                         "pointer-events-none",
@@ -932,9 +934,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.8 }}
                         transition={{
-                            duration: 2,
+                            duration: 1.3,
                             ease: "easeOut",
-                            delay: 1.5,
+                            delay: 0.5,
                         }}
                     />
                     <motion.path
@@ -946,82 +948,82 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.8 }}
                         transition={{
-                            duration: 2,
+                            duration: 1.3,
+                            ease: "easeOut",
+                            delay: 0.5,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                        stroke="url(#cyanGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                        stroke="url(#cyanGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                        stroke="url(#purpleGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 1.8,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                        stroke="url(#purpleGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 1.8,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
+                        stroke="url(#orangeGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{
+                            duration: 1,
                             ease: "easeOut",
                             delay: 1.5,
                         }}
                     />
                     <motion.path
-                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
-                        stroke="url(#cyanGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 2.2,
-                            ease: "easeOut",
-                            delay: 1.7,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
-                        stroke="url(#cyanGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 2.2,
-                            ease: "easeOut",
-                            delay: 1.7,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
-                        stroke="url(#purpleGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 1.8,
-                            ease: "easeOut",
-                            delay: 1.9,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
-                        stroke="url(#purpleGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 1.8,
-                            ease: "easeOut",
-                            delay: 1.9,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
-                        stroke="url(#orangeGradient)"
-                        strokeWidth="3"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{
-                            duration: 2,
-                            ease: "easeOut",
-                            delay: 2.1,
-                        }}
-                    />
-                    <motion.path
                         d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
                         stroke="url(#orangeGradient)"
                         strokeWidth="3"
@@ -1030,9 +1032,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.8 }}
                         transition={{
-                            duration: 2,
+                            duration: 1,
                             ease: "easeOut",
-                            delay: 2.1,
+                            delay: 1.5,
                         }}
                     />
                     <motion.path
@@ -1044,9 +1046,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.7 }}
                         transition={{
-                            duration: 2.2,
+                            duration: 1,
                             ease: "easeOut",
-                            delay: 2.3,
+                            delay: 1.6,
                         }}
                     />
                     <motion.path
@@ -1058,9 +1060,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.7 }}
                         transition={{
-                            duration: 2.2,
+                            duration: 1,
                             ease: "easeOut",
-                            delay: 2.3,
+                            delay: 1.6,
                         }}
                     />
                     <motion.path
@@ -1072,9 +1074,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.6 }}
                         transition={{
-                            duration: 1.8,
+                            duration: 0.9,
                             ease: "easeOut",
-                            delay: 2.5,
+                            delay: 1.7,
                         }}
                     />
                     <motion.path
@@ -1086,9 +1088,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: 0.6 }}
                         transition={{
-                            duration: 1.8,
+                            duration: 0.9,
                             ease: "easeOut",
-                            delay: 2.5,
+                            delay: 1.7,
                         }}
                     />
                 </motion.svg>
