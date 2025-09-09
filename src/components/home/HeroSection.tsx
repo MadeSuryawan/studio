@@ -1,17 +1,9 @@
 // src/components/home/HeroSection.tsx
 "use client";
 
-import {
-    type JSX,
-    useState,
-    useEffect,
-    useRef,
-    memo,
-    useCallback,
-} from "react";
+import { type JSX, useState, useRef, memo, useCallback } from "react";
 import Image from "next/image";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { cn, throttle } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";
 import {
     motion,
@@ -74,25 +66,22 @@ const HERO_CONTENT: HeroContentProps[] = [
 interface HeroImageProps {
     className?: string;
     prefersReducedMotion?: boolean | null;
-    getParallaxTransform?: () => string;
 }
 
 const HeroImage = memo(
-    ({
-        className,
-        prefersReducedMotion,
-        getParallaxTransform,
-    }: HeroImageProps): JSX.Element => {
+    ({ className, prefersReducedMotion }: HeroImageProps): JSX.Element => {
         const [imageError, setImageError] = useState(false);
         // Built-in scroll tracking
         const { scrollY } = useScroll();
-        const y = useTransform(scrollY, [0, 1000], [0, 800]);
+        const y = useTransform(scrollY, [0, 1000], [0, 500]);
 
-        const smoothY = useSpring(y, {
+        const variants = {
             stiffness: 100, // Higher stiffness = more bouncy
             damping: 10, // Lower damping = more overshoot
             mass: 0.5, // Mass affects the spring behavior
-        });
+        };
+
+        const smoothY = useSpring(y, variants);
 
         return (
             <motion.div
@@ -105,20 +94,11 @@ const HeroImage = memo(
                 transition={
                     prefersReducedMotion
                         ? { duration: 0 }
-                        : {
-                              type: "spring",
-                              stiffness: 110, // Higher stiffness = more bouncy
-                              damping: 10, // Lower damping = more overshoot
-                              mass: 0.5, // Mass affects the spring behavior
-                          }
+                        : { type: "spring", ...variants }
                 }
                 className={cn(
-                    "relative",
-                    "aspect-[8.5/11]",
-                    "rounded-lg",
-                    "flex",
-                    "isolate",
-                    "overflow-hidden",
+                    "relative aspect-[8.5/11]",
+                    "rounded-lg flex isolate overflow-hidden",
                     "will-change-[transform,opacity]",
                     className,
                 )}
@@ -128,16 +108,9 @@ const HeroImage = memo(
                         "relative w-full h-full bg-background rounded-lg",
                         "parallax-element",
                     )}
-                    style={{ y: smoothY }}
+                    style={prefersReducedMotion ? {} : { y: smoothY }}
                     // style={{
                     //     y,
-                    //     transition: prefersReducedMotion
-                    //         ? "transform 0.2s ease-out"
-                    //         : "transform 0.5s ease-out",
-                    // }}
-                    // style={{
-                    //     transform:
-                    //         getParallaxTransform && getParallaxTransform(),
                     //     transition: prefersReducedMotion
                     //         ? "transform 0.2s ease-out"
                     //         : "transform 0.5s ease-out",
@@ -148,7 +121,7 @@ const HeroImage = memo(
                             src="/images/hero/IMG_7508_DxO.webp"
                             alt="Traditional Balinese Kecak Dance performance at Uluwatu Temple during sunset"
                             fill
-                            className={cn("rounded-lg isolate bg-background")}
+                            className={cn("rounded-lg isolate")}
                             priority
                             sizes="(max-width: 768px) 100vw, 33vw"
                             quality={85}
@@ -187,71 +160,126 @@ const HeroImage = memo(
 HeroImage.displayName = "HeroImage";
 
 interface HeroContentComponentProps {
-    getAnimationClasses: (
-        type: "fade" | "slideLeft" | "slideRight" | "slideDown",
-    ) => string;
-    transitionDuration: string;
+    activeHeroContentRef: React.RefObject<HTMLDivElement>;
     prefersReducedMotion: boolean | null;
 }
 
 const HeroContentComponent = memo(
     ({
-        getAnimationClasses,
-        transitionDuration,
+        activeHeroContentRef,
         prefersReducedMotion,
-    }: HeroContentComponentProps) => (
-        <>
-            {HERO_CONTENT.map((content, index) => {
-                const Tag = content.tag as keyof JSX.IntrinsicElements;
-                return (
-                    <Tag
-                        key={`hero-content-${content.tag}-${index}`}
-                        aria-label={content.ariaLabel}
-                        lang={content.lang}
-                        className={cn(
-                            content.className,
-                            content.animation &&
+    }: HeroContentComponentProps) => {
+        const isInView = useInView(activeHeroContentRef, {
+            once: false,
+            amount: 0.9,
+        });
+
+        const newLineByDot = (text: string) =>
+            text.split(". ").map((line, idx) => (
+                <span key={idx}>
+                    {line}.<br />
+                </span>
+            ));
+
+        const animationClasses = useCallback(
+            (type: "fade" | "slideLeft" | "slideRight" | "slideDown"): any => {
+                // If reduced motion is preferred, no animations
+                if (prefersReducedMotion) {
+                    return {};
+                }
+
+                // Full animations when motion is allowed
+                switch (type) {
+                    case "fade":
+                        return isInView
+                            ? { opacity: 1, y: 0 }
+                            : { opacity: 0, y: -250 };
+                    case "slideLeft":
+                        return isInView
+                            ? { opacity: 1, x: 0 }
+                            : { opacity: 0, x: -250 };
+                    case "slideRight":
+                        return isInView
+                            ? { opacity: 1, x: 0 }
+                            : { opacity: 0, x: 250 };
+                    case "slideDown":
+                        return isInView
+                            ? { opacity: 1, y: 0 }
+                            : { opacity: 0, y: -250 };
+                    default:
+                        return "";
+                }
+            },
+            [isInView, prefersReducedMotion],
+        );
+        return (
+            <>
+                {HERO_CONTENT.map((content, index) => {
+                    const Tag = content.tag as keyof JSX.IntrinsicElements;
+                    return (
+                        <motion.div
+                            className={cn(
+                                prefersReducedMotion
+                                    ? "transition-none"
+                                    : "will-change-[transform,opacity]",
+                            )}
+                            initial={
+                                prefersReducedMotion
+                                    ? { opacity: 1, x: 0, y: 0 }
+                                    : { opacity: 0, x: 0, y: 0 }
+                            }
+                            animate={
+                                !prefersReducedMotion &&
+                                content.animation &&
                                 [
                                     "fade",
                                     "slideLeft",
                                     "slideRight",
                                     "slideDown",
                                 ].includes(content.animation) &&
-                                getAnimationClasses(
+                                animationClasses(
                                     content.animation as
                                         | "fade"
                                         | "slideLeft"
                                         | "slideRight"
                                         | "slideDown",
-                                ),
-                            `transition-all ${transitionDuration} ease-in-out`,
-                            !prefersReducedMotion &&
-                                "will-change-[transform,opacity]",
-                        )}
-                    >
-                        {content.animation === "slideRight"
-                            ? newLineByDot(content.text)
-                            : content.text}
-                    </Tag>
-                );
-            })}
-        </>
-    ),
+                                )
+                            }
+                            transition={
+                                prefersReducedMotion
+                                    ? {}
+                                    : {
+                                          type: "spring",
+                                          stiffness: 90, // Higher stiffness = more bouncy
+                                          damping: 10, // Lower damping = more overshoot
+                                          mass: 0.45, // Mass affects the spring behavior
+                                          restDelta: 0.001,
+                                          restSpeed: 0.001,
+                                          delay: index * 0.1,
+                                      }
+                            }
+                            key={`hero-content-${content.tag}-${index}`}
+                        >
+                            <Tag
+                                aria-label={content.ariaLabel}
+                                lang={content.lang}
+                                className={cn(content.className)}
+                            >
+                                {content.animation === "slideRight"
+                                    ? newLineByDot(content.text)
+                                    : content.text}
+                            </Tag>
+                        </motion.div>
+                    );
+                })}
+            </>
+        );
+    },
 );
 HeroContentComponent.displayName = "HeroContentComponent";
 
-const newLineByDot = (text: string) =>
-    text.split(". ").map((line, idx) => (
-        <span key={idx}>
-            {line}.<br />
-        </span>
-    ));
-
 const HeroSection = (): JSX.Element => {
-    // Track scroll position for parallax effect
-    const [offsetY, setOffsetY] = useState<number>(0);
     const isMobile = useIsMobile();
-
     // Separate refs for desktop and mobile views
     const desktopHeroContentRef = useRef<HTMLDivElement>(null);
     const mobileHeroContentRef = useRef<HTMLDivElement>(null);
@@ -263,87 +291,6 @@ const HeroSection = (): JSX.Element => {
 
     // Track if user prefers reduced motion
     const prefersReducedMotion = useReducedMotion();
-    const isInView = useInView(activeHeroContentRef, {
-        once: false,
-        amount: 0.9,
-    });
-
-    // Set up scroll listener for parallax effect
-    useEffect(() => {
-        const throttledHandleScroll = () => {
-            // Only updates scroll position every 100ms for better performance
-            throttle(() => {
-                if (!prefersReducedMotion) {
-                    setOffsetY(window.scrollY);
-                }
-            }, 100)();
-        };
-
-        // Skip if SSR or user prefers reduced motion
-        if (typeof window === "undefined" || prefersReducedMotion) return;
-
-        // Add passive listener for better scroll performance
-        window.addEventListener("scroll", throttledHandleScroll, {
-            passive: true,
-        });
-
-        // Cleanup listener on unmount or when motion preference changes
-        return () => {
-            window.removeEventListener("scroll", throttledHandleScroll);
-        };
-    }, [prefersReducedMotion]);
-
-    // Observe when hero content enters viewport for entrance animations
-    const isVisible: boolean = useIntersectionObserver(activeHeroContentRef, {
-        threshold: 0.9,
-        triggerOnce: false,
-    });
-
-    // Calculate parallax transform based on motion preference
-    const getParallaxTransform = useCallback((): string => {
-        if (prefersReducedMotion) {
-            return "translateY(0)";
-        }
-        return `translateY(${offsetY * 0.5}px)`;
-    }, [offsetY, prefersReducedMotion]);
-
-    // Determine animation classes based on visibility and motion preference
-    const getAnimationClasses = useCallback(
-        (type: "fade" | "slideLeft" | "slideRight" | "slideDown"): string => {
-            // If reduced motion is preferred, use only opacity transitions
-            if (prefersReducedMotion) {
-                return isInView ? "opacity-100" : "opacity-0";
-            }
-
-            // Full animations when motion is allowed
-            switch (type) {
-                case "fade":
-                    return isInView
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 -translate-y-60";
-                case "slideLeft":
-                    return isInView
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 -translate-x-60";
-                case "slideRight":
-                    return isInView
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 translate-x-60";
-                case "slideDown":
-                    return isInView
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 -translate-y-60";
-                default:
-                    return "";
-            }
-        },
-        [isInView, prefersReducedMotion],
-    );
-
-    // Determine transition duration based on motion preference
-    const transitionDuration = prefersReducedMotion
-        ? "duration-100"
-        : "duration-500";
 
     return (
         <section
@@ -391,8 +338,7 @@ const HeroSection = (): JSX.Element => {
                         )}
                     >
                         <HeroContentComponent
-                            getAnimationClasses={getAnimationClasses}
-                            transitionDuration={transitionDuration}
+                            activeHeroContentRef={activeHeroContentRef}
                             prefersReducedMotion={prefersReducedMotion}
                         />
                     </div>
@@ -414,7 +360,6 @@ const HeroSection = (): JSX.Element => {
                     <HeroImage
                         className="translate-y-1 -translate-x-1"
                         prefersReducedMotion={prefersReducedMotion}
-                        getParallaxTransform={getParallaxTransform}
                     />
                 </div>
             </div>
@@ -456,8 +401,7 @@ const HeroSection = (): JSX.Element => {
                         )}
                     >
                         <HeroContentComponent
-                            getAnimationClasses={getAnimationClasses}
-                            transitionDuration={transitionDuration}
+                            activeHeroContentRef={activeHeroContentRef}
                             prefersReducedMotion={prefersReducedMotion}
                         />
                     </div>

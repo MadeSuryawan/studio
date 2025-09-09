@@ -685,9 +685,11 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                         "transition-all",
                                         "rounded-sm",
                                         "p-1",
-                                        `border ${borderColor}`,
-                                        "neumorphic-nav-link",
+                                        "border",
+                                        borderColor,
+                                        "neumorphic-button",
                                         "z-50",
+                                        "hover:border-transparent",
                                         prefersReducedMotion
                                             ? cn("transition-none duration-0")
                                             : cn(
@@ -798,7 +800,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             y1="0%"
                             x2="100%"
                             y2="0%"
-                            // transform="translate(-100,0)"
                         >
                             <stop
                                 offset="0%"
@@ -822,7 +823,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             y1="0%"
                             x2="100%"
                             y2="0%"
-                            // transform="translate(-1500,0)"
                         >
                             <stop
                                 offset="0%"
@@ -846,7 +846,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             y1="0%"
                             x2="100%"
                             y2="0%"
-                            // transform="translate(-100,0)"
                         >
                             <stop
                                 offset="0%"
@@ -893,7 +892,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             y1="0%"
                             x2="100%"
                             y2="0%"
-                            // transform="translate(100,0)"
                         >
                             <stop
                                 offset="0%"
