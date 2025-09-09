@@ -304,6 +304,17 @@
             -10px -10px 10px rgba(255, 255, 255, 0.05),
             10px 10px 10px rgba(0, 0, 0, 0.5);
     }
+    .neumorphic-nav-link {
+        @apply bg-background;
+        box-shadow:
+            -7px -4px 10px rgba(255, 255, 255, 0.8),
+            7px 4px 10px rgba(129, 140, 155, 0.4);
+    }
+    .dark .neumorphic-nav-link {
+        box-shadow:
+            -4px -4px 5px rgba(255, 255, 255, 0.05),
+            4px 4px 5px rgba(0, 0, 0, 0.5);
+    }
     .neumorphic-floating-card {
         @apply bg-background/90;
         box-shadow:
