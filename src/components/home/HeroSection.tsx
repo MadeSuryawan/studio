@@ -42,7 +42,9 @@ const HERO_CONTENT: HeroContentProps[] = [
         tag: "h1",
         ariaLabel: "Discover Your Bali Bliss",
         text: "Discover Your Bali Bliss",
-        className: "text-2xl sm:text-3xl md:text-5xl 2xl:text-7xl font-bold",
+        className: cn(
+            "text-2xl sm:text-3xl md:text-5xl 2xl:text-7xl font-serif",
+        ),
         animation: "slideLeft",
     },
     {

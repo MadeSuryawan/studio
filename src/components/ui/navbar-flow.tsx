@@ -69,9 +69,9 @@ const NAVBAR_CONSTANTS = {
 
     // Animation durations
     QUICK_DURATION: 0.5,
-    NAV_DURATION: 0.8,
-    SVG_DURATION: 0.5,
-    NAV_DELAY: 0.5,
+    NAV_DURATION: 0.1,
+    SVG_DURATION: 0.1,
+    NAV_DELAY: 0.1,
     MOBILE_MENU_DURATION: 0.3,
     SUBMENU_DURATION: 0.2,
 
@@ -415,7 +415,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     ]);
                 } else {
                     await navMotion.start({
-                        clipPath: "inset(0 0% 0 0)",
                         opacity: 1,
                         transition: {
                             duration: navDur,
@@ -644,10 +643,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
                 {/* Primary Navigation */}
                 <motion.nav
-                    initial={{
-                        clipPath: "inset(0 50% 0 50%)",
-                        opacity: 0,
-                    }}
+                    initial={{ opacity: 0 }}
                     animate={navMotion}
                     className={cn(
                         "relative",
@@ -680,7 +676,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                     initial={{ y: -1000 }}
                                     className={cn(
                                         "transition-all duration-500 ease-out",
-                                        // "bg-red-400",
                                         "rounded-sm",
                                         "p-1",
                                         `border ${borderColor}`,
@@ -770,7 +765,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         "absolute inset-0",
                         "pointer-events-none",
                         "w-[82vw] h-full",
-                        "translate-x-28",
+                        "translate-x-[110px]",
                     )}
                     aria-hidden="true"
                     focusable="false"
