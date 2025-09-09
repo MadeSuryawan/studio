@@ -13,7 +13,13 @@ import Image from "next/image";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, throttle } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";
-import { motion } from "framer-motion";
+import {
+    motion,
+    useScroll,
+    useTransform,
+    useSpring,
+    useInView,
+} from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
 type AnimationType = "fade" | "slideLeft" | "slideRight" | "slideDown";
@@ -52,8 +58,10 @@ const HERO_CONTENT: HeroContentProps[] = [
         ariaLabel:
             "We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us.",
         text: "We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us",
-        className:
-            "text-md 2xl:text-lg whitespace-pre-line tracking-tight md:tracking-normal",
+        className: cn(
+            "text-md 2xl:text-lg whitespace-pre-line",
+            "tracking-tight md:tracking-normal",
+        ),
         animation: "slideRight",
     },
     {
@@ -63,53 +71,84 @@ const HERO_CONTENT: HeroContentProps[] = [
     },
 ] as const;
 
+interface HeroImageProps {
+    className?: string;
+    prefersReducedMotion?: boolean | null;
+    getParallaxTransform?: () => string;
+}
+
 const HeroImage = memo(
     ({
         className,
         prefersReducedMotion,
         getParallaxTransform,
-    }: {
-        className?: string;
-        prefersReducedMotion?: boolean;
-        getParallaxTransform?: () => string;
-    }): JSX.Element => {
+    }: HeroImageProps): JSX.Element => {
         const [imageError, setImageError] = useState(false);
+        // Built-in scroll tracking
+        const { scrollY } = useScroll();
+        const y = useTransform(scrollY, [0, 1000], [0, 800]);
+
+        const smoothY = useSpring(y, {
+            stiffness: 100, // Higher stiffness = more bouncy
+            damping: 10, // Lower damping = more overshoot
+            mass: 0.5, // Mass affects the spring behavior
+        });
+
         return (
-            <div
+            <motion.div
+                initial={
+                    prefersReducedMotion
+                        ? { opacity: 1, scale: 1, x: 0, y: 0 }
+                        : { opacity: 0, scale: 0, x: 200, y: -250 }
+                }
+                animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                transition={
+                    prefersReducedMotion
+                        ? { duration: 0 }
+                        : {
+                              type: "spring",
+                              stiffness: 110, // Higher stiffness = more bouncy
+                              damping: 10, // Lower damping = more overshoot
+                              mass: 0.5, // Mass affects the spring behavior
+                          }
+                }
                 className={cn(
-                    // "bg-blue-500",
                     "relative",
                     "aspect-[8.5/11]",
-                    "neumorphic-hero-image",
                     "rounded-lg",
                     "flex",
                     "isolate",
-                    "p-1",
                     "overflow-hidden",
+                    "will-change-[transform,opacity]",
                     className,
                 )}
             >
-                <div
+                <motion.div
                     className={cn(
                         "relative w-full h-full bg-background rounded-lg",
+                        "parallax-element",
                     )}
-                    style={{
-                        transform:
-                            getParallaxTransform && getParallaxTransform(),
-                        transition: prefersReducedMotion
-                            ? "transform 0.2s ease-out"
-                            : "transform 0.5s ease-out",
-                    }}
+                    style={{ y: smoothY }}
+                    // style={{
+                    //     y,
+                    //     transition: prefersReducedMotion
+                    //         ? "transform 0.2s ease-out"
+                    //         : "transform 0.5s ease-out",
+                    // }}
+                    // style={{
+                    //     transform:
+                    //         getParallaxTransform && getParallaxTransform(),
+                    //     transition: prefersReducedMotion
+                    //         ? "transform 0.2s ease-out"
+                    //         : "transform 0.5s ease-out",
+                    // }}
                 >
                     {!imageError ? (
                         <Image
                             src="/images/hero/IMG_7508_DxO.webp"
                             alt="Traditional Balinese Kecak Dance performance at Uluwatu Temple during sunset"
                             fill
-                            className={cn(
-                                "rounded-lg isolate bg-background",
-                                // "p-1",
-                            )}
+                            className={cn("rounded-lg isolate bg-background")}
                             priority
                             sizes="(max-width: 768px) 100vw, 33vw"
                             quality={85}
@@ -140,8 +179,8 @@ const HeroImage = memo(
                             "dark:brightness-[105%]",
                         )}
                     />
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         );
     },
 );
@@ -152,7 +191,7 @@ interface HeroContentComponentProps {
         type: "fade" | "slideLeft" | "slideRight" | "slideDown",
     ) => string;
     transitionDuration: string;
-    prefersReducedMotion: boolean;
+    prefersReducedMotion: boolean | null;
 }
 
 const HeroContentComponent = memo(
@@ -224,6 +263,10 @@ const HeroSection = (): JSX.Element => {
 
     // Track if user prefers reduced motion
     const prefersReducedMotion = useReducedMotion();
+    const isInView = useInView(activeHeroContentRef, {
+        once: false,
+        amount: 0.9,
+    });
 
     // Set up scroll listener for parallax effect
     useEffect(() => {
@@ -269,38 +312,38 @@ const HeroSection = (): JSX.Element => {
         (type: "fade" | "slideLeft" | "slideRight" | "slideDown"): string => {
             // If reduced motion is preferred, use only opacity transitions
             if (prefersReducedMotion) {
-                return isVisible ? "opacity-100" : "opacity-0";
+                return isInView ? "opacity-100" : "opacity-0";
             }
 
             // Full animations when motion is allowed
             switch (type) {
                 case "fade":
-                    return isVisible
+                    return isInView
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 -translate-y-60";
                 case "slideLeft":
-                    return isVisible
+                    return isInView
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 -translate-x-60";
                 case "slideRight":
-                    return isVisible
+                    return isInView
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 translate-x-60";
                 case "slideDown":
-                    return isVisible
+                    return isInView
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 -translate-y-60";
                 default:
                     return "";
             }
         },
-        [isVisible, prefersReducedMotion],
+        [isInView, prefersReducedMotion],
     );
 
     // Determine transition duration based on motion preference
     const transitionDuration = prefersReducedMotion
-        ? "duration-300"
-        : "duration-1000";
+        ? "duration-100"
+        : "duration-500";
 
     return (
         <section
@@ -313,7 +356,7 @@ const HeroSection = (): JSX.Element => {
                 className={cn(
                     "hidden md:grid grid-cols-3",
                     "relative w-full",
-                    "pl-4",
+                    "px-12",
                     "mt-24 mb-16",
                     // "bg-orange-700",
                 )}
@@ -324,7 +367,7 @@ const HeroSection = (): JSX.Element => {
                         // "bg-purple-600",
                         "col-span-2",
                         "my-8",
-                        "ml-12",
+                        "ml-4",
                         "px-20",
                         "py-6",
                         "rounded-lg rounded-r-none",
@@ -350,7 +393,7 @@ const HeroSection = (): JSX.Element => {
                         <HeroContentComponent
                             getAnimationClasses={getAnimationClasses}
                             transitionDuration={transitionDuration}
-                            prefersReducedMotion={prefersReducedMotion || true}
+                            prefersReducedMotion={prefersReducedMotion}
                         />
                     </div>
                 </div>
@@ -361,13 +404,16 @@ const HeroSection = (): JSX.Element => {
                         "col-span-1",
                         "aspect-[8.5/11]",
                         // "bg-green-600",
-                        "p-3",
+                        "w-full",
+                        "p-1",
                         "mr-8",
+                        "neumorphic-hero-image",
+                        "rounded-lg",
                     )}
                 >
                     <HeroImage
-                        className="scale-[1.1] translate-y-1 -translate-x-1"
-                        prefersReducedMotion={prefersReducedMotion || undefined}
+                        className="translate-y-1 -translate-x-1"
+                        prefersReducedMotion={prefersReducedMotion}
                         getParallaxTransform={getParallaxTransform}
                     />
                 </div>
@@ -378,9 +424,8 @@ const HeroSection = (): JSX.Element => {
                 className={cn(
                     "block md:hidden",
                     "relative w-full",
-                    "mt-16 mb-16",
                     "px-3",
-                    // "pt-[10px]",
+                    "mt-16",
                     // "bg-orange-700",
                 )}
             >
@@ -413,14 +458,22 @@ const HeroSection = (): JSX.Element => {
                         <HeroContentComponent
                             getAnimationClasses={getAnimationClasses}
                             transitionDuration={transitionDuration}
-                            prefersReducedMotion={prefersReducedMotion || true}
+                            prefersReducedMotion={prefersReducedMotion}
                         />
                     </div>
                 </div>
 
                 {/* Image Container */}
-                <div className={cn("relative")}>
-                    <HeroImage className="scale-[.95]" />
+                <div
+                    className={cn(
+                        "relative",
+                        "scale-[.95]",
+                        "neumorphic-hero-image",
+                        "rounded-lg",
+                        "p-1",
+                    )}
+                >
+                    <HeroImage />
                 </div>
             </div>
         </section>

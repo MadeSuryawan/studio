@@ -335,7 +335,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     styleName,
     rightComponent,
     linksHeadStartMs = 0,
-    bouncyText = false,
+    bouncyText = true,
 }) => {
     // State management with better organization
     const [sequenceDone, setSequenceDone] = useState(false);
@@ -606,19 +606,30 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     const borderColor = cn("border-[#ffb964e3] dark:border-[#0c8a9678]");
 
     return (
-        <>
+        <div
+            className={cn(
+                "fixed top-0",
+                `z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR}`,
+                "w-full",
+                styleName,
+            )}
+        >
             {/* Desktop Navigation */}
             <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={navMotion}
                 className={cn(
-                    "hidden md:mx-auto flex items-center justify-between",
-                    "relative bg-background",
+                    "hidden",
+                    "bg-background",
+                    // "fixed top-0",
+                    "md:mx-auto md:flex md:items-center md:justify-between",
+                    "relative",
                     "rounded-b-lg w-[95vw]",
                     "mx-auto",
                     "px-2 will-change-opacity",
                     NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP,
-                    "shadow-lg",
+                    "z-50",
+                    "shadow-lg dark:shadow-xl",
                     "py-8",
                     // "bg-red-400",
                 )}
@@ -1101,10 +1112,14 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 initial={{ opacity: 0 }}
                 animate={navMotion}
                 className={cn(
+                    "md:hidden",
+                    "relative",
+                    "bg-background",
                     "flex inline-flex justify-between items-center",
-                    "w-full md:hidden rounded-b-sm",
+                    "w-full rounded-b-sm",
                     "h-16",
                     "px-3",
+                    "shadow-lg",
                     // "bg-red-400",
                 )}
             >
@@ -1116,7 +1131,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         `border-b-[2px] border-x ${borderColor} rounded-sm`,
                         "icon-shadow-sm",
                         "w-fit",
-                        "mt-2",
                     )}
                     role="banner"
                     aria-label="Site logo"
@@ -1341,7 +1355,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     </div>
                 </motion.div>
             </motion.div>
-        </>
+        </div>
     );
 };
 
