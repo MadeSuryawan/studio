@@ -377,7 +377,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
     // Enhanced animation sequence with error handling and memoized durations
     useEffect(() => {
-        if (!isMounted || sequenceDone) return;
+        if (!isMounted || sequenceDone || prefersReducedMotion) return;
 
         let linksTimer: number | undefined;
 
@@ -398,6 +398,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 if (isMobile) {
                     await navMotion.start({
                         opacity: 1,
+                        y: 0,
                         transition: { duration: quick, ease: "easeOut" },
                     });
                     await Promise.all([
@@ -405,14 +406,23 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             opacity: 1,
                             x: 0,
                             transition: {
-                                duration: quick,
-                                ease: "easeOut",
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.7,
+                                // delay: navDelay,
                             },
                         }),
                         switchMotion.start({
                             opacity: 1,
                             x: 0,
-                            transition: { duration: quick, ease: "easeOut" },
+                            transition: {
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.5,
+                                // delay: navDelay,
+                            },
                         }),
                     ]);
                 } else {
@@ -435,12 +445,22 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         emblemMotion.start({
                             opacity: 1,
                             x: 0,
-                            transition: { duration: quick, ease: "easeOut" },
+                            transition: {
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.7,
+                            },
                         }),
                         switchMotion.start({
                             opacity: 1,
                             x: 0,
-                            transition: { duration: quick, ease: "easeOut" },
+                            transition: {
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.5,
+                            },
                         }),
                     ]);
                 }
@@ -469,6 +489,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         sequenceDone,
         animationDurations,
         linksHeadStartMs,
+        prefersReducedMotion,
     ]);
 
     // Enhanced callback functions with better error handling and accessibility
@@ -603,7 +624,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
         );
     }
 
-    const borderColor = cn("border-[#ffb964e3] dark:border-[#0c8a9678]");
+    const borderColor = cn("border-[#ffb964e3] dark:border-[#0c8a962a]");
 
     return (
         <div
@@ -621,8 +642,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 className={cn(
                     "hidden",
                     "bg-background",
-                    // "fixed top-0",
-                    "md:mx-auto md:flex md:items-center md:justify-between",
+                    "md:flex md:items-center md:justify-between",
                     "relative",
                     "rounded-b-lg w-[95vw]",
                     "mx-auto",
@@ -631,7 +651,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     "z-50",
                     "shadow-lg dark:shadow-xl",
                     "py-8",
-                    // "bg-red-400",
                 )}
             >
                 {/* Logo/Emblem */}
@@ -1105,18 +1124,18 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
             {/* Mobile Navigation */}
             <motion.div
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 0, y: -30 }}
                 animate={navMotion}
                 className={cn(
                     "md:hidden",
                     "relative",
                     "bg-background",
-                    "flex inline-flex justify-between items-center",
-                    "w-full rounded-b-sm",
-                    "h-16",
-                    "px-3",
+                    "flex flex-row justify-between items-center",
+                    "w-[95vw] h-16",
+                    "mx-auto",
+                    "rounded-b-sm",
+                    "px-1",
                     "shadow-lg",
-                    // "bg-red-400",
                 )}
             >
                 {/* Mobile Logo/Emblem */}
@@ -1124,7 +1143,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     initial={{ opacity: 0, x: -20 }}
                     animate={emblemMotion}
                     className={cn(
-                        `border-b-[2px] border-x ${borderColor} rounded-sm`,
+                        "border-b-[2px] border-x",
+                        borderColor,
+                        "rounded-sm",
                         "icon-shadow-sm",
                         "w-fit",
                     )}
@@ -1136,22 +1157,30 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
                 {/* Mobile Right Section */}
                 <motion.div
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 40 }}
                     animate={switchMotion}
                     className={cn(
-                        "w-fit h-fit",
-                        "my-2",
-                        "flex flex-row items-center justify-evenly",
-                        "pr-2 space-x-2",
+                        "relative",
+                        "w-1/4 h-[84%]",
+                        "flex flex-row items-center justify-between",
+                        "py-2 px-3 space-x-3",
                         "bg-white/50 dark:bg-gray-400/20",
                         "rounded-md backdrop-blur-lg",
                         `border ${borderColor}`,
+                        "neumorphic-cta-card",
+                        "my-auto",
+                        "will-change-[transform,opacity]",
                     )}
+                    role="complementary"
+                    aria-label="Theme switcher and mobile menu toggle"
                 >
                     {/* Mobile Right Icons */}
-                    <div
+                    <motion.div
+                        // initial={{ opacity: 0, x: 50 }}
+                        // animate={sequenceDone && { opacity: 1, x: 0 }}
+                        // transition={{ duration: 0.5, ease: "easeOut" }}
                         role="complementary"
-                        aria-label="Additional navigation tools"
+                        aria-label="Theme switcher and additional navigation tools"
                     >
                         {extraIcons &&
                             extraIcons.map((icon, idx) => (
@@ -1165,7 +1194,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             ))}
 
                         {rightComponent}
-                    </div>
+                    </motion.div>
 
                     {/* Mobile Menu Toggle */}
                     <button
@@ -1175,8 +1204,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             " text-gray-700 dark:text-gray-200",
                             " hover:text-gray-900 dark:hover:text-white",
                             "transition-colors",
-                            "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-md",
-                            "scale-[1.1]",
+                            "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
+                            "scale-[1.4]",
+                            "neumorphic-button",
                         )}
                         aria-expanded={mobileMenuVisible}
                         aria-controls={mobileMenuId}
@@ -1188,12 +1218,12 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     >
                         {mobileMenuVisible ? (
                             <Close
-                                className="h-7 w-7 icon-shadow-md"
+                                className="aspect-square icon-shadow-sm"
                                 aria-hidden="true"
                             />
                         ) : (
                             <List
-                                className="h-7 w-7 icon-shadow-md"
+                                className="aspect-square icon-shadow-sm"
                                 aria-hidden="true"
                             />
                         )}

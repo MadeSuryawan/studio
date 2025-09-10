@@ -134,7 +134,7 @@ export default function BlogSection(): JSX.Element {
             {/* Mobile view */}
             <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm">
                 <SectionTitle divClass="text-center mb-8" />
-                <CarouselContent paginationMt="mt-36">
+                <CarouselContent paginationMt="mt-40">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
                             <BlogCard cardRef={cardRef} post={post} />

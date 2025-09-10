@@ -301,7 +301,7 @@
     }
     .dark .neumorphic-hero-image {
         box-shadow:
-            -10px -10px 10px rgba(155, 155, 155, 0.05),
+            -7px -7px 7px rgba(150, 150, 150, 0.05),
             10px 10px 10px rgba(0, 0, 0, 0.5);
     }
     .neumorphic-nav-link {
@@ -360,9 +360,9 @@
     }
     .dark .neumorphic-cta-card {
         box-shadow:
-            inset -10px -10px 15px rgba(255, 255, 255, 0.05),
-            inset 10px 10px 15px rgba(0, 0, 0, 0.5),
-            -10px -10px 10px rgba(255, 255, 255, 0.05),
+            inset -10px -10px 7px rgba(150, 150, 150, 0.05),
+            inset 10px 10px 10px rgba(0, 0, 0, 0.5),
+            -7px -7px 7px rgba(150, 150, 150, 0.05),
             10px 10px 10px rgba(0, 0, 0, 0.5);
     }
     .line-clamp-2 {

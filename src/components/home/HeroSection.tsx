@@ -15,7 +15,7 @@ import {
 } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
-type AnimationType = "fade" | "slideLeft" | "slideRight" | "slideDown";
+type AnimationType = "slideLeft" | "slideRight" | "slideDown";
 
 interface HeroContentProps {
     ariaLabel?: string;
@@ -35,8 +35,9 @@ const HERO_CONTENT: HeroContentProps[] = [
             "Om Swastyastu - Traditional Balinese greeting meaning 'May all be well'",
         lang: "ban-Bali",
         text: "ᬒᬁ ᬲ᭄ᬯᬲ᭄ᬢ᭄ᬬᬲ᭄ᬢᬸ᭟",
-        className:
+        className: cn(
             "font-balibanat pb-3 md:pb-12 text-3xl sm:text-5xl md:text-7xl 2xl:text-9xl",
+        ),
         animation: "slideDown",
         initial: { opacity: 0, y: -150 },
         animate: { opacity: 1, y: 0 },
@@ -58,8 +59,8 @@ const HERO_CONTENT: HeroContentProps[] = [
             "We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us.",
         text: "We craft personalized, unforgettable journeys to the Island of the Gods. Let your story in Bali begin with us",
         className: cn(
-            "text-md 2xl:text-lg whitespace-pre-line",
-            "tracking-tight md:tracking-normal",
+            cn("text-md 2xl:text-lg whitespace-pre-line"),
+            cn("tracking-tight md:tracking-normal"),
         ),
         animation: "slideRight",
         initial: { opacity: 0, x: 150 },
@@ -76,11 +77,16 @@ const HERO_CONTENT: HeroContentProps[] = [
 
 interface HeroImageProps {
     className?: string;
-    prefersReducedMotion?: boolean | null;
+    reducedMotion?: boolean | null;
+    isMobile?: boolean;
 }
 
 const HeroImage = memo(
-    ({ className, prefersReducedMotion }: HeroImageProps): JSX.Element => {
+    ({
+        className,
+        reducedMotion,
+        isMobile = false,
+    }: HeroImageProps): JSX.Element => {
         const [imageError, setImageError] = useState(false);
 
         // Built-in scroll tracking
@@ -122,19 +128,19 @@ const HeroImage = memo(
         return (
             <motion.div
                 initial={
-                    prefersReducedMotion
+                    reducedMotion
                         ? { opacity: 1, scale: 1, x: 0, y: 0 }
                         : { opacity: 0, scale: 0, x: 200, y: -250 }
                 }
                 animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                 transition={
-                    prefersReducedMotion
+                    reducedMotion
                         ? { duration: 0 }
                         : {
                               type: "spring",
-                              stiffness: 100,
-                              damping: 10,
-                              mass: 0.5,
+                              stiffness: isMobile ? 200 : 100,
+                              damping: isMobile ? 9 : 10,
+                              mass: isMobile ? 0.7 : 0.5,
                           }
                 }
                 className={cn(
@@ -149,7 +155,7 @@ const HeroImage = memo(
                         "relative w-full h-full bg-background rounded-lg",
                         "parallax-element",
                     )}
-                    style={prefersReducedMotion ? {} : { y: smoothY }}
+                    style={reducedMotion ? {} : { y: smoothY }}
                 >
                     {!imageError ? (
                         <Image
@@ -195,16 +201,13 @@ const HeroImage = memo(
 HeroImage.displayName = "HeroImage";
 
 interface HeroContentComponentProps {
-    activeHeroContentRef: React.RefObject<HTMLDivElement>;
-    prefersReducedMotion: boolean | null;
+    activeRef: React.RefObject<HTMLDivElement>;
+    reducedMotion: boolean | null;
 }
 
 const HeroContentComponent = memo(
-    ({
-        activeHeroContentRef,
-        prefersReducedMotion,
-    }: HeroContentComponentProps) => {
-        const isInView = useInView(activeHeroContentRef, {
+    ({ activeRef, reducedMotion }: HeroContentComponentProps) => {
+        const isInView = useInView(activeRef, {
             once: false,
             amount: 0.9,
         });
@@ -222,27 +225,26 @@ const HeroContentComponent = memo(
             <>
                 {HERO_CONTENT.map((content, index) => {
                     const Tag = content.tag as keyof JSX.IntrinsicElements;
+                    const MotionTag = motion.create(Tag);
                     return (
                         <motion.div
                             className={cn(
-                                prefersReducedMotion
+                                reducedMotion
                                     ? "transition-none"
                                     : "will-change-[transform,opacity]",
                             )}
                             initial={
-                                prefersReducedMotion
-                                    ? notAnimate
-                                    : content.initial
+                                reducedMotion ? notAnimate : content.initial
                             }
                             animate={
-                                prefersReducedMotion
+                                reducedMotion
                                     ? notAnimate
                                     : isInView
                                       ? content.animate
                                       : content.initial
                             }
                             transition={
-                                prefersReducedMotion
+                                reducedMotion
                                     ? {}
                                     : {
                                           type: "spring",
@@ -256,7 +258,7 @@ const HeroContentComponent = memo(
                             }
                             key={`hero-content-${content.tag}-${index}`}
                         >
-                            <Tag
+                            <MotionTag
                                 aria-label={content.ariaLabel}
                                 lang={content.lang}
                                 className={cn(content.className)}
@@ -264,7 +266,7 @@ const HeroContentComponent = memo(
                                 {content.animation === "slideRight"
                                     ? newLineByDot(content.text)
                                     : content.text}
-                            </Tag>
+                            </MotionTag>
                         </motion.div>
                     );
                 })}
@@ -276,17 +278,13 @@ HeroContentComponent.displayName = "HeroContentComponent";
 
 const HeroSection = (): JSX.Element => {
     const isMobile = useIsMobile();
+    const reducedMotion = useReducedMotion();
     // Separate refs for desktop and mobile views
     const desktopHeroContentRef = useRef<HTMLDivElement>(null);
     const mobileHeroContentRef = useRef<HTMLDivElement>(null);
 
     // Use the appropriate ref based on viewport
-    const activeHeroContentRef = isMobile
-        ? mobileHeroContentRef
-        : desktopHeroContentRef;
-
-    // Track if user prefers reduced motion
-    const prefersReducedMotion = useReducedMotion();
+    const activeRef = isMobile ? mobileHeroContentRef : desktopHeroContentRef;
 
     return (
         <section
@@ -301,13 +299,11 @@ const HeroSection = (): JSX.Element => {
                     "relative w-full",
                     "px-12",
                     "mt-24 mb-16",
-                    // "bg-orange-700",
                 )}
             >
                 {/* Text Container */}
                 <div
                     className={cn(
-                        // "bg-purple-600",
                         "col-span-2",
                         "my-8",
                         "ml-4",
@@ -325,17 +321,17 @@ const HeroSection = (): JSX.Element => {
                             "text-center",
                             "text-hero-title",
                             "text-shadow-sm",
-                            // "bg-slate-800",
                             "px-4",
                             "-ml-1",
                             "neumorphic-cta-card",
                             "dark:text-shadow-md",
                             "rounded-lg",
+                            "overflow-hidden",
                         )}
                     >
                         <HeroContentComponent
-                            activeHeroContentRef={activeHeroContentRef}
-                            prefersReducedMotion={prefersReducedMotion}
+                            activeRef={activeRef}
+                            reducedMotion={reducedMotion}
                         />
                     </div>
                 </div>
@@ -345,7 +341,6 @@ const HeroSection = (): JSX.Element => {
                     className={cn(
                         "col-span-1",
                         "aspect-[8.5/11]",
-                        // "bg-green-600",
                         "w-full",
                         "p-1",
                         "mr-8",
@@ -355,7 +350,7 @@ const HeroSection = (): JSX.Element => {
                 >
                     <HeroImage
                         className="translate-y-1 -translate-x-1"
-                        prefersReducedMotion={prefersReducedMotion}
+                        reducedMotion={reducedMotion}
                     />
                 </div>
             </div>
@@ -367,13 +362,11 @@ const HeroSection = (): JSX.Element => {
                     "relative w-full",
                     "px-3",
                     "mt-16",
-                    // "bg-orange-700",
                 )}
             >
                 {/* Text Container */}
                 <div
                     className={cn(
-                        // "bg-purple-600",
                         "inline-block",
                         "py-5 px-5",
                         "rounded-lg",
@@ -389,16 +382,16 @@ const HeroSection = (): JSX.Element => {
                             "text-center",
                             "text-hero-title",
                             "text-shadow-sm",
-                            // "bg-slate-800",
                             "p-4",
                             "neumorphic-cta-card",
                             "dark:text-shadow-md",
                             "rounded-lg",
+                            "overflow-hidden",
                         )}
                     >
                         <HeroContentComponent
-                            activeHeroContentRef={activeHeroContentRef}
-                            prefersReducedMotion={prefersReducedMotion}
+                            activeRef={activeRef}
+                            reducedMotion={reducedMotion}
                         />
                     </div>
                 </div>
@@ -413,7 +406,7 @@ const HeroSection = (): JSX.Element => {
                         "p-1",
                     )}
                 >
-                    <HeroImage />
+                    <HeroImage reducedMotion={reducedMotion} isMobile />
                 </div>
             </div>
         </section>
