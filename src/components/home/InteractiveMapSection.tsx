@@ -507,7 +507,7 @@ const InteractiveMapSection = (): JSX.Element => {
             </div>
 
             {/* Mobile view */}
-            <div className={cn("block md:hidden pt-12")}>
+            <div className={cn("block md:hidden")}>
                 <SectionTitle />
 
                 <MapAndCard

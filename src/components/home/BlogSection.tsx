@@ -117,7 +117,7 @@ export default function BlogSection(): JSX.Element {
     return (
         <section id="blog">
             {/* Desktop view */}
-            <div className="hidden md:block container px-6 z-10">
+            <div className="hidden md:block container px-6">
                 <SectionTitle divClass="mb-12 text-left" />
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {blogPosts.map((post) => (
@@ -132,7 +132,7 @@ export default function BlogSection(): JSX.Element {
             </div>
 
             {/* Mobile view */}
-            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm z-10">
+            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm">
                 <SectionTitle divClass="text-center mb-8" />
                 <CarouselContent paginationMt="mt-36">
                     {blogPosts.map((post) => (

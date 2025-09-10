@@ -100,9 +100,9 @@ SectionButton.displayName = "DestinationsButton";
 export default function DestinationsSection(): JSX.Element {
     const cardRef = useRef<HTMLDivElement>(null);
     return (
-        <section id="destinations" className="relative w-full">
+        <section id="destinations">
             {/* Desktop view */}
-            <div className="hidden md:block container px-6 z-10">
+            <div className="hidden md:block container px-6">
                 <SectionTitle divClass="mb-12 text-left" />
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {destinations.map((destination) => (
@@ -117,7 +117,7 @@ export default function DestinationsSection(): JSX.Element {
             </div>
 
             {/* Mobile view */}
-            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm z-10">
+            <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm">
                 <SectionTitle divClass="text-center mb-8" />
                 <CarouselContent paginationMt="mt-32">
                     {destinations.map((destination) => (

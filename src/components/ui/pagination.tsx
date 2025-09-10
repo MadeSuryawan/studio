@@ -40,6 +40,7 @@ type PaginationLinkProps = {
     isActive?: boolean;
     shiny?: boolean;
     shinySpeed?: number;
+    badgeClass?: string;
 } & Pick<ButtonProps, "size"> &
     React.ComponentProps<"a"> &
     Pick<BadgeProps, "variant">;
@@ -52,6 +53,7 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
             shiny = isActive,
             shinySpeed = 5,
             size = "icon",
+            badgeClass,
             variant = isActive ? "default" : "outline",
             children,
             ...props
@@ -74,13 +76,20 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
                 {...props}
             >
                 <MotionBadge
+                    // shiny={shiny}
+                    // shinySpeed={shinySpeed}
                     variant={variant}
                     className={cn(
                         "h-full w-full items-center justify-center",
                         "border shadow-sm",
+                        "will-change-auto",
+                        "text-special-card-fg",
                         isActive
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "border-input bg-background",
+                            ? cn(
+                                  "bg-amber-500/90",
+                                  "border-white/90 dark:border-teal-400",
+                              )
+                            : cn("border-input bg-background", badgeClass),
                         !isActive &&
                             "hover:bg-accent hover:text-accent-foreground",
                         size === "icon" ? "p-0" : "px-2 py-1 sm:px-3 sm:py-1",
@@ -139,24 +148,25 @@ const PaginationPrevious = React.forwardRef<
     HTMLAnchorElement,
     PaginationNavigationProps
 >(({ className, ...props }, ref) => {
-    const MotionDiv = motion.div;
-
     return (
         <PaginationLink
             ref={ref}
             aria-label="Go to previous page"
             size="default"
             className={cn("pl-2 sm:pl-2.5", className)}
+            badgeClass={cn(
+                "border-orange-400 dark:border-teal-800 border-[1px]",
+            )}
             {...props}
         >
-            <MotionDiv
-                className="flex items-center gap-1"
+            <motion.div
+                className={cn("flex items-center gap-1")}
                 whileHover={{ x: -2 }}
                 whileTap={{ x: -4 }}
             >
                 <ChevronLeft className="h-4 w-4" />
                 <span className="hidden sm:inline">Previous</span>
-            </MotionDiv>
+            </motion.div>
         </PaginationLink>
     );
 });
@@ -174,6 +184,9 @@ const PaginationNext = React.forwardRef<
             aria-label="Go to next page"
             size="default"
             className={cn("pr-2 sm:pr-2.5", className)}
+            badgeClass={cn(
+                "border-orange-400 dark:border-teal-800 border-[1px]",
+            )}
             {...props}
         >
             <MotionDiv

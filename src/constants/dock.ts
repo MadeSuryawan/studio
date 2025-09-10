@@ -63,7 +63,7 @@ export const DOCK_COLORS = {
 // CSS classes
 export const DOCK_CLASSES = {
     CONTAINER:
-        "fixed bottom-6 md:bottom-4 left-4 z-50 w-[52px] md:w-[64px] translate-y-[64px]",
+        "fixed bottom-6 md:bottom-4 left-2 md:left-4 z-50 w-[52px] md:w-[64px] translate-y-[64px]",
     CONTENT: "flex-1 flex flex-col overflow-hidden bg-bg-alternate h-full",
     SCROLL_AREA: "overflow-y-auto overflow-x-hidden scrollbar-none h-full",
 } as const;

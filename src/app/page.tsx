@@ -45,7 +45,7 @@ const Home = (): JSX.Element => {
                     className={cn(
                         "relative",
                         "overflow-hidden",
-                        "py-10",
+                        "py-6 md:py-10",
                         "w-full",
                         // bgColors[
                         //     pageSections.indexOf(Section) % bgColors.length

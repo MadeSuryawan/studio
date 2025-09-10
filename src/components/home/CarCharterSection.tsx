@@ -10,12 +10,12 @@ import { useTheme } from "next-themes";
 
 const CarCharterSection = (): JSX.Element => {
     return (
-        <section id="car-charter">
+        <section id="car-charter" className="mx-5 md:mx-0">
             <div
                 className={cn(
                     "py-8 mx-auto",
-                    "max-w-sm md:max-w-screen-md",
-                    "shadow-xl shadow-black/20",
+                    "max-w-fit md:max-w-screen-md",
+                    "shadow-lg md:shadow-xl shadow-black/20",
                     "rounded-[20px]",
                     "border-y",
                     "border-[#ffffff]",
@@ -112,6 +112,7 @@ const CarCharterSection = (): JSX.Element => {
                                 "left-1/2 -translate-x-1/2 translate-y-[1px]",
                                 "neumorphic-accent-button",
                                 "brightness-[1.2] dark:brightness-100",
+                                "text-nowrap",
                             )}
                             aria-label="View charter options"
                             aria-describedby="charter-options"

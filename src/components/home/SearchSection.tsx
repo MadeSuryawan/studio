@@ -203,15 +203,16 @@ export default function SearchSection(): JSX.Element {
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(userMessage)}`;
 
     return (
-        <section id="search">
+        <section id="search" className="mx-5 md:mx-0">
             <Card
                 className={cn(
-                    "max-w-4xl relative",
+                    "relative",
+                    "md:max-w-4xl",
+                    "max-w-fit",
                     "left-1/2 -translate-x-1/2",
                     "bg-card",
-                    // "-mt-32",
                     "neumorphic-card",
-                    "rounded-lg",
+                    "rounded-md",
                     "flex flex-col",
                 )}
             >
@@ -229,7 +230,7 @@ export default function SearchSection(): JSX.Element {
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
                             className={cn(
-                                "grid grid-cols-1 md:grid-cols-3 gap-4 items-end",
+                                "grid grid-cols-1 md:grid-cols-3 md:gap-2 items-end",
                                 // "bg-blue-600",
                             )}
                         >
@@ -237,7 +238,7 @@ export default function SearchSection(): JSX.Element {
                                 control={form.control}
                                 name="interests"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="bg-red-500/00">
                                         <FormLabel>Interests</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
@@ -275,7 +276,13 @@ export default function SearchSection(): JSX.Element {
                                 control={form.control}
                                 name="date"
                                 render={({ field }) => (
-                                    <FormItem className="flex flex-col">
+                                    <FormItem
+                                        className={cn(
+                                            "flex flex-col",
+                                            "mt-4 -mb-1 md:-mb-0 md:mt-0",
+                                            "bg-green-500/00",
+                                        )}
+                                    >
                                         <FormLabel>
                                             Travel Dates (Optional)
                                         </FormLabel>
@@ -283,7 +290,7 @@ export default function SearchSection(): JSX.Element {
                                             <PopoverTrigger asChild>
                                                 <FormControl
                                                     className={cn(
-                                                        "border-[1px] dark:border-white/50",
+                                                        "border-[1px] dark:border-white/00",
                                                         "border-black/60 text-muted-foreground bg-bg-alternate",
                                                     )}
                                                 >
@@ -369,7 +376,7 @@ export default function SearchSection(): JSX.Element {
                                 control={form.control}
                                 name="budget"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="bg-purple-500/00">
                                         <FormLabel>
                                             Budget (e.g., $1000)
                                         </FormLabel>
@@ -396,7 +403,9 @@ export default function SearchSection(): JSX.Element {
                                 variant="accent"
                                 fullWidth={false}
                                 className={cn(
-                                    "text-nowrap w-1/2 md:w-3/5",
+                                    "text-nowrap",
+                                    "px-2",
+                                    "w-fit md:w-3/5",
                                     "flex justify-evenly",
                                     "md:col-start-3",
                                     "ml-auto",
@@ -405,21 +414,19 @@ export default function SearchSection(): JSX.Element {
                                     "text-black/60",
                                     "border-black/10 border-spacing-1",
                                     "hover:text-accent",
-                                    // "dark:neumorphic-accent-button",
                                     "dark:border-[#43819b58]",
                                     "dark:bg-bg-alternate",
-                                    // "dark:border-white/10",
                                     "dark:text-white/60 ",
                                     "dark:hover:text-primary",
-                                    // "dark:hover:border-bg-alternate",
                                     "active:text-white/30",
                                     "transition-none",
+                                    "mt-2 -mb-2 md:mt-0 md:-mb-0",
                                 )}
                                 disabled={isLoading}
                                 loading={isLoading}
                                 textShadow={"none"}
                                 icon={
-                                    <NotepadText className="scale-[1.2] mr-3" />
+                                    <NotepadText className="scale-[1.1] md:scale-[1.2] md:mr-3" />
                                 }
                                 iconPosition="right"
                                 loadingText="Processing..."

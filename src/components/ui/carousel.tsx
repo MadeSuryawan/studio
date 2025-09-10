@@ -11,6 +11,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "./pagination";
+import { cn } from "@/lib/utils";
 
 interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
@@ -95,17 +96,17 @@ export const CarouselContent: React.FC<CarouselContentProps> = ({
                 ))}
             </div>
 
-            <Pagination className={`${paginationMt} scale-[1.2]`}>
+            <Pagination className={cn(paginationMt, "scale-[1.2]", "w-fit")}>
                 <PaginationContent>
                     <PaginationItem>
                         <PaginationPrevious
                             href="#"
                             aria-disabled={activeIndex === 0}
-                            className={
+                            className={cn(
                                 activeIndex === 0
                                     ? "pointer-events-none opacity-50"
-                                    : ""
-                            }
+                                    : "",
+                            )}
                             onClick={(e) => {
                                 e.preventDefault();
                                 goPrevious();
@@ -163,7 +164,13 @@ export const CarouselPrevious: React.FC<CarouselControlProps> = ({
             disabled={disabled}
             variant="outline"
             size="icon"
-            className="rounded-full mt-3 scale-[1.1] bg-bg-alternate text-special-card-fg border-accent"
+            className={cn(
+                "rounded-full mt-3 scale-[1.1]",
+                "bg-bg-alternate",
+                "text-special-card-fg",
+                "border",
+                "border-accent dark:border-primary",
+            )}
         >
             <ChevronUp className="h-4 w-4" />
             <span className="sr-only">Previous card</span>
@@ -181,7 +188,7 @@ export const CarouselNext: React.FC<CarouselControlProps> = ({
             disabled={disabled}
             variant="outline"
             size="icon"
-            className="rounded-full mt-3 scale-[1.1] bg-bg-alternate text-special-card-fg border-accent"
+            className="rounded-full mt-3 scale-[1.1] bg-bg-alternate text-special-card-fg border border-accent"
         >
             <ChevronDown className="h-4 w-4" />
             <span className="sr-only">Next card</span>

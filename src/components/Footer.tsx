@@ -49,7 +49,7 @@ export default function Footer(): JSX.Element {
             className={cn(
                 "relative",
                 "py-3 md:py-8",
-                "rounded-xl",
+                "rounded-t-xl",
                 "bg-[#212224]",
                 "overflow-hidden",
                 "text-white/70",
