@@ -50,7 +50,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     cn(
                         "will-change-transform",
                         "transition-all duration-300 ease-out",
-                        "hover:scale-[1.01]",
+                        // "hover:scale-[1.01]",
                     ),
 
                 "bg-card border-t-[0px]",
@@ -65,10 +65,12 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
             {/* Image */}
             <div
                 className={cn(
-                    packageCard && "md:pr-0 w-full md:w-1/2",
+                    "rounded-t-md ",
+                    packageCard &&
+                        "w-fit md:w-1/2 md:h-fit md:rounded-l-md md:rounded-r-none",
                     "overflow-hidden",
                     "relative",
-                    "p-1",
+                    "m-1",
                 )}
             >
                 <MotionImage
@@ -77,11 +79,10 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     width={600}
                     height={400}
                     className={cn(
-                        "h-48 object-cover rounded-t-md",
-                        packageCard &&
-                            "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none",
+                        "h-48 object-cover",
                         data.imageClass && data.imageClass,
                         "brightness-[1.02] dark:brightness-95",
+                        "overflow-hidden",
                     )}
                     sizes="(max-width: 768px) 100vw, 33vw"
                     data-ai-hint={data.aiHint}
@@ -90,12 +91,12 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     draggable={false}
                     animate={
                         !reducedMotion && {
-                            scale: isHovered ? 1.02 : 1,
+                            scale: isHovered ? 1.03 : 1,
                         }
                     }
                     transition={{
                         type: "spring",
-                        stiffness: 300,
+                        stiffness: 200,
                         damping: 10,
                         duration: 0.3,
                         mass: 0.6,

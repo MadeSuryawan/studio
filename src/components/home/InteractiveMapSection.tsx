@@ -151,6 +151,7 @@ const mapPins: Location[] = [
         description:
             "Famous for its dramatic and exotic landscapes. The Jatiluwih rice terraces are a UNESCO Cultural Heritage Site.",
         image: "/images/bali_map/jatiluwih-rice-terrace.webp",
+        imageClass: cn("object-[center_-1px] md:object-[center_-27px]"),
         aiHint: "jatiluwih rice terraces",
         x: "53%",
         y: "45%",
@@ -448,7 +449,12 @@ const InteractiveMapSection = (): JSX.Element => {
                     resolvedTheme === "dark" ? BaliMapLight : BaliMapDark;
                 return (
                     <div className={cn("flex items-center", divClass)}>
-                        <div className={cn(mapConfig.divClass)}>
+                        <div
+                            className={cn(
+                                mapConfig.divClass,
+                                "pointer-events-none",
+                            )}
+                        >
                             <BaliMap
                                 className={cn(
                                     "dark:contrast-[1.07]",

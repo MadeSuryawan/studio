@@ -1,6 +1,6 @@
 "use client";
 
-import { JSX, memo } from "react";
+import { JSX, memo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Users, SlidersHorizontal, Phone, Sparkles } from "lucide-react";
@@ -63,12 +63,17 @@ const SectionTitle = ({ divClass }: { divClass?: string }) => {
 SectionTitle.displayName = "BlogTitle";
 
 const BenefitCard = memo(({ benefit }: { benefit: Benefit }) => {
+    const [isHovered, setIsHovered] = useState(false);
     return (
         <Card
             className={cn(
                 "text-center p-1 md:p-4 flex flex-col items-center justify-between shadow-xl",
                 "hover:shadow-lg transition-shadow duration-300 h-44 sm:h-48 md:h-full",
             )}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
         >
             <CardHeader
                 className={cn(
@@ -86,6 +91,7 @@ const BenefitCard = memo(({ benefit }: { benefit: Benefit }) => {
                     className={cn(
                         "text-md md:text-xl mb-2 md:mb-6 flex-shrink-0",
                         "leading-relaxed text-special-card-fg",
+                        isHovered && "text-accent dark:text-primary",
                     )}
                 >
                     {benefit.title}

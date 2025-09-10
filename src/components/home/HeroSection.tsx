@@ -1,16 +1,17 @@
 // src/components/home/HeroSection.tsx
 "use client";
 
-import { type JSX, useState, useRef, memo, useCallback } from "react";
+import { type JSX, useState, useRef, memo, useEffect } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useReducedMotion } from "framer-motion";
 import {
     motion,
     useScroll,
     useTransform,
     useSpring,
     useInView,
+    useMotionValue,
+    useReducedMotion,
 } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
@@ -21,6 +22,8 @@ interface HeroContentProps {
     lang?: string;
     text: string;
     className?: string;
+    initial: any;
+    animate: any;
     animation?: AnimationType;
     tag: string;
 }
@@ -30,11 +33,13 @@ const HERO_CONTENT: HeroContentProps[] = [
         tag: "p",
         ariaLabel:
             "Om Swastyastu - Traditional Balinese greeting meaning 'May all be well'",
-        lang: "ban-Bali", // Proper language code for Balinese script
+        lang: "ban-Bali",
         text: "ᬒᬁ ᬲ᭄ᬯᬲ᭄ᬢ᭄ᬬᬲ᭄ᬢᬸ᭟",
         className:
             "font-balibanat pb-3 md:pb-12 text-3xl sm:text-5xl md:text-7xl 2xl:text-9xl",
         animation: "slideDown",
+        initial: { opacity: 0, y: -150 },
+        animate: { opacity: 1, y: 0 },
     },
     {
         tag: "h1",
@@ -44,6 +49,8 @@ const HERO_CONTENT: HeroContentProps[] = [
             "text-2xl sm:text-3xl md:text-5xl 2xl:text-7xl font-serif",
         ),
         animation: "slideLeft",
+        initial: { opacity: 0, x: -150 },
+        animate: { opacity: 1, x: 0 },
     },
     {
         tag: "p",
@@ -55,11 +62,15 @@ const HERO_CONTENT: HeroContentProps[] = [
             "tracking-tight md:tracking-normal",
         ),
         animation: "slideRight",
+        initial: { opacity: 0, x: 150 },
+        animate: { opacity: 1, x: 0 },
     },
     {
         tag: "span",
         text: "Welcome to our Bali travel experience website. Scroll down to explore our services and destinations.",
         className: "sr-only",
+        initial: { opacity: 1, x: 0, y: 0 },
+        animate: { opacity: 1, x: 0, y: 0 },
     },
 ] as const;
 
@@ -71,17 +82,42 @@ interface HeroImageProps {
 const HeroImage = memo(
     ({ className, prefersReducedMotion }: HeroImageProps): JSX.Element => {
         const [imageError, setImageError] = useState(false);
+
         // Built-in scroll tracking
         const { scrollY } = useScroll();
+        // We'll use a motion value to manually update the throttled value
+        const throttledY = useMotionValue(0);
+
+        // Parallax mapping
         const y = useTransform(scrollY, [0, 1000], [0, 500]);
+        const smoothY = useSpring(throttledY, {
+            stiffness: 100,
+            damping: 10,
+            mass: 0.5,
+        });
 
-        const variants = {
-            stiffness: 100, // Higher stiffness = more bouncy
-            damping: 10, // Lower damping = more overshoot
-            mass: 0.5, // Mass affects the spring behavior
-        };
+        // Throttle updates to throttledY using requestAnimationFrame
+        const frame = useRef<number | null>(null);
 
-        const smoothY = useSpring(y, variants);
+        useEffect(() => {
+            const update = () => {
+                throttledY.set(y.get());
+                frame.current = null;
+            };
+
+            const unsubscribe = y.on("change", () => {
+                if (frame.current === null) {
+                    frame.current = requestAnimationFrame(update);
+                }
+            });
+
+            return () => {
+                unsubscribe();
+                if (frame.current !== null) {
+                    cancelAnimationFrame(frame.current);
+                }
+            };
+        }, [y, throttledY]);
 
         return (
             <motion.div
@@ -94,7 +130,12 @@ const HeroImage = memo(
                 transition={
                     prefersReducedMotion
                         ? { duration: 0 }
-                        : { type: "spring", ...variants }
+                        : {
+                              type: "spring",
+                              stiffness: 100,
+                              damping: 10,
+                              mass: 0.5,
+                          }
                 }
                 className={cn(
                     "relative aspect-[8.5/11]",
@@ -109,12 +150,6 @@ const HeroImage = memo(
                         "parallax-element",
                     )}
                     style={prefersReducedMotion ? {} : { y: smoothY }}
-                    // style={{
-                    //     y,
-                    //     transition: prefersReducedMotion
-                    //         ? "transform 0.2s ease-out"
-                    //         : "transform 0.5s ease-out",
-                    // }}
                 >
                     {!imageError ? (
                         <Image
@@ -181,37 +216,8 @@ const HeroContentComponent = memo(
                 </span>
             ));
 
-        const animationClasses = useCallback(
-            (type: "fade" | "slideLeft" | "slideRight" | "slideDown"): any => {
-                // If reduced motion is preferred, no animations
-                if (prefersReducedMotion) {
-                    return {};
-                }
+        const notAnimate = { opacity: 1, x: 0, y: 0 } as const;
 
-                // Full animations when motion is allowed
-                switch (type) {
-                    case "fade":
-                        return isInView
-                            ? { opacity: 1, y: 0 }
-                            : { opacity: 0, y: -250 };
-                    case "slideLeft":
-                        return isInView
-                            ? { opacity: 1, x: 0 }
-                            : { opacity: 0, x: -250 };
-                    case "slideRight":
-                        return isInView
-                            ? { opacity: 1, x: 0 }
-                            : { opacity: 0, x: 250 };
-                    case "slideDown":
-                        return isInView
-                            ? { opacity: 1, y: 0 }
-                            : { opacity: 0, y: -250 };
-                    default:
-                        return "";
-                }
-            },
-            [isInView, prefersReducedMotion],
-        );
         return (
             <>
                 {HERO_CONTENT.map((content, index) => {
@@ -225,34 +231,24 @@ const HeroContentComponent = memo(
                             )}
                             initial={
                                 prefersReducedMotion
-                                    ? { opacity: 1, x: 0, y: 0 }
-                                    : { opacity: 0, x: 0, y: 0 }
+                                    ? notAnimate
+                                    : content.initial
                             }
                             animate={
-                                !prefersReducedMotion &&
-                                content.animation &&
-                                [
-                                    "fade",
-                                    "slideLeft",
-                                    "slideRight",
-                                    "slideDown",
-                                ].includes(content.animation) &&
-                                animationClasses(
-                                    content.animation as
-                                        | "fade"
-                                        | "slideLeft"
-                                        | "slideRight"
-                                        | "slideDown",
-                                )
+                                prefersReducedMotion
+                                    ? notAnimate
+                                    : isInView
+                                      ? content.animate
+                                      : content.initial
                             }
                             transition={
                                 prefersReducedMotion
                                     ? {}
                                     : {
                                           type: "spring",
-                                          stiffness: 90, // Higher stiffness = more bouncy
-                                          damping: 10, // Lower damping = more overshoot
-                                          mass: 0.45, // Mass affects the spring behavior
+                                          stiffness: 90,
+                                          damping: 10,
+                                          mass: 0.45,
                                           restDelta: 0.001,
                                           restSpeed: 0.001,
                                           delay: index * 0.1,
