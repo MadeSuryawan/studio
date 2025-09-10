@@ -760,9 +760,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     ))}
 
                     {rightComponent && (
-                        <div className={cn("right-0 rounded-md", "")}>
-                            {rightComponent}
-                        </div>
+                        <div className={cn("rounded-md")}>{rightComponent}</div>
                     )}
                 </motion.div>
 

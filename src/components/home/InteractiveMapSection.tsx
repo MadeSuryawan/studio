@@ -150,7 +150,7 @@ const mapPins: Location[] = [
         name: "Jatiluwih",
         description:
             "Famous for its dramatic and exotic landscapes. The Jatiluwih rice terraces are a UNESCO Cultural Heritage Site.",
-        image: "https://placehold.co/600x400.png",
+        image: "/images/bali_map/jatiluwih-rice-terrace.webp",
         aiHint: "jatiluwih rice terraces",
         x: "53%",
         y: "45%",
@@ -160,7 +160,8 @@ const mapPins: Location[] = [
         name: "Bedugul (Lake Beratan)",
         description:
             "Home to the iconic Ulun Danu Beratan Temple, this highland area offers cool weather and stunning lake views.",
-        image: "https://placehold.co/600x400.png",
+        image: "/images/bali_map/beratan_temple.webp",
+        imageClass: "object-[center_-1px] md:object-[center_-23px]", // 23px from top, object-[75%_center] from left
         aiHint: "beratan temple bali",
         x: "58%",
         y: "30%",
@@ -357,7 +358,6 @@ const MapSectionCard = memo(
                                     ? "max-w-xs sm:max-w-sm"
                                     : "md:max-w-sm"
                             }
-                            spotlight={true}
                             baliMap={true}
                         />
                     </motion.div>

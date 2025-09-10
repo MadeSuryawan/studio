@@ -1,20 +1,20 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { SpotlightCard } from "@/components/ui/spotlightcard";
 import { GradientButton } from "../ui/gradient-button";
 import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useReducedMotion, motion } from "framer-motion";
 
 // A generic type for the card's data, usable by any section
 export type CardData = {
     name: string;
     description?: string;
     image: string;
+    imageClass?: string;
     aiHint: string;
     link: string;
     features?: {
@@ -28,23 +28,17 @@ type CardProps = {
     data: CardData;
     buttonText: string;
     buttonLink: string;
-    spotlight?: boolean;
     className?: string;
     packageCard?: boolean;
     baliMap?: boolean;
 };
 
 const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
-    const {
-        data,
-        buttonText,
-        buttonLink,
-        spotlight,
-        className,
-        packageCard,
-        baliMap,
-    } = props;
-    const UseCard = spotlight ? SpotlightCard : Card;
+    const { data, buttonText, buttonLink, className, packageCard, baliMap } =
+        props;
+    const [isHovered, setIsHovered] = useState(false);
+    const reducedMotion = useReducedMotion();
+    const MotionImage = motion.create(Image);
     return (
         // The forwarded ref is attached to the root element of the card
         <Card
@@ -52,48 +46,77 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
             className={cn(
                 "flex flex-col shadow-lg",
                 "hover:shadow-xl",
-                // "hover:scale-[1.02]",
-                "will-change-transform transition-all duration-300 ease-in-out",
+                !reducedMotion &&
+                    cn(
+                        "will-change-transform",
+                        "transition-all duration-300 ease-out",
+                        "hover:scale-[1.01]",
+                    ),
+
                 "bg-card border-t-[0px]",
                 className,
-                // "neumorphic-card",
-                // baliMap && "h-[200px]",
+                "overflow-hidden",
             )}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
         >
             {/* Image */}
             <div
                 className={cn(
-                    `card-image ${packageCard ? "py-1 px-1 md:pr-0 w-full md:w-1/2" : "p-1"}`,
+                    packageCard && "md:pr-0 w-full md:w-1/2",
+                    "overflow-hidden",
+                    "relative",
+                    "p-1",
                 )}
             >
-                <Image
+                <MotionImage
                     src={data.image}
                     alt={data.name}
                     width={600}
                     height={400}
-                    className={`h-48 object-cover rounded-t-md ${
-                        packageCard
-                            ? "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none"
-                            : ""
-                    }`}
+                    className={cn(
+                        "h-48 object-cover rounded-t-md",
+                        packageCard &&
+                            "rounded-t-md md:h-full md:rounded-l-md md:rounded-r-none",
+                        data.imageClass && data.imageClass,
+                        "brightness-[1.02] dark:brightness-95",
+                    )}
                     sizes="(max-width: 768px) 100vw, 33vw"
                     data-ai-hint={data.aiHint}
                     loading="lazy"
                     decoding="async"
                     draggable={false}
+                    animate={
+                        !reducedMotion && {
+                            scale: isHovered ? 1.02 : 1,
+                        }
+                    }
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 10,
+                        duration: 0.3,
+                        mass: 0.6,
+                        restDelta: 0.001,
+                        restSpeed: 0.001,
+                    }}
+                    quality={85}
                 />
             </div>
 
             <CardContent
                 className={cn(
                     "card-content flex flex-col p-3 justify-between flex-grow",
-                    // "bg-purple-600/60",
                 )}
             >
                 <CardTitle
                     className={cn(
                         "card-title text-special-card-fg text-xl font-bold leading-relaxed line-clamp-1",
-                        // "bg-green-400",
+                        "will-change-colors",
+                        "transition-all duration-300 ease-out",
+                        isHovered && "text-accent dark:text-primary",
                     )}
                 >
                     {data.name}
@@ -128,8 +151,9 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     className={cn(
                         "card-button relative flex flex-shrink-0 place-content-start",
                         "place-items-start bottom-0 mt-auto h-auto",
-                        `${baliMap ? "left-1/2 -translate-x-1/2 mr-auto" : "ml-auto"} `,
-                        // "bg-orange-300/60",
+                        baliMap
+                            ? "left-1/2 -translate-x-1/2 mr-auto"
+                            : "ml-auto",
                     )}
                 >
                     <ButtonFunc

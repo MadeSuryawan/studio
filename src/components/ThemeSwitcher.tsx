@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Moon, Sun, Laptop2 } from "lucide-react";
 import { useTheme } from "next-themes";
-
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -22,7 +21,8 @@ export function ThemeSwitcher(): React.JSX.Element {
                     variant="outline"
                     size="icon"
                     className={cn(
-                        "right-12 h-9 w-9 md:h-11 md:w-11",
+                        "aspect-square",
+                        "h-full w-9 md:w-11",
                         "neumorphic-button",
                         "focus:ring-0 focus:ring-offset-0",
                     )}
@@ -37,8 +37,6 @@ export function ThemeSwitcher(): React.JSX.Element {
                         className={cn(
                             "absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all",
                             "dark:rotate-0 dark:scale-[1.3] md:dark:scale-[1.4]",
-                            // "text-white/80",
-                            // "hover:scale-[2.0]",
                         )}
                     />
                     {/* <Laptop2
@@ -52,23 +50,36 @@ export function ThemeSwitcher(): React.JSX.Element {
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 align="center"
-                className="bg-bg-alternate align-center justify-center min-w-[5rem] text-center"
+                className={cn(
+                    "bg-gray-100/30 dark:bg-gray-800/30",
+                    "py-2 px-3",
+                    "grid grid-flow-row space-y-2",
+                    "backdrop-blur-md",
+                    "items-center justify-center",
+                    "min-w-fit font-semibold",
+                )}
             >
                 <DropdownMenuItem
                     onClick={() => setTheme("light")}
-                    className="border-b align-right justify-right font-semibold"
+                    className={cn(
+                        "border-b border-gray-500",
+                        "dark:hover:bg-slate-500",
+                    )}
                 >
                     Light
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     onClick={() => setTheme("dark")}
-                    className="border-b align-right"
+                    className={cn(
+                        "border-b border-gray-500",
+                        "hover:bg-white dark:hover:bg-slate-500",
+                    )}
                 >
                     Dark
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>
+                {/* <DropdownMenuItem onClick={() => setTheme("system")}>
                     System
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
             </DropdownMenuContent>
         </DropdownMenu>
     );

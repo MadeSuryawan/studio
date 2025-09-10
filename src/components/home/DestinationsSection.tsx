@@ -68,11 +68,9 @@ const DestinationCard = memo(
     ({
         cardRef,
         destination,
-        spotlight = false,
     }: {
         cardRef: React.RefObject<HTMLDivElement>;
         destination: CardData;
-        spotlight?: boolean;
     }) => {
         return (
             <>
@@ -81,7 +79,6 @@ const DestinationCard = memo(
                     data={destination}
                     buttonText="View Details"
                     buttonLink={destination.link}
-                    spotlight={spotlight}
                 />
             </>
         );
@@ -113,7 +110,6 @@ export default function DestinationsSection(): JSX.Element {
                             key={destination.name}
                             cardRef={cardRef}
                             destination={destination}
-                            spotlight={true}
                         />
                     ))}
                 </div>

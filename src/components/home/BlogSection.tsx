@@ -67,11 +67,9 @@ const BlogCard = memo(
     ({
         cardRef,
         post,
-        spotlight = false,
     }: {
         cardRef: React.RefObject<HTMLDivElement>;
         post: CardData;
-        spotlight?: boolean;
     }) => {
         return (
             <>
@@ -80,7 +78,6 @@ const BlogCard = memo(
                     data={post}
                     buttonText="Read More"
                     buttonLink={post.link}
-                    spotlight={spotlight}
                 />
             </>
         );
@@ -128,7 +125,6 @@ export default function BlogSection(): JSX.Element {
                             key={post.name}
                             cardRef={cardRef}
                             post={post}
-                            spotlight={true}
                         />
                     ))}
                 </div>
