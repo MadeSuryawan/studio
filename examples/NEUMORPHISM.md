@@ -2,10 +2,10 @@
 
 - Sections:
 
-1) Theme tokens: :root and .dark
-2) Base layer: resets and bg/text wiring
-3) Neumorphism utilities: .neumorphic-* classes
-4) Theme tokens (global look)
+1. Theme tokens: :root and .dark
+2. Base layer: resets and bg/text wiring
+3. Neumorphism utilities: .neumorphic-\* classes
+4. Theme tokens (global look)
 
 - Adjust these to shift the entire visual theme quickly.
 - Location: src/index.css → :root (light) and .dark (dark)
@@ -28,8 +28,8 @@
 - Borders and focus rings reference border and ring tokens
 - Effect: Once tokens change, the entire UI adapts consistently.
 
-1) Neumorphism utilities (ready-to-use classes)
-Use these classes directly on elements. Each has light/dark tuned shadows.
+1. Neumorphism utilities (ready-to-use classes)
+   Use these classes directly on elements. Each has light/dark tuned shadows.
 
 - .neumorphic-card
 - Raised surface with both inset and outer shadows
@@ -76,14 +76,14 @@ Use these classes directly on elements. Each has light/dark tuned shadows.
 - Global roundness: edit --radius in :root and .dark
 - Derived sizes (--radius-sm/md/lg/xl) update automatically
 - For sharper look, bring --radius closer to 0.375rem; for softer, ~0.75rem+
-  
+
 ## Usage examples
 
 - Card: class="neumorphic-card rounded-xl p-6">
 - Primary button: class="neumorphic-button-primary">Buy now
 - Input: class="neumorphic-input rounded-md px-3 py-2"
 - Icon well: class="neumorphic-icon-container p-3 rounded-lg">
-  
+
 ## Common pitfalls
 
 - Changing only :root but not .dark can cause mismatched visuals in dark mode.
@@ -92,7 +92,7 @@ Use these classes directly on elements. Each has light/dark tuned shadows.
 
 ## Fast theming workflow
 
-1) Pick your palette: set --background, --foreground, --primary first.
-2) Adjust --border and --input for perceived depth (slightly different from --background).
-3) Tweak shadow strengths in the utilities for your desired softness.
-4) Mirror the adjustments in .dark with smaller offsets and lower opacities.
+1. Pick your palette: set --background, --foreground, --primary first.
+2. Adjust --border and --input for perceived depth (slightly different from --background).
+3. Tweak shadow strengths in the utilities for your desired softness.
+4. Mirror the adjustments in .dark with smaller offsets and lower opacities.

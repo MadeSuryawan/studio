@@ -825,11 +825,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
                 <NavBarSvg
                     position="absolute inset-0"
-                    className={cn(
-                        "size-full px-2",
-                        "w-[82vw] h-full",
-                        "translate-x-[110px]",
-                    )}
+                    className={cn("w-[82vw] h-full", "translate-x-[110px]")}
                     defsId={"desktop"}
                     svgMotion={svgMotion}
                     linksReady={linksReady}
@@ -879,7 +875,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 {/* Mobile SVG */}
                 <NavBarSvg
                     position="relative"
-                    className="size-full px-2"
+                    className="size-full px-1"
                     defsId={"mobile"}
                     svgMotion={svgMotion}
                     linksReady={linksReady}

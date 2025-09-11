@@ -28,69 +28,67 @@ npm install lucide-react framer-motion class-variance-authority @radix-ui/react-
 import { GradientButton } from "@/components/ui/gradient-button";
 
 export default function MyComponent() {
-  return (
-    <GradientButton onClick={() => console.log("Clicked!")}>
-      Click Me
-    </GradientButton>
-  );
+    return (
+        <GradientButton onClick={() => console.log("Clicked!")}>
+            Click Me
+        </GradientButton>
+    );
 }
 ```
 
 ## Props Interface
 
 ```typescript
-interface GradientButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  // Styling variants
-  variant?: "primary" | "secondary" | "outline";
-  size?: "sm" | "default" | "lg" | "xl";
-  
-  // Icon configuration
-  icon?: React.ReactNode;
-  iconPosition?: "left" | "right" | "none";
-  
-  // State management
-  loading?: boolean;
-  loadingText?: string;
-  loadingTimeout?: number;
-  errorState?: boolean;
-  successState?: boolean;
-  
-  // Layout
-  fullWidth?: boolean;
-  asChild?: boolean;
-  
-  // Enhanced UX
-  hapticFeedback?: boolean;
-  
-  // Accessibility
-  "aria-label"?: string;
-  "aria-describedby"?: string;
-  "aria-expanded"?: boolean;
-  "aria-pressed"?: boolean;
+interface GradientButtonProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    // Styling variants
+    variant?: "primary" | "secondary" | "outline";
+    size?: "sm" | "default" | "lg" | "xl";
+
+    // Icon configuration
+    icon?: React.ReactNode;
+    iconPosition?: "left" | "right" | "none";
+
+    // State management
+    loading?: boolean;
+    loadingText?: string;
+    loadingTimeout?: number;
+    errorState?: boolean;
+    successState?: boolean;
+
+    // Layout
+    fullWidth?: boolean;
+    asChild?: boolean;
+
+    // Enhanced UX
+    hapticFeedback?: boolean;
+
+    // Accessibility
+    "aria-label"?: string;
+    "aria-describedby"?: string;
+    "aria-expanded"?: boolean;
+    "aria-pressed"?: boolean;
 }
 ```
 
 ## Variants
 
 ### Primary (Default)
+
 ```tsx
-<GradientButton variant="primary">
-  Primary Button
-</GradientButton>
+<GradientButton variant="primary">Primary Button</GradientButton>
 ```
 
 ### Secondary
+
 ```tsx
-<GradientButton variant="secondary">
-  Secondary Button
-</GradientButton>
+<GradientButton variant="secondary">Secondary Button</GradientButton>
 ```
 
 ### Outline
+
 ```tsx
-<GradientButton variant="outline">
-  Outline Button
-</GradientButton>
+<GradientButton variant="outline">Outline Button</GradientButton>
 ```
 
 ## Sizes
@@ -109,8 +107,8 @@ interface GradientButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
   Submit
 </GradientButton>
 
-<GradientButton 
-  loading 
+<GradientButton
+  loading
   loadingTimeout={10000}
   onClick={async () => {
     await someAsyncOperation();
@@ -153,33 +151,31 @@ import { Download, Send, Heart } from "lucide-react";
 ## Full Width
 
 ```tsx
-<GradientButton fullWidth>
-  Full Width Button
-</GradientButton>
+<GradientButton fullWidth>Full Width Button</GradientButton>
 ```
 
 ## Enhanced UX Features
 
 ```tsx
-<GradientButton 
-  hapticFeedback
-  onClick={() => console.log("Clicked with haptic feedback!")}
+<GradientButton
+    hapticFeedback
+    onClick={() => console.log("Clicked with haptic feedback!")}
 >
-  Haptic Button
+    Haptic Button
 </GradientButton>
 ```
 
 ## Accessibility Examples
 
 ```tsx
-<GradientButton 
+<GradientButton
   aria-label="Save document"
   aria-describedby="save-help-text"
 >
   Save
 </GradientButton>
 
-<GradientButton 
+<GradientButton
   aria-expanded={isMenuOpen}
   aria-pressed={isActive}
 >
@@ -190,44 +186,47 @@ import { Download, Send, Heart } from "lucide-react";
 ## Integration Examples
 
 ### In Forms
+
 ```tsx
 <form onSubmit={handleSubmit}>
-  <GradientButton 
-    type="submit" 
-    loading={isSubmitting}
-    loadingText="Submitting..."
-    fullWidth
-  >
-    Submit Form
-  </GradientButton>
+    <GradientButton
+        type="submit"
+        loading={isSubmitting}
+        loadingText="Submitting..."
+        fullWidth
+    >
+        Submit Form
+    </GradientButton>
 </form>
 ```
 
 ### In Navigation
+
 ```tsx
 <nav>
-  <GradientButton 
-    variant="outline" 
-    size="sm"
-    icon={<Home />}
-    iconPosition="left"
-  >
-    Home
-  </GradientButton>
+    <GradientButton
+        variant="outline"
+        size="sm"
+        icon={<Home />}
+        iconPosition="left"
+    >
+        Home
+    </GradientButton>
 </nav>
 ```
 
 ### Call-to-Action
+
 ```tsx
 <section>
-  <GradientButton 
-    size="lg"
-    icon={<ArrowRight />}
-    iconPosition="right"
-    hapticFeedback
-  >
-    Get Started
-  </GradientButton>
+    <GradientButton
+        size="lg"
+        icon={<ArrowRight />}
+        iconPosition="right"
+        hapticFeedback
+    >
+        Get Started
+    </GradientButton>
 </section>
 ```
 
@@ -239,29 +238,29 @@ For advanced use cases, you can use the `useGradientButton` hook directly:
 import { useGradientButton } from "@/hooks/use-gradient-**button**";
 
 function CustomButton() {
-  const {
-    isLoading,
-    isPressed,
-    handleClick,
-    handleMouseDown,
-    // ... other hook values
-  } = useGradientButton({
-    onClick: async () => {
-      await someAsyncOperation();
-    },
-    hapticFeedback: true,
-    loadingTimeout: 5000,
-  });
+    const {
+        isLoading,
+        isPressed,
+        handleClick,
+        handleMouseDown,
+        // ... other hook values
+    } = useGradientButton({
+        onClick: async () => {
+            await someAsyncOperation();
+        },
+        hapticFeedback: true,
+        loadingTimeout: 5000,
+    });
 
-  return (
-    <button
-      onClick={handleClick}
-      onMouseDown={handleMouseDown}
-      className={`custom-button ${isPressed ? 'pressed' : ''}`}
-    >
-      Custom Implementation
-    </button>
-  );
+    return (
+        <button
+            onClick={handleClick}
+            onMouseDown={handleMouseDown}
+            className={`custom-button ${isPressed ? "pressed" : ""}`}
+        >
+            Custom Implementation
+        </button>
+    );
 }
 ```
 
@@ -270,7 +269,10 @@ function CustomButton() {
 The component exports styling constants for customization:
 
 ```tsx
-import { GRADIENT_COLORS, SHADOW_CONFIG } from "@/components/ui/gradient-button";
+import {
+    GRADIENT_COLORS,
+    SHADOW_CONFIG,
+} from "@/components/ui/gradient-button";
 
 // Access color values
 const primaryGradient = GRADIENT_COLORS.primary;

@@ -1,6 +1,6 @@
 # **App Name**: BaliBlissed Journeys
 
-## Core Features:
+## Core Features
 
 - Destination Showcase: Display a landing page with featured Bali destinations and travel packages.
 - Advanced Search: Implement a user-friendly search functionality to filter travel options based on interests and dates.
@@ -9,7 +9,7 @@
 - AI Travel Assistant: AI-powered chatbot that suggests destinations, itineraries, and answers user queries related to Bali travel, and uses tool based decisionmaking to add specific details.
 - Contact Form: Allow users to submit inquiries.
 
-## Style Guidelines:
+## Style Guidelines
 
 - Primary color: Deep turquoise (#40E0D0) evoking the vibrant ocean and lush landscapes of Bali.
 - Background color: Light beige (#F5F5DC), providing a clean, calming backdrop.
