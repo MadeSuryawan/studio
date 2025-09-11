@@ -326,6 +326,38 @@ export const FeatureItem = memo(function FeatureItem({
 });
 
 /**
+ * Hook to determine if the navbar should have a background based on scroll position.
+ * Returns a boolean: true if scrolled past trigger, false otherwise.
+ */
+export function useScrollNavbarBg(trigger: number = 24) {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        let ticking = false;
+
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setScrolled(window.scrollY > trigger);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        // Set initial state
+        setScrolled(window.scrollY > trigger);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [trigger]);
+
+    return scrolled;
+}
+
+/**
  * Enhanced NavbarFlow component with improved performance, accessibility, and error handling
  * Provides responsive navigation with smooth animations and keyboard support
  */
@@ -349,6 +381,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     const [isMounted, setIsMounted] = useState(false);
     const [hasError, setHasError] = useState(false);
     const isMobile = useIsMobile();
+    const scrolled = useScrollNavbarBg();
 
     // Animation controls
     const navMotion = useAnimation();
@@ -1134,8 +1167,11 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     "mx-auto",
                     "rounded-b-sm",
                     "px-1",
+                    "backdrop-blur-md",
                     "shadow-lg dark:shadow-xl",
                     `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                    "will-change-[opacity,transform]",
+                    scrolled && "bg-bg-scrolled",
                 )}
             >
                 {/* Mobile Logo/Emblem */}
@@ -1149,7 +1185,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         // "icon-shadow-sm",
                         "w-fit",
                         "p-[1px]",
-                        "neumorphic-logo",
+                        // "neumorphic-logo",
                     )}
                     role="banner"
                     aria-label="Site logo"
@@ -1157,336 +1193,408 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     {emblem}
                 </motion.div>
 
-                <motion.svg
-                    initial={{ opacity: 1 }}
-                    animate={svgMotion}
+                {/* Mobile SVG */}
+                <div
                     className={cn(
+                        // "will-change-opacity",
+                        // "transition-opacity duration-500 ease-in-out",
+                        // scrolled && "opacity-0",
                         "relative",
                         "pointer-events-none",
                         "size-full",
-                        "rounded-sm",
+                        "px-2",
                     )}
-                    aria-hidden="true"
-                    focusable="false"
-                    viewBox="0 0 1400 96"
-                    preserveAspectRatio="none"
                 >
-                    <defs>
-                        <filter id="connectionBlur">
-                            <feGaussianBlur
-                                in="SourceGraphic"
-                                stdDeviation="3"
-                            />
-                        </filter>
-                        <linearGradient
-                            id="blueGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#3b82f6"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#3b82f6"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#3b82f6"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                        <linearGradient
-                            id="cyanGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#06b6d4"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#06b6d4"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#06b6d4"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                        <linearGradient
-                            id="purpleGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#8b5cf6"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#8b5cf6"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#8b5cf6"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                        <linearGradient
-                            id="orangeGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#f59e0b"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#f59e0b"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#f59e0b"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                        <linearGradient
-                            id="redGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#ef4444"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#ef4444"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#ef4444"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                        <linearGradient
-                            id="greenGradient"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="0%"
-                        >
-                            <stop
-                                offset="0%"
-                                stopColor="#10b981"
-                                stopOpacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stopColor="#10b981"
-                                stopOpacity="1"
-                            />
-                            <stop
-                                offset="100%"
-                                stopColor="#10b981"
-                                stopOpacity="0"
-                            />
-                        </linearGradient>
-                    </defs>
+                    <motion.svg
+                        initial={{ opacity: 0 }}
+                        animate={svgMotion}
+                        className={cn(
+                            "relative",
+                            "pointer-events-none",
+                            "size-full",
+                        )}
+                        aria-hidden="true"
+                        focusable="false"
+                        viewBox="0 0 1400 96"
+                        preserveAspectRatio="none"
+                    >
+                        <defs>
+                            <filter id="m-connectionBlur">
+                                <feGaussianBlur
+                                    in="SourceGraphic"
+                                    stdDeviation="3"
+                                />
+                            </filter>
+                            <linearGradient
+                                id="m-blueGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#3b82f6"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#3b82f6"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#3b82f6"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="m-cyanGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#06b6d4"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#06b6d4"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#06b6d4"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="m-purpleGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#8b5cf6"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#8b5cf6"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#8b5cf6"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="m-orangeGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#f59e0b"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#f59e0b"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#f59e0b"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="m-redGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#ef4444"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#ef4444"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#ef4444"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                            <linearGradient
+                                id="m-greenGradient"
+                                x1="0%"
+                                y1="0%"
+                                x2="100%"
+                                y2="0%"
+                            >
+                                <stop
+                                    offset="0%"
+                                    stopColor="#10b981"
+                                    stopOpacity="0"
+                                />
+                                <stop
+                                    offset="50%"
+                                    stopColor="#10b981"
+                                    stopOpacity="1"
+                                />
+                                <stop
+                                    offset="100%"
+                                    stopColor="#10b981"
+                                    stopOpacity="0"
+                                />
+                            </linearGradient>
+                        </defs>
 
-                    <motion.path
-                        d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
-                        stroke="url(#blueGradient)"
-                        strokeWidth="3"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{
-                            duration: 3,
-                            ease: "easeOut",
-                            delay: 0.5,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
-                        stroke="url(#blueGradient)"
-                        strokeWidth="3"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{
-                            duration: 1.3,
-                            ease: "easeOut",
-                            delay: 0.5,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
-                        stroke="url(#cyanGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
-                        stroke="url(#cyanGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
-                        stroke="url(#purpleGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 1.8,
-                            ease: "easeOut",
-                            delay: 1,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
-                        stroke="url(#purpleGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 1.8,
-                            ease: "easeOut",
-                            delay: 1,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
-                        stroke="url(#orangeGradient)"
-                        strokeWidth="3"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1.5,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
-                        stroke="url(#orangeGradient)"
-                        strokeWidth="3"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.8 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1.5,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
-                        stroke="url(#redGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1.6,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
-                        stroke="url(#redGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
-                        transition={{
-                            duration: 1,
-                            ease: "easeOut",
-                            delay: 1.6,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
-                        stroke="url(#greenGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="translate(-100,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 0.9,
-                            ease: "easeOut",
-                            delay: 1.7,
-                        }}
-                    />
-                    <motion.path
-                        d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
-                        stroke="url(#greenGradient)"
-                        strokeWidth="2.5"
-                        fill="none"
-                        transform="scale(-1,1) translate(-1500,0)"
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.6 }}
-                        transition={{
-                            duration: 0.9,
-                            ease: "easeOut",
-                            delay: 1.7,
-                        }}
-                    />
-                </motion.svg>
+                        <motion.path
+                            d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
+                            stroke="url(#m-blueGradient)"
+                            strokeWidth="3"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 3,
+                                ease: "easeOut",
+                                // delay: 0.5,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
+                            stroke="url(#m-blueGradient)"
+                            strokeWidth="3"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1.3,
+                                ease: "easeOut",
+                                // delay: 0.5,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                            stroke="url(#m-cyanGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                            stroke="url(#m-cyanGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                            stroke="url(#m-purpleGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1.8,
+                                ease: "easeOut",
+                                // delay: 1,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                            stroke="url(#m-purpleGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1.8,
+                                ease: "easeOut",
+                                // delay: 1,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
+                            stroke="url(#m-orangeGradient)"
+                            strokeWidth="3"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1.5,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
+                            stroke="url(#m-orangeGradient)"
+                            strokeWidth="3"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1.5,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
+                            stroke="url(#m-redGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1.6,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
+                            stroke="url(#m-redGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 1,
+                                ease: "easeOut",
+                                // delay: 1.6,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
+                            stroke="url(#m-greenGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="translate(-100,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 0.9,
+                                ease: "easeOut",
+                                // delay: 1.7,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                        <motion.path
+                            d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
+                            stroke="url(#m-greenGradient)"
+                            strokeWidth="2.5"
+                            fill="none"
+                            transform="scale(-1,1) translate(-1500,0)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={
+                                linksReady && { pathLength: 1, opacity: 0.8 }
+                            }
+                            transition={{
+                                duration: 0.9,
+                                ease: "easeOut",
+                                // delay: 1.7,
+                            }}
+                            aria-hidden="true"
+                            focusable="false"
+                            role="presentation"
+                        />
+                    </motion.svg>
+                </div>
 
                 {/* Mobile Right Section */}
                 <motion.div
@@ -1497,11 +1605,13 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         "w-fit h-[84%]",
                         "flex flex-row items-center justify-evenly",
                         "py-2 p-2 space-x-3",
-                        "bg-white/50 dark:bg-gray-400/20",
-                        "rounded-md backdrop-blur-lg",
+                        // "bg-white/50 dark:bg-gray-400/20",
+                        "bg-background",
+                        "rounded-md",
+                        "backdrop-blur-lg",
                         "border",
                         sequenceDone && borderColor,
-                        "neumorphic-cta-card",
+                        // "neumorphic-cta-card",
                         "my-auto",
                         "will-change-auto",
                     )}

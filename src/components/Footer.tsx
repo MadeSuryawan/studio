@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { JSX } from "react";
 import { WHATSAPP_NUMBER } from "@/lib/config";
-import LogoIcon from "@/components/icons/LogoIcon";
+import LogoIcon from "@/components/svg/LogoIcon";
 import { ScrollToTop } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";

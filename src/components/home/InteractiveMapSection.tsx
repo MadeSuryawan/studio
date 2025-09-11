@@ -4,8 +4,8 @@ import { useEffect, useState, useRef, type JSX, memo, type FC } from "react";
 import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import BaliMapDark from "@/components/icons/BaliMapDark";
-import BaliMapLight from "@/components/icons/BaliMapLight";
+import BaliMapDark from "@/components/svg/BaliMapDark";
+import BaliMapLight from "@/components/svg/BaliMapLight";
 import { useTheme } from "next-themes";
 
 // Animation configuration constants

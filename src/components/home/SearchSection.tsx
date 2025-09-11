@@ -7,7 +7,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/config";
-import WhatsAppIcon from "../icons/WhatsAppIcon";
+import WhatsAppIcon from "../svg/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -64,7 +64,7 @@ import {
 } from "@/components/ui/gradient-button";
 import { NotepadText, Send } from "lucide-react";
 import useIsMobile from "../../hooks/use-mobile";
-import LogoIcon from "../icons/LogoIcon";
+import LogoIcon from "../svg/LogoIcon";
 
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),

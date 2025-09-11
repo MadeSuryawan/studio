@@ -4,7 +4,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import type { JSX } from "react";
 import { ThemeSwitcher } from "./ThemeSwitcher";
-import LogoIcon from "@/components/icons/LogoIcon";
+import LogoIcon from "@/components/svg/LogoIcon";
 import NavbarFlow from "@/components/ui/navbar-flow";
 import { ScrollToTop } from "@/lib/utils";
 import { useReducedMotion } from "framer-motion";

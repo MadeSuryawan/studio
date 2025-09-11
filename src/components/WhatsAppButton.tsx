@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { WHATSAPP_NUMBER, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/config";
-import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
+import WhatsAppIcon from "@/components/svg/WhatsAppIcon";
 import { cn } from "@/lib/utils";
 
 const encodedMessage = encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE);
