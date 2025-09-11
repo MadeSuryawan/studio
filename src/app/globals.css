@@ -285,8 +285,8 @@
     .neumorphic-logo {
         @apply bg-background;
         box-shadow:
-            -3px -3px 6px rgba(255, 255, 255, 0.8),
-            3px 3px 6px rgba(129, 140, 155, 0.4);
+            -3px -3px 6px rgba(255, 255, 255, 0.9),
+            3px 3px 6px rgba(142, 154, 170, 0.5);
     }
     .dark .neumorphic-logo {
         box-shadow:
@@ -302,7 +302,7 @@
     .dark .neumorphic-hero-image {
         box-shadow:
             -7px -7px 7px rgba(150, 150, 150, 0.05),
-            10px 10px 10px rgba(0, 0, 0, 0.5);
+            10px 10px 10px rgba(1, 1, 1, 0.4);
     }
     .neumorphic-nav-link {
         @apply bg-background;
@@ -363,7 +363,7 @@
             inset -10px -10px 7px rgba(150, 150, 150, 0.05),
             inset 10px 10px 10px rgba(0, 0, 0, 0.5),
             -7px -7px 7px rgba(150, 150, 150, 0.05),
-            10px 10px 10px rgba(0, 0, 0, 0.5);
+            7px 7px 7px rgba(0, 0, 0, 0.3);
     }
     .line-clamp-2 {
         display: -webkit-box;

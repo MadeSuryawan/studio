@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
 import { usePathname } from "next/navigation";
 import useIsMobile from "@/hooks/use-mobile";
+import { Button } from "./button";
 
 interface NavLink {
     text: string;
@@ -401,6 +402,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         y: 0,
                         transition: { duration: quick, ease: "easeOut" },
                     });
+                    await svgMotion.start({
+                        opacity: 1,
+                        transition: { duration: svgDur },
+                    });
                     await Promise.all([
                         emblemMotion.start({
                             opacity: 1,
@@ -659,8 +664,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     className={cn(
                         `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
                         "rounded-sm",
-                        `border border-sm border-background`,
-                        "icon-shadow-sm",
+                        "border border-sm",
+                        borderColor,
+                        "neumorphic-logo",
                     )}
                     animate={emblemMotion}
                     role="banner"
@@ -786,13 +792,6 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                 <motion.svg
                     initial={{ opacity: 0 }}
                     animate={svgMotion}
-                    // animate={{
-                    //     opacity: linksReady ? 1 : 0,
-                    // }}
-                    // transition={{
-                    //     duration: prefersReducedMotion ? 0 : 0.2,
-                    //     ease: "easeOut",
-                    // }}
                     className={cn(
                         "absolute inset-0",
                         "pointer-events-none",
@@ -1124,7 +1123,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
             {/* Mobile Navigation */}
             <motion.div
-                initial={{ opacity: 0, y: -30 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={navMotion}
                 className={cn(
                     "md:hidden",
@@ -1135,7 +1134,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     "mx-auto",
                     "rounded-b-sm",
                     "px-1",
-                    "shadow-lg",
+                    "shadow-lg dark:shadow-xl",
+                    `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
                 )}
             >
                 {/* Mobile Logo/Emblem */}
@@ -1146,8 +1146,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         "border-b-[2px] border-x",
                         borderColor,
                         "rounded-sm",
-                        "icon-shadow-sm",
+                        // "icon-shadow-sm",
                         "w-fit",
+                        "p-[1px]",
+                        "neumorphic-logo",
                     )}
                     role="banner"
                     aria-label="Site logo"
@@ -1155,32 +1157,376 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     {emblem}
                 </motion.div>
 
+                <motion.svg
+                    initial={{ opacity: 1 }}
+                    animate={svgMotion}
+                    className={cn(
+                        "relative",
+                        "pointer-events-none",
+                        "size-full",
+                        "rounded-sm",
+                    )}
+                    aria-hidden="true"
+                    focusable="false"
+                    viewBox="0 0 1400 96"
+                    preserveAspectRatio="none"
+                >
+                    <defs>
+                        <filter id="connectionBlur">
+                            <feGaussianBlur
+                                in="SourceGraphic"
+                                stdDeviation="3"
+                            />
+                        </filter>
+                        <linearGradient
+                            id="blueGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#3b82f6"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#3b82f6"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#3b82f6"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="cyanGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#06b6d4"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#06b6d4"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#06b6d4"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="purpleGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#8b5cf6"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#8b5cf6"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#8b5cf6"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="orangeGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#f59e0b"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#f59e0b"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#f59e0b"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="redGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#ef4444"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#ef4444"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#ef4444"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="greenGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stopColor="#10b981"
+                                stopOpacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stopColor="#10b981"
+                                stopOpacity="1"
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor="#10b981"
+                                stopOpacity="0"
+                            />
+                        </linearGradient>
+                    </defs>
+
+                    <motion.path
+                        d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
+                        stroke="url(#blueGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{
+                            duration: 3,
+                            ease: "easeOut",
+                            delay: 0.5,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 48 Q 500 30, 300 40 Q 200 35, 120 48"
+                        stroke="url(#blueGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{
+                            duration: 1.3,
+                            ease: "easeOut",
+                            delay: 0.5,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                        stroke="url(#cyanGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 520 60, 320 50 Q 220 55, 130 44"
+                        stroke="url(#cyanGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                        stroke="url(#purpleGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 1.8,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 480 25, 280 45 Q 180 30, 110 52"
+                        stroke="url(#purpleGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 1.8,
+                            ease: "easeOut",
+                            delay: 1,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
+                        stroke="url(#orangeGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1.5,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 48 Q 900 35, 1100 45 Q 1200 40, 1280 48"
+                        stroke="url(#orangeGradient)"
+                        strokeWidth="3"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.8 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1.5,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
+                        stroke="url(#redGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1.6,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 44 Q 880 65, 1080 50 Q 1180 60, 1270 44"
+                        stroke="url(#redGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        transition={{
+                            duration: 1,
+                            ease: "easeOut",
+                            delay: 1.6,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
+                        stroke="url(#greenGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="translate(-100,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 0.9,
+                            ease: "easeOut",
+                            delay: 1.7,
+                        }}
+                    />
+                    <motion.path
+                        d="M 700 52 Q 920 25, 1120 40 Q 1220 30, 1290 52"
+                        stroke="url(#greenGradient)"
+                        strokeWidth="2.5"
+                        fill="none"
+                        transform="scale(-1,1) translate(-1500,0)"
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: 0.6 }}
+                        transition={{
+                            duration: 0.9,
+                            ease: "easeOut",
+                            delay: 1.7,
+                        }}
+                    />
+                </motion.svg>
+
                 {/* Mobile Right Section */}
                 <motion.div
                     initial={{ opacity: 0, x: 40 }}
                     animate={switchMotion}
                     className={cn(
                         "relative",
-                        "w-1/4 h-[84%]",
-                        "flex flex-row items-center justify-between",
-                        "py-2 px-3 space-x-3",
+                        "w-fit h-[84%]",
+                        "flex flex-row items-center justify-evenly",
+                        "py-2 p-2 space-x-3",
                         "bg-white/50 dark:bg-gray-400/20",
                         "rounded-md backdrop-blur-lg",
-                        `border ${borderColor}`,
+                        "border",
+                        sequenceDone && borderColor,
                         "neumorphic-cta-card",
                         "my-auto",
-                        "will-change-[transform,opacity]",
+                        "will-change-auto",
                     )}
                     role="complementary"
                     aria-label="Theme switcher and mobile menu toggle"
                 >
                     {/* Mobile Right Icons */}
                     <motion.div
-                        // initial={{ opacity: 0, x: 50 }}
-                        // animate={sequenceDone && { opacity: 1, x: 0 }}
-                        // transition={{ duration: 0.5, ease: "easeOut" }}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={linksReady && { opacity: 1, x: 0 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 10,
+                            mass: 0.5,
+                            delay: 0.1,
+                        }}
                         role="complementary"
                         aria-label="Theme switcher and additional navigation tools"
+                        className={cn(
+                            "relative",
+                            "flex items-center justify-center",
+                            "aspect-square",
+                            // "bg-red-700",
+                        )}
                     >
                         {extraIcons &&
                             extraIcons.map((icon, idx) => (
@@ -1197,42 +1543,63 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     </motion.div>
 
                     {/* Mobile Menu Toggle */}
-                    <button
-                        type="button"
-                        onClick={toggleMobileMenu}
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={linksReady && { opacity: 1, x: 0 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 10,
+                            mass: 0.5,
+                            delay: 0.2,
+                        }}
                         className={cn(
-                            " text-gray-700 dark:text-gray-200",
-                            " hover:text-gray-900 dark:hover:text-white",
-                            "transition-colors",
-                            "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
-                            "scale-[1.4]",
-                            "neumorphic-button",
+                            "relative",
+                            "flex items-center justify-center",
                         )}
-                        aria-expanded={mobileMenuVisible}
-                        aria-controls={mobileMenuId}
-                        aria-label={
-                            mobileMenuVisible
-                                ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
-                        }
                     >
-                        {mobileMenuVisible ? (
-                            <Close
-                                className="aspect-square icon-shadow-sm"
-                                aria-hidden="true"
-                            />
-                        ) : (
-                            <List
-                                className="aspect-square icon-shadow-sm"
-                                aria-hidden="true"
-                            />
-                        )}
-                        <span className="sr-only">
-                            {mobileMenuVisible
-                                ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
-                        </span>
-                    </button>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={toggleMobileMenu}
+                            className={cn(
+                                "relative",
+                                "aspect-square",
+                                " text-gray-700 dark:text-gray-200",
+                                " hover:text-gray-900 dark:hover:text-white",
+                                "transition-colors",
+                                "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
+                                "flex flex-col items-center justify-center",
+                                "neumorphic-button",
+                                "rounded-sm",
+                            )}
+                            aria-expanded={mobileMenuVisible}
+                            aria-controls={mobileMenuId}
+                            aria-label={
+                                mobileMenuVisible
+                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
+                            }
+                        >
+                            {mobileMenuVisible ? (
+                                <Close
+                                    className="scale-[1.7]"
+                                    aria-hidden="true"
+                                />
+                            ) : (
+                                <List
+                                    className="scale-[1.7]"
+                                    aria-hidden="true"
+                                />
+                            )}
+                            <span className="sr-only">
+                                {mobileMenuVisible
+                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
+                            </span>
+                        </Button>
+                    </motion.div>
                 </motion.div>
 
                 {/* Mobile Menu Dropdown */}
@@ -1284,7 +1651,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                     "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
                                                     "transition-colors duration-300 ease-out border-b",
                                                     "border-gray-200 dark:border-gray-800",
-                                                    "focus:outline-none focus:ring-1 focus:ring-primary",
+                                                    "focus:outline-none focus:ring-0 focus:ring-primary",
                                                     "focus:ring-offset-0",
                                                 )}
                                                 onClick={() =>
@@ -1362,8 +1729,9 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                 }
                                             }}
                                             className={cn(
-                                                "text-black/70dark:text-gray-200 font-semibold",
-                                                "text-xl py-2 px-4 rounded-lg",
+                                                "font-serif tracking-wide",
+                                                "text-xl text-black/70 dark:text-gray-200",
+                                                "rounded-lg py-2",
                                                 "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
                                                 "transition-colors duration-300 ease-out",
                                                 "border-b border-gray-100 dark:border-gray-500 block",

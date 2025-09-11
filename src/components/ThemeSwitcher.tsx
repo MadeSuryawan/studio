@@ -22,9 +22,10 @@ export function ThemeSwitcher(): React.JSX.Element {
                     size="icon"
                     className={cn(
                         "aspect-square",
-                        "h-full w-9 md:w-11",
+                        "h-full w-10 md:w-11",
                         "neumorphic-button",
                         "focus:ring-0 focus:ring-offset-0",
+                        "rounded-sm",
                     )}
                 >
                     <Sun
@@ -56,7 +57,10 @@ export function ThemeSwitcher(): React.JSX.Element {
                     "grid grid-flow-row space-y-2",
                     "backdrop-blur-md",
                     "items-center justify-center",
-                    "min-w-fit font-semibold",
+                    "min-w-fit",
+                    "font-serif tracking-widest",
+                    "bg-slate-300/30 dark:bg-slate-800/60",
+                    "backdrop-blur-xl",
                 )}
             >
                 <DropdownMenuItem
