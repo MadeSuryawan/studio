@@ -42,7 +42,6 @@ const FloatingButtons = memo((): JSX.Element => {
                     "fixed right-2 md:right-4 z-50",
                     "flex flex-col items-center justify-between gap-4",
                 )}
-                aria-hidden="true"
                 role="presentation"
                 initial={{ bottom: -100 }}
                 animate={{ bottom: isMobile ? 12 : 16 }}
@@ -94,9 +93,9 @@ const FloatingButtons = memo((): JSX.Element => {
                                 className={cn(
                                     "text-md md:text-lg font-semibold text-white text-center text-nowrap",
                                     "bg-[#128747]",
-                                    "px-2 py-1 md:py-2 rounded-l-lg text-shadow-sm",
+                                    "px-2 py-2 md:py-3 rounded-l-lg text-shadow-sm",
                                 )}
-                                inert
+                                aria-hidden
                                 role="presentation"
                             >
                                 Contact Us
