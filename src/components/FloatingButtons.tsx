@@ -51,14 +51,15 @@ const FloatingButtons = memo((): JSX.Element => {
                 <ScrollToTopButton />
                 <motion.div
                     className={cn(
-                        "relative flex flex-row items-center justify-center",
+                        "relative flex flex-row items-center justify-center rounded-lg",
                     )}
                     onHoverStart={() => setIsHovered(true)}
                     onHoverEnd={() => setIsHovered(false)}
                     onTap={() => setIsHovered(!isHovered)}
                     onTapStart={() => setIsHovered(true)}
                     onTapCancel={() => setIsHovered(false)}
-                    inert
+                    onFocus={() => setIsHovered(true)}
+                    onBlur={() => setIsHovered(false)}
                     role="presentation"
                 >
                     <div
@@ -68,6 +69,7 @@ const FloatingButtons = memo((): JSX.Element => {
                             "pointer-events-none", // Prevents interaction
                             "z-0", // Lower z-index than WhatsAppButton
                             "w-[170px]",
+                            "rounded-lg",
                         )}
                     >
                         <motion.div
@@ -101,7 +103,7 @@ const FloatingButtons = memo((): JSX.Element => {
                             </span>
                         </motion.div>
                     </div>
-                    <WhatsAppButton className={cn("z-50")} />
+                    <WhatsAppButton className={cn("z-50 rounded-lg")} />
                 </motion.div>
             </motion.div>
             <ExpandBot />
