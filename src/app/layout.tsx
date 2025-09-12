@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import FloatingButtons from "@/components/FloatingButtons";
+import { FloatingButtons } from "@/components/FloatingButtons";
 import { ScrollProvider } from "@/context/ScrollContext";
 import { balibanat, mangusastra } from "./font";
 import { ContactModal } from "@/components/ContactModal";

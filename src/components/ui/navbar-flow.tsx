@@ -690,6 +690,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     "z-50",
                     "shadow-lg dark:shadow-xl",
                     "py-8",
+                    "backdrop-blur-md",
+                    // scrolled && "bg-bg-scrolled",
                 )}
             >
                 {/* Logo/Emblem */}

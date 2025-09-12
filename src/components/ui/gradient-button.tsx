@@ -47,7 +47,7 @@ const gradientButtonVariants = cva(
         "text-center align-middle cursor-pointer",
         `font-bold text-white no-underline`,
         "border border-solid rounded-lg",
-        "transition-all duration-500 ease-in-out",
+        "transition-all duration-300 ease-out",
         "focus-visible:outline-none focus-visible:ring-2",
         "focus-visible:ring-ring focus-visible:ring-offset-2",
         "disabled:pointer-events-none disabled:opacity-50",
