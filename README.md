@@ -24,4 +24,4 @@ This application was built inside Firebase Studio, an AI-first development envir
 
 ## Getting Started
 
-For complete instructions on how to set up, configure, and run this project locally for development, please see the [DEVELOPMENT.md](DEVELOPMENT.md) file.
+For complete instructions on how to set up, configure, and run this project locally for development, please see the [DEVELOPMENT.md](instructions/DEVELOPMENT.md) file.

@@ -19,15 +19,29 @@ export function throttle<T extends (...args: any[]) => any>(
 ): (...args: Parameters<T>) => ReturnType<T> | undefined {
     let inThrottle = false;
     let lastResult: ReturnType<T> | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-    return (...args: Parameters<T>): ReturnType<T> | undefined => {
+    const throttled = (...args: Parameters<T>): ReturnType<T> | undefined => {
         if (!inThrottle) {
             lastResult = func(...args);
             inThrottle = true;
-            setTimeout(() => (inThrottle = false), limit);
+            timeoutId = setTimeout(() => {
+                inThrottle = false;
+            }, limit);
         }
         return lastResult;
     };
+
+    // Optionally, you can attach a cancel method for cleanup
+    (throttled as any).cancel = () => {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+            inThrottle = false;
+        }
+    };
+
+    return throttled;
 }
 
 export const ScrollToTop = (): void => {

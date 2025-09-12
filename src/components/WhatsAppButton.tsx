@@ -39,7 +39,7 @@ const WhatsAppButton = ({ className }: { className?: string }): JSX.Element => {
             className={cn(
                 "bg-[#25d366]",
                 "hover:bg-[#128747]",
-                "border-none rounded-sm",
+                "border-none rounded-lg",
                 "aspect-square",
                 "w-auto",
                 "h-[52px] md:h-[64px]",

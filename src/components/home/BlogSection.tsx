@@ -39,7 +39,7 @@ const blogPosts: CardData[] = [
         description:
             "Venture off the beaten path to discover the untouched beauty of Nusa Penida, from pristine beaches to breathtaking cliffside views.",
         image: "https://placehold.co/600x400.png",
-        link: "/blog/nusa-penida-gems",
+        link: "#",
         aiHint: "Nusa Penida cliffside",
     },
 ] as CardData[];

@@ -78,15 +78,10 @@ const HERO_CONTENT: HeroContentProps[] = [
 interface HeroImageProps {
     className?: string;
     reducedMotion?: boolean | null;
-    isMobile?: boolean;
 }
 
 const HeroImage = memo(
-    ({
-        className,
-        reducedMotion,
-        isMobile = false,
-    }: HeroImageProps): JSX.Element => {
+    ({ className, reducedMotion }: HeroImageProps): JSX.Element => {
         const [imageError, setImageError] = useState(false);
 
         // Built-in scroll tracking
@@ -138,9 +133,9 @@ const HeroImage = memo(
                         ? { duration: 0 }
                         : {
                               type: "spring",
-                              stiffness: isMobile ? 200 : 100,
-                              damping: isMobile ? 9 : 10,
-                              mass: isMobile ? 0.7 : 0.5,
+                              stiffness: 100,
+                              damping: 10,
+                              mass: 0.5,
                           }
                 }
                 className={cn(
@@ -406,7 +401,7 @@ const HeroSection = (): JSX.Element => {
                         "p-1",
                     )}
                 >
-                    <HeroImage reducedMotion={reducedMotion} isMobile />
+                    <HeroImage reducedMotion={reducedMotion} />
                 </div>
             </div>
         </section>

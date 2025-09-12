@@ -5,18 +5,48 @@ import { ScrollToTopButton } from "./ScrollToTopButton";
 import WhatsAppButton from "./WhatsAppButton";
 import ExpandBot from "@/components/ExpandBot";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import useIsMobile from "@/hooks/use-mobile";
+
+const smoothUp = {
+    type: "spring",
+    stiffness: 120,
+    damping: 10,
+    mass: 0.6,
+    restDelta: 0.001,
+    restSpeed: 0.001,
+    delay: 0.5,
+} as const;
+
+const smoothleft = {
+    type: "spring",
+    stiffness: 110,
+    damping: 10,
+    mass: 0.4,
+    restDelta: 0.001,
+    restSpeed: 0.001,
+    delay: 0.1,
+} as const;
 
 const FloatingButtons = memo((): JSX.Element => {
     const [isHovered, setIsHovered] = useState(false);
+    const reduceMotion = useReducedMotion();
+    const isMobile = useIsMobile();
+    const REVEAL_X = isMobile ? 32 : 15;
+    const HIDE_X = isMobile ? 120 : 108;
+
     return (
         <>
-            <div
+            <motion.div
                 className={cn(
-                    "fixed bottom-3 md:bottom-4 right-2 md:right-4 z-50",
+                    "fixed right-2 md:right-4 z-50",
                     "flex flex-col items-center justify-between gap-4",
-                    // "bg-red-500",
                 )}
+                aria-hidden="true"
+                role="presentation"
+                initial={{ bottom: -100 }}
+                animate={{ bottom: isMobile ? 12 : 16 }}
+                transition={smoothUp}
             >
                 <ScrollToTopButton />
                 <motion.div
@@ -25,42 +55,55 @@ const FloatingButtons = memo((): JSX.Element => {
                     )}
                     onHoverStart={() => setIsHovered(true)}
                     onHoverEnd={() => setIsHovered(false)}
+                    onTap={() => setIsHovered(!isHovered)}
+                    onTapStart={() => setIsHovered(true)}
+                    onTapCancel={() => setIsHovered(false)}
+                    inert
+                    role="presentation"
                 >
-                    <WhatsAppButton className="z-50" />
-                    <motion.div
+                    <div
                         className={cn(
-                            "absolute right-0 z-0",
-                            "rounded-l-sm",
-                            "bg-[#128747]",
-                            "w-full",
-                            "px-2",
-                            "pointer-events-none",
+                            "absolute right-0",
+                            "overflow-hidden",
+                            "pointer-events-none", // Prevents interaction
+                            "z-0", // Lower z-index than WhatsAppButton
+                            "w-[170px]",
                         )}
-                        initial={{
-                            width: "auto",
-                            x: "-10px",
-                            opacity: "0",
-                        }}
-                        animate={{
-                            width: isHovered ? "auto" : "auto",
-                            opacity: isHovered ? "1" : "0",
-                            x: isHovered ? "-64px" : "-7px",
-                        }}
-                        transition={{
-                            duration: 0.3,
-                            ease: "easeOut",
-                        }}
                     >
-                        <span
-                            className={cn(
-                                "text-lg font-semibold text-white text-center text-nowrap",
-                            )}
+                        <motion.div
+                            className="inline-flex items-center justify-center"
+                            initial={{
+                                x: reduceMotion ? HIDE_X : HIDE_X,
+                            }}
+                            animate={{
+                                x: reduceMotion
+                                    ? HIDE_X
+                                    : isHovered
+                                      ? REVEAL_X
+                                      : HIDE_X,
+                            }}
+                            transition={
+                                reduceMotion ? { duration: 0 } : smoothleft
+                            }
+                            inert
+                            role="presentation"
                         >
-                            Contact Us
-                        </span>
-                    </motion.div>
+                            <span
+                                className={cn(
+                                    "text-md md:text-lg font-semibold text-white text-center text-nowrap",
+                                    "bg-[#128747]",
+                                    "px-2 py-1 md:py-2 rounded-l-lg text-shadow-sm",
+                                )}
+                                inert
+                                role="presentation"
+                            >
+                                Contact Us
+                            </span>
+                        </motion.div>
+                    </div>
+                    <WhatsAppButton className={cn("z-50")} />
                 </motion.div>
-            </div>
+            </motion.div>
             <ExpandBot />
         </>
     );
