@@ -139,7 +139,7 @@ const features: Feature[] = [
     },
 ];
 
-function HeroSection1(): React.JSX.Element {
+const HeroSection1 = (): JSX.Element => {
     return (
         <section
             className="relative w-full h-[50vh] flex items-center justify-center text-center bg-cover bg-center"
@@ -159,8 +159,9 @@ function HeroSection1(): React.JSX.Element {
             </div>
         </section>
     );
-}
-function HeroSection(): React.JSX.Element {
+};
+
+const HeroSection = (): JSX.Element => {
     return (
         <section className="relative w-full h-[50vh] min-h-[480px]">
             <Image
@@ -185,9 +186,9 @@ function HeroSection(): React.JSX.Element {
             </div>
         </section>
     );
-}
+};
 
-function FleetOptionsSection(): React.JSX.Element {
+const FleetOptionsSection = (): JSX.Element => {
     return (
         <section id="fleet-options" className="relative w-full py-12 md:py-20">
             <div className="container px-4 md:px-6 z-10">
@@ -242,9 +243,9 @@ function FleetOptionsSection(): React.JSX.Element {
             </div>
         </section>
     );
-}
+};
 
-function PricingSection(): React.JSX.Element {
+const PricingSection = (): JSX.Element => {
     return (
         <section id="pricing" className="relative w-full py-12 md:py-16">
             <div className="container px-4 md:px-6 z-10">
@@ -319,9 +320,9 @@ function PricingSection(): React.JSX.Element {
             </div>
         </section>
     );
-}
+};
 
-function WhyChooseSection(): React.JSX.Element {
+const WhyChooseSection = (): JSX.Element => {
     return (
         <section id="why-choose-us" className="w-full py-12 md:py-24">
             <div className="container px-4 md:px-6">
@@ -363,9 +364,9 @@ function WhyChooseSection(): React.JSX.Element {
             </div>
         </section>
     );
-}
+};
 
-export default function CarCharter(): JSX.Element {
+const CarCharter = (): JSX.Element => {
     const pageSections = [
         FleetOptionsSection,
         PricingSection,
@@ -381,4 +382,6 @@ export default function CarCharter(): JSX.Element {
             </Suspense>
         </>
     );
-}
+};
+
+export default CarCharter;

@@ -25,7 +25,7 @@ interface NotFoundProps {
     onButtonClick?: () => void;
 }
 
-export default function NotFound({
+const NotFound = ({
     particleCount = 2000,
     particleSize = 5,
     animate = true,
@@ -35,7 +35,7 @@ export default function NotFound({
     buttonHref = "/",
     className = "custom-shadow",
     onButtonClick,
-}: NotFoundProps) {
+}: NotFoundProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const imageRef = useRef<HTMLDivElement | null>(null);
     const rafRef = useRef<number | null>(null);
@@ -171,4 +171,6 @@ export default function NotFound({
             </div>
         </main>
     );
-}
+};
+
+export default NotFound;

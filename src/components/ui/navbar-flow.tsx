@@ -18,12 +18,7 @@ import {
     useReducedMotion,
     AnimatePresence,
 } from "framer-motion";
-import {
-    Menu as List,
-    X as Close,
-    ChevronDown as ArrowDown,
-    ChevronUp as ArrowUp,
-} from "lucide-react";
+import { ChevronDown, ChevronUp as ArrowUp } from "lucide-react";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
@@ -58,13 +53,6 @@ interface ListItemProps {
     element: string;
     children: React.ReactNode;
 }
-
-interface HoverLinkProps {
-    url: string;
-    children: React.ReactNode;
-    onPress?: () => void;
-}
-
 interface FeatureItemProps {
     heading: string;
     url: string;
@@ -115,220 +103,181 @@ const springTransition = {
  * Enhanced ListItem component with improved accessibility and performance
  * Handles dropdown menu items with keyboard navigation and screen reader support
  */
-const ListItem: FC<ListItemProps> = memo(function ListItem({
-    setSelected,
-    selected,
-    element,
-    children,
-}: ListItemProps) {
-    const submenuId = useId();
-    const isSelected = selected === element;
+const ListItem = memo(
+    ({ setSelected, selected, element, children }: ListItemProps) => {
+        const submenuId = useId();
+        const isSelected = selected === element;
 
-    // Memoized keyboard handler for better performance
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            switch (e.key) {
-                case "Enter":
-                case " ":
-                    e.preventDefault();
-                    setSelected(isSelected ? null : element);
-                    break;
-                case "Escape":
-                    setSelected(null);
-                    break;
-                case "ArrowDown":
-                    e.preventDefault();
-                    // Focus first item in submenu if open
-                    if (isSelected) {
-                        const firstMenuItem =
-                            e.currentTarget.parentElement?.querySelector(
-                                '[role="menuitem"]',
-                            ) as HTMLElement;
-                        firstMenuItem?.focus();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        },
-        [setSelected, isSelected, element],
-    );
-
-    // Memoized mouse leave handler with improved dropdown detection
-    const handleMouseLeave = useCallback(
-        (e: React.MouseEvent) => {
-            const dropdown = e.currentTarget.querySelector(".dropdown-content");
-            if (dropdown) {
-                const dropdownRect = dropdown.getBoundingClientRect();
-                if (
-                    e.clientY <
-                    dropdownRect.top - NAVBAR_CONSTANTS.MOBILE_MENU_TOP_OFFSET
-                ) {
-                    setSelected(null);
+        // Memoized keyboard handler for better performance
+        const handleKeyDown = useCallback(
+            (e: React.KeyboardEvent) => {
+                switch (e.key) {
+                    case "Enter":
+                    case " ":
+                        e.preventDefault();
+                        setSelected(isSelected ? null : element);
+                        break;
+                    case "Escape":
+                        setSelected(null);
+                        break;
+                    case "ChevronDown":
+                        e.preventDefault();
+                        // Focus first item in submenu if open
+                        if (isSelected) {
+                            const firstMenuItem =
+                                e.currentTarget.parentElement?.querySelector(
+                                    '[role="menuitem"]',
+                                ) as HTMLElement;
+                            firstMenuItem?.focus();
+                        }
+                        break;
+                    default:
+                        break;
                 }
-            }
-        },
-        [setSelected],
-    );
+            },
+            [setSelected, isSelected, element],
+        );
 
-    return (
-        <div
-            className="relative"
-            onMouseEnter={() => setSelected(element)}
-            onMouseLeave={handleMouseLeave}
-        >
-            <motion.button
-                type="button"
-                transition={{ duration: NAVBAR_CONSTANTS.MOBILE_MENU_DURATION }}
-                className="cursor-pointer text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white py-1 bg-transparent border-0 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
-                aria-haspopup="true"
-                aria-expanded={isSelected}
-                aria-controls={isSelected ? submenuId : undefined}
-                aria-label={`${element} menu`}
-                onFocus={() => setSelected(element)}
-                onKeyDown={handleKeyDown}
+        // Memoized mouse leave handler with improved dropdown detection
+        const handleMouseLeave = useCallback(
+            (e: React.MouseEvent) => {
+                const dropdown =
+                    e.currentTarget.querySelector(".dropdown-content");
+                if (dropdown) {
+                    const dropdownRect = dropdown.getBoundingClientRect();
+                    if (
+                        e.clientY <
+                        dropdownRect.top -
+                            NAVBAR_CONSTANTS.MOBILE_MENU_TOP_OFFSET
+                    ) {
+                        setSelected(null);
+                    }
+                }
+            },
+            [setSelected],
+        );
+
+        return (
+            <div
+                className="relative"
+                onMouseEnter={() => setSelected(element)}
+                onMouseLeave={handleMouseLeave}
             >
-                {element}
-            </motion.button>
-            {isSelected && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.85, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.85, y: 10 }}
-                    transition={springTransition}
+                <motion.button
+                    type="button"
+                    transition={{
+                        duration: NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
+                    }}
+                    className="cursor-pointer text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white py-1 bg-transparent border-0 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
+                    aria-haspopup="true"
+                    aria-expanded={isSelected}
+                    aria-controls={isSelected ? submenuId : undefined}
+                    aria-label={`${element} menu`}
+                    onFocus={() => setSelected(element)}
+                    onKeyDown={handleKeyDown}
                 >
-                    <div
-                        className={`absolute top-[${NAVBAR_CONSTANTS.DROPDOWN_OFFSET}] left-1/2 transform -translate-x-1/2 z-${NAVBAR_CONSTANTS.Z_INDEX.DROPDOWN}`}
+                    {element}
+                </motion.button>
+                {isSelected && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.85, y: 10 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.85, y: 10 }}
+                        transition={springTransition}
                     >
-                        <motion.div
-                            transition={springTransition}
-                            layoutId="selected"
-                            className="dropdown-content bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl"
-                            style={{
-                                maxWidth: NAVBAR_CONSTANTS.DROPDOWN_MAX_WIDTH,
-                            }}
-                            id={submenuId}
-                            role="menu"
-                            aria-label={`${element} submenu`}
-                            onMouseEnter={() => setSelected(element)}
-                            onMouseLeave={() => setSelected(null)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Escape") {
-                                    setSelected(null);
-                                    // Return focus to trigger button
-                                    const triggerButton =
-                                        e.currentTarget.parentElement?.parentElement?.querySelector(
-                                            "button",
-                                        ) as HTMLElement;
-                                    triggerButton?.focus();
-                                }
-                            }}
+                        <div
+                            className={`absolute top-[${NAVBAR_CONSTANTS.DROPDOWN_OFFSET}] left-1/2 transform -translate-x-1/2 z-${NAVBAR_CONSTANTS.Z_INDEX.DROPDOWN}`}
                         >
                             <motion.div
-                                layout
-                                className="w-max h-full p-4 min-w-48"
+                                transition={springTransition}
+                                layoutId="selected"
+                                className="dropdown-content bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-2xl"
+                                style={{
+                                    maxWidth:
+                                        NAVBAR_CONSTANTS.DROPDOWN_MAX_WIDTH,
+                                }}
+                                id={submenuId}
+                                role="menu"
+                                aria-label={`${element} submenu`}
+                                onMouseEnter={() => setSelected(element)}
+                                onMouseLeave={() => setSelected(null)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Escape") {
+                                        setSelected(null);
+                                        // Return focus to trigger button
+                                        const triggerButton =
+                                            e.currentTarget.parentElement?.parentElement?.querySelector(
+                                                "button",
+                                            ) as HTMLElement;
+                                        triggerButton?.focus();
+                                    }
+                                }}
                             >
-                                {children}
+                                <motion.div
+                                    layout
+                                    className="w-max h-full p-4 min-w-48"
+                                >
+                                    {children}
+                                </motion.div>
                             </motion.div>
-                        </motion.div>
-                    </div>
-                </motion.div>
-            )}
-        </div>
-    );
-});
-
-/**
- * Enhanced HoverLink component with improved accessibility and keyboard navigation
- */
-export const HoverLink = memo(function HoverLink({
-    url,
-    children,
-    onPress,
-}: HoverLinkProps) {
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onPress?.();
-            }
-        },
-        [onPress],
-    );
-
-    const handleClick = useCallback(
-        (_e: React.MouseEvent) => {
-            onPress?.();
-        },
-        [onPress],
-    );
-
-    return (
-        <a
-            href={url}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            role="menuitem"
-            tabIndex={0}
-            aria-label={`Navigate to ${children}`}
-        >
-            {children}
-        </a>
-    );
-});
+                        </div>
+                    </motion.div>
+                )}
+            </div>
+        );
+    },
+);
+ListItem.displayName = "ListItem";
 
 /**
  * Enhanced FeatureItem component with improved accessibility and semantic structure
  */
-export const FeatureItem = memo(function FeatureItem({
-    heading,
-    url,
-    info,
-    onPress,
-}: FeatureItemProps) {
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
+export const FeatureItem = memo(
+    ({ heading, url, info, onPress }: FeatureItemProps) => {
+        const handleKeyDown = useCallback(
+            (e: React.KeyboardEvent) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onPress?.();
+                }
+            },
+            [onPress],
+        );
+
+        const handleClick = useCallback(
+            (_e: React.MouseEvent) => {
                 onPress?.();
-            }
-        },
-        [onPress],
-    );
+            },
+            [onPress],
+        );
 
-    const handleClick = useCallback(
-        (_e: React.MouseEvent) => {
-            onPress?.();
-        },
-        [onPress],
-    );
-
-    return (
-        <a
-            href={url}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-            role="menuitem"
-            tabIndex={0}
-            aria-label={`${heading}: ${info}`}
-        >
-            <h4 className="font-medium text-gray-900 dark:text-white">
-                {heading}
-            </h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {info}
-            </p>
-        </a>
-    );
-});
+        return (
+            <a
+                href={url}
+                onClick={handleClick}
+                onKeyDown={handleKeyDown}
+                className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                role="menuitem"
+                tabIndex={0}
+                aria-label={`${heading}: ${info}`}
+            >
+                <h4 className="font-medium text-gray-900 dark:text-white">
+                    {heading}
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    {info}
+                </p>
+            </a>
+        );
+    },
+);
+FeatureItem.displayName = "FeatureItem";
 
 /**
  * Hook to determine if the navbar should have a background based on scroll position.
  * Returns a boolean: true if scrolled past trigger, false otherwise.
  */
-export const useScrollNavbarBg = (trigger: number = 24): boolean => {
+const useScrollNavbarBg = (trigger: number = 24): boolean => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -356,24 +305,41 @@ export const useScrollNavbarBg = (trigger: number = 24): boolean => {
     return scrolled;
 };
 
-const ATag: FC<{ link: NavLink; className?: string }> = ({
-    link,
-    className,
-}: {
+interface HoverLinkProps {
     link: NavLink;
     className?: string;
-}): JSX.Element => {
+}
+
+const HoverLink = memo(({ link, className }: HoverLinkProps) => {
     const contactModal = useContactModal();
     const pathname = usePathname();
+
+    const handleClick = useCallback(
+        (e: React.MouseEvent) => {
+            if (link.isModal && pathname !== "/") {
+                e.preventDefault();
+                contactModal.onOpen();
+            }
+        },
+        [link, pathname, contactModal],
+    );
+
+    const handleKeyDown = useCallback(
+        (e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                if (link.isModal && pathname !== "/") {
+                    contactModal.onOpen();
+                }
+            }
+        },
+        [link, pathname, contactModal],
+    );
     return (
         <a
             href={link.isModal && pathname !== "/" ? "#" : link.url || "#"}
-            onClick={(e) => {
-                if (link.isModal && pathname !== "/") {
-                    e.preventDefault();
-                    contactModal.onOpen();
-                }
-            }}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
             className={cn(
                 "text-special-card-fg font-serif",
                 "hover:underline underline-offset-4",
@@ -381,6 +347,7 @@ const ATag: FC<{ link: NavLink; className?: string }> = ({
                 "focus:ring-1 focus:ring-offset-0",
                 "focus:ring-amber-500 dark:focus:ring-primary",
                 "cursor-pointer rounded-md",
+                "transition-colors duration-300 ease-out",
                 className,
             )}
             aria-label={`Navigate to ${link.text}`}
@@ -388,7 +355,8 @@ const ATag: FC<{ link: NavLink; className?: string }> = ({
             {link.text}
         </a>
     );
-};
+});
+HoverLink.displayName = "HoverLink";
 
 /**
  * Enhanced NavbarFlow component with improved performance, accessibility, and error handling
@@ -464,8 +432,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
 
             const runSequence = async () => {
                 try {
-                    const { quick, navDur, svgDur, navDelay } =
-                        animationDurations;
+                    const { quick, svgDur, navDelay } = animationDurations;
                     // Schedule links head start relative to navDelay
                     const headStartMs = Math.max(
                         0,
@@ -728,7 +695,6 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                         "z-50",
                         "shadow-lg dark:shadow-xl",
                         "py-8",
-                        "backdrop-blur-md",
                     )}
                 >
                     {/* Logo/Emblem */}
@@ -804,9 +770,9 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                                                 : 0,
                                         }}
                                     >
-                                        <ATag
+                                        <HoverLink
                                             link={link}
-                                            className="text-lg px-1 font-semibold"
+                                            className="text-lg px-2 font-semibold"
                                         />
                                     </motion.div>
                                 )}
@@ -853,7 +819,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                 </motion.div>
 
                 {/* Mobile Navigation */}
-                <motion.div
+                <motion.nav
                     initial={{ opacity: 0, y: -10 }}
                     animate={navMotion}
                     className={cn(
@@ -865,11 +831,11 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                         "mx-auto",
                         "rounded-b-sm",
                         "px-1",
-                        "backdrop-blur-md",
                         "shadow-lg dark:shadow-xl",
-                        `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                        "will-change-[opacity,transform]",
-                        scrolled && "bg-bg-scrolled",
+                        "z-20",
+                        "will-change-[transform]",
+                        // "backdrop-blur-md",
+                        // scrolled && "bg-bg-scrolled",
                     )}
                 >
                     {/* Mobile Logo/Emblem */}
@@ -910,7 +876,6 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                             "py-2 p-2 space-x-3",
                             "bg-background",
                             "rounded-md",
-                            "backdrop-blur-lg",
                             "border",
                             sequenceDone && "nav-border",
                             "my-auto",
@@ -1040,15 +1005,16 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                                         className={cn(
                                             "absolute top-full",
                                             "mt-3 mr-28",
-                                            `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
+                                            "z-50",
+                                            "transform-gpu",
                                             "overflow-y-auto",
                                             "rounded-lg",
                                             "text-center",
-                                            `border-[1px] ${"nav-border"}`,
+                                            "border-[1px] nav-border",
                                             "will-change-[clip-path,opacity]",
                                             "font-serif tracking-wide",
-                                            "backdrop-blur-lg",
-                                            "bg-slate-300 dark:bg-slate-800",
+                                            "backdrop-blur-md",
+                                            "bg-slate-300/60 dark:bg-slate-800/60",
                                             "pt-2 pb-6 px-6",
                                             "grid grid-flow-row space-y-3",
                                         )}
@@ -1094,7 +1060,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                                                                 ] ? (
                                                                     <ArrowUp className="h-4 w-4" />
                                                                 ) : (
-                                                                    <ArrowDown className="h-4 w-4" />
+                                                                    <ChevronDown className="h-4 w-4" />
                                                                 )}
                                                             </span>
                                                         </button>
@@ -1136,7 +1102,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                                                         )}
                                                     </>
                                                 ) : (
-                                                    <ATag
+                                                    <HoverLink
                                                         link={element}
                                                         className={cn(
                                                             "text-xl p-2",
@@ -1151,7 +1117,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                             </AnimatePresence>
                         </motion.div>
                     </motion.div>
-                </motion.div>
+                </motion.nav>
             </div>
         );
     },
