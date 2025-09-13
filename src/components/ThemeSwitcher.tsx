@@ -5,7 +5,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 const textClassName = cn(
@@ -78,7 +78,7 @@ const ThemeSwitcher = (): JSX.Element => {
                     "h-full w-10 md:w-11",
                     "neumorphic-button",
                     "focus:ring-0 focus:ring-offset-0",
-                    "rounded-sm border nav-border",
+                    "rounded-md border md:nav-border",
                 )}
                 onClick={toggleThemeMenu}
                 aria-expanded={isOpen}
@@ -101,68 +101,79 @@ const ThemeSwitcher = (): JSX.Element => {
             </Button>
 
             {/* Dropdown Menu */}
-            {isOpen && (
-                <motion.div
-                    className={cn(
-                        "absolute top-full right-0",
-                        "mt-3 md:mt-2",
-                        "-mr-6 md:-mr-1",
-                        "pt-3 pb-5 px-3",
-                        "rounded-md",
-                        "grid grid-flow-row space-y-3",
-                        "items-center justify-center",
-                        "min-w-fit",
-                        "font-medium tracking-widest",
-                        "backdrop-blur-md",
-                        "bg-slate-300 dark:bg-slate-800",
-                        "z-50",
-                        "shadow-lg", // Add shadow for better visibility
-                        "border nav-border",
-                    )}
-                    initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-                    animate={{
-                        opacity: 1,
-                        clipPath: "inset(0 0 0% 0)",
-                    }}
-                    exit={{
-                        opacity: 0,
-                        clipPath: "inset(0 0 100% 0)",
-                    }}
-                    transition={{
-                        duration: reduceMotion ? 0 : 0.3,
-                        ease: "easeOut",
-                    }}
-                >
-                    <div
-                        onClick={() => handleThemeSelect("light")}
-                        className={textClassName}
-                        role="menuitem"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                handleThemeSelect("light");
-                            }
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        className={cn(
+                            "absolute top-full right-0",
+                            "mt-3 md:mt-2",
+                            "-mr-6 md:-mr-1",
+                            "pt-2 pb-4 px-3",
+                            "rounded-lg",
+                            "grid grid-flow-row space-y-3",
+                            "items-center justify-center",
+                            "min-w-fit",
+                            "font-medium tracking-widest",
+                            "backdrop-blur-md",
+                            "bg-slate-300 dark:bg-slate-800",
+                            "z-50",
+                            "shadow-lg", // Add shadow for better visibility
+                            "border nav-border",
+                        )}
+                        initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
+                        animate={{
+                            opacity: [0, 1, 1],
+                            clipPath: [
+                                "inset(0 0 100% 0)",
+                                "inset(0 0 50% 0)",
+                                "inset(0 0 0% 0)",
+                            ],
+                        }}
+                        exit={{
+                            opacity: [1, 1, 0],
+                            clipPath: [
+                                "inset(0 0 0% 0)",
+                                "inset(0 0 50% 0)",
+                                "inset(0 0 100% 0)",
+                            ],
+                        }}
+                        transition={{
+                            duration: reduceMotion ? 0 : 0.3,
+                            ease: "easeOut",
+                            times: [0, 0.3, 1],
                         }}
                     >
-                        Light
-                    </div>
-                    <div
-                        onClick={() => handleThemeSelect("dark")}
-                        className={textClassName}
-                        role="menuitem"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                handleThemeSelect("dark");
-                            }
-                        }}
-                    >
-                        Dark
-                    </div>
-                </motion.div>
-            )}
+                        <div
+                            onClick={() => handleThemeSelect("light")}
+                            className={textClassName}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    handleThemeSelect("light");
+                                }
+                            }}
+                        >
+                            Light
+                        </div>
+                        <div
+                            onClick={() => handleThemeSelect("dark")}
+                            className={textClassName}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    handleThemeSelect("dark");
+                                }
+                            }}
+                        >
+                            Dark
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

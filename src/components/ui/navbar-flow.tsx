@@ -12,7 +12,12 @@ import {
     isValidElement,
     Children,
 } from "react";
-import { motion, useAnimation, useReducedMotion } from "framer-motion";
+import {
+    motion,
+    useAnimation,
+    useReducedMotion,
+    AnimatePresence,
+} from "framer-motion";
 import {
     Menu as List,
     X as Close,
@@ -27,6 +32,7 @@ import useIsMobile from "@/hooks/use-mobile";
 import { Button } from "./button";
 import NavBarSvg from "@/components/svg/NavBarSvg";
 import { useOutsideClick } from "@/hooks/use-outside-click";
+import { AnimatedIcon } from "@/components/ui/animated-presence-icon";
 
 interface NavLink {
     text: string;
@@ -68,9 +74,6 @@ interface FeatureItemProps {
 
 // Animation and transition constants
 const NAVBAR_CONSTANTS = {
-    // Breakpoints
-    MOBILE_BREAKPOINT: 767,
-
     // Animation durations
     QUICK_DURATION: 0.5,
     NAV_DURATION: 0.1,
@@ -89,12 +92,6 @@ const NAVBAR_CONSTANTS = {
         MOBILE_MENU: 50,
         BACKDROP: 10,
         CONTENT: 50,
-    },
-
-    // Dimensions
-    NAVBAR_HEIGHT: {
-        MOBILE: "h-12",
-        DESKTOP: "h-[60px]",
     },
 
     // Dropdown positioning
@@ -331,7 +328,7 @@ export const FeatureItem = memo(function FeatureItem({
  * Hook to determine if the navbar should have a background based on scroll position.
  * Returns a boolean: true if scrolled past trigger, false otherwise.
  */
-export function useScrollNavbarBg(trigger: number = 24) {
+export const useScrollNavbarBg = (trigger: number = 24): boolean => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -357,808 +354,808 @@ export function useScrollNavbarBg(trigger: number = 24) {
     }, [trigger]);
 
     return scrolled;
-}
+};
+
+const ATag: FC<{ link: NavLink; className?: string }> = ({
+    link,
+    className,
+}: {
+    link: NavLink;
+    className?: string;
+}): JSX.Element => {
+    const contactModal = useContactModal();
+    const pathname = usePathname();
+    return (
+        <a
+            href={link.isModal && pathname !== "/" ? "#" : link.url || "#"}
+            onClick={(e) => {
+                if (link.isModal && pathname !== "/") {
+                    e.preventDefault();
+                    contactModal.onOpen();
+                }
+            }}
+            className={cn(
+                "text-special-card-fg font-serif",
+                "hover:underline underline-offset-4",
+                "hover:text-accent dark:hover:text-primary",
+                "focus:ring-1 focus:ring-offset-0",
+                "focus:ring-amber-500 dark:focus:ring-primary",
+                "cursor-pointer rounded-md",
+                className,
+            )}
+            aria-label={`Navigate to ${link.text}`}
+        >
+            {link.text}
+        </a>
+    );
+};
 
 /**
  * Enhanced NavbarFlow component with improved performance, accessibility, and error handling
  * Provides responsive navigation with smooth animations and keyboard support
  */
-const NavbarFlow: FC<NavbarFlowProps> = ({
-    emblem,
-    links = [],
-    extraIcons = [],
-    styleName,
-    rightComponent,
-    linksHeadStartMs = 0,
-    bouncyText = true,
-}) => {
-    // State management with better organization
-    const [sequenceDone, setSequenceDone] = useState(false);
-    const [linksReady, setLinksReady] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
-    const [openedSections, setOpenedSections] = useState<
-        Record<string, boolean>
-    >({});
-    const [isMounted, setIsMounted] = useState(false);
-    const [hasError, setHasError] = useState(false);
-    const isMobile = useIsMobile();
-    const scrolled = useScrollNavbarBg();
+const NavbarFlow: FC<NavbarFlowProps> = memo(
+    ({
+        emblem,
+        links = [],
+        extraIcons = [],
+        styleName,
+        rightComponent,
+        linksHeadStartMs = 0,
+        bouncyText = true,
+    }) => {
+        // State management with better organization
+        const [sequenceDone, setSequenceDone] = useState(false);
+        const [linksReady, setLinksReady] = useState(false);
+        const [isOpen, setIsOpen] = useState(false);
+        const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(
+            null,
+        );
+        const [openedSections, setOpenedSections] = useState<
+            Record<string, boolean>
+        >({});
+        const [isMounted, setIsMounted] = useState(false);
+        const [hasError, setHasError] = useState(false);
+        const isMobile = useIsMobile();
+        const scrolled = useScrollNavbarBg();
 
-    // Animation controls
-    const navMotion = useAnimation();
-    const emblemMotion = useAnimation();
-    const switchMotion = useAnimation();
-    const svgMotion = useAnimation();
-    // Hooks
-    const contactModal = useContactModal();
-    const pathname = usePathname();
-    const prefersReducedMotion = useReducedMotion();
-    const mobileMenuId = useId();
+        // Animation controls
+        const navMotion = useAnimation();
+        const emblemMotion = useAnimation();
+        const switchMotion = useAnimation();
+        const svgMotion = useAnimation();
+        // Hooks
+        const reducedMotion = useReducedMotion();
+        const mobileMenuId = useId();
 
-    // Close dropdown when clicking outside
-    const dropdownRef = useOutsideClick<HTMLDivElement>(() => {
-        setIsOpen(false);
-    }, isOpen); // Only listen when dropdown is open
+        // Close dropdown when clicking outside
+        const dropdownRef = useOutsideClick<HTMLDivElement>(() => {
+            setIsOpen(false);
+        }, isOpen); // Only listen when dropdown is open
 
-    // Memoized animation durations based on reduced motion preference
-    const animationDurations = useMemo(
-        () => ({
-            quick: prefersReducedMotion ? 0 : NAVBAR_CONSTANTS.QUICK_DURATION,
-            navDur: prefersReducedMotion ? 0 : NAVBAR_CONSTANTS.NAV_DURATION,
-            svgDur: prefersReducedMotion ? 0 : NAVBAR_CONSTANTS.SVG_DURATION,
-            navDelay: prefersReducedMotion ? 0 : NAVBAR_CONSTANTS.NAV_DELAY,
-        }),
-        [prefersReducedMotion],
-    );
+        // Memoized animation durations based on reduced motion preference
+        const animationDurations = useMemo(
+            () => ({
+                quick: reducedMotion ? 0 : NAVBAR_CONSTANTS.QUICK_DURATION,
+                navDur: reducedMotion ? 0 : NAVBAR_CONSTANTS.NAV_DURATION,
+                svgDur: reducedMotion ? 0 : NAVBAR_CONSTANTS.SVG_DURATION,
+                navDelay: reducedMotion ? 0 : NAVBAR_CONSTANTS.NAV_DELAY,
+            }),
+            [reducedMotion],
+        );
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+        useEffect(() => {
+            setIsMounted(true);
+        }, []);
 
-    // Enhanced animation sequence with error handling and memoized durations
-    useEffect(() => {
-        if (!isMounted || sequenceDone || prefersReducedMotion) return;
+        // Enhanced animation sequence with error handling and memoized durations
+        useEffect(() => {
+            if (!isMounted || sequenceDone || reducedMotion) return;
 
-        let linksTimer: number | undefined;
+            const springTransition = {
+                type: "spring" as const,
+                damping: 10,
+                stiffness: 100,
+                restDelta: 0.001,
+                restSpeed: 0.001,
+            } as const;
 
-        const runSequence = async () => {
-            try {
-                const { quick, navDur, svgDur, navDelay } = animationDurations;
-                // Schedule links head start relative to navDelay
-                const headStartMs = Math.max(
-                    0,
-                    Math.min(linksHeadStartMs, navDelay * 1000),
-                );
-                const fireInMs = Math.max(0, navDelay * 1000 - headStartMs);
-                linksTimer = window.setTimeout(
-                    () => setLinksReady(true),
-                    fireInMs,
-                );
+            let linksTimer: number | undefined;
 
-                if (isMobile) {
-                    await navMotion.start({
-                        opacity: 1,
-                        y: 0,
-                        transition: { duration: quick, ease: "easeOut" },
-                    });
-                    await svgMotion.start({
-                        opacity: 1,
-                        transition: { duration: svgDur },
-                    });
-                    await Promise.all([
-                        emblemMotion.start({
+            const runSequence = async () => {
+                try {
+                    const { quick, navDur, svgDur, navDelay } =
+                        animationDurations;
+                    // Schedule links head start relative to navDelay
+                    const headStartMs = Math.max(
+                        0,
+                        Math.min(linksHeadStartMs, navDelay * 1000),
+                    );
+                    const fireInMs = Math.max(0, navDelay * 1000 - headStartMs);
+                    linksTimer = window.setTimeout(
+                        () => setLinksReady(true),
+                        fireInMs,
+                    );
+
+                    if (isMobile) {
+                        await navMotion.start({
                             opacity: 1,
-                            x: 0,
-                            transition: {
-                                type: "spring",
-                                stiffness: 200,
-                                damping: 10,
-                                mass: 0.7,
-                                // delay: navDelay,
-                            },
-                        }),
-                        switchMotion.start({
+                            y: 0,
+                            transition: { duration: quick, ease: "easeOut" },
+                        });
+                        await svgMotion.start({
                             opacity: 1,
-                            x: 0,
+                            transition: { duration: svgDur },
+                        });
+                        await Promise.all([
+                            emblemMotion.start({
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    ...springTransition,
+                                    mass: 0.7,
+                                },
+                            }),
+                            switchMotion.start({
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    ...springTransition,
+                                    mass: 0.5,
+                                },
+                            }),
+                        ]);
+                    } else {
+                        await navMotion.start({
+                            opacity: 1,
+                            y: 0,
                             transition: {
-                                type: "spring",
-                                stiffness: 200,
-                                damping: 10,
-                                mass: 0.5,
-                                // delay: navDelay,
+                                duration: 0.5,
+                                ease: "easeOut",
+                                delay: 0.5,
                             },
-                        }),
-                    ]);
-                } else {
-                    await navMotion.start({
-                        opacity: 1,
-                        y: 0,
-                        transition: {
-                            duration: 0.5,
-                            ease: "easeOut",
-                            delay: 0.5,
-                        },
-                    });
+                        });
 
-                    await svgMotion.start({
-                        opacity: 1,
-                        transition: { duration: svgDur },
-                    });
+                        await svgMotion.start({
+                            opacity: 1,
+                            transition: { duration: svgDur },
+                        });
 
-                    await Promise.all([
-                        emblemMotion.start({
-                            opacity: 1,
-                            x: 0,
-                            transition: {
-                                type: "spring",
-                                stiffness: 200,
-                                damping: 10,
-                                mass: 0.7,
-                            },
-                        }),
-                        switchMotion.start({
-                            opacity: 1,
-                            x: 0,
-                            transition: {
-                                type: "spring",
-                                stiffness: 200,
-                                damping: 10,
-                                mass: 0.5,
-                            },
-                        }),
-                    ]);
+                        await Promise.all([
+                            emblemMotion.start({
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    type: "spring",
+                                    stiffness: 200,
+                                    damping: 10,
+                                    mass: 0.7,
+                                },
+                            }),
+                            switchMotion.start({
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    type: "spring",
+                                    stiffness: 200,
+                                    damping: 10,
+                                    mass: 0.5,
+                                },
+                            }),
+                        ]);
+                    }
+
+                    setSequenceDone(true);
+                } catch (error) {
+                    console.error("Error running animation sequence:", error);
+                    setHasError(true);
+                    setSequenceDone(true); // Prevent infinite retry
                 }
+            };
 
-                setSequenceDone(true);
+            runSequence();
+            return () => {
+                if (linksTimer) {
+                    clearTimeout(linksTimer);
+                }
+            };
+        }, [
+            navMotion,
+            emblemMotion,
+            switchMotion,
+            svgMotion,
+            isMobile,
+            isMounted,
+            sequenceDone,
+            animationDurations,
+            linksHeadStartMs,
+            reducedMotion,
+        ]);
+
+        // Enhanced callback functions with better error handling and accessibility
+        const toggleMobileMenu = useCallback(() => {
+            try {
+                setIsOpen((v) => !v);
+                // Clear any open submenus when toggling mobile menu
+                if (isOpen) {
+                    setSelectedSubmenu(null);
+                    setOpenedSections({});
+                }
             } catch (error) {
-                console.error("Error running animation sequence:", error);
+                console.error("Error toggling mobile menu:", error);
                 setHasError(true);
-                setSequenceDone(true); // Prevent infinite retry
             }
-        };
+        }, [isOpen]);
 
-        runSequence();
-        return () => {
-            if (linksTimer) {
-                clearTimeout(linksTimer);
+        const toggleSection = useCallback((text: string) => {
+            try {
+                setOpenedSections((prev) => ({
+                    ...prev,
+                    [text]: !prev[text],
+                }));
+            } catch (error) {
+                console.error("Error toggling section:", error);
+                setHasError(true);
             }
-        };
-    }, [
-        navMotion,
-        emblemMotion,
-        switchMotion,
-        svgMotion,
-        isMobile,
-        isMounted,
-        sequenceDone,
-        animationDurations,
-        linksHeadStartMs,
-        prefersReducedMotion,
-    ]);
+        }, []);
 
-    // Enhanced callback functions with better error handling and accessibility
-    const toggleMobileMenu = useCallback(() => {
-        try {
-            setIsOpen((v) => !v);
-            // Clear any open submenus when toggling mobile menu
-            if (isOpen) {
+        const hideMobileMenu = useCallback(() => {
+            try {
+                setIsOpen(false);
                 setSelectedSubmenu(null);
                 setOpenedSections({});
-            }
-        } catch (error) {
-            console.error("Error toggling mobile menu:", error);
-            setHasError(true);
-        }
-    }, [isOpen]);
-
-    const toggleSection = useCallback((text: string) => {
-        try {
-            setOpenedSections((prev) => ({
-                ...prev,
-                [text]: !prev[text],
-            }));
-        } catch (error) {
-            console.error("Error toggling section:", error);
-            setHasError(true);
-        }
-    }, []);
-
-    const hideMobileMenu = useCallback(() => {
-        try {
-            setIsOpen(false);
-            setSelectedSubmenu(null);
-            setOpenedSections({});
-        } catch (error) {
-            console.error("Error hiding mobile menu:", error);
-            setHasError(true);
-        }
-    }, []);
-
-    const clearSelectedSubmenu = useCallback(() => {
-        try {
-            setSelectedSubmenu(null);
-        } catch (error) {
-            console.error("Error clearing selected submenu:", error);
-            setHasError(true);
-        }
-    }, []);
-
-    // Enhanced submenu rendering with better error handling
-    const renderSubmenuItems = useCallback(
-        (submenu: React.ReactNode) => {
-            try {
-                if (!isValidElement(submenu)) return null;
-
-                const submenuProps = submenu.props as {
-                    children?: React.ReactNode;
-                };
-                if (!submenuProps.children) return null;
-
-                return Children.map(
-                    submenuProps.children,
-                    (child, childIdx) => (
-                        <div key={childIdx} onClick={hideMobileMenu}>
-                            {child}
-                        </div>
-                    ),
-                );
             } catch (error) {
-                console.error("Error rendering submenu items:", error);
+                console.error("Error hiding mobile menu:", error);
                 setHasError(true);
-                return null;
             }
-        },
-        [hideMobileMenu],
-    );
+        }, []);
 
-    // Enhanced keyboard event handling with better accessibility
-    useEffect(() => {
-        if (!isOpen) return;
-
-        const onKeyDown = (e: KeyboardEvent) => {
+        const clearSelectedSubmenu = useCallback(() => {
             try {
-                switch (e.key) {
-                    case "Escape":
-                        setIsOpen(false);
-                        setSelectedSubmenu(null);
-                        setOpenedSections({});
-                        // Return focus to menu toggle button
-                        const menuButton = document.querySelector(
-                            '[aria-controls="' + mobileMenuId + '"]',
-                        ) as HTMLElement;
-                        menuButton?.focus();
-                        break;
-                    case "Tab":
-                        // Allow natural tab navigation within mobile menu
-                        break;
-                    default:
-                        break;
+                setSelectedSubmenu(null);
+            } catch (error) {
+                console.error("Error clearing selected submenu:", error);
+                setHasError(true);
+            }
+        }, []);
+
+        // Enhanced submenu rendering with better error handling
+        const renderSubmenuItems = useCallback(
+            (submenu: React.ReactNode) => {
+                try {
+                    if (!isValidElement(submenu)) return null;
+
+                    const submenuProps = submenu.props as {
+                        children?: React.ReactNode;
+                    };
+                    if (!submenuProps.children) return null;
+
+                    return Children.map(
+                        submenuProps.children,
+                        (child, childIdx) => (
+                            <div key={childIdx} onClick={hideMobileMenu}>
+                                {child}
+                            </div>
+                        ),
+                    );
+                } catch (error) {
+                    console.error("Error rendering submenu items:", error);
+                    setHasError(true);
+                    return null;
                 }
-            } catch (error) {
-                console.error("Error handling keyboard event:", error);
-                setHasError(true);
+            },
+            [hideMobileMenu],
+        );
+
+        // Enhanced keyboard event handling with better accessibility
+        useEffect(() => {
+            if (!isOpen) return;
+
+            const onKeyDown = (e: KeyboardEvent) => {
+                try {
+                    switch (e.key) {
+                        case "Escape":
+                            setIsOpen(false);
+                            setSelectedSubmenu(null);
+                            setOpenedSections({});
+                            // Return focus to menu toggle button
+                            const menuButton = document.querySelector(
+                                '[aria-controls="' + mobileMenuId + '"]',
+                            ) as HTMLElement;
+                            menuButton?.focus();
+                            break;
+                        case "Tab":
+                            // Allow natural tab navigation within mobile menu
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (error) {
+                    console.error("Error handling keyboard event:", error);
+                    setHasError(true);
+                }
+            };
+
+            window.addEventListener("keydown", onKeyDown);
+            return () => window.removeEventListener("keydown", onKeyDown);
+        }, [isOpen, mobileMenuId]);
+
+        // Error boundary effect
+        useEffect(() => {
+            if (hasError) {
+                console.warn(
+                    "NavbarFlow encountered an error, some functionality may be limited",
+                );
             }
-        };
+        }, [hasError]);
 
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
-    }, [isOpen, mobileMenuId]);
-
-    // Error boundary effect
-    useEffect(() => {
         if (hasError) {
-            console.warn(
-                "NavbarFlow encountered an error, some functionality may be limited",
+            return (
+                <div
+                    className={`sticky top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
+                >
+                    <div className="flex items-center justify-center h-12 md:h-16 bg-background">
+                        <span className="text-sm text-red-600">
+                            Navigation temporarily unavailable
+                        </span>
+                    </div>
+                </div>
             );
         }
-    }, [hasError]);
 
-    // Render error fallback if error occurred
-    if (hasError) {
         return (
             <div
-                className={`sticky top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
-            >
-                <div className="flex items-center justify-center h-12 md:h-16 bg-background">
-                    <span className="text-sm text-red-600">
-                        Navigation temporarily unavailable
-                    </span>
-                </div>
-            </div>
-        );
-    }
-
-    return (
-        <div
-            className={cn(
-                "fixed top-0",
-                `z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR}`,
-                "w-full",
-                styleName,
-            )}
-        >
-            {/* Desktop Navigation */}
-            <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={navMotion}
                 className={cn(
-                    "hidden",
-                    "bg-background",
-                    "md:flex md:items-center md:justify-between",
-                    "relative",
-                    "rounded-b-lg w-[95vw]",
-                    "mx-auto",
-                    "px-2 will-change-opacity",
-                    NAVBAR_CONSTANTS.NAVBAR_HEIGHT.DESKTOP,
-                    "z-50",
-                    "shadow-lg dark:shadow-xl",
-                    "py-8",
-                    "backdrop-blur-md",
-                    // scrolled && "bg-bg-scrolled",
+                    "fixed top-0",
+                    `z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR}`,
+                    "w-full",
+                    styleName,
                 )}
             >
-                {/* Logo/Emblem */}
+                {/* Desktop Navigation */}
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={navMotion}
                     className={cn(
-                        `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                        "rounded-sm",
-                        "border border-sm",
-                        "nav-border",
-                        "neumorphic-logo",
-                    )}
-                    animate={emblemMotion}
-                    role="banner"
-                    aria-label="Site logo"
-                >
-                    {emblem}
-                </motion.div>
-
-                {/* Primary Navigation */}
-                <nav
-                    className={cn(
+                        "hidden",
+                        "bg-background",
+                        "md:flex md:items-center md:justify-between",
                         "relative",
-                        "px-7 pt-5 pb-3",
-                        "flex items-center justify-center",
-                        "gap-9 flex-shrink-0",
-                        `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                        "rounded-b-lg w-[95vw]",
+                        "mx-auto",
+                        "px-2 will-change-opacity",
+                        "h-[60px]",
+                        "z-50",
+                        "shadow-lg dark:shadow-xl",
+                        "py-8",
+                        "backdrop-blur-md",
                     )}
-                    role="navigation"
-                    aria-label="Primary navigation"
-                    onMouseLeave={clearSelectedSubmenu}
                 >
-                    {links.map((link) => (
-                        <div
-                            key={link.text}
-                            className={`z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`}
-                        >
-                            {link.submenu ? (
-                                <ListItem
-                                    setSelected={setSelectedSubmenu}
-                                    selected={selectedSubmenu}
-                                    element={link.text}
-                                >
-                                    {link.submenu}
-                                </ListItem>
-                            ) : (
-                                <motion.div
-                                    animate={{
-                                        y: linksReady ? 0 : -200,
-                                    }}
-                                    className={cn(
-                                        "transition-all",
-                                        "rounded-sm",
-                                        "p-1",
-                                        "border nav-border",
-                                        "neumorphic-button",
-                                        "z-50",
-                                        "hover:border-transparent",
-                                        prefersReducedMotion
-                                            ? cn("transition-none duration-0")
-                                            : cn(
-                                                  "will-change-transform ease-out",
-                                                  !bouncyText && "duration-500",
-                                              ),
-                                    )}
-                                    transition={{
-                                        delay: linksReady
-                                            ? links.indexOf(link) *
-                                              NAVBAR_CONSTANTS.LINK_STAGGER_DELAY
-                                            : 0,
-                                    }}
-                                >
-                                    <a
-                                        href={
-                                            link.isModal && pathname !== "/"
-                                                ? "#"
-                                                : link.url || "#"
-                                        }
-                                        onClick={(e) => {
-                                            if (
-                                                link.isModal &&
-                                                pathname !== "/"
-                                            ) {
-                                                e.preventDefault();
-                                                contactModal.onOpen();
-                                            }
+                    {/* Logo/Emblem */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        className={cn(
+                            `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                            "rounded-sm",
+                            "border border-sm",
+                            "nav-border",
+                            "neumorphic-logo",
+                        )}
+                        animate={emblemMotion}
+                        role="banner"
+                        aria-label="Site logo"
+                    >
+                        {emblem}
+                    </motion.div>
+
+                    {/* Primary Navigation */}
+                    <nav
+                        className={cn(
+                            "relative",
+                            "px-7 pt-5 pb-3",
+                            "flex items-center justify-center",
+                            "gap-9 flex-shrink-0",
+                            `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                        )}
+                        role="navigation"
+                        aria-label="Primary navigation"
+                        onMouseLeave={clearSelectedSubmenu}
+                    >
+                        {links.map((link) => (
+                            <div
+                                key={link.text}
+                                className={`z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`}
+                            >
+                                {link.submenu ? (
+                                    <ListItem
+                                        setSelected={setSelectedSubmenu}
+                                        selected={selectedSubmenu}
+                                        element={link.text}
+                                    >
+                                        {link.submenu}
+                                    </ListItem>
+                                ) : (
+                                    <motion.div
+                                        animate={{
+                                            y: linksReady ? 0 : -200,
                                         }}
                                         className={cn(
-                                            "text-special-card-fg font-semibold font-serif text-lg",
-                                            "dark:hover:text-primary hover:underline underline-offset-4",
-                                            "hover:text-accent",
-                                            "focus:ring-1 focus:ring-offset-0",
-                                            "focus:ring-amber-500 dark:focus:ring-primary",
-                                            "rounded-md px-1",
-                                            "cursor-pointer",
+                                            "transition-all",
+                                            "rounded-md",
+                                            "p-1",
+                                            "border nav-border",
+                                            "neumorphic-button",
+                                            "z-50",
+                                            "hover:border-transparent",
+                                            reducedMotion
+                                                ? cn(
+                                                      "transition-none duration-0",
+                                                  )
+                                                : cn(
+                                                      "will-change-transform ease-out",
+                                                      !bouncyText &&
+                                                          "duration-500",
+                                                  ),
                                         )}
-                                        aria-label={`Navigate to ${link.text}`}
+                                        transition={{
+                                            delay: linksReady
+                                                ? links.indexOf(link) *
+                                                  NAVBAR_CONSTANTS.LINK_STAGGER_DELAY
+                                                : 0,
+                                        }}
                                     >
-                                        {link.text}
-                                    </a>
-                                </motion.div>
-                            )}
-                        </div>
-                    ))}
-                </nav>
+                                        <ATag
+                                            link={link}
+                                            className="text-lg px-1 font-semibold"
+                                        />
+                                    </motion.div>
+                                )}
+                            </div>
+                        ))}
+                    </nav>
 
-                {/* Right Component Section */}
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={switchMotion}
-                    className={cn(
-                        "rounded-[8px] flex-shrink-0 flex items-center",
-                        ` z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                    )}
-                    role="complementary"
-                    aria-label="Additional navigation tools"
-                >
-                    {extraIcons.map((icon, idx) => (
-                        <div
-                            key={idx}
-                            className="flex items-center justify-center"
-                            role="presentation"
-                        >
-                            {icon}
-                        </div>
-                    ))}
-
-                    {rightComponent && (
-                        <div className={cn("rounded-md")}>{rightComponent}</div>
-                    )}
-                </motion.div>
-
-                <NavBarSvg
-                    position="absolute inset-0"
-                    className={cn("w-[82vw] h-full", "translate-x-[110px]")}
-                    defsId={"desktop"}
-                    svgMotion={svgMotion}
-                    linksReady={linksReady}
-                    isScrolled={scrolled}
-                />
-            </motion.div>
-
-            {/* Mobile Navigation */}
-            <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={navMotion}
-                className={cn(
-                    "md:hidden",
-                    "relative",
-                    "bg-background",
-                    "flex flex-row justify-between items-center",
-                    "w-[95vw] h-16",
-                    "mx-auto",
-                    "rounded-b-sm",
-                    "px-1",
-                    "backdrop-blur-md",
-                    "shadow-lg dark:shadow-xl",
-                    `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
-                    "will-change-[opacity,transform]",
-                    scrolled && "bg-bg-scrolled",
-                )}
-            >
-                {/* Mobile Logo/Emblem */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={emblemMotion}
-                    className={cn(
-                        "border-b-[2px] border-x",
-                        "nav-border",
-                        "rounded-sm",
-                        "w-fit",
-                        "p-[1px]",
-                    )}
-                    role="banner"
-                    aria-label="Site logo"
-                >
-                    {emblem}
-                </motion.div>
-
-                {/* Mobile SVG */}
-                <NavBarSvg
-                    position="relative"
-                    className="size-full px-1"
-                    defsId={"mobile"}
-                    svgMotion={svgMotion}
-                    linksReady={linksReady}
-                    isScrolled={scrolled}
-                />
-
-                {/* Mobile Right Section */}
-                <motion.div
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={switchMotion}
-                    className={cn(
-                        "relative",
-                        "w-fit h-[84%]",
-                        "flex flex-row items-center justify-evenly",
-                        "py-2 p-2 space-x-3",
-                        "bg-background",
-                        "rounded-md",
-                        "backdrop-blur-lg",
-                        "border",
-                        sequenceDone && "nav-border",
-                        "my-auto",
-                        "will-change-auto",
-                    )}
-                    role="complementary"
-                    aria-label="Theme switcher and mobile menu toggle"
-                >
-                    {/* Mobile Right Icons */}
+                    {/* Right Component Section */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={linksReady && { opacity: 1, x: 0 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 10,
-                            mass: 0.5,
-                            delay: 0.1,
-                        }}
-                        role="complementary"
-                        aria-label="Theme switcher and additional navigation tools"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={switchMotion}
                         className={cn(
-                            "relative",
-                            "flex items-center justify-center",
-                            "aspect-square",
-                            // "bg-red-700",
+                            "rounded-[8px] flex-shrink-0 flex items-center",
+                            ` z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
                         )}
+                        role="complementary"
+                        aria-label="Additional navigation tools"
                     >
-                        {extraIcons &&
-                            extraIcons.map((icon, idx) => (
-                                <div
-                                    key={idx}
-                                    className="flex items-center justify-center"
-                                    role="presentation"
-                                >
-                                    {icon}
-                                </div>
-                            ))}
+                        {extraIcons.map((icon, idx) => (
+                            <div
+                                key={idx}
+                                className="flex items-center justify-center"
+                                role="presentation"
+                            >
+                                {icon}
+                            </div>
+                        ))}
 
-                        {rightComponent}
+                        {rightComponent && (
+                            <div className={cn("rounded-md")}>
+                                {rightComponent}
+                            </div>
+                        )}
                     </motion.div>
 
-                    {/* Mobile Menu Toggle */}
+                    <NavBarSvg
+                        position="absolute inset-0"
+                        className={cn("w-[82vw] h-full", "translate-x-[110px]")}
+                        defsId={"desktop"}
+                        svgMotion={svgMotion}
+                        linksReady={linksReady}
+                        isScrolled={scrolled}
+                    />
+                </motion.div>
+
+                {/* Mobile Navigation */}
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={navMotion}
+                    className={cn(
+                        "md:hidden",
+                        "relative",
+                        "bg-background",
+                        "flex flex-row justify-between items-center",
+                        "w-[95vw] h-16",
+                        "mx-auto",
+                        "rounded-b-sm",
+                        "px-1",
+                        "backdrop-blur-md",
+                        "shadow-lg dark:shadow-xl",
+                        `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
+                        "will-change-[opacity,transform]",
+                        scrolled && "bg-bg-scrolled",
+                    )}
+                >
+                    {/* Mobile Logo/Emblem */}
                     <motion.div
-                        ref={dropdownRef}
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={linksReady && { opacity: 1, x: 0 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 10,
-                            mass: 0.5,
-                            delay: 0.2,
-                        }}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={emblemMotion}
+                        className={cn(
+                            "border-b-[2px] border-x",
+                            "nav-border",
+                            "rounded-sm",
+                            "w-fit",
+                            "p-[1px]",
+                        )}
+                        role="banner"
+                        aria-label="Site logo"
+                    >
+                        {emblem}
+                    </motion.div>
+
+                    {/* Mobile SVG */}
+                    <NavBarSvg
+                        position="relative"
+                        className="size-full px-1"
+                        defsId={"mobile"}
+                        svgMotion={svgMotion}
+                        linksReady={linksReady}
+                        isScrolled={scrolled}
+                    />
+
+                    {/* Mobile Right Section */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={switchMotion}
                         className={cn(
                             "relative",
-                            "flex items-center justify-center",
+                            "w-fit h-[84%]",
+                            "flex flex-row items-center justify-evenly",
+                            "py-2 p-2 space-x-3",
+                            "bg-background",
+                            "rounded-md",
+                            "backdrop-blur-lg",
+                            "border",
+                            sequenceDone && "nav-border",
+                            "my-auto",
+                            "will-change-auto",
                         )}
+                        role="complementary"
+                        aria-label="Theme switcher and mobile menu toggle"
                     >
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={toggleMobileMenu}
+                        {/* Mobile Right Icons */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={linksReady && { opacity: 1, x: 0 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.5,
+                                delay: 0.1,
+                            }}
+                            role="complementary"
+                            aria-label="Theme switcher and additional navigation tools"
                             className={cn(
                                 "relative",
+                                "flex items-center justify-center",
                                 "aspect-square",
-                                " text-gray-700 dark:text-gray-200",
-                                " hover:text-gray-900 dark:hover:text-white",
-                                "transition-colors",
-                                "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
-                                "flex flex-col items-center justify-center",
-                                "neumorphic-button",
-                                "rounded-sm",
+                                // "bg-red-700",
                             )}
-                            aria-expanded={isOpen}
-                            aria-controls={mobileMenuId}
-                            aria-label={
-                                isOpen
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
-                            }
                         >
-                            {isOpen ? (
-                                <Close
-                                    className="scale-[1.7]"
-                                    aria-hidden="true"
-                                />
-                            ) : (
-                                <List
-                                    className="scale-[1.7]"
-                                    aria-hidden="true"
-                                />
-                            )}
-                            <span className="sr-only">
-                                {isOpen
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
-                            </span>
-                        </Button>
-
-                        {/* Mobile Menu Dropdown */}
-                        {isOpen && (
-                            <motion.nav
-                                initial={{
-                                    opacity: 0,
-                                    clipPath: "inset(0 0 100% 0)",
-                                }}
-                                animate={{
-                                    opacity: 1,
-                                    clipPath: "inset(0 0 0% 0)",
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                    clipPath: "inset(0 0 100% 0)",
-                                }}
-                                transition={{
-                                    duration: prefersReducedMotion
-                                        ? 0
-                                        : NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
-                                    ease: "easeOut",
-                                }}
-                                id={mobileMenuId}
-                                aria-hidden={!isOpen}
-                                role="navigation"
-                                aria-label="Primary mobile navigation menu"
-                                className={cn(
-                                    "absolute top-full",
-                                    "mt-3 mr-28",
-                                    `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
-                                    "overflow-y-auto",
-                                    "rounded-lg",
-                                    "text-center",
-                                    `border-[1px] ${"nav-border"}`,
-                                    "will-change-[clip-path,opacity]",
-                                    "font-serif tracking-wide",
-                                    "backdrop-blur-lg",
-                                    "bg-slate-300/90 dark:bg-slate-800/90",
-                                    "pt-2 pb-6 px-6",
-                                    "grid grid-flow-row space-y-3",
-                                )}
-                            >
-                                {links.map((element, idx) => (
+                            {extraIcons &&
+                                extraIcons.map((icon, idx) => (
                                     <div
-                                        key={element.text}
-                                        className="space-y-2"
+                                        key={idx}
+                                        className="flex items-center justify-center"
+                                        role="presentation"
                                     >
-                                        {element.submenu ? (
-                                            <>
-                                                <button
-                                                    type="button"
-                                                    className={cn(
-                                                        "flex items-center justify-between w-full",
-                                                        "text-gray-800 dark:text-gray-200 font-medium",
-                                                        "text-base py-2 px-4 rounded-lg",
-                                                        "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
-                                                        "transition-colors duration-300 ease-out border-b",
-                                                        "border-gray-200 dark:border-gray-800",
-                                                        "focus:outline-none focus:ring-0 focus:ring-primary",
-                                                        "focus:ring-offset-0",
-                                                    )}
-                                                    onClick={() =>
-                                                        toggleSection(
-                                                            element.text,
-                                                        )
-                                                    }
-                                                    aria-expanded={
-                                                        !!openedSections[
-                                                            element.text
-                                                        ]
-                                                    }
-                                                    aria-controls={`${mobileMenuId}-section-${idx}`}
-                                                    aria-label={`Toggle ${element.text} submenu`}
-                                                >
-                                                    <span>{element.text}</span>
-                                                    <span aria-hidden="true">
-                                                        {openedSections[
-                                                            element.text
-                                                        ] ? (
-                                                            <ArrowUp className="h-4 w-4" />
-                                                        ) : (
-                                                            <ArrowDown className="h-4 w-4" />
-                                                        )}
-                                                    </span>
-                                                </button>
-
-                                                {openedSections[
-                                                    element.text
-                                                ] && (
-                                                    <motion.div
-                                                        initial={{
-                                                            opacity: 0,
-                                                            clipPath:
-                                                                "inset(0 0 100% 0)",
-                                                        }}
-                                                        animate={{
-                                                            opacity: 1,
-                                                            clipPath:
-                                                                "inset(0 0 0% 0)",
-                                                        }}
-                                                        transition={{
-                                                            duration:
-                                                                prefersReducedMotion
-                                                                    ? 0
-                                                                    : NAVBAR_CONSTANTS.SUBMENU_DURATION,
-                                                            ease: "easeOut",
-                                                        }}
-                                                        id={`${mobileMenuId}-section-${idx}`}
-                                                        role="region"
-                                                        aria-label={`${element.text} submenu`}
-                                                        className="pl-4 space-y-1 overflow-hidden"
-                                                        style={{
-                                                            willChange:
-                                                                "clip-path, opacity",
-                                                        }}
-                                                    >
-                                                        {renderSubmenuItems(
-                                                            element.submenu,
-                                                        )}
-                                                    </motion.div>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <a
-                                                href={
-                                                    element.isModal &&
-                                                    pathname !== "/"
-                                                        ? "#"
-                                                        : element.url || "#"
-                                                }
-                                                onClick={(e) => {
-                                                    if (
-                                                        element.isModal &&
-                                                        pathname !== "/"
-                                                    ) {
-                                                        e.preventDefault();
-                                                        contactModal.onOpen();
-                                                    }
-                                                }}
-                                                className={cn(
-                                                    "text-xl text-black/70 dark:text-gray-200",
-                                                    "rounded-lg p-2",
-                                                    "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
-                                                    "transition-colors duration-300 ease-out",
-                                                    "border-b border-gray-100 dark:border-gray-500 block",
-                                                    "focus:outline-none focus:ring-1 focus:ring-primary",
-                                                    "focus:ring-offset-0",
-                                                )}
-                                                aria-label={`Navigate to ${element.text}`}
-                                            >
-                                                {element.text}
-                                            </a>
-                                        )}
+                                        {icon}
                                     </div>
                                 ))}
-                            </motion.nav>
-                        )}
+
+                            {rightComponent}
+                        </motion.div>
+
+                        {/* Mobile Menu Toggle */}
+                        <motion.div
+                            ref={dropdownRef}
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={linksReady && { opacity: 1, x: 0 }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 200,
+                                damping: 10,
+                                mass: 0.5,
+                                delay: 0.2,
+                            }}
+                            className={cn(
+                                "relative",
+                                "flex items-center justify-center",
+                            )}
+                        >
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={toggleMobileMenu}
+                                className={cn(
+                                    "relative",
+                                    "aspect-square",
+                                    " text-gray-700 dark:text-gray-200",
+                                    " hover:text-gray-900 dark:hover:text-white",
+                                    "transition-colors",
+                                    "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
+                                    "flex flex-col items-center justify-center",
+                                    "neumorphic-button",
+                                    "rounded-sm",
+                                )}
+                                aria-expanded={isOpen}
+                                aria-controls={mobileMenuId}
+                                aria-label={
+                                    isOpen
+                                        ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                        : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
+                                }
+                            >
+                                <AnimatedIcon isOpen={isOpen} />
+                                <span className="sr-only">
+                                    {isOpen
+                                        ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                        : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
+                                </span>
+                            </Button>
+
+                            {/* Mobile Menu Dropdown */}
+                            <AnimatePresence>
+                                {isOpen && (
+                                    <motion.nav
+                                        initial={{
+                                            opacity: 0,
+                                            clipPath: "inset(0 0 100% 0)",
+                                        }}
+                                        animate={{
+                                            opacity: [0, 1, 1],
+                                            clipPath: [
+                                                "inset(0 0 100% 0)",
+                                                "inset(0 0 50% 0)",
+                                                "inset(0 0 0% 0)",
+                                            ],
+                                        }}
+                                        exit={{
+                                            opacity: [1, 1, 0],
+                                            clipPath: [
+                                                "inset(0 0 0% 0)",
+                                                "inset(0 0 50% 0)",
+                                                "inset(0 0 100% 0)",
+                                            ],
+                                        }}
+                                        transition={{
+                                            duration: reducedMotion
+                                                ? 0
+                                                : NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
+                                            ease: "easeOut",
+                                            times: [0, 0.3, 1],
+                                        }}
+                                        id={mobileMenuId}
+                                        aria-hidden={!isOpen}
+                                        role="navigation"
+                                        aria-label="Primary mobile navigation menu"
+                                        className={cn(
+                                            "absolute top-full",
+                                            "mt-3 mr-28",
+                                            `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
+                                            "overflow-y-auto",
+                                            "rounded-lg",
+                                            "text-center",
+                                            `border-[1px] ${"nav-border"}`,
+                                            "will-change-[clip-path,opacity]",
+                                            "font-serif tracking-wide",
+                                            "backdrop-blur-lg",
+                                            "bg-slate-300 dark:bg-slate-800",
+                                            "pt-2 pb-6 px-6",
+                                            "grid grid-flow-row space-y-3",
+                                        )}
+                                    >
+                                        {links.map((element, idx) => (
+                                            <div
+                                                key={element.text}
+                                                className="space-y-2"
+                                            >
+                                                {element.submenu ? (
+                                                    <>
+                                                        <button
+                                                            type="button"
+                                                            className={cn(
+                                                                "flex items-center justify-between w-full",
+                                                                "text-gray-800 dark:text-gray-200 font-medium",
+                                                                "text-base py-2 px-4 rounded-lg",
+                                                                "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
+                                                                "transition-colors duration-300 ease-out border-b",
+                                                                "border-gray-200 dark:border-gray-800",
+                                                                "focus:outline-none focus:ring-0 focus:ring-primary",
+                                                                "focus:ring-offset-0",
+                                                            )}
+                                                            onClick={() =>
+                                                                toggleSection(
+                                                                    element.text,
+                                                                )
+                                                            }
+                                                            aria-expanded={
+                                                                !!openedSections[
+                                                                    element.text
+                                                                ]
+                                                            }
+                                                            aria-controls={`${mobileMenuId}-section-${idx}`}
+                                                            aria-label={`Toggle ${element.text} submenu`}
+                                                        >
+                                                            <span>
+                                                                {element.text}
+                                                            </span>
+                                                            <span aria-hidden="true">
+                                                                {openedSections[
+                                                                    element.text
+                                                                ] ? (
+                                                                    <ArrowUp className="h-4 w-4" />
+                                                                ) : (
+                                                                    <ArrowDown className="h-4 w-4" />
+                                                                )}
+                                                            </span>
+                                                        </button>
+
+                                                        {openedSections[
+                                                            element.text
+                                                        ] && (
+                                                            <motion.div
+                                                                initial={{
+                                                                    opacity: 0,
+                                                                    clipPath:
+                                                                        "inset(0 0 100% 0)",
+                                                                }}
+                                                                animate={{
+                                                                    opacity: 1,
+                                                                    clipPath:
+                                                                        "inset(0 0 0% 0)",
+                                                                }}
+                                                                transition={{
+                                                                    duration:
+                                                                        reducedMotion
+                                                                            ? 0
+                                                                            : NAVBAR_CONSTANTS.SUBMENU_DURATION,
+                                                                    ease: "easeOut",
+                                                                }}
+                                                                id={`${mobileMenuId}-section-${idx}`}
+                                                                role="region"
+                                                                aria-label={`${element.text} submenu`}
+                                                                className="pl-4 space-y-1 overflow-hidden"
+                                                                style={{
+                                                                    willChange:
+                                                                        "clip-path, opacity",
+                                                                }}
+                                                            >
+                                                                {renderSubmenuItems(
+                                                                    element.submenu,
+                                                                )}
+                                                            </motion.div>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <ATag
+                                                        link={element}
+                                                        className={cn(
+                                                            "text-xl p-2",
+                                                            "border-b border-gray-100 dark:border-gray-500 block",
+                                                        )}
+                                                    />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </motion.nav>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
                     </motion.div>
                 </motion.div>
-            </motion.div>
-        </div>
-    );
-};
+            </div>
+        );
+    },
+);
 
+NavbarFlow.displayName = "NavbarFlow";
 export default NavbarFlow;

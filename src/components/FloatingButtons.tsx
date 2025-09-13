@@ -1,9 +1,9 @@
 "use client";
 
-import { type JSX, useState, memo } from "react";
+import { type JSX, type FC, useState, memo } from "react";
 import { ScrollToTopButton } from "./ScrollToTopButton";
 import WhatsAppButton from "./WhatsAppButton";
-import ExpandBot from "@/components/ExpandBot";
+import { ExpandBot } from "@/components/ExpandBot";
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
@@ -28,7 +28,7 @@ const smoothleft = {
     delay: 0.1,
 } as const;
 
-const FloatingButtons = memo((): JSX.Element => {
+const FloatingButtons: FC = memo((): JSX.Element => {
     const [isHovered, setIsHovered] = useState(false);
     const reduceMotion = useReducedMotion();
     const isMobile = useIsMobile();

@@ -1,13 +1,15 @@
 // src/components/ExpandBot.tsx
 "use client";
-import React, {
+import {
     useState,
     useCallback,
     useMemo,
     memo,
     type FormEvent,
+    type JSX,
+    type FC,
 } from "react";
-import ExpandableDock from "@/components/ui/expandable-dock";
+import { ExpandableDock } from "@/components/ui/expandable-dock";
 import { Bot, Send, User, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,7 +31,7 @@ import type { Message } from "../../types/chat";
  * - Enhanced accessibility with ARIA labels
  * - Type-safe implementation
  */
-const ExpandBot = memo(function ExpandBot(): React.JSX.Element {
+const ExpandBot: FC = memo((): JSX.Element => {
     // Input state management
     const [input, setInput] = useState("");
 
@@ -258,7 +260,5 @@ const ExpandBot = memo(function ExpandBot(): React.JSX.Element {
     return <ExpandableDock>{chatContent}</ExpandableDock>;
 });
 
-// Set display name for better debugging
 ExpandBot.displayName = "ExpandBot";
-
-export default ExpandBot;
+export { ExpandBot };
