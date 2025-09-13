@@ -43,7 +43,8 @@
 }
 @layer base {
     :root {
-        --radius: 0.625rem;
+        /* --radius: 0.625rem; */
+        --radius: 0.5rem;
         --background: #dadfe6;
         --bg-scrolled: #dadfe690;
         --foreground: hsl(224 71.4% 4.1%);
@@ -70,7 +71,6 @@
         --chart-3: hsl(197 37% 24%);
         --chart-4: hsl(43 74% 66%);
         --chart-5: hsl(27 87% 67%);
-        /* --radius: 0.5rem; */
         --sidebar-background: hsl(0 0% 98%);
         --sidebar-foreground: hsl(240 5.3% 26.1%);
         --sidebar-primary: hsl(240 5.9% 10%);
@@ -79,9 +79,9 @@
         --sidebar-accent-foreground: hsl(240 5.9% 10%);
         --sidebar-border: hsl(220 13% 91%);
         --sidebar-ring: hsl(217.2 91.2% 59.8%);
-        /* Light slate gray for light theme */
         --bg-alternate: hsl(212, 40%, 92%);
         --special-card-fg: hsla(225, 38%, 19%, 0.98);
+        --nav-border: #ffb964e3;
     }
 
     .dark {
@@ -121,6 +121,7 @@
         /* Dark slate gray for dark theme */
         --bg-alternate: hsl(214 15% 16%);
         --special-card-fg: hsl(0 5% 88%);
+        --nav-border: #0c8a962a;
     }
 }
 
@@ -145,6 +146,9 @@
 
 /* Custom utilities for GradientButton text-shadow */
 @layer utilities {
+    .nav-border {
+        border-color: var(--nav-border);
+    }
     .text-shadow-md {
         text-shadow: 1px 3px 1px #1f1f1f;
     }
@@ -204,6 +208,7 @@
             5px 5px 10px rgba(129, 140, 155, 0.4);
     }
     .neumorphic-button:hover {
+        @apply border-transparent transition-none;
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.8),
             inset 2px 2px 5px rgba(129, 140, 155, 0.4);
@@ -220,6 +225,7 @@
             4px 4px 10px rgba(0, 0, 0, 0.5);
     }
     .dark .neumorphic-button:hover {
+        @apply border-transparent transition-none;
         box-shadow:
             inset -2px -2px 5px rgba(255, 255, 255, 0.05),
             inset 2px 2px 5px rgba(0, 0, 0, 0.5);

@@ -26,7 +26,13 @@ import { usePathname } from "next/navigation";
 import useIsMobile from "@/hooks/use-mobile";
 import { Button } from "./button";
 import NavBarSvg from "@/components/svg/NavBarSvg";
-import { useOutsideClick } from "@/hooks/use-outside-click";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useDropdownState } from "@/hooks/use-dropdown-state";
 
 interface NavLink {
     text: string;
@@ -375,7 +381,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     // State management with better organization
     const [sequenceDone, setSequenceDone] = useState(false);
     const [linksReady, setLinksReady] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
     const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
     const [openedSections, setOpenedSections] = useState<
         Record<string, boolean>
@@ -396,10 +402,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
     const prefersReducedMotion = useReducedMotion();
     const mobileMenuId = useId();
 
-    // Close dropdown when clicking outside
-    const dropdownRef = useOutsideClick<HTMLDivElement>(() => {
-        setIsOpen(false);
-    }, isOpen); // Only listen when dropdown is open
+    const { isOpen, setIsOpen, toggle, open, close } = useDropdownState();
 
     // Memoized animation durations based on reduced motion preference
     const animationDurations = useMemo(
@@ -550,7 +553,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             console.error("Error toggling mobile menu:", error);
             setHasError(true);
         }
-    }, [isOpen]);
+    }, [isOpen, setIsOpen]);
 
     const toggleSection = useCallback((text: string) => {
         try {
@@ -573,7 +576,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             console.error("Error hiding mobile menu:", error);
             setHasError(true);
         }
-    }, []);
+    }, [setIsOpen]);
 
     const clearSelectedSubmenu = useCallback(() => {
         try {
@@ -614,13 +617,13 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
     // Enhanced keyboard event handling with better accessibility
     useEffect(() => {
-        if (!isOpen) return;
+        if (!mobileMenuVisible) return;
 
         const onKeyDown = (e: KeyboardEvent) => {
             try {
                 switch (e.key) {
                     case "Escape":
-                        setIsOpen(false);
+                        setMobileMenuVisible(false);
                         setSelectedSubmenu(null);
                         setOpenedSections({});
                         // Return focus to menu toggle button
@@ -643,7 +646,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
 
         window.addEventListener("keydown", onKeyDown);
         return () => window.removeEventListener("keydown", onKeyDown);
-    }, [isOpen, mobileMenuId]);
+    }, [mobileMenuVisible, mobileMenuId]);
 
     // Error boundary effect
     useEffect(() => {
@@ -668,6 +671,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
             </div>
         );
     }
+
+    const borderColor = cn("border-[#ffb964e3] dark:border-[#0c8a962a]");
 
     return (
         <div
@@ -705,7 +710,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         `z-${NAVBAR_CONSTANTS.Z_INDEX.CONTENT}`,
                         "rounded-sm",
                         "border border-sm",
-                        "nav-border",
+                        borderColor,
                         "neumorphic-logo",
                     )}
                     animate={emblemMotion}
@@ -750,7 +755,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                         "transition-all",
                                         "rounded-sm",
                                         "p-1",
-                                        "border nav-border",
+                                        "border",
+                                        borderColor,
                                         "neumorphic-button",
                                         "z-50",
                                         "hover:border-transparent",
@@ -864,10 +870,12 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                     animate={emblemMotion}
                     className={cn(
                         "border-b-[2px] border-x",
-                        "nav-border",
+                        borderColor,
                         "rounded-sm",
+                        // "icon-shadow-sm",
                         "w-fit",
                         "p-[1px]",
+                        // "neumorphic-logo",
                     )}
                     role="banner"
                     aria-label="Site logo"
@@ -894,11 +902,13 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         "w-fit h-[84%]",
                         "flex flex-row items-center justify-evenly",
                         "py-2 p-2 space-x-3",
+                        // "bg-white/50 dark:bg-gray-400/20",
                         "bg-background",
                         "rounded-md",
                         "backdrop-blur-lg",
                         "border",
-                        sequenceDone && "nav-border",
+                        sequenceDone && borderColor,
+                        // "neumorphic-cta-card",
                         "my-auto",
                         "will-change-auto",
                     )}
@@ -939,9 +949,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                         {rightComponent}
                     </motion.div>
 
-                    {/* Mobile Menu Toggle */}
+                    {/* Dropdown Menu */}
                     <motion.div
-                        ref={dropdownRef}
                         initial={{ opacity: 0, x: 50 }}
                         animate={linksReady && { opacity: 1, x: 0 }}
                         transition={{
@@ -956,98 +965,87 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                             "flex items-center justify-center",
                         )}
                     >
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={toggleMobileMenu}
-                            className={cn(
-                                "relative",
-                                "aspect-square",
-                                " text-gray-700 dark:text-gray-200",
-                                " hover:text-gray-900 dark:hover:text-white",
-                                "transition-colors",
-                                "focus:outline-none focus:ring-1 focus:ring-primary focus:ring-offset-0 rounded-sm",
-                                "flex flex-col items-center justify-center",
-                                "neumorphic-button",
-                                "rounded-sm",
-                            )}
-                            aria-expanded={isOpen}
-                            aria-controls={mobileMenuId}
-                            aria-label={
-                                isOpen
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
-                            }
-                        >
-                            {isOpen ? (
-                                <Close
-                                    className="scale-[1.7]"
-                                    aria-hidden="true"
-                                />
-                            ) : (
-                                <List
-                                    className="scale-[1.7]"
-                                    aria-hidden="true"
-                                />
-                            )}
-                            <span className="sr-only">
-                                {isOpen
-                                    ? ACCESSIBILITY_LABELS.CLOSE_MENU
-                                    : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
-                            </span>
-                        </Button>
-
-                        {/* Mobile Menu Dropdown */}
-                        {isOpen && (
-                            <motion.nav
-                                initial={{
-                                    opacity: 0,
-                                    clipPath: "inset(0 0 100% 0)",
+                        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="icon"
+                                    className={cn(
+                                        "aspect-square rounded-sm",
+                                        " text-gray-700 dark:text-gray-200",
+                                        " hover:text-gray-900 dark:hover:text-white",
+                                        "transition-colors",
+                                        "focus:outline-none focus:ring-1",
+                                        "focus:ring-primary focus:ring-offset-0",
+                                        "neumorphic-button",
+                                    )}
+                                    role="button"
+                                    onClick={toggleMobileMenu}
+                                    tabIndex={0}
+                                    aria-haspopup="true"
+                                    aria-expanded={mobileMenuVisible}
+                                    aria-controls={mobileMenuId}
+                                    aria-label={
+                                        mobileMenuVisible
+                                            ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                            : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE
+                                    }
+                                >
+                                    {isOpen ? (
+                                        <Close
+                                            className="scale-[1.7]"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        <List
+                                            className="scale-[1.7]"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                    <span className="sr-only">
+                                        {mobileMenuVisible
+                                            ? ACCESSIBILITY_LABELS.CLOSE_MENU
+                                            : ACCESSIBILITY_LABELS.MOBILE_MENU_TOGGLE}
+                                    </span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                align="center"
+                                datatype="mobile-menus"
+                                style={{
+                                    // Force GPU acceleration
+                                    willChange: "transform, opacity",
+                                    transform: "translateZ(0)",
+                                    // Reduce repaints
+                                    contain: "layout style paint",
+                                    // Optimize rendering
+                                    backfaceVisibility: "hidden",
                                 }}
-                                animate={{
-                                    opacity: 1,
-                                    clipPath: "inset(0 0 0% 0)",
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                    clipPath: "inset(0 0 100% 0)",
-                                }}
-                                transition={{
-                                    duration: prefersReducedMotion
-                                        ? 0
-                                        : NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
-                                    ease: "easeOut",
-                                }}
-                                id={mobileMenuId}
-                                aria-hidden={!isOpen}
-                                role="navigation"
-                                aria-label="Primary mobile navigation menu"
+                                avoidCollisions={true}
+                                collisionPadding={8}
                                 className={cn(
-                                    "absolute top-full",
-                                    "mt-3 mr-28",
-                                    `z-${NAVBAR_CONSTANTS.Z_INDEX.MOBILE_MENU}`,
-                                    "overflow-y-auto",
-                                    "rounded-lg",
-                                    "text-center",
-                                    `border-[1px] ${"nav-border"}`,
-                                    "will-change-[clip-path,opacity]",
-                                    "font-serif tracking-wide",
+                                    "mr-3 mt-1",
+                                    "px-3 space-y-1 pb-4",
+                                    "grid grid-flow-row",
+                                    "items-center justify-center",
+                                    "min-w-fit",
+                                    "font-serif tracking-widest text-center",
+                                    "bg-slate-300/60 dark:bg-slate-800/60",
                                     "backdrop-blur-lg",
-                                    "bg-slate-300/90 dark:bg-slate-800/90",
-                                    "pt-2 pb-6 px-6",
-                                    "grid grid-flow-row space-y-3",
                                 )}
+                                role="navigation"
+                                aria-label="Primary mobile navigation"
                             >
                                 {links.map((element, idx) => (
-                                    <div
+                                    <DropdownMenuItem
                                         key={element.text}
-                                        className="space-y-2"
+                                        className={cn(
+                                            "flex flex-col items-center justify-center",
+                                        )}
                                     >
                                         {element.submenu ? (
                                             <>
-                                                <button
-                                                    type="button"
+                                                <Button
                                                     className={cn(
                                                         "flex items-center justify-between w-full",
                                                         "text-gray-800 dark:text-gray-200 font-medium",
@@ -1081,7 +1079,7 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                             <ArrowDown className="h-4 w-4" />
                                                         )}
                                                     </span>
-                                                </button>
+                                                </Button>
 
                                                 {openedSections[
                                                     element.text
@@ -1107,11 +1105,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                         id={`${mobileMenuId}-section-${idx}`}
                                                         role="region"
                                                         aria-label={`${element.text} submenu`}
-                                                        className="pl-4 space-y-1 overflow-hidden"
-                                                        style={{
-                                                            willChange:
-                                                                "clip-path, opacity",
-                                                        }}
+                                                        className={cn(
+                                                            "pl-4 space-y-1 overflow-hidden",
+                                                            "will-change-[clip-path,opacity]",
+                                                        )}
                                                     >
                                                         {renderSubmenuItems(
                                                             element.submenu,
@@ -1137,8 +1134,8 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                     }
                                                 }}
                                                 className={cn(
-                                                    "text-xl text-black/70 dark:text-gray-200",
-                                                    "rounded-lg p-2",
+                                                    "text-lg text-black/70 dark:text-gray-200",
+                                                    "rounded-lg px-3 py-2",
                                                     "hover:bg-gray-200/50 dark:hover:bg-gray-800/50",
                                                     "transition-colors duration-300 ease-out",
                                                     "border-b border-gray-100 dark:border-gray-500 block",
@@ -1150,10 +1147,10 @@ const NavbarFlow: FC<NavbarFlowProps> = ({
                                                 {element.text}
                                             </a>
                                         )}
-                                    </div>
+                                    </DropdownMenuItem>
                                 ))}
-                            </motion.nav>
-                        )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </motion.div>
                 </motion.div>
             </motion.div>
