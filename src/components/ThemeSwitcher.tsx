@@ -78,7 +78,7 @@ const ThemeSwitcher = (): JSX.Element => {
                     "h-full w-10 md:w-11",
                     "neumorphic-button",
                     "focus:ring-0 focus:ring-offset-0",
-                    "rounded-sm border nav-border",
+                    "rounded-md border md:nav-border",
                 )}
                 onClick={toggleThemeMenu}
                 aria-expanded={isOpen}
@@ -108,7 +108,7 @@ const ThemeSwitcher = (): JSX.Element => {
                         "mt-3 md:mt-2",
                         "-mr-6 md:-mr-1",
                         "pt-3 pb-5 px-3",
-                        "rounded-md",
+                        "rounded-lg",
                         "grid grid-flow-row space-y-3",
                         "items-center justify-center",
                         "min-w-fit",

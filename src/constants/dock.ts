@@ -81,9 +81,3 @@ export const DOCK_KEYBOARD = {
     TOGGLE_KEYS: ["Enter", " "] as const,
     CLOSE_KEY: "Escape" as const,
 } as const;
-
-// Default props
-export const DOCK_DEFAULTS = {
-    DEFAULT_EXPANDED: false,
-    TOGGLE_ARIA_LABEL: DOCK_ARIA_LABELS.TOGGLE_BUTTON,
-} as const;
