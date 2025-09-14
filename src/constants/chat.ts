@@ -1,4 +1,6 @@
 // src/constants/chat.ts
+import { cn } from "@/lib/utils";
+
 export const CHAT_CONSTANTS = {
     // Message limits
     MAX_MESSAGE_LENGTH: 500,
@@ -54,13 +56,16 @@ export const CHAT_CONSTANTS = {
 export const MESSAGE_STYLES = {
     user: {
         container: "flex items-start gap-3 rounded-md p-2 justify-end",
-        bubble: "p-3 rounded-lg max-w-[80%] bg-primary text-primary-foreground",
+        bubble: cn(
+            "p-3 rounded-lg max-w-[80%] bg-teal-400 text-primary-foreground",
+        ),
         avatar: "w-8 h-8 ml-1",
         avatarFallback: "bg-accent text-accent-foreground",
     },
     assistant: {
-        container:
+        container: cn(
             "flex items-start gap-3 rounded-md p-2 justify-start bg-black/20",
+        ),
         bubble: "p-3 rounded-lg max-w-[80%] bg-muted",
         avatar: "w-8 h-8 mr-1",
         avatarFallback: "bg-primary text-primary-foreground",

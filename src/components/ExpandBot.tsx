@@ -154,7 +154,6 @@ const ExpandBot: FC = memo((): JSX.Element => {
             );
         },
     );
-
     // Set display name for MessageComponent
     MessageComponent.displayName = "MessageComponent";
 
@@ -163,15 +162,19 @@ const ExpandBot: FC = memo((): JSX.Element => {
      */
     const chatContent = useMemo(
         () => (
-            <div className="flex flex-col h-full w-full">
+            <div className={cn("flex flex-col relative h-full w-full")}>
                 {/* Chat Header with enhanced accessibility */}
                 <header
                     className={cn(
-                        "flex flex-row justify-center items-center gap-2 py-2 border-b border-gray-200 dark:border-gray-700",
+                        "flex flex-row justify-center items-center gap-2 py-2",
+                        "border-b nav-border",
                     )}
                     role="banner"
                 >
-                    <Bot className="text-primary h-5 w-5" aria-hidden="true" />
+                    <Bot
+                        className="text-accent dark:text-primary h-5 w-5"
+                        aria-hidden="true"
+                    />
                     <h1 className="font-medium text-special-card-fg">
                         AI Travel Assistant
                     </h1>
@@ -179,34 +182,37 @@ const ExpandBot: FC = memo((): JSX.Element => {
 
                 {/* Messages Area with enhanced accessibility */}
                 <main
-                    className={cn("flex-1 min-h-0 overflow-hidden pb-32")}
+                    className={cn("flex-1 min-h-0 overflow-hidden")}
                     role="main"
                     aria-label={CHAT_CONSTANTS.ARIA_LABELS.CHAT_REGION}
                 >
                     <ScrollArea
-                        className="h-full p-4"
+                        className={cn("h-full", "space-y-1 px-2 py-4")}
                         ref={scrollAreaRef}
                         role="log"
                         aria-label={CHAT_CONSTANTS.ARIA_LABELS.MESSAGE_LIST}
                         aria-live="polite"
                     >
-                        <div className="space-y-1 pr-2">
-                            {messages.map((message, index) => (
-                                <MessageComponent
-                                    key={message.id || index}
-                                    message={message}
-                                    index={index}
-                                />
-                            ))}
-                            {isLoading && LoadingIndicator}
-                        </div>
+                        {messages.map((message, index) => (
+                            <MessageComponent
+                                key={message.id || index}
+                                message={message}
+                                index={index}
+                            />
+                        ))}
+                        {isLoading && LoadingIndicator}
                     </ScrollArea>
                 </main>
 
                 {/* Enhanced Input Area with better accessibility */}
                 <footer
                     className={cn(
-                        "border-y border-gray-200 dark:border-gray-700 flex-shrink-0 bottom-12 md:bottom-16 left-0 right-0 absolute py-3 px-2",
+                        "relative",
+                        "flex-shrink-0",
+                        "py-3 px-2",
+                        "border nav-border",
+                        "rounded-lg mb-2 mx-2",
+                        "shadow-lg dark:shadow-xl",
                     )}
                     role="contentinfo"
                 >
@@ -224,7 +230,11 @@ const ExpandBot: FC = memo((): JSX.Element => {
                             onChange={handleInputChange}
                             placeholder={CHAT_CONSTANTS.PLACEHOLDERS.INPUT}
                             disabled={isLoading}
-                            className="flex-1 placeholder:text-muted-foreground/60"
+                            className={cn(
+                                "flex-1",
+                                "placeholder:text-muted-foreground",
+                                "bg-slate-300 dark:bg-slate-700",
+                            )}
                             aria-label={
                                 CHAT_CONSTANTS.ARIA_LABELS.MESSAGE_INPUT
                             }
@@ -233,6 +243,7 @@ const ExpandBot: FC = memo((): JSX.Element => {
                         <Button
                             type="submit"
                             size="icon"
+                            className="bg-accent dark:bg-primary"
                             disabled={isLoading || !input.trim()}
                             aria-label={CHAT_CONSTANTS.ARIA_LABELS.SEND_BUTTON}
                         >

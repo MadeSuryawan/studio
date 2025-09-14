@@ -9,7 +9,7 @@ import {
     useMemo,
     memo,
 } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import useIsMobile from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ import {
     DOCK_KEYBOARD,
 } from "@/constants/dock";
 import { AnimatedIcon } from "@/components/ui/animated-presence-icon";
-
+import { SmoothUp } from "../FloatingButtons";
 interface ExpandableDockProps {
     children: ReactNode;
     className?: string;
@@ -206,8 +206,6 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                 collapsedH: deviceDimensions.COLLAPSED_HEIGHT,
                 expandedW: deviceDimensions.EXPANDED_WIDTH,
                 expandedH: deviceDimensions.EXPANDED_HEIGHT,
-                marginLeft: DOCK_DIMENSIONS.MARGIN_LEFT,
-                marginBottom: DOCK_DIMENSIONS.MARGIN_BOTTOM,
             };
         }, [isMobile]);
 
@@ -257,63 +255,70 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
             }
         }, [isCollapsed, handleExpand, handleCollapse]);
 
+        const handleKeyDown = useCallback(
+            (e: React.KeyboardEvent) => {
+                if (
+                    (DOCK_KEYBOARD.TOGGLE_KEYS as readonly string[]).includes(
+                        e.key,
+                    )
+                ) {
+                    e.preventDefault();
+                    handleToggle();
+                }
+                if (e.key === DOCK_KEYBOARD.CLOSE_KEY && isExpanded) {
+                    e.preventDefault();
+                    handleCollapse();
+                }
+            },
+            [handleToggle, isExpanded, handleCollapse],
+        );
+
         // Prevent flash of incorrect content during hydration
         if (!isMounted) {
             return null;
         }
 
+        const MotionButton = motion.create(Button);
         return (
             <div
                 className={DOCK_CLASSES.CONTAINER}
                 role="complementary"
                 aria-label={DOCK_ARIA_LABELS.CONTAINER}
             >
+                {/* <AnimatePresence mode="wait"> */}
                 <Button
                     id="expandable-dock-header"
                     onClick={handleToggle}
-                    onKeyDown={(e) => {
-                        // Improve keyboard accessibility using constants
-                        if (
-                            (
-                                DOCK_KEYBOARD.TOGGLE_KEYS as readonly string[]
-                            ).includes(e.key)
-                        ) {
-                            e.preventDefault();
-                            handleToggle();
-                        }
-                        // ESC key to close when expanded
-                        if (e.key === DOCK_KEYBOARD.CLOSE_KEY && isExpanded) {
-                            e.preventDefault();
-                            handleCollapse();
-                        }
-                    }}
+                    onKeyDown={handleKeyDown}
                     aria-expanded={isExpanded}
                     aria-label={toggleAriaLabel}
                     aria-controls="expandable-dock-content"
                     variant="ghost"
                     className={cn(
-                        "relative w-full h-[52px] md:h-[64px] will-change-auto",
-                        "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
-                        `${isExpanded ? "bg-[#063842]" : "dark:bg-[#dd7526] bg-[#ff8629]"}`,
-                        "transition-all duration-300 ease-out",
-                        "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
-                        "shadow-lg",
-                        "hover:bg-[#ff9645]",
+                        DOCK_CLASSES.BUTTON,
+                        isExpanded
+                            ? cn(
+                                  "bg-[#ffb53e] dark:bg-[#063842]",
+                                  "scale-[.7]",
+                                  "translate-y-[9px] md:translate-y-[10px]",
+                                  "-translate-x-2",
+                              )
+                            : "dark:bg-[#dd7526] bg-[#ff8629]",
                     )}
                 >
-                    <div className="pointer-events-none">
-                        <AnimatedIcon
-                            isOpen={isExpanded}
-                            bot
-                            closeClassName={cn(
-                                "scale-[2] text-teal-400/80 icon-shadow-sm",
-                            )}
-                            displayClassName={cn(
-                                "scale-[2.7] md:scale-[3.3] text-white/80 dark:text-white/90",
-                            )}
-                        />
-                    </div>
+                    <AnimatedIcon
+                        isOpen={isExpanded}
+                        bot
+                        closeClassName={cn(
+                            "scale-[2.3] text-gray-700 dark:text-white/70",
+                        )}
+                        displayClassName={cn(
+                            "scale-[2.7] md:scale-[3.3]",
+                            "text-white/80 dark:text-white/90",
+                        )}
+                    />
                 </Button>
+                {/* </AnimatePresence> */}
                 <motion.div
                     ref={containerRef}
                     initial={{
@@ -326,31 +331,36 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                     transition={motionVariants.container}
                     className={cn(
                         "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl",
-                        "transition-all duration-500 ease-out pointer-events-visiblePainted mt-[1px]",
+                        "transition-all duration-500 ease-out",
+                        "pointer-events-visiblePainted mt-[1px]",
+                        "bg-blue-800",
                         className,
                     )}
                 >
-                    <motion.div
-                        animate={{
-                            opacity: isExpanded ? 1 : 0,
-                            height: isExpanded ? "auto" : 0,
-                        }}
-                        transition={motionVariants.content}
-                        id="expandable-dock-content"
-                        className={DOCK_CLASSES.CONTENT}
-                        role="region"
-                        aria-label={DOCK_ARIA_LABELS.CONTENT_REGION}
-                        aria-hidden={!isExpanded}
-                        tabIndex={isExpanded ? 0 : -1}
-                    >
-                        <div
-                            className={DOCK_CLASSES.SCROLL_AREA}
-                            role="main"
-                            aria-live="polite"
+                    {isExpanded && (
+                        <motion.div
+                            initial={{ opacity: 0, height: 0, tabIndex: -1 }}
+                            animate={{
+                                opacity: 1,
+                                height: "auto",
+                            }}
+                            transition={motionVariants.content}
+                            id="expandable-dock-content"
+                            className={DOCK_CLASSES.CONTENT}
+                            role="region"
+                            aria-label={DOCK_ARIA_LABELS.CONTENT_REGION}
+                            aria-hidden={!isExpanded}
+                            tabIndex={0}
                         >
-                            {isExpanded && children}
-                        </div>
-                    </motion.div>
+                            <div
+                                className={DOCK_CLASSES.SCROLL_AREA}
+                                role="main"
+                                aria-live="polite"
+                            >
+                                {children}
+                            </div>
+                        </motion.div>
+                    )}
                 </motion.div>
             </div>
         );

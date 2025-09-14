@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
-const smoothUp = {
+export const SmoothUp = {
     type: "spring",
     stiffness: 120,
     damping: 10,
@@ -18,7 +18,7 @@ const smoothUp = {
     delay: 0.5,
 } as const;
 
-const smoothleft = {
+const Smoothleft = {
     type: "spring",
     stiffness: 110,
     damping: 10,
@@ -45,7 +45,7 @@ const FloatingButtons: FC = memo((): JSX.Element => {
                 role="presentation"
                 initial={{ bottom: -100 }}
                 animate={{ bottom: isMobile ? 12 : 16 }}
-                transition={smoothUp}
+                transition={{ SmoothUp }}
             >
                 <ScrollToTopButton />
                 <motion.div
@@ -84,7 +84,7 @@ const FloatingButtons: FC = memo((): JSX.Element => {
                                       : HIDE_X,
                             }}
                             transition={
-                                reduceMotion ? { duration: 0 } : smoothleft
+                                reduceMotion ? { duration: 0 } : Smoothleft
                             }
                             inert
                             role="presentation"

@@ -1,4 +1,5 @@
 // src/constants/dock.ts
+import { cn } from "@/lib/utils";
 
 /**
  * Constants for the ExpandableDock component
@@ -35,21 +36,18 @@ export const DOCK_ANIMATION_DURATIONS = {
 export const DOCK_DIMENSIONS = {
     // Mobile dimensions
     MOBILE: {
-        COLLAPSED_WIDTH: "min(94vw, 54px)",
-        COLLAPSED_HEIGHT: "54px",
+        COLLAPSED_WIDTH: "0px",
+        COLLAPSED_HEIGHT: "0px",
         EXPANDED_WIDTH: "min(96vw, 300px)",
         EXPANDED_HEIGHT: "min(75vh, 554px)",
     },
     // Desktop dimensions
     DESKTOP: {
-        COLLAPSED_WIDTH: "min(90vw, 64px)",
-        COLLAPSED_HEIGHT: "64px",
+        COLLAPSED_WIDTH: "0px",
+        COLLAPSED_HEIGHT: "0px",
         EXPANDED_WIDTH: "min(90vw, 500px)",
         EXPANDED_HEIGHT: "min(80vh, 664px)",
     },
-    // Margins
-    MARGIN_LEFT: "ml-[9px]",
-    MARGIN_BOTTOM: "mb-[9px]",
 } as const;
 
 // Color constants
@@ -62,9 +60,29 @@ export const DOCK_COLORS = {
 
 // CSS classes
 export const DOCK_CLASSES = {
-    CONTAINER:
-        "fixed bottom-6 md:bottom-4 left-2 md:left-4 z-50 w-[52px] md:w-[64px] translate-y-[64px]",
-    CONTENT: "flex-1 flex flex-col overflow-hidden bg-bg-alternate h-full",
+    CONTAINER: cn(
+        cn("fixed bottom-3 md:bottom-4 left-2 md:left-4"),
+        "z-50 w-[52px] md:w-[64px]",
+        "aspect-square",
+    ),
+    BUTTON: cn(
+        cn(
+            "relative",
+            "aspect-square",
+            "w-auto h-[52px] md:h-[64px]",
+            "will-change-auto",
+        ),
+        "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
+        "transition-all duration-300 ease-out",
+        "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
+        cn("hover:bg-[#ff9645]"),
+    ),
+    CONTENT: cn(
+        "flex-1 flex flex-col overflow-hidden",
+        "bg-bg-alternate h-full",
+        "border nav-border",
+        "rounded-xl",
+    ),
     SCROLL_AREA: "overflow-y-auto overflow-x-hidden scrollbar-none h-full",
 } as const;
 
