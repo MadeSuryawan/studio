@@ -1,6 +1,6 @@
 "use client";
 
-import { type JSX, type FC, useState, memo } from "react";
+import { type JSX, type FC, useState, memo, useEffect } from "react";
 import { ScrollToTopButton } from "./ScrollToTopButton";
 import WhatsAppButton from "./WhatsAppButton";
 import { ExpandBot } from "@/components/ExpandBot";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
-export const SmoothUp = {
+const SmoothUp = {
     type: "spring",
     stiffness: 120,
     damping: 10,
@@ -30,10 +30,15 @@ const Smoothleft = {
 
 const FloatingButtons: FC = memo((): JSX.Element => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const reduceMotion = useReducedMotion();
     const isMobile = useIsMobile();
     const REVEAL_X = isMobile ? 32 : 15;
     const HIDE_X = isMobile ? 120 : 108;
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     return (
         <>
@@ -48,6 +53,7 @@ const FloatingButtons: FC = memo((): JSX.Element => {
                 transition={{ SmoothUp }}
             >
                 <ScrollToTopButton />
+
                 <motion.div
                     className={cn(
                         "relative flex flex-row items-center justify-center rounded-lg",
@@ -61,48 +67,50 @@ const FloatingButtons: FC = memo((): JSX.Element => {
                     onBlur={() => setIsHovered(false)}
                     role="presentation"
                 >
-                    <div
-                        className={cn(
-                            "absolute right-0",
-                            "overflow-hidden",
-                            "pointer-events-none", // Prevents interaction
-                            "z-0", // Lower z-index than WhatsAppButton
-                            "w-[170px]",
-                            "rounded-lg",
-                        )}
-                    >
-                        <motion.div
-                            className="inline-flex items-center justify-center"
-                            initial={{
-                                x: reduceMotion ? HIDE_X : HIDE_X,
-                            }}
-                            animate={{
-                                x: reduceMotion
-                                    ? HIDE_X
-                                    : isHovered
-                                      ? REVEAL_X
-                                      : HIDE_X,
-                            }}
-                            transition={
-                                reduceMotion ? { duration: 0 } : Smoothleft
-                            }
-                            inert
-                            role="presentation"
+                    {isMounted && (
+                        <div
+                            className={cn(
+                                "absolute right-0",
+                                "overflow-hidden",
+                                "pointer-events-none", // Prevents interaction
+                                "z-0", // Lower z-index than WhatsAppButton
+                                "w-[170px]",
+                                "rounded-lg",
+                            )}
                         >
-                            <span
-                                className={cn(
-                                    "text-md md:text-lg font-semibold text-white text-center text-nowrap",
-                                    "bg-[#128747]",
-                                    "px-2 py-2 md:py-3 rounded-l-lg text-shadow-sm",
-                                )}
-                                aria-hidden
+                            <motion.div
+                                className="inline-flex items-center justify-center"
+                                initial={{
+                                    x: reduceMotion ? HIDE_X : HIDE_X,
+                                }}
+                                animate={{
+                                    x: reduceMotion
+                                        ? HIDE_X
+                                        : isHovered
+                                          ? REVEAL_X
+                                          : HIDE_X,
+                                }}
+                                transition={
+                                    reduceMotion ? { duration: 0 } : Smoothleft
+                                }
+                                inert
                                 role="presentation"
                             >
-                                Contact Us
-                            </span>
-                        </motion.div>
-                    </div>
-                    <WhatsAppButton className={cn("z-50 rounded-lg")} />
+                                <span
+                                    className={cn(
+                                        "text-md md:text-lg font-semibold text-white text-center text-nowrap",
+                                        "bg-[#128747]",
+                                        "px-2 py-2 md:py-3 rounded-l-lg text-shadow-sm",
+                                    )}
+                                    aria-hidden
+                                    role="presentation"
+                                >
+                                    Contact Us
+                                </span>
+                            </motion.div>
+                        </div>
+                    )}
+                    <WhatsAppButton className={cn("z-50 rounded-xl")} />
                 </motion.div>
             </motion.div>
             <ExpandBot />

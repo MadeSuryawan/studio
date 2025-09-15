@@ -9,7 +9,12 @@ import {
     useMemo,
     memo,
 } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+    AnimatePresence,
+    delay,
+    motion,
+    useReducedMotion,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
 import useIsMobile from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -24,7 +29,6 @@ import {
     DOCK_KEYBOARD,
 } from "@/constants/dock";
 import { AnimatedIcon } from "@/components/ui/animated-presence-icon";
-import { SmoothUp } from "../FloatingButtons";
 interface ExpandableDockProps {
     children: ReactNode;
     className?: string;
@@ -180,21 +184,22 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
             isExpandedRef.current = isExpanded;
         }, [isExpanded]);
 
-        useEffect(() => {
-            const handleClickOutside = (e: MouseEvent) => {
-                if (
-                    containerRef.current &&
-                    !containerRef.current.contains(e.target as Node) &&
-                    isExpandedRef.current
-                ) {
-                    handleCollapse();
-                }
-            };
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [handleCollapse]);
+        // Close the dock when clicking outside
+        // useEffect(() => {
+        //     const handleClickOutside = (e: MouseEvent) => {
+        //         if (
+        //             containerRef.current &&
+        //             !containerRef.current.contains(e.target as Node) &&
+        //             isExpandedRef.current
+        //         ) {
+        //             handleCollapse();
+        //         }
+        //     };
+        //     document.addEventListener("mousedown", handleClickOutside);
+        //     return () => {
+        //         document.removeEventListener("mousedown", handleClickOutside);
+        //     };
+        // }, [handleCollapse]);
 
         // Memoize dimensions for performance using constants
         const dimensions = useMemo(() => {
@@ -223,25 +228,24 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                     animationStage === "widthCollapsing"
                         ? dimensions.collapsedH
                         : dimensions.expandedH,
-                backgroundColor: isCollapsed
-                    ? DOCK_COLORS.COLLAPSED_BACKGROUND
-                    : animationStage === "fullyExpanded" ||
-                        animationStage === "contentFadingOut" ||
-                        animationStage === "heightCollapsing" ||
-                        animationStage === "widthCollapsing"
-                      ? DOCK_COLORS.EXPANDED_BACKGROUND
-                      : DOCK_COLORS.EXPANDED_BACKGROUND,
+                // backgroundColor: isCollapsed
+                //     ? DOCK_COLORS.COLLAPSED_BACKGROUND
+                //     : animationStage === "fullyExpanded" ||
+                //         animationStage === "contentFadingOut" ||
+                //         animationStage === "heightCollapsing" ||
+                //         animationStage === "widthCollapsing"
+                //       ? DOCK_COLORS.EXPANDED_BACKGROUND
+                //       : DOCK_COLORS.EXPANDED_BACKGROUND,
                 backdropFilter: isCollapsed
                     ? DOCK_COLORS.COLLAPSED_BACKDROP_FILTER
                     : DOCK_COLORS.EXPANDED_BACKDROP_FILTER,
-                // translateY: isCollapsed ? "64px" : "0px",
-                opacity: isCollapsed
-                    ? 0
-                    : animationStage === "heightCollapsing" ||
-                        animationStage === "widthCollapsing" ||
-                        animationStage === "widthExpanding"
-                      ? 0
-                      : 1,
+                // opacity: isCollapsed
+                //     ? 0
+                //     : animationStage === "heightCollapsing" ||
+                //         animationStage === "widthCollapsing" ||
+                //         animationStage === "widthExpanding"
+                //       ? 0
+                //       : 1,
             }),
             [animationStage, dimensions, isCollapsed],
         );
@@ -281,11 +285,10 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
         const MotionButton = motion.create(Button);
         return (
             <div
-                className={DOCK_CLASSES.CONTAINER}
+                className={cn(DOCK_CLASSES.CONTAINER)}
                 role="complementary"
                 aria-label={DOCK_ARIA_LABELS.CONTAINER}
             >
-                {/* <AnimatePresence mode="wait"> */}
                 <Button
                     id="expandable-dock-header"
                     onClick={handleToggle}
@@ -296,29 +299,32 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                     variant="ghost"
                     className={cn(
                         DOCK_CLASSES.BUTTON,
-                        isExpanded
+                        isExpanded ||
+                            animationStage === "heightCollapsing" ||
+                            animationStage === "contentFadingOut"
                             ? cn(
-                                  "bg-[#ffb53e] dark:bg-[#063842]",
-                                  "scale-[.7]",
-                                  "translate-y-[9px] md:translate-y-[10px]",
-                                  "-translate-x-2",
+                                  "bg-[#ffb53ec8] dark:bg-[#063842]",
+                                  "scale-[.79] md:scale-[.66]",
+                                  "translate-y-[48px] md:translate-y-[54px]",
+                                  "-translate-x-[6px] md:-translate-x-[10px]",
+                                  "rounded-t-xl rounded-b-none rounded-r-none",
                               )
-                            : "dark:bg-[#dd7526] bg-[#ff8629]",
+                            : "",
                     )}
                 >
                     <AnimatedIcon
                         isOpen={isExpanded}
                         bot
                         closeClassName={cn(
-                            "scale-[2.3] text-gray-700 dark:text-white/70",
+                            "scale-[2.3] text-gray-800 dark:text-white/70",
                         )}
                         displayClassName={cn(
-                            "scale-[2.7] md:scale-[3.3]",
+                            "scale-[2.5] md:scale-[3.1]",
                             "text-white/80 dark:text-white/90",
                         )}
                     />
                 </Button>
-                {/* </AnimatePresence> */}
+
                 <motion.div
                     ref={containerRef}
                     initial={{
@@ -328,13 +334,23 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                         backdropFilter: "blur(0px)",
                     }}
                     animate={animationProps}
+                    // transition={{
+                    //     ...motionVariants.container,
+                    //     delay:
+                    //         animationStage === "fullyExpanded" ||
+                    //         animationStage === "heightExpanding" ||
+                    //         animationStage === "widthExpanding"
+                    //             ? 0
+                    //             : animationStage === "contentFadingOut" ||
+                    //                 animationStage === "heightCollapsing" ||
+                    //                 animationStage === "widthCollapsing"
+                    //               ? 500
+                    //               : 0,
+                    // }}
                     transition={motionVariants.container}
                     className={cn(
-                        "shadow-2xl overflow-hidden flex flex-col-reverse rounded-xl",
+                        "shadow-2xl flex flex-col rounded-xl",
                         "transition-all duration-500 ease-out",
-                        "pointer-events-visiblePainted mt-[1px]",
-                        "bg-blue-800",
-                        className,
                     )}
                 >
                     {isExpanded && (
@@ -344,7 +360,22 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                                 opacity: 1,
                                 height: "auto",
                             }}
-                            transition={motionVariants.content}
+                            // transition={{
+                            //     ...motionVariants.container,
+                            //     delay:
+                            //         animationStage === "fullyExpanded" ||
+                            //         animationStage === "heightExpanding" ||
+                            //         animationStage === "widthExpanding"
+                            //             ? 0
+                            //             : animationStage ===
+                            //                     "contentFadingOut" ||
+                            //                 animationStage ===
+                            //                     "heightCollapsing" ||
+                            //                 animationStage === "widthCollapsing"
+                            //               ? 2
+                            //               : 0,
+                            // }}
+                            transition={motionVariants.container}
                             id="expandable-dock-content"
                             className={DOCK_CLASSES.CONTENT}
                             role="region"

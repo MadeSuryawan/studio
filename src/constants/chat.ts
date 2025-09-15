@@ -57,14 +57,14 @@ export const MESSAGE_STYLES = {
     user: {
         container: "flex items-start gap-3 rounded-md p-2 justify-end",
         bubble: cn(
-            "p-3 rounded-lg max-w-[80%] bg-teal-400 text-primary-foreground",
+            "p-3 rounded-lg max-w-[80%] bg-[#92d6c7df] dark:bg-teal-400 text-primary-foreground",
         ),
         avatar: "w-8 h-8 ml-1",
         avatarFallback: "bg-accent text-accent-foreground",
     },
     assistant: {
         container: cn(
-            "flex items-start gap-3 rounded-md p-2 justify-start bg-black/20",
+            "flex items-start gap-3 rounded-md p-2 justify-start bg-[#7ba6b1c0] dark:bg-[#1b1c21c0]",
         ),
         bubble: "p-3 rounded-lg max-w-[80%] bg-muted",
         avatar: "w-8 h-8 mr-1",

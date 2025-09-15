@@ -43,7 +43,7 @@ const WhatsAppButton = ({ className }: { className?: string }): JSX.Element => {
                 "aspect-square",
                 "w-auto",
                 "h-[52px] md:h-[64px]",
-                "gap-6",
+                className,
             )}
             icon={<WhatsAppIcon className="scale-[2.9] md:scale-[3.4]" />}
             iconPosition="right"

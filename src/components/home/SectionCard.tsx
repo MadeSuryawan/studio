@@ -50,7 +50,6 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     cn(
                         "will-change-transform",
                         "transition-all duration-300 ease-out",
-                        // "hover:scale-[1.01]",
                     ),
 
                 "bg-card border-t-[0px]",

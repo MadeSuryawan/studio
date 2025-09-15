@@ -55,7 +55,7 @@ export const DOCK_COLORS = {
     COLLAPSED_BACKGROUND: "hsla(190, 83%, 14%, 0.00)",
     EXPANDED_BACKGROUND: "hsla(60, 2%, 10%, .5)",
     COLLAPSED_BACKDROP_FILTER: "blur(0px)",
-    EXPANDED_BACKDROP_FILTER: "blur(5px)",
+    EXPANDED_BACKDROP_FILTER: "blur(10px)",
 } as const;
 
 // CSS classes
@@ -63,27 +63,32 @@ export const DOCK_CLASSES = {
     CONTAINER: cn(
         cn("fixed bottom-3 md:bottom-4 left-2 md:left-4"),
         "z-50 w-[52px] md:w-[64px]",
-        "aspect-square",
+        "aspect-square rounded-xl",
     ),
     BUTTON: cn(
         cn(
             "relative",
+            "z-50",
             "aspect-square",
             "w-auto h-[52px] md:h-[64px]",
             "will-change-auto",
         ),
         "focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-0",
         "transition-all duration-300 ease-out",
-        "rounded-[9%_21%_9%_21%_/_9%_21%_9%_21%]",
-        cn("hover:bg-[#ff9645]"),
+        "rounded-[10%_22%_10%_22%_/_10%_22%_10%_22%]",
+        cn("dark:bg-[#dd7526] bg-[#ff8629] hover:bg-[#ff9645]"),
     ),
     CONTENT: cn(
-        "flex-1 flex flex-col overflow-hidden",
-        "bg-bg-alternate h-full",
+        cn("flex-1 overflow-hidden"),
+        cn("bg-bg-alternate"),
+        // cn("bg-[#45454594] dark:bg-[#232526ad]"),
         "border nav-border",
         "rounded-xl",
     ),
-    SCROLL_AREA: "overflow-y-auto overflow-x-hidden scrollbar-none h-full",
+    SCROLL_AREA: cn(
+        "relative overflow-y-auto overflow-x-hidden scrollbar-none h-full",
+        "overscroll-contain touch-pan-y",
+    ),
 } as const;
 
 // ARIA labels and accessibility
