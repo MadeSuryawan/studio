@@ -149,6 +149,7 @@
     .nav-border {
         border-color: var(--nav-border);
     }
+
     .text-shadow-md {
         text-shadow: 1px 3px 1px #1f1f1f;
     }

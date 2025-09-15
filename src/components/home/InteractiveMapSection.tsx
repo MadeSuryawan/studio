@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, type JSX, memo, type FC } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -40,12 +40,6 @@ const STYLING_CONFIG = {
             "transition-opacity duration-300 pointer-events-none",
         ),
         tooltipActive: "opacity-100",
-    },
-    desktop: {
-        mapContainer: "relative group scale-[1.4]",
-    },
-    mobile: {
-        mapContainer: "relative group scale-[.8] xs:scale-[.8] sm:scale-[.8]",
     },
 } as const;
 
@@ -381,7 +375,7 @@ const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
 };
 SectionButton.displayName = "MapSectionButton";
 
-const InteractiveMapSection = (): JSX.Element => {
+const InteractiveMapSection = () => {
     const [activeLocation, setActiveLocation] = useState<Location>(mapPins[0]);
 
     // Refs for height management
@@ -390,6 +384,7 @@ const InteractiveMapSection = (): JSX.Element => {
     const [containerHeight, setContainerHeight] = useState<number>(0);
     const [isMounted, setIsMounted] = useState(false);
     const { resolvedTheme } = useTheme();
+    const isDark = resolvedTheme === "dark";
 
     // Prevent hydration mismatch by waiting for client-side mount
     useEffect(() => {
@@ -445,8 +440,7 @@ const InteractiveMapSection = (): JSX.Element => {
             isMobile?: boolean;
         }) => {
             if (isMounted) {
-                const BaliMap =
-                    resolvedTheme === "dark" ? BaliMapLight : BaliMapDark;
+                const BaliMap = isDark ? BaliMapDark : BaliMapLight;
                 return (
                     <div className={cn("flex items-center", divClass)}>
                         <div
@@ -456,11 +450,12 @@ const InteractiveMapSection = (): JSX.Element => {
                             )}
                         >
                             <BaliMap
-                                className={cn(
-                                    "dark:contrast-[1.07]",
-                                    "dark:brightness-[1.3]",
-                                    mapConfig.mapClass,
-                                )}
+                                className={cn(mapConfig.mapClass)}
+                                style={{
+                                    filter: isDark
+                                        ? "brightness(1.2) contrast(1.2) drop-shadow(1px 5px 2px #1f1f1fb4)"
+                                        : "brightness(1.7) drop-shadow(2px 3px 2px #1f1f1fa0)",
+                                }}
                             />
                             {mapPins.map((loc, index) => (
                                 <LocationPin
@@ -500,7 +495,7 @@ const InteractiveMapSection = (): JSX.Element => {
                 <MapAndCard
                     divClass={cn("flex-row-reverse justify-evenly")}
                     mapConfig={{
-                        divClass: STYLING_CONFIG.desktop.mapContainer,
+                        divClass: cn("relative group scale-[1.4]"),
                     }}
                 />
                 <SectionButton />
@@ -513,7 +508,7 @@ const InteractiveMapSection = (): JSX.Element => {
                 <MapAndCard
                     divClass={cn("flex-col")}
                     mapConfig={{
-                        divClass: cn(STYLING_CONFIG.mobile.mapContainer),
+                        divClass: cn("relative group scale-[.8]"),
                     }}
                     isMobile={true}
                 />

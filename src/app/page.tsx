@@ -12,6 +12,7 @@ import ContactSection from "@/components/home/ContactSection";
 import BlogSection from "@/components/home/BlogSection";
 import InteractiveMapSection from "@/components/home/InteractiveMapSection";
 import AnimatedSection from "@/components/home/AnimatedSection";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 // const bgColors = [
 //     cn("bg-[#368d1b]"),
@@ -35,27 +36,48 @@ const pageSections = [
     { name: "ContactSection", component: ContactSection },
 ];
 
+const variants = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+};
+
+const notAnimate = { opacity: 1, y: 0 };
+
 const Home = (): JSX.Element => {
+    const reducedMotion = useReducedMotion();
     return (
-        <>
-            <HeroSection />
-            {pageSections.map((Section) => (
-                <AnimatedSection
-                    key={Section.name}
-                    className={cn(
-                        "relative",
-                        "overflow-hidden",
-                        "py-6 md:py-10",
-                        "w-full",
-                        // bgColors[
-                        //     pageSections.indexOf(Section) % bgColors.length
-                        // ],
-                    )}
-                >
-                    <Section.component />
-                </AnimatedSection>
-            ))}
-        </>
+        <AnimatePresence onExitComplete={() => window.scrollTo(0, 0)}>
+            <motion.main
+                initial={reducedMotion ? notAnimate : "initial"}
+                animate={reducedMotion ? notAnimate : "animate"}
+                exit={reducedMotion ? notAnimate : "exit"}
+                variants={variants}
+                transition={
+                    reducedMotion
+                        ? { duration: 0 }
+                        : { duration: 0.5, ease: "easeInOut" }
+                }
+            >
+                <HeroSection />
+                {pageSections.map((Section) => (
+                    <AnimatedSection
+                        key={Section.name}
+                        className={cn(
+                            "relative",
+                            "overflow-hidden",
+                            "py-6 md:py-10",
+                            "w-full",
+                            // bgColors[
+                            //     pageSections.indexOf(Section) % bgColors.length
+                            // ],
+                        )}
+                    >
+                        <Section.component />
+                    </AnimatedSection>
+                ))}
+            </motion.main>
+        </AnimatePresence>
     );
 };
 

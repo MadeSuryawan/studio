@@ -185,21 +185,35 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
         }, [isExpanded]);
 
         // Close the dock when clicking outside
-        // useEffect(() => {
-        //     const handleClickOutside = (e: MouseEvent) => {
-        //         if (
-        //             containerRef.current &&
-        //             !containerRef.current.contains(e.target as Node) &&
-        //             isExpandedRef.current
-        //         ) {
-        //             handleCollapse();
-        //         }
-        //     };
-        //     document.addEventListener("mousedown", handleClickOutside);
-        //     return () => {
-        //         document.removeEventListener("mousedown", handleClickOutside);
-        //     };
-        // }, [handleCollapse]);
+        useEffect(() => {
+            const handleClickOutside = (e: MouseEvent) => {
+                if (
+                    containerRef.current &&
+                    !containerRef.current.contains(e.target as Node) &&
+                    isExpandedRef.current
+                ) {
+                    // uncomment to enable closing on outside click
+                    // handleCollapse();
+                }
+            };
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [handleCollapse]);
+
+        // Close the dock when pressing escape
+        useEffect(() => {
+            const handleEscape = (e: KeyboardEvent) => {
+                if (e.key === "Escape" && isExpandedRef.current) {
+                    handleCollapse();
+                }
+            };
+            document.addEventListener("keydown", handleEscape);
+            return () => {
+                document.removeEventListener("keydown", handleEscape);
+            };
+        }, [handleCollapse]);
 
         // Memoize dimensions for performance using constants
         const dimensions = useMemo(() => {
