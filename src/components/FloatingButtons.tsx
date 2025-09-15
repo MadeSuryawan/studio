@@ -15,7 +15,6 @@ const SmoothUp = {
     mass: 0.6,
     restDelta: 0.001,
     restSpeed: 0.001,
-    delay: 0.5,
 } as const;
 
 const Smoothleft = {
@@ -44,13 +43,13 @@ const FloatingButtons: FC = memo((): JSX.Element => {
         <>
             <motion.div
                 className={cn(
-                    "fixed right-2 md:right-4 z-50",
+                    "fixed bottom-3 md:bottom-4 right-2 md:right-4 z-50",
                     "flex flex-col items-center justify-between gap-4",
                 )}
                 role="presentation"
-                initial={{ bottom: -100 }}
-                animate={{ bottom: isMobile ? 12 : 16 }}
-                transition={{ SmoothUp }}
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                transition={{ ...SmoothUp, delay: 0.6 }}
             >
                 <ScrollToTopButton />
 
@@ -110,10 +109,19 @@ const FloatingButtons: FC = memo((): JSX.Element => {
                             </motion.div>
                         </div>
                     )}
-                    <WhatsAppButton className={cn("z-50 rounded-xl")} />
+                    <WhatsAppButton className={cn("z-50")} />
                 </motion.div>
             </motion.div>
-            <ExpandBot />
+            <motion.div
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                transition={{ ...SmoothUp, delay: 0.5 }}
+                className={cn(
+                    "fixed bottom-3 md:bottom-4 left-2 md:left-4 z-50",
+                )}
+            >
+                <ExpandBot />
+            </motion.div>
         </>
     );
 });

@@ -8,11 +8,11 @@ import { cn } from "@/lib/utils";
 
 // Animation timing constants
 export const DOCK_ANIMATION_TIMINGS = {
-    WIDTH_EXPAND_DELAY: 400,
-    FULL_EXPAND_DELAY: 850,
+    WIDTH_EXPAND_DELAY: 300,
+    FULL_EXPAND_DELAY: 500,
     CONTENT_FADE_DELAY: 250,
-    HEIGHT_COLLAPSE_DELAY: 650,
-    FULL_COLLAPSE_DELAY: 1050,
+    HEIGHT_COLLAPSE_DELAY: 300,
+    FULL_COLLAPSE_DELAY: 500,
 } as const;
 
 // Animation easing curves
@@ -60,16 +60,10 @@ export const DOCK_COLORS = {
 
 // CSS classes
 export const DOCK_CLASSES = {
-    CONTAINER: cn(
-        cn("fixed bottom-3 md:bottom-4 left-2 md:left-4"),
-        "z-50 w-[52px] md:w-[64px]",
-        "aspect-square rounded-xl",
-    ),
+    CONTAINER: cn("z-50 w-[52px] md:w-[64px] aspect-square rounded-xl"),
     BUTTON: cn(
         cn(
-            "relative",
-            "z-50",
-            "aspect-square",
+            "relative z-50 aspect-square",
             "w-auto h-[52px] md:h-[64px]",
             "will-change-auto",
         ),
