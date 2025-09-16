@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { useCallback, useEffect, useState, type JSX, memo } from "react";
+// import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,17 @@ const textClassName = cn(
     "cursor-pointer", // Add cursor pointer for better UX
     cn("border-b border-gray-100 dark:border-gray-500 block"),
 ) as string;
+
+const themes = [
+    {
+        theme: "light",
+        label: "Light",
+    },
+    {
+        theme: "dark",
+        label: "Dark",
+    },
+] as const;
 
 const ThemeSwitcher = () => {
     const { setTheme } = useTheme();
@@ -79,6 +90,29 @@ const ThemeSwitcher = () => {
         );
     }
 
+    const ThemeChooser = memo((): JSX.Element => {
+        return (
+            <>
+                {themes.map((theme) => {
+                    const value = theme.theme;
+                    return (
+                        <div
+                            key={value}
+                            onClick={() => handleThemeSelect(value)}
+                            className={textClassName}
+                            role="menuitem"
+                            tabIndex={0}
+                            onKeyDown={handleKeyDown(value)}
+                        >
+                            {theme.label}
+                        </div>
+                    );
+                })}
+            </>
+        );
+    });
+    ThemeChooser.displayName = "ThemeChooser";
+
     return (
         <div ref={containerRef} className="relative">
             <Button
@@ -136,7 +170,7 @@ const ThemeSwitcher = () => {
                         className={cn(
                             "absolute top-full right-0",
                             "mt-3 md:mt-2",
-                            "-mr-6 md:-mr-1",
+                            "-mr-6 md:-mr-6",
                             "pt-2 pb-4 px-3",
                             "rounded-lg",
                             "grid grid-flow-row space-y-3",
@@ -174,24 +208,7 @@ const ThemeSwitcher = () => {
                             times: [0, 0.3, 1],
                         }}
                     >
-                        <div
-                            onClick={() => handleThemeSelect("light")}
-                            className={textClassName}
-                            role="menuitem"
-                            tabIndex={0}
-                            onKeyDown={handleKeyDown("light")}
-                        >
-                            Light
-                        </div>
-                        <div
-                            onClick={() => handleThemeSelect("dark")}
-                            className={textClassName}
-                            role="menuitem"
-                            tabIndex={0}
-                            onKeyDown={handleKeyDown("dark")}
-                        >
-                            Dark
-                        </div>
+                        <ThemeChooser />
                     </motion.div>
                 )}
             </AnimatePresence>

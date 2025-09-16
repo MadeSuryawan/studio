@@ -157,20 +157,20 @@ export default function Footer(): JSX.Element {
                                 </h3>
                                 <div className="space-y-2 text-sm text-right">
                                     <p>
-                                        <a
+                                        <Link
                                             href={`https://wa.me/${WHATSAPP_NUMBER}`}
                                             className="hover:text-white hover:underline"
                                         >
                                             WhatsApp: +{WHATSAPP_NUMBER}
-                                        </a>
+                                        </Link>
                                     </p>
                                     <p>
-                                        <a
+                                        <Link
                                             href="mailto:hello@baliblissed.com"
                                             className="hover:text-white hover:underline"
                                         >
                                             hello@baliblissed.com
-                                        </a>
+                                        </Link>
                                     </p>
                                 </div>
                                 <div className="flex gap-4 mt-6">

@@ -18,7 +18,11 @@ import {
     useReducedMotion,
     AnimatePresence,
 } from "framer-motion";
-import { ChevronDown, ChevronUp as ArrowUp } from "lucide-react";
+import {
+    ChevronDown,
+    ChevronUp as ArrowUp,
+    Link as LinkIcon,
+} from "lucide-react";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
@@ -28,6 +32,7 @@ import { Button } from "./button";
 import NavBarSvg from "@/components/svg/NavBarSvg";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { AnimatedIcon } from "@/components/ui/animated-presence-icon";
+import Link from "next/link";
 
 interface NavLink {
     text: string;
@@ -252,7 +257,7 @@ export const FeatureItem = memo(
         );
 
         return (
-            <a
+            <Link
                 href={url}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
@@ -267,7 +272,7 @@ export const FeatureItem = memo(
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {info}
                 </p>
-            </a>
+            </Link>
         );
     },
 );
@@ -336,7 +341,7 @@ const HoverLink = memo(({ link, className }: HoverLinkProps) => {
         [link, pathname, contactModal],
     );
     return (
-        <a
+        <Link
             href={link.isModal && pathname !== "/" ? "#" : link.url || "#"}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
@@ -353,7 +358,7 @@ const HoverLink = memo(({ link, className }: HoverLinkProps) => {
             aria-label={`Navigate to ${link.text}`}
         >
             {link.text}
-        </a>
+        </Link>
     );
 });
 HoverLink.displayName = "HoverLink";
