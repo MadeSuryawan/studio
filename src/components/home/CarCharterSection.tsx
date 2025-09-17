@@ -103,7 +103,6 @@ const CarCharterSection = (): JSX.Element => {
                             }
                             iconPosition="right"
                             fullWidth={false}
-                            hapticFeedback={true}
                             className={cn(
                                 "absolute",
                                 "left-1/2 -translate-x-1/2 bottom-0 mb-[3px]",

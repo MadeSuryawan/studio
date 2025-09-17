@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type JSX } from "react";
+import { useState, useCallback, type JSX } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +17,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
 import {
     Select,
     SelectContent,
@@ -60,6 +61,25 @@ import { NotepadText, Send } from "lucide-react";
 import useIsMobile from "../../hooks/use-mobile";
 import LogoIcon from "../svg/LogoIcon";
 
+// Budget slider constants
+const BUDGET_CONFIG = {
+    MIN: 300,
+    MAX: 10000,
+    STEP: 100,
+    DEFAULT: 1000,
+} as const;
+
+// Currency formatting utility
+const formatCurrency = (value: number): string => {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(value);
+};
+
+// Form validation schema with numeric budget
 const searchSchema = z.object({
     interests: z.string().min(1, "Please select an interest"),
     date: z
@@ -68,8 +88,34 @@ const searchSchema = z.object({
             to: z.date().optional(),
         })
         .optional(),
-    budget: z.string().min(2, "Please provide a budget"),
+    budget: z
+        .number()
+        .min(
+            BUDGET_CONFIG.MIN,
+            `Budget must be at least ${formatCurrency(BUDGET_CONFIG.MIN)}`,
+        )
+        .max(
+            BUDGET_CONFIG.MAX,
+            `Budget cannot exceed ${formatCurrency(BUDGET_CONFIG.MAX)}`,
+        ),
 });
+
+// Custom hook for budget slider management
+const useBudgetSlider = () => {
+    /**
+     * Handles budget slider value changes
+     * Currently used for potential future enhancements like analytics tracking
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleBudgetChange = useCallback((value: number[]) => {
+        // Future: Add analytics tracking or other side effects here
+        // console.log("Budget changed to:", formatCurrency(value[0]));
+    }, []);
+
+    return {
+        handleBudgetChange,
+    };
+};
 
 const accentClasses = gradientButtonVariants({
     variant: "accent",
@@ -106,13 +152,14 @@ const SecondaryButton = ({
                 "shadow-sm border-none text-nowrap",
                 "w-fit",
                 "hover:scale-[1.02]",
+                "hover:text-white/90",
                 className,
             )}
             icon={
                 <Icon className={cn("scale-[1.1] icon-shadow-sm", iconClass)} />
             }
             iconPosition="left"
-            textShadow="medium"
+            textShadow="light"
             aria-label={ariaLabel}
             aria-describedby={ariaLabel}
             aria-expanded={false}
@@ -133,14 +180,20 @@ const SearchSection = (): JSX.Element => {
     const { toast } = useToast();
     const isMobile = useIsMobile();
 
+    // Initialize budget slider hook for additional state management if needed
+    const { handleBudgetChange } = useBudgetSlider();
+
     const form = useForm<z.infer<typeof searchSchema>>({
         resolver: zodResolver(searchSchema),
         defaultValues: {
             interests: "",
-            budget: "",
+            budget: BUDGET_CONFIG.DEFAULT,
         },
     });
 
+    /**
+     * Closes the result dialog and resets all related state
+     */
     const closeDialog = () => {
         setItinerary(null);
         setError(null);
@@ -148,6 +201,10 @@ const SearchSection = (): JSX.Element => {
         setWhatsAppNumber("");
     };
 
+    /**
+     * Handles form submission and itinerary generation
+     * Converts form data to API format and manages loading states
+     */
     async function onSubmit(data: z.infer<typeof searchSchema>): Promise<void> {
         setIsLoading(true);
         setError(null);
@@ -165,7 +222,7 @@ const SearchSection = (): JSX.Element => {
         const result = await handleItineraryRequest({
             interests: data.interests,
             travelDates: travelDates,
-            budget: data.budget,
+            budget: formatCurrency(data.budget), // Convert numeric budget to formatted string
         });
 
         setIsLoading(false);
@@ -177,6 +234,10 @@ const SearchSection = (): JSX.Element => {
         setError(result.error ?? "An unexpected error occurred.");
     }
 
+    /**
+     * Copies the generated itinerary to the user's clipboard
+     * Shows toast notification for success/failure feedback
+     */
     const handleCopyToClipboard = () => {
         if (!itinerary) {
             return;
@@ -198,11 +259,13 @@ const SearchSection = (): JSX.Element => {
         );
     };
 
+    // WhatsApp message templates and URL generation
     const businessMessage = `Hello! I created a custom itinerary and would like to ask some questions.`;
     const userMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
     const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(businessMessage)}`;
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(userMessage)}`;
 
+    // Secondary action buttons configuration for the result dialog
     const secondaries = [
         {
             label: "Copy Itinerary",
@@ -228,7 +291,7 @@ const SearchSection = (): JSX.Element => {
                     "relative",
                     "md:max-w-4xl",
                     "max-w-fit",
-                    "left-1/2 -translate-x-1/2",
+                    "mx-auto",
                     "bg-card",
                     "neumorphic-card",
                     "rounded-md",
@@ -304,6 +367,7 @@ const SearchSection = (): JSX.Element => {
                                         className={cn(
                                             "flex flex-col",
                                             "mt-4 -mb-1 md:-mb-0 md:mt-0",
+                                            "bg-purple-600/00",
                                         )}
                                     >
                                         <FormLabel className="mb-1">
@@ -400,27 +464,69 @@ const SearchSection = (): JSX.Element => {
                             <FormField
                                 control={form.control}
                                 name="budget"
-                                render={({ field }) => (
-                                    <FormItem className="bg-purple-500/00">
-                                        <FormLabel>
-                                            Budget (e.g., $1000)
-                                        </FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                name="budget"
-                                                autoComplete="off"
-                                                placeholder="Your budget"
+                                render={({ field }) => {
+                                    const currentBudgetFormatted =
+                                        formatCurrency(field.value);
+                                    return (
+                                        <FormItem className="flex flex-col">
+                                            <FormLabel
                                                 className={cn(
-                                                    "border-[1px] dark:border-white/50 border-black/60",
-                                                    "bg-alternate text-special-card-fg",
-                                                    "placeholder:-muted-foreground",
+                                                    "text-sm font-medium -translate-y-[15px]",
+                                                    "mt-3 md:mt-0",
                                                 )}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                            >
+                                                Budget: {currentBudgetFormatted}
+                                            </FormLabel>
+                                            <FormControl>
+                                                <div className="px-2 my-auto">
+                                                    <Slider
+                                                        min={BUDGET_CONFIG.MIN}
+                                                        max={BUDGET_CONFIG.MAX}
+                                                        step={
+                                                            BUDGET_CONFIG.STEP
+                                                        }
+                                                        value={[field.value]}
+                                                        onValueChange={(
+                                                            value,
+                                                        ) => {
+                                                            field.onChange(
+                                                                value[0],
+                                                            );
+                                                            handleBudgetChange(
+                                                                value,
+                                                            );
+                                                        }}
+                                                        className={cn(
+                                                            "w-full cursor-pointer",
+                                                            "touch-none select-none",
+                                                            "translate-y-[6px]",
+                                                        )}
+                                                        aria-label={`Budget slider, current value ${currentBudgetFormatted}`}
+                                                    />
+                                                    <div
+                                                        className={cn(
+                                                            "flex justify-between text-xs",
+                                                            "text-muted-foreground mt-2",
+                                                            "translate-y-[19px]",
+                                                        )}
+                                                    >
+                                                        <span>
+                                                            {formatCurrency(
+                                                                BUDGET_CONFIG.MIN,
+                                                            )}
+                                                        </span>
+                                                        <span>
+                                                            {formatCurrency(
+                                                                BUDGET_CONFIG.MAX,
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
                             />
                             <GradientButton
                                 type="submit"
@@ -445,7 +551,7 @@ const SearchSection = (): JSX.Element => {
                                     "dark:hover:text-primary",
                                     "active:text-white/30",
                                     "transition-none",
-                                    "mt-2 -mb-2 md:mt-0 md:-mb-0",
+                                    "mt-4 -mb-2 md:mt-02 md:-mb-0",
                                 )}
                                 disabled={isLoading}
                                 loading={isLoading}
@@ -457,9 +563,6 @@ const SearchSection = (): JSX.Element => {
                                 loadingText="Processing..."
                                 aria-label="Create My Itinerary"
                                 aria-describedby="Create My Itinerary"
-                                aria-expanded={false}
-                                aria-pressed={true}
-                                hapticFeedback={true}
                             >
                                 Create My Itinerary
                             </GradientButton>
@@ -601,7 +704,7 @@ const SearchSection = (): JSX.Element => {
                                 onClick={closeDialog}
                                 className={cn(
                                     "w-fit sm:w-auto hover:scale-[1.02]",
-                                    "text-shadow-md",
+                                    "text-shadow-sm",
                                     accentClasses,
                                     "w-1/4",
                                 )}
