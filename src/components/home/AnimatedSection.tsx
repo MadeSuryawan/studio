@@ -21,7 +21,7 @@ const AnimatedSection = ({
     });
 
     return (
-        <div
+        <section
             ref={sectionRef}
             className={cn(
                 reducedMotion
@@ -34,7 +34,7 @@ const AnimatedSection = ({
             )}
         >
             {children}
-        </div>
+        </section>
     );
 };
 

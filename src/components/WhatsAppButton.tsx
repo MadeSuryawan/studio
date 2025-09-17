@@ -17,7 +17,6 @@ const WhatsAppIcon = memo(
         ...props
     }: {
         className?: string;
-        fill?: string;
     } & RefAttributes<SVGSVGElement>): JSX.Element => (
         <>
             <FontAwesomeIcon

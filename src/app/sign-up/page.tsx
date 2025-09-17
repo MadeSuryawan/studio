@@ -2,12 +2,14 @@
 
 import {
     type FC,
+    type JSX,
     type ChangeEvent,
     type CSSProperties,
     type ReactNode,
     type InputHTMLAttributes,
     type ForwardedRef,
     type MouseEvent,
+    type RefAttributes,
     useState,
     useEffect,
     useRef,
@@ -22,13 +24,44 @@ import {
     useMotionValue,
     useReducedMotion,
 } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import {
+    Eye,
+    EyeOff,
+    Mail,
+    Lock,
+    User,
+    CheckCircle,
+    AlertCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GradientButton } from "@/components/ui/gradient-button";
+
+const GoogleIcon = memo(
+    ({
+        className,
+        ...props
+    }: {
+        className?: string;
+    } & RefAttributes<SVGSVGElement>): JSX.Element => (
+        <div className={cn("relatives scale-[1.5]")}>
+            <FontAwesomeIcon
+                icon={faGoogle}
+                className={cn("relative", className)}
+                viewBox="0 0 24 24"
+                {...props}
+            />
+        </div>
+    ),
+);
+GoogleIcon.displayName = "GoogleIcon";
+export { GoogleIcon };
 
 const revealBox = "#5046e6a2";
 
@@ -116,7 +149,7 @@ interface PasswordStrengthProps {
 }
 
 const PasswordStrength: FC<PasswordStrengthProps> = memo(
-    function PasswordStrength({ password, className }) {
+    ({ password, className }) => {
         const { checks, strength } = checkPasswordStrength(password);
 
         if (!password) {
@@ -153,7 +186,11 @@ const PasswordStrength: FC<PasswordStrengthProps> = memo(
                     </span>
                 </div>
 
-                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+                <div
+                    className={cn(
+                        "w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700",
+                    )}
+                >
                     <div
                         className={cn(
                             "h-1.5 rounded-full transition-all duration-300",
@@ -183,7 +220,7 @@ const PasswordStrength: FC<PasswordStrengthProps> = memo(
                                 >
                                     {passed && (
                                         <svg
-                                            className="w-2 h-2 text-white"
+                                            className={cn("w-2 h-2 text-white")}
                                             fill="currentColor"
                                             viewBox="0 0 20 20"
                                         >
@@ -213,6 +250,7 @@ const PasswordStrength: FC<PasswordStrengthProps> = memo(
         );
     },
 );
+PasswordStrength.displayName = "PasswordStrength";
 
 // GlowEffect Component
 export type GlowEffectProps = {
@@ -373,134 +411,155 @@ type BoxRevealProps = {
     className?: string;
 };
 
-const BoxReveal = memo(function BoxReveal({
-    children,
-    width = "fit-content",
-    boxColor,
-    duration,
-    overflow = "hidden",
-    position = "relative",
-    className,
-}: BoxRevealProps) {
-    const mainControls = useAnimation();
-    const slideControls = useAnimation();
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
+const BoxReveal = memo(
+    ({
+        children,
+        width = "fit-content",
+        boxColor,
+        duration,
+        overflow = "hidden",
+        position = "relative",
+        className,
+    }: BoxRevealProps) => {
+        const mainControls = useAnimation();
+        const slideControls = useAnimation();
+        const ref = useRef(null);
+        const isInView = useInView(ref, { once: true });
 
-    useEffect(() => {
-        if (isInView) {
-            slideControls.start("visible");
-            mainControls.start("visible");
-        } else {
-            slideControls.start("hidden");
-            mainControls.start("hidden");
-        }
-    }, [isInView, mainControls, slideControls]);
+        useEffect(() => {
+            if (isInView) {
+                slideControls.start("visible");
+                mainControls.start("visible");
+            } else {
+                slideControls.start("hidden");
+                mainControls.start("hidden");
+            }
+        }, [isInView, mainControls, slideControls]);
 
-    return (
-        <section
-            ref={ref}
-            style={{
-                position: position as
-                    | "relative"
-                    | "absolute"
-                    | "fixed"
-                    | "sticky"
-                    | "static",
-                width,
-                overflow,
-            }}
-            className={className}
-        >
-            <motion.div
-                variants={{
-                    hidden: { opacity: 0, y: 75 },
-                    visible: { opacity: 1, y: 0 },
-                }}
-                initial="hidden"
-                animate={mainControls}
-                transition={{ duration: duration ?? 0.5, delay: 0.25 }}
-            >
-                {children}
-            </motion.div>
-            <motion.div
-                variants={{ hidden: { left: 0 }, visible: { left: "100%" } }}
-                initial="hidden"
-                animate={slideControls}
-                transition={{ duration: duration ?? 0.5, ease: "easeIn" }}
+        return (
+            <section
+                ref={ref}
                 style={{
-                    position: "absolute",
-                    top: 4,
-                    bottom: 4,
-                    left: 0,
-                    right: 0,
-                    zIndex: 20,
-                    background: boxColor ?? revealBox,
-                    borderRadius: 4,
+                    position: position as
+                        | "relative"
+                        | "absolute"
+                        | "fixed"
+                        | "sticky"
+                        | "static",
+                    width,
+                    overflow,
                 }}
-            />
-        </section>
-    );
-});
+                className={className}
+            >
+                <motion.div
+                    variants={{
+                        hidden: { opacity: 0, y: 75 },
+                        visible: { opacity: 1, y: 0 },
+                    }}
+                    initial="hidden"
+                    animate={mainControls}
+                    transition={{ duration: duration ?? 0.5, delay: 0.25 }}
+                >
+                    {children}
+                </motion.div>
+                <motion.div
+                    variants={{
+                        hidden: { left: 0 },
+                        visible: { left: "100%" },
+                    }}
+                    initial="hidden"
+                    animate={slideControls}
+                    transition={{ duration: duration ?? 0.5, ease: "easeIn" }}
+                    style={{
+                        position: "absolute",
+                        top: 4,
+                        bottom: 4,
+                        left: 0,
+                        right: 0,
+                        zIndex: 20,
+                        background: boxColor ?? revealBox,
+                        borderRadius: 4,
+                    }}
+                />
+            </section>
+        );
+    },
+);
+BoxReveal.displayName = "BoxReveal";
 
 // Enhanced Input Component with accessibility improvements
 const EnhancedInput = memo(
-    forwardRef(function EnhancedInput(
-        { className, type, ...props }: InputHTMLAttributes<HTMLInputElement>,
-        ref: ForwardedRef<HTMLInputElement>,
-    ) {
-        const radius = 100;
-        const [visible, setVisible] = useState(false);
-        const prefersReducedMotion = useReducedMotion();
+    forwardRef(
+        (
+            {
+                className,
+                type,
+                ...props
+            }: InputHTMLAttributes<HTMLInputElement>,
+            ref: ForwardedRef<HTMLInputElement>,
+        ) => {
+            const radius = 100;
+            const [visible, setVisible] = useState(false);
+            const prefersReducedMotion = useReducedMotion();
 
-        const mouseX = useMotionValue(0);
-        const mouseY = useMotionValue(0);
+            const mouseX = useMotionValue(0);
+            const mouseY = useMotionValue(0);
 
-        function handleMouseMove({
-            currentTarget,
-            clientX,
-            clientY,
-        }: MouseEvent<HTMLDivElement>) {
-            // Skip animation if user prefers reduced motion
-            if (prefersReducedMotion) {
-                return;
+            function handleMouseMove({
+                currentTarget,
+                clientX,
+                clientY,
+            }: MouseEvent<HTMLDivElement>) {
+                // Skip animation if user prefers reduced motion
+                if (prefersReducedMotion) {
+                    return;
+                }
+
+                const { left, top } = currentTarget.getBoundingClientRect();
+                mouseX.set(clientX - left);
+                mouseY.set(clientY - top);
             }
 
-            const { left, top } = currentTarget.getBoundingClientRect();
-            mouseX.set(clientX - left);
-            mouseY.set(clientY - top);
-        }
-
-        return (
-            <motion.div
-                style={{
-                    background: prefersReducedMotion
-                        ? "transparent"
-                        : useMotionTemplate`
+            return (
+                <motion.div
+                    style={{
+                        background: prefersReducedMotion
+                            ? "transparent"
+                            : useMotionTemplate`
                             radial-gradient(
                               ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
                               #3b82f6,
                               transparent 80%
                             )
                           `,
-                }}
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => !prefersReducedMotion && setVisible(true)}
-                onMouseLeave={() => !prefersReducedMotion && setVisible(false)}
-                className="group/input rounded-lg p-[2px] transition duration-300"
-            >
-                <input
-                    type={type}
+                    }}
+                    onMouseMove={handleMouseMove}
+                    onMouseEnter={() =>
+                        !prefersReducedMotion && setVisible(true)
+                    }
+                    onMouseLeave={() =>
+                        !prefersReducedMotion && setVisible(false)
+                    }
                     className={cn(
-                        "shadow-input dark:placeholder-text-neutral-600 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black transition duration-400 group-hover/input:shadow-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 focus-visible:ring-[2px] focus-visible:ring-neutral-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-white dark:shadow-[0px_0px_1px_1px_#404040] dark:focus-visible:ring-neutral-600",
-                        className,
+                        "group/input rounded-lg p-[2px] transition duration-300",
                     )}
-                    ref={ref}
-                    {...props}
-                />
-            </motion.div>
-        );
-    }),
+                >
+                    <input
+                        type={type}
+                        className={cn(
+                            "shadow-input dark:placeholder-text-neutral-600 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black transition duration-400 group-hover/input:shadow-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 focus-visible:ring-[2px] focus-visible:ring-neutral-400 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-800 dark:text-white dark:shadow-[0px_0px_1px_1px_#404040] dark:focus-visible:ring-neutral-600",
+                            // Allow browser autofill styling
+                            "autofill:bg-gray-50 autofill:text-black dark:autofill:bg-zinc-800 dark:autofill:text-white",
+                            "autofill:shadow-[inset_0_0_0px_1000px_rgb(249_250_251)] dark:autofill:shadow-[inset_0_0_0px_1000px_rgb(39_39_42)]",
+                            className,
+                        )}
+                        ref={ref}
+                        {...props}
+                    />
+                </motion.div>
+            );
+        },
+    ),
 );
 
 // Form Field Component with enhanced accessibility
@@ -518,6 +577,7 @@ interface FormFieldProps {
     error?: string;
     autoComplete?: string;
     name?: string;
+    "data-form-type"?: string;
 }
 
 const FormField: FC<FormFieldProps> = ({
@@ -534,11 +594,18 @@ const FormField: FC<FormFieldProps> = ({
     error,
     autoComplete,
     name,
+    "data-form-type": dataFormType,
 }) => {
     const fieldId = name || label.toLowerCase().replace(/\s+/g, "-");
 
     return (
-        <div className="space-y-2">
+        <div
+            className={cn(
+                "space-y-2",
+                "flex flex-col justify-evenly",
+                // "bg-amber-300",
+            )}
+        >
             <BoxReveal boxColor={revealBox} duration={0.3}>
                 <Label htmlFor={fieldId}>
                     {label}{" "}
@@ -551,10 +618,18 @@ const FormField: FC<FormFieldProps> = ({
             </BoxReveal>
 
             <BoxReveal boxColor={revealBox} duration={0.3} width="100%">
+                {/* Input with Icon and Toggle */}
                 <div className="relative">
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    {/* Icon */}
+                    <div
+                        className={cn(
+                            "absolute left-3 top-1/2 -translate-y-1/2",
+                            "text-muted-foreground",
+                        )}
+                    >
                         {icon}
                     </div>
+
                     <EnhancedInput
                         id={fieldId}
                         name={name || fieldId}
@@ -563,17 +638,22 @@ const FormField: FC<FormFieldProps> = ({
                         onChange={onChange}
                         placeholder={placeholder}
                         autoComplete={autoComplete}
-                        className="pl-10 pr-12"
+                        className={cn("pl-10 pr-12")}
                         aria-invalid={error ? "true" : "false"}
                         aria-describedby={
                             error ? `${fieldId}-error` : undefined
                         }
+                        data-form-type={dataFormType}
+                        data-lpignore="false"
                     />
                     {showToggle && (
                         <button
                             type="button"
                             onClick={onToggle}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            className={cn(
+                                "absolute right-3 top-1/2 -translate-y-1/2",
+                                "text-muted-foreground hover:text-foreground transition-colors",
+                            )}
                             aria-label={
                                 showPassword ? "Hide password" : "Show password"
                             }
@@ -586,16 +666,20 @@ const FormField: FC<FormFieldProps> = ({
                         </button>
                     )}
                 </div>
-                {error && (
-                    <p
-                        id={`${fieldId}-error`}
-                        className="text-red-500 text-xs mt-1"
-                        role="alert"
-                        aria-live="polite"
-                    >
-                        {error}
-                    </p>
-                )}
+
+                {/* Error Message */}
+                <div className="relative h-[24px] mt-1">
+                    {error && (
+                        <p
+                            id={`${fieldId}-error`}
+                            className={cn("text-red-500 text-xs")}
+                            role="alert"
+                            aria-live="polite"
+                        >
+                            {error}
+                        </p>
+                    )}
+                </div>
             </BoxReveal>
         </div>
     );
@@ -613,8 +697,13 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
     onSubmit = (data) => console.log("Sign up:", data),
     onGoogleSignUp = () => console.log("Google sign up"),
     onSignInClick = () => console.log("Switch to sign in"),
-}) => {
+}: SignUpFormProps): JSX.Element => {
     const [showPassword, setShowPassword] = useState(false);
+    const [isCreated, setIsCreated] = useState(false);
+    const [isError, setIsError] = useState(false);
+
+    // Ref to store timeout ID for cleanup
+    const successTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // React Hook Form with Zod validation
     const {
@@ -623,6 +712,7 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
         watch,
         setValue,
         clearErrors,
+        reset,
     } = useForm<SignUpFormData>({
         resolver: zodResolver(signUpSchema),
         mode: "onChange", // Validate on change for better UX
@@ -636,14 +726,49 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
     // Watch form values for controlled components
     const formValues = watch();
 
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (successTimeoutRef.current) {
+                clearTimeout(successTimeoutRef.current);
+            }
+        };
+    }, []);
+
     // Handle form submission with Zod validation
     const onFormSubmit = async (data: SignUpFormData) => {
         try {
+            // Clear any previous error states
+            setIsError(false);
+
             // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1000));
             onSubmit(data);
+
+            // Show success state
+            setIsCreated(true);
+
+            // Reset all form fields and states after successful submission
+            reset({
+                name: "",
+                email: "",
+                password: "",
+            });
+
+            // Reset component states
+            setShowPassword(false);
+
+            // Clear any remaining errors
+            clearErrors();
+
+            // Auto-hide success message after 3 seconds
+            successTimeoutRef.current = setTimeout(() => {
+                setIsCreated(false);
+            }, 3000);
         } catch (error) {
             console.error("Sign up error:", error);
+            setIsError(true);
+            setIsCreated(false);
             // Handle submission errors here
         }
     };
@@ -651,18 +776,36 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
     // Handle input changes for controlled components
     const handleInputChange =
         (field: keyof SignUpFormData) => (e: ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
+            const { value } = e.target;
             setValue(field, value, { shouldValidate: true });
+
             // Clear errors when user starts typing
             if (errors[field]) {
                 clearErrors(field);
             }
+
+            // Clear success/error states when user starts typing again
+            if (isCreated) {
+                setIsCreated(false);
+                // Clear the auto-hide timeout if user starts typing
+                if (successTimeoutRef.current) {
+                    clearTimeout(successTimeoutRef.current);
+                    successTimeoutRef.current = null;
+                }
+            }
+            if (isError) {
+                setIsError(false);
+            }
         };
 
     return (
-        <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+        <div
+            className={cn(
+                "min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden",
+            )}
+        >
             {/* Background Glow Effect */}
-            <div className="absolute inset-0">
+            <div className={cn("absolute inset-0")}>
                 <GlowEffect
                     colors={["#0894FF", "#C959DD", "#FF2E54", "#FF9004"]}
                     mode="pulse"
@@ -671,73 +814,162 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                 />
             </div>
 
-            <div className="relative z-10 w-full max-w-md mx-auto">
-                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
+            <div className={cn("relative z-10 w-full max-w-md mx-auto")}>
+                <div
+                    className={cn(
+                        "bg-card/80 backdrop-blur-xl border border-border",
+                        "rounded-2xl p-6 sm:p-8 shadow-2xl",
+                    )}
+                >
                     {/* Header */}
-                    <div className="text-center mb-8">
+                    <div
+                        className={cn(
+                            "flex flex-col items-center justify-center text-center mb-8",
+                        )}
+                    >
                         <BoxReveal boxColor={revealBox} duration={0.3}>
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                                <User className="w-8 h-8 text-primary" />
+                            <div
+                                className={cn(
+                                    "inline-flex items-center justify-center",
+                                    "w-16 h-16 bg-primary/10 rounded-full mb-4",
+                                )}
+                            >
+                                <User className={cn("w-8 h-8 text-primary")} />
                             </div>
                         </BoxReveal>
 
                         <BoxReveal boxColor={revealBox} duration={0.3}>
-                            <h1 className="text-3xl font-bold text-foreground mb-2">
+                            <h1
+                                className={cn(
+                                    "text-3xl font-bold text-foreground mb-2",
+                                )}
+                            >
                                 Join BaliBlissed
                             </h1>
                         </BoxReveal>
 
                         <BoxReveal boxColor={revealBox} duration={0.3}>
-                            <p className="text-muted-foreground">
+                            <p className={cn("text-muted-foreground")}>
                                 Create your account to start your Bali adventure
                             </p>
                         </BoxReveal>
                     </div>
+
+                    {/* Success Message */}
+                    {isCreated && (
+                        <BoxReveal
+                            boxColor={revealBox}
+                            duration={0.3}
+                            width="100%"
+                        >
+                            <div
+                                className={cn(
+                                    "mb-6 p-4 rounded-lg border",
+                                    "bg-green-50 border-green-200 text-green-800",
+                                    "dark:bg-green-900/20 dark:border-green-800 dark:text-green-300",
+                                )}
+                                role="alert"
+                                aria-live="polite"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                                    <div>
+                                        <h3 className="font-medium">
+                                            Account Created Successfully!
+                                        </h3>
+                                        <p className="text-sm mt-1">
+                                            Welcome to BaliBlissed! Your account
+                                            has been created and you can now
+                                            start exploring.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </BoxReveal>
+                    )}
+
+                    {/* Error Message */}
+                    {isError && (
+                        <BoxReveal
+                            boxColor={revealBox}
+                            duration={0.3}
+                            width="100%"
+                        >
+                            <div
+                                className={cn(
+                                    "mb-6 p-4 rounded-lg border",
+                                    "bg-red-50 border-red-200 text-red-800",
+                                    "dark:bg-red-900/20 dark:border-red-800 dark:text-red-300",
+                                )}
+                                role="alert"
+                                aria-live="polite"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                    <div>
+                                        <h3 className="font-medium">
+                                            Sign Up Failed
+                                        </h3>
+                                        <p className="text-sm mt-1">
+                                            There was an error creating your
+                                            account. Please try again.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </BoxReveal>
+                    )}
 
                     {/* Google Sign Up Button */}
                     <BoxReveal
                         boxColor={revealBox}
                         duration={0.3}
                         overflow="visible"
+                        className="mx-auto"
                     >
                         <Button
                             type="button"
                             variant="outline"
                             size="lg"
-                            className="w-full mb-6 relative group overflow-hidden"
+                            className={cn(
+                                "w-full mb-6 relative group overflow-hidden",
+                                "shadow-[-2px_-2px_5px_rgba(255,_255,_255,_0.5),3px_3px_8px_rgba(129,_140,_155,_0.4)]",
+                                "hover:shadow-[inset_2px_2px_7px_rgba(0,_0,_0,_0.5),_inset_-3px_-3px_7px_rgba(255,255,255,_1)]",
+                                "dark:shadow-[-2px_-2px_5px_rgba(162,_162,_162,_0.1),_2px_2px_5px_rgba(0,_0,_0,_0.5)]",
+                                "dark:hover:shadow-[inset_-2px_-2px_5px_rgba(255,_255,_255,_0.05),inset_2px_2px_5px_rgba(0,_0,_0,_0.5)]",
+                            )}
                             onClick={onGoogleSignUp}
                         >
-                            <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
-                                <path
-                                    fill="currentColor"
-                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                />
-                                <path
-                                    fill="currentColor"
-                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                />
-                                <path
-                                    fill="currentColor"
-                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                />
-                                <path
-                                    fill="currentColor"
-                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                />
-                            </svg>
+                            <GoogleIcon className="mr-2" />
                             Continue with Google
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                            <div
+                                className={cn(
+                                    "absolute inset-0",
+                                    "bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full",
+                                    "group-hover:translate-x-full transition-transform duration-1000 ease-in-out",
+                                )}
+                            />
                         </Button>
                     </BoxReveal>
 
                     {/* Divider */}
-                    <BoxReveal boxColor={revealBox} duration={0.3}>
-                        <div className="relative mb-6">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-border" />
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-card text-muted-foreground">
+                    <BoxReveal
+                        boxColor={revealBox}
+                        duration={0.3}
+                        className="mx-auto"
+                    >
+                        <div className={cn("relative mb-6", "rounded-sm")}>
+                            <div
+                                className={cn(
+                                    "relative flex justify-center text-sm",
+                                )}
+                            >
+                                <span
+                                    className={cn(
+                                        "px-2 bg-card text-muted-foreground",
+                                        "rounded-sm",
+                                    )}
+                                >
                                     or
                                 </span>
                             </div>
@@ -747,8 +979,9 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                     {/* Sign Up Form */}
                     <form
                         onSubmit={handleSubmit(onFormSubmit)}
-                        className="space-y-6"
-                        noValidate
+                        method="post"
+                        action="/sign-up"
+                        autoComplete="on"
                         aria-label="Sign up form"
                     >
                         <FormField
@@ -777,7 +1010,7 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                             error={errors.email?.message}
                         />
 
-                        <div className="space-y-3">
+                        <div className={cn("space-y-3")}>
                             <FormField
                                 label="Password"
                                 name="password"
@@ -787,6 +1020,7 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                                 onChange={handleInputChange("password")}
                                 icon={<Lock size={18} />}
                                 autoComplete="new-password"
+                                data-form-type="password"
                                 showToggle
                                 onToggle={() => setShowPassword(!showPassword)}
                                 showPassword={showPassword}
@@ -803,7 +1037,7 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                                 >
                                     <PasswordStrength
                                         password={formValues.password}
-                                        className="mt-2"
+                                        className="mb-3"
                                     />
                                 </BoxReveal>
                             )}
@@ -813,45 +1047,104 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                             boxColor={revealBox}
                             duration={0.3}
                             overflow="visible"
+                            className="mx-auto"
                         >
-                            <Button
+                            <GradientButton
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full relative group bg-primary text-primary-foreground py-3 px-4 rounded-lg font-medium transition-all duration-300 ease-in-out hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                                loading={isSubmitting}
+                                loadingText="Signing up..."
+                                iconPosition="right"
+                                // successState={isCreated}
+                                // errorState={isError}
+                                variant="accent"
+                                textShadow="none"
+                                className={cn(
+                                    "w-[170px] relative group",
+                                    "bg-[#7ff5febc] dark:bg-[#6ecdd3fd]",
+                                    "text-primary-foreground/80 text-nowrap",
+                                    "py-1 px-2 rounded-md mt-2",
+                                    "font-medium darkk:transition-all duration-300 ease-in-out",
+                                    "focus:outline-none focus:ring-2 focus:ring-primary",
+                                    "focus:ring-offset-2 disabled:opacity-50",
+                                    "disabled:cursor-not-allowed overflow-hidden",
+                                    "shadow-[-2px_-2px_5px_rgba(255,_255,_255,_0.5),3px_3px_8px_rgba(129,_140,_155,_0.4)]",
+                                    "hover:shadow-[inset_2px_2px_7px_rgba(0,_0,_0,_0.5),_inset_-3px_-3px_7px_rgba(255,255,255,_1)]",
+                                    "dark:shadow-[-2px_-2px_5px_rgba(162,_162,_162,_0.1),_2px_2px_5px_rgba(0,_0,_0,_0.5)]",
+                                    "dark:hover:shadow-[inset_-2px_-2px_5px_rgba(255,_255,_255,_0.05),inset_2px_2px_5px_rgba(0,_0,_0,_0.5)]",
+                                    "nav-border",
+                                    "dark:border-none",
+                                    "hover:border-transparent",
+                                    "transition-none",
+                                )}
                                 aria-describedby={
                                     isSubmitting ? "submit-loading" : undefined
                                 }
                             >
                                 <span
-                                    className={`transition-opacity duration-200 ${isSubmitting ? "opacity-0" : "opacity-100"}`}
+                                    className={cn(
+                                        "transition-opacity duration-200",
+                                        isSubmitting
+                                            ? "opacity-0"
+                                            : "opacity-100",
+                                    )}
                                 >
                                     Create Account
                                 </span>
 
                                 {isSubmitting && (
                                     <div
-                                        className="absolute inset-0 flex items-center justify-center"
+                                        className={cn(
+                                            "absolute inset-0 flex items-center justify-center",
+                                        )}
                                         id="submit-loading"
                                         aria-label="Creating account, please wait"
                                     >
-                                        <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                                        <div
+                                            className={cn(
+                                                "w-5 h-5 border-2 border-primary-foreground/30",
+                                                "border-t-primary-foreground rounded-full animate-spin",
+                                            )}
+                                        />
                                     </div>
                                 )}
 
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                            </Button>
+                                {/* Gradient Effect */}
+                                <div
+                                    className={cn(
+                                        "absolute inset-0",
+                                        "bg-gradient-to-r from-transparent via-white/20 to-transparent",
+                                        "-translate-x-full group-hover:translate-x-full",
+                                        "transition-transform duration-1000 ease-in-out",
+                                    )}
+                                />
+                            </GradientButton>
                         </BoxReveal>
                     </form>
 
                     {/* Footer */}
-                    <BoxReveal boxColor={revealBox} duration={0.3}>
-                        <div className="mt-8 text-center">
-                            <p className="text-sm text-muted-foreground">
-                                Already have an account?{" "}
+                    <BoxReveal
+                        boxColor={revealBox}
+                        duration={0.3}
+                        className={cn("mx-auto", "mt-5")}
+                    >
+                        <div
+                            className={cn("mt-8 text-center relative my-auto")}
+                        >
+                            <p className={cn("text-sm text-muted-foreground")}>
+                                Already have an account?
                                 <button
                                     type="button"
                                     onClick={onSignInClick}
-                                    className="text-primary hover:underline font-medium"
+                                    className={cn(
+                                        "text-accent dark:text-primary",
+                                        "hover:underline hover:underline-offset-3 hover:scale-105",
+                                        "font-medium",
+                                        "text-md",
+                                        "pl-2",
+                                        "will-change-auto",
+                                        "transition-all duration-200 ease-in-out",
+                                    )}
                                 >
                                     Sign in
                                 </button>

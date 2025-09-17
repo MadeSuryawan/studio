@@ -1,6 +1,6 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { PT_Sans } from "next/font/google";
+import { ptSans, balibanat, mangusastra } from "./font";
 import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,20 +8,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { FloatingButtons } from "@/components/FloatingButtons";
-import { balibanat, mangusastra } from "./font";
 import { ContactModal } from "@/components/ContactModal";
 
 export const metadata: Metadata = {
     title: "BaliBlissed",
     description: "Crafting unforgettable travel experiences in Bali.",
 };
-
-const ptSans = PT_Sans({
-    subsets: ["latin"],
-    weight: ["400", "700"],
-    display: "swap",
-    variable: "--font-pt-sans",
-});
 
 export default function RootLayout({
     children,
