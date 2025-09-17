@@ -41,7 +41,7 @@ export default function GradientButtonDemo() {
     };
 
     return (
-        <div className="min-h-screen bg-background p-8">
+        <div className="min-h-screen bg-background p-8 mt-20">
             <div className="max-w-6xl mx-auto space-y-12">
                 {/* Header */}
                 <div className="text-center space-y-4">

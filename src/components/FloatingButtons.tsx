@@ -32,7 +32,7 @@ const FloatingButtons: FC = memo((): JSX.Element => {
     const [isMounted, setIsMounted] = useState(false);
     const reduceMotion = useReducedMotion();
     const isMobile = useIsMobile();
-    const REVEAL_X = isMobile ? 32 : 15;
+    const REVEAL_X = isMobile ? 20 : 3;
     const HIDE_X = isMobile ? 120 : 108;
 
     useEffect(() => {

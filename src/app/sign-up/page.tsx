@@ -1,6 +1,20 @@
 "use client";
 
-import React, { useState, useEffect, useRef, memo, forwardRef } from "react";
+import {
+    type FC,
+    type ChangeEvent,
+    type FormEvent,
+    type CSSProperties,
+    type ReactNode,
+    type InputHTMLAttributes,
+    type ForwardedRef,
+    type MouseEvent,
+    useState,
+    useEffect,
+    useRef,
+    memo,
+    forwardRef,
+} from "react";
 import {
     motion,
     useAnimation,
@@ -13,10 +27,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
+const revealBox = "#5046e6a2";
+
 // GlowEffect Component
 export type GlowEffectProps = {
     className?: string;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     colors?: string[];
     mode?:
         | "rotate"
@@ -148,7 +164,7 @@ function GlowEffect({
                     "--scale": scale,
                     willChange: "transform",
                     backfaceVisibility: "hidden",
-                } as React.CSSProperties
+                } as CSSProperties
             }
             animate={getAnimation()}
             className={cn(
@@ -163,7 +179,7 @@ function GlowEffect({
 
 // BoxReveal Component
 type BoxRevealProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     width?: string;
     boxColor?: string;
     duration?: number;
@@ -234,7 +250,7 @@ const BoxReveal = memo(function BoxReveal({
                     left: 0,
                     right: 0,
                     zIndex: 20,
-                    background: boxColor ?? "#5046e6",
+                    background: boxColor ?? revealBox,
                     borderRadius: 4,
                 }}
             />
@@ -245,12 +261,8 @@ const BoxReveal = memo(function BoxReveal({
 // Enhanced Input Component
 const EnhancedInput = memo(
     forwardRef(function EnhancedInput(
-        {
-            className,
-            type,
-            ...props
-        }: React.InputHTMLAttributes<HTMLInputElement>,
-        ref: React.ForwardedRef<HTMLInputElement>,
+        { className, type, ...props }: InputHTMLAttributes<HTMLInputElement>,
+        ref: ForwardedRef<HTMLInputElement>,
     ) {
         const radius = 100;
         const [visible, setVisible] = useState(false);
@@ -262,7 +274,7 @@ const EnhancedInput = memo(
             currentTarget,
             clientX,
             clientY,
-        }: React.MouseEvent<HTMLDivElement>) {
+        }: MouseEvent<HTMLDivElement>) {
             const { left, top } = currentTarget.getBoundingClientRect();
             mouseX.set(clientX - left);
             mouseY.set(clientY - top);
@@ -304,8 +316,8 @@ interface FormFieldProps {
     type: string;
     placeholder: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    icon: React.ReactNode;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    icon: ReactNode;
     showToggle?: boolean;
     onToggle?: () => void;
     showPassword?: boolean;
@@ -313,7 +325,7 @@ interface FormFieldProps {
     error?: string;
 }
 
-const FormField: React.FC<FormFieldProps> = ({
+const FormField: FC<FormFieldProps> = ({
     label,
     type,
     placeholder,
@@ -328,14 +340,14 @@ const FormField: React.FC<FormFieldProps> = ({
 }) => {
     return (
         <div className="space-y-2">
-            <BoxReveal boxColor="#5046e6" duration={0.3}>
+            <BoxReveal boxColor={revealBox} duration={0.3}>
                 <Label htmlFor={label.toLowerCase()}>
                     {label}{" "}
                     {required && <span className="text-red-500">*</span>}
                 </Label>
             </BoxReveal>
 
-            <BoxReveal boxColor="#5046e6" duration={0.3} width="100%">
+            <BoxReveal boxColor={revealBox} duration={0.3} width="100%">
                 <div className="relative">
                     <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                         {icon}
@@ -381,7 +393,7 @@ interface SignUpFormProps {
     onSignInClick?: () => void;
 }
 
-const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
+const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
     onSubmit = (data) => console.log("Sign up:", data),
     onGoogleSignUp = () => console.log("Google sign up"),
     onSignInClick = () => console.log("Switch to sign in"),
@@ -396,8 +408,7 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleInputChange =
-        (field: keyof SignUpFormData) =>
-        (e: React.ChangeEvent<HTMLInputElement>) => {
+        (field: keyof SignUpFormData) => (e: ChangeEvent<HTMLInputElement>) => {
             setFormData((prev) => ({ ...prev, [field]: e.target.value }));
             if (errors[field]) {
                 setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -427,10 +438,12 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (!validateForm()) return;
+        if (!validateForm()) {
+            return;
+        }
 
         setIsSubmitting(true);
         try {
@@ -457,19 +470,19 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
                 <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl p-8 shadow-2xl">
                     {/* Header */}
                     <div className="text-center mb-8">
-                        <BoxReveal boxColor="#5046e6" duration={0.3}>
+                        <BoxReveal boxColor={revealBox} duration={0.3}>
                             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
                                 <User className="w-8 h-8 text-primary" />
                             </div>
                         </BoxReveal>
 
-                        <BoxReveal boxColor="#5046e6" duration={0.3}>
+                        <BoxReveal boxColor={revealBox} duration={0.3}>
                             <h1 className="text-3xl font-bold text-foreground mb-2">
                                 Join BaliBlissed
                             </h1>
                         </BoxReveal>
 
-                        <BoxReveal boxColor="#5046e6" duration={0.3}>
+                        <BoxReveal boxColor={revealBox} duration={0.3}>
                             <p className="text-muted-foreground">
                                 Create your account to start your Bali adventure
                             </p>
@@ -478,7 +491,7 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
 
                     {/* Google Sign Up Button */}
                     <BoxReveal
-                        boxColor="#5046e6"
+                        boxColor={revealBox}
                         duration={0.3}
                         overflow="visible"
                     >
@@ -513,7 +526,7 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
                     </BoxReveal>
 
                     {/* Divider */}
-                    <BoxReveal boxColor="#5046e6" duration={0.3}>
+                    <BoxReveal boxColor={revealBox} duration={0.3}>
                         <div className="relative mb-6">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-border" />
@@ -565,7 +578,7 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
                         />
 
                         <BoxReveal
-                            boxColor="#5046e6"
+                            boxColor={revealBox}
                             duration={0.3}
                             overflow="visible"
                         >
@@ -592,7 +605,7 @@ const BaliBlissedSignUpForm: React.FC<SignUpFormProps> = ({
                     </form>
 
                     {/* Footer */}
-                    <BoxReveal boxColor="#5046e6" duration={0.3}>
+                    <BoxReveal boxColor={revealBox} duration={0.3}>
                         <div className="mt-8 text-center">
                             <p className="text-sm text-muted-foreground">
                                 Already have an account?{" "}

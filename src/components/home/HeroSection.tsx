@@ -148,7 +148,7 @@ const HeroImage = memo(
             >
                 <motion.div
                     className={cn(
-                        "relative w-full h-full bg-background rounded-lg",
+                        "relative size-full bg-background rounded-lg",
                         "parallax-element",
                     )}
                     style={reducedMotion ? {} : { y: smoothY }}
@@ -342,12 +342,10 @@ const HeroSection = (): JSX.Element => {
                         "mr-8",
                         "neumorphic-hero-image",
                         "rounded-lg",
+                        "flex place-content-center",
                     )}
                 >
-                    <HeroImage
-                        className="translate-y-1 -translate-x-1"
-                        reducedMotion={reducedMotion}
-                    />
+                    <HeroImage reducedMotion={reducedMotion} />
                 </div>
             </div>
 
