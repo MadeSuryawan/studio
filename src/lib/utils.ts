@@ -33,7 +33,7 @@ export function throttle<TArgs extends readonly unknown[], TReturn>(
     };
 
     // Attach a cancel method for cleanup
-    const throttledWithCancel = Object.assign(throttled, {
+    return Object.assign(throttled, {
         cancel: () => {
             if (timeoutId) {
                 clearTimeout(timeoutId);
@@ -42,8 +42,6 @@ export function throttle<TArgs extends readonly unknown[], TReturn>(
             }
         },
     });
-
-    return throttledWithCancel;
 }
 
 export const ScrollToTop = (): void => {

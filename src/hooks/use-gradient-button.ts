@@ -150,7 +150,9 @@ export function useGradientButton({
     // Keyboard interaction handler
     const handleKeyDown = useCallback(
         (event: React.KeyboardEvent<HTMLButtonElement>) => {
-            if (disabled || isLoading) return;
+            if (disabled || isLoading) {
+                return;
+            }
 
             // Handle Enter and Space key activation
             if (event.key === "Enter" || event.key === " ") {

@@ -44,13 +44,6 @@ export const NAVIGATION_LINKS: NavigationLink[] = [
     },
 ] as const;
 
-// Header styling constants
-export const HEADER_STYLES = {
-    NAVBAR_STYLE: "text-foreground h-12 md:h-16",
-    LOGO_CLASSES: "h-full w-[84px] md:w-[90px]",
-    THEME_SWITCHER_CONTAINER: "flex items-center justify-center",
-} as const;
-
 // Animation constants
 export const ANIMATION_CONSTANTS = {
     LINKS_HEAD_START_MS: 0,
@@ -62,7 +55,7 @@ export const ANIMATION_CONSTANTS = {
 // Accessibility constants
 export const ACCESSIBILITY_LABELS = {
     LOGO_ARIA_LABEL: "BaliBlissed Home Page",
-    LOGO_SR_ONLY: "BaliBlissed Home Page",
+    LOGO_SR_ONLY: "BaliBlissed Logo Icon",
     MOBILE_MENU_TOGGLE: "Toggle mobile navigation menu",
     SUBMENU_TOGGLE: "Toggle submenu",
     CLOSE_MENU: "Close navigation menu",

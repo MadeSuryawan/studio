@@ -12,10 +12,14 @@ export function useAutoScroll(dependency: unknown[]) {
     const prefersReducedMotion = useReducedMotion();
 
     const scrollToBottom = useCallback(() => {
-        if (!scrollAreaRef.current) return;
+        if (!scrollAreaRef.current) {
+            return;
+        }
 
         const scrollableView = scrollAreaRef.current.querySelector("div");
-        if (!scrollableView) return;
+        if (!scrollableView) {
+            return;
+        }
 
         const scrollBehavior = prefersReducedMotion
             ? CHAT_CONSTANTS.SCROLL_BEHAVIOR_REDUCED

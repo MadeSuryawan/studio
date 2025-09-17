@@ -18,11 +18,7 @@ import {
     useReducedMotion,
     AnimatePresence,
 } from "framer-motion";
-import {
-    ChevronDown,
-    ChevronUp as ArrowUp,
-    // Link as LinkIcon,
-} from "lucide-react";
+import { ChevronDown, ChevronUp as ArrowUp } from "lucide-react";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
 import { useContactModal } from "@/hooks/use-contact-modal";
@@ -33,6 +29,7 @@ import NavBarSvg from "@/components/svg/NavBarSvg";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 import { AnimatedIcon } from "@/components/ui/animated-presence-icon";
 import Link from "next/link";
+import { ScrollToTop } from "@/lib/utils";
 
 interface NavLink {
     text: string;
@@ -173,7 +170,13 @@ const ListItem = memo(
                     transition={{
                         duration: NAVBAR_CONSTANTS.MOBILE_MENU_DURATION,
                     }}
-                    className="cursor-pointer text-gray-800 dark:text-gray-200 font-medium text-base lg:text-xl whitespace-nowrap hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white py-1 bg-transparent border-0 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-md"
+                    className={cn(
+                        "cursor-pointer text-gray-800 dark:text-gray-200",
+                        "font-medium text-base lg:text-xl whitespace-nowrap",
+                        "hover:opacity-[0.9] hover:text-gray-900 dark:hover:text-white",
+                        "py-1 bg-transparent border-0 rounded-md",
+                        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                    )}
                     aria-haspopup="true"
                     aria-expanded={isSelected}
                     aria-controls={isSelected ? submenuId : undefined}
@@ -262,7 +265,11 @@ export const FeatureItem = memo(
                 href={url}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
-                className="block p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className={cn(
+                    "block p-3 hover:bg-gray-100 dark:hover:bg-gray-800",
+                    "rounded-lg transition-colors duration-300 ease-out",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                )}
                 role="menuitem"
                 tabIndex={0}
                 aria-label={`${heading}: ${info}`}
@@ -365,6 +372,27 @@ const HoverLink = memo(({ link, className }: HoverLinkProps) => {
 HoverLink.displayName = "HoverLink";
 
 /**
+ * Error fallback component for Header
+ * Simple fallback without external dependencies
+ */
+const HeaderErrorFallback: React.FC<{ error?: Error }> = ({ error }) => (
+    <header
+        className={cn("text-foreground h-12 md:h-16")}
+        role="banner"
+        aria-label="Site header with navigation error"
+    >
+        <div className="container mx-auto px-4 flex items-center justify-between">
+            <div className="text-sm text-red-600">
+                Navigation temporarily unavailable
+                {error && (
+                    <span className="ml-2 text-xs">({error.message})</span>
+                )}
+            </div>
+        </div>
+    </header>
+);
+
+/**
  * Enhanced NavbarFlow component with improved performance, accessibility, and error handling
  * Provides responsive navigation with smooth animations and keyboard support
  */
@@ -424,7 +452,9 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
 
         // Enhanced animation sequence with error handling and memoized durations
         useEffect(() => {
-            if (!isMounted || sequenceDone || reducedMotion) return;
+            if (!isMounted || sequenceDone || reducedMotion) {
+                return;
+            }
 
             const springTransition = {
                 type: "spring" as const,
@@ -596,12 +626,16 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
         const renderSubmenuItems = useCallback(
             (submenu: React.ReactNode) => {
                 try {
-                    if (!isValidElement(submenu)) return null;
+                    if (!isValidElement(submenu)) {
+                        return null;
+                    }
 
                     const submenuProps = submenu.props as {
                         children?: React.ReactNode;
                     };
-                    if (!submenuProps.children) return null;
+                    if (!submenuProps.children) {
+                        return null;
+                    }
 
                     return Children.map(
                         submenuProps.children,
@@ -620,9 +654,21 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
             [hideMobileMenu],
         );
 
+        const handleLogoClick = useCallback(() => {
+            try {
+                ScrollToTop();
+            } catch (error) {
+                console.error("Error scrolling to top:", error);
+                // Fallback to basic scroll
+                window.scrollTo(0, 0);
+            }
+        }, []);
+
         // Enhanced keyboard event handling with better accessibility
         useEffect(() => {
-            if (!isOpen) return;
+            if (!isOpen) {
+                return;
+            }
 
             const onKeyDown = (e: KeyboardEvent) => {
                 try {
@@ -663,17 +709,7 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
         }, [hasError]);
 
         if (hasError) {
-            return (
-                <div
-                    className={`sticky top-0 z-${NAVBAR_CONSTANTS.Z_INDEX.NAVBAR} w-full ${styleName}`}
-                >
-                    <div className="flex items-center justify-center h-12 md:h-16 bg-background">
-                        <span className="text-sm text-red-600">
-                            Navigation temporarily unavailable
-                        </span>
-                    </div>
-                </div>
-            );
+            return <HeaderErrorFallback />;
         }
 
         return (
@@ -714,8 +750,9 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                             "neumorphic-logo",
                         )}
                         animate={emblemMotion}
-                        role="banner"
-                        aria-label="Site logo"
+                        role="button"
+                        aria-label="BaliBlissed Logo Icon"
+                        onClick={handleLogoClick}
                     >
                         {emblem}
                     </motion.div>
@@ -855,8 +892,9 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                             "w-fit",
                             "p-[1px]",
                         )}
-                        role="banner"
-                        aria-label="Site logo"
+                        role="button"
+                        aria-label="BaliBlissed Logo Icon"
+                        onClick={handleLogoClick}
                     >
                         {emblem}
                     </motion.div>

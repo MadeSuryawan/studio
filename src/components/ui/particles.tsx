@@ -21,7 +21,9 @@ export function Particles({
 
     useEffect(() => {
         const container = mountRef.current;
-        if (!container) return;
+        if (!container) {
+            return;
+        }
 
         let camera: THREE.PerspectiveCamera;
         let scene: THREE.Scene;
@@ -83,7 +85,9 @@ export function Particles({
         };
 
         const handleResize = () => {
-            if (!camera || !renderer) return;
+            if (!camera || !renderer) {
+                return;
+            }
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -97,7 +101,9 @@ export function Particles({
         };
 
         const animateScene = () => {
-            if (!camera || !scene || !renderer || !material) return;
+            if (!camera || !scene || !renderer || !material) {
+                return;
+            }
 
             if (animate) {
                 const time = Date.now() * 0.00005;
@@ -128,7 +134,9 @@ export function Particles({
                 container.removeChild(renderer.domElement);
             }
 
-            if (material) material.dispose();
+            if (material) {
+                material.dispose();
+            }
         };
     }, [color, particleCount, particleSize, animate]);
 

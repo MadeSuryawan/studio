@@ -56,7 +56,9 @@ const ExpandBot: FC = memo((): JSX.Element => {
 
             // Validate input before processing
             const trimmedInput = input.trim();
-            if (!trimmedInput || isLoading) return;
+            if (!trimmedInput || isLoading) {
+                return;
+            }
 
             // Validate message length
             if (trimmedInput.length > CHAT_CONSTANTS.MAX_MESSAGE_LENGTH) {

@@ -28,7 +28,9 @@ export const useOutsideClick: <T extends HTMLElement>(
     );
 
     useEffect(() => {
-        if (!enabled) return;
+        if (!enabled) {
+            return;
+        }
 
         // Add event listener
         document.addEventListener("mousedown", handleClickOutside);

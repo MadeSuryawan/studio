@@ -66,8 +66,12 @@ const NotFound = ({
      */
     const handleMouseMove = useCallback(
         (e: MouseEvent) => {
-            if (prefersReducedMotion) return; // ✅ disable tilt if reduced motion
-            if (rafRef.current) return;
+            if (prefersReducedMotion) {
+                return;
+            } // ✅ disable tilt if reduced motion
+            if (rafRef.current) {
+                return;
+            }
 
             const { clientX, clientY } = e;
 
@@ -75,7 +79,9 @@ const NotFound = ({
                 rafRef.current = null;
                 const container = containerRef.current;
                 const image = imageRef.current;
-                if (!container || !image) return;
+                if (!container || !image) {
+                    return;
+                }
 
                 const { left, top, width, height } =
                     container.getBoundingClientRect();
