@@ -6,7 +6,6 @@ import { AnimatedButton } from "@/components/ui/animated-button";
 import { cn } from "@/lib/utils";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { ChevronRight } from "lucide-react";
-import { useTheme } from "next-themes";
 
 const CarCharterSection = (): JSX.Element => {
     return (
@@ -38,7 +37,7 @@ const CarCharterSection = (): JSX.Element => {
                         className={cn(
                             "inline-block text-white/90 px-3 py-1 text-sm font-semibold",
                             "shadow-md shadow-black/50",
-                            // "text-shadow-xs",
+                            "text-shadow-xs",
                             "bg-gradient-to-b from-[#2f5d71] to-[#103444]",
                             "rounded-[3%_15%_3%_15%_/_9%_50%_9%_50%]",
                             "border-[1px] border-accent",
@@ -77,7 +76,7 @@ const CarCharterSection = (): JSX.Element => {
                     <div className="mt-6 flex flex-row flex-0">
                         <AnimatedButton
                             className={cn(
-                                "border-none w-48 h-[44px]",
+                                "border-none w-54 h-[44px]",
                                 "left-1/2 -translate-x-1/2 -translate-y-[2px]",
                             )}
                             variant="outline"

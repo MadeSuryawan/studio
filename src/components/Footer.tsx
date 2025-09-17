@@ -76,7 +76,7 @@ export default function Footer(): JSX.Element {
                     "pointer-events-none",
                 )}
             />
-            <div className="relative flex flex-col justify-start items-center content-start z-10">
+            <div className="relative flex flex-col justify-start items-center content-start px-4 z-10">
                 {/* Top */}
                 <div className="size-full self-center">
                     <div className="container grid grid-row md:grid-cols-4">
@@ -223,7 +223,7 @@ export default function Footer(): JSX.Element {
                         <p
                             className={cn(
                                 "text-center md:text-left",
-                                "mb-2 md:mb-0 md:ml-24",
+                                "mb-2 md:mb-0 md:ml-20",
                                 "w-fit",
                             )}
                         >

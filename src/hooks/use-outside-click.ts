@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback, type RefObject } from "react";
 export const useOutsideClick: <T extends HTMLElement>(
     callback: () => void,
     enabled?: boolean,
-) => RefObject<T> = <T extends HTMLElement>(
+) => RefObject<T | null> = <T extends HTMLElement>(
     callback: () => void,
     enabled = true,
 ) => {

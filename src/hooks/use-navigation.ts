@@ -114,15 +114,15 @@ export function useNavigation(): UseNavigationReturn {
         [closeAllMenus],
     );
 
-    // Handle clicks outside navigation (would need ref implementation)
-    const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
-            // This would be implemented with a ref to the navigation container
-            // For now, we'll provide the callback for future implementation
-            closeAllMenus();
-        },
-        [closeAllMenus],
-    );
+    // // Handle clicks outside navigation (would need ref implementation)
+    // const handleClickOutside = useCallback(
+    //     (event: MouseEvent) => {
+    //         // This would be implemented with a ref to the navigation container
+    //         // For now, we'll provide the callback for future implementation
+    //         closeAllMenus();
+    //     },
+    //     [closeAllMenus],
+    // );
 
     // Effect for keyboard event listeners
     useEffect(() => {

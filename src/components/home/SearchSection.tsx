@@ -7,7 +7,7 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { WHATSAPP_NUMBER } from "@/lib/config";
-import WhatsAppIcon from "../svg/WhatsAppIcon";
+import { WhatsAppIcon } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -38,13 +38,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    CalendarIcon,
-    Search,
-    Loader2,
-    MessageCircle,
-    Copy,
-} from "lucide-react";
+import { CalendarIcon, Search, Copy } from "lucide-react";
 import { handleItineraryRequest } from "@/app/actions";
 import {
     AlertDialog,
@@ -90,6 +84,7 @@ interface SecondaryButtonProps {
     icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     ariaLabel: string;
     fullWidth?: boolean;
+    iconClass?: string;
 }
 
 const SecondaryButton = ({
@@ -98,6 +93,7 @@ const SecondaryButton = ({
     icon: Icon,
     ariaLabel,
     fullWidth = false,
+    iconClass,
     onClick,
 }: SecondaryButtonProps): JSX.Element => {
     return (
@@ -107,11 +103,14 @@ const SecondaryButton = ({
             variant="secondary"
             fullWidth={fullWidth}
             className={cn(
-                "shadow-sm border-none hover:scale-1 text-nowrap",
+                "shadow-sm border-none text-nowrap",
                 "w-fit",
+                "hover:scale-[1.02]",
                 className,
             )}
-            icon={<Icon className="scale-[1.1] icon-shadow-sm" />}
+            icon={
+                <Icon className={cn("scale-[1.1] icon-shadow-sm", iconClass)} />
+            }
             iconPosition="left"
             textShadow="medium"
             aria-label={ariaLabel}
@@ -202,6 +201,24 @@ export default function SearchSection(): JSX.Element {
     const businessWhatsAppUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(businessMessage)}`;
     const userWhatsAppUrl = `https://wa.me/${whatsAppNumber}?text=${encodeURIComponent(userMessage)}`;
 
+    const secondaries = [
+        {
+            label: "Copy Itinerary",
+            className: "gap-3 w-1/2 tracking-wide",
+            icon: Copy,
+            ariaLabel: "Copy Itinerary to Clipboard",
+            onClick: handleCopyToClipboard,
+        },
+        {
+            label: "Send to my WhatsApp",
+            className: "w-1/2",
+            icon: WhatsAppIcon,
+            iconClass: "text-[#25d366] scale-[1.5]",
+            ariaLabel: "Send to my WhatsApp",
+            onClick: () => setShowWhatsAppInput(true),
+        },
+    ];
+
     return (
         <section id="search" className="mx-5 md:mx-0">
             <Card
@@ -238,7 +255,7 @@ export default function SearchSection(): JSX.Element {
                                 control={form.control}
                                 name="interests"
                                 render={({ field }) => (
-                                    <FormItem className="bg-red-500/00">
+                                    <FormItem>
                                         <FormLabel>Interests</FormLabel>
                                         <Select
                                             onValueChange={field.onChange}
@@ -246,7 +263,7 @@ export default function SearchSection(): JSX.Element {
                                             name="interests"
                                         >
                                             <FormControl>
-                                                <SelectTrigger className="text-muted-foreground">
+                                                <SelectTrigger className="text-muted-foreground border-[1px] dark:border-white/50 border-blue/60">
                                                     <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -291,7 +308,8 @@ export default function SearchSection(): JSX.Element {
                                                 <FormControl
                                                     className={cn(
                                                         "border-[1px] dark:border-white/00",
-                                                        "border-black/60 text-muted-foreground bg-bg-alternate",
+                                                        "border-black/60 dark:border-white/50",
+                                                        "text-muted-foreground bg-bg-alternate",
                                                     )}
                                                 >
                                                     <Button
@@ -363,8 +381,9 @@ export default function SearchSection(): JSX.Element {
                                                             ),
                                                         )
                                                     }
-                                                    initialFocus
+                                                    autoFocus
                                                     numberOfMonths={2}
+                                                    showOutsideDays={false}
                                                 />
                                             </PopoverContent>
                                         </Popover>
@@ -388,7 +407,7 @@ export default function SearchSection(): JSX.Element {
                                                 placeholder="Your budget"
                                                 className={cn(
                                                     "border-[1px] dark:border-white/50 border-black/60",
-                                                    "bg-bg-alternate text-special-card-fg",
+                                                    "bg-alternate text-special-card-fg",
                                                     "placeholder:-muted-foreground",
                                                 )}
                                             />
@@ -404,8 +423,8 @@ export default function SearchSection(): JSX.Element {
                                 fullWidth={false}
                                 className={cn(
                                     "text-nowrap",
-                                    "px-2",
-                                    "w-fit md:w-3/5",
+                                    "px-3",
+                                    "w-3/5 md:w-[70%]",
                                     "flex justify-evenly",
                                     "md:col-start-3",
                                     "ml-auto",
@@ -415,7 +434,7 @@ export default function SearchSection(): JSX.Element {
                                     "border-black/10 border-spacing-1",
                                     "hover:text-accent",
                                     "dark:border-[#43819b58]",
-                                    "dark:bg-bg-alternate",
+                                    "dark:bg-alternate",
                                     "dark:text-white/60 ",
                                     "dark:hover:text-primary",
                                     "active:text-white/30",
@@ -426,7 +445,7 @@ export default function SearchSection(): JSX.Element {
                                 loading={isLoading}
                                 textShadow={"none"}
                                 icon={
-                                    <NotepadText className="scale-[1.1] md:scale-[1.2] md:mr-3" />
+                                    <NotepadText className="scale-[1.1] md:scale-[1.1]" />
                                 }
                                 iconPosition="right"
                                 loadingText="Processing..."
@@ -522,29 +541,13 @@ export default function SearchSection(): JSX.Element {
                                 "flex-1 flex flex-row gap-1 md:gap-3 justify-evenly",
                             )}
                         >
-                            {!error && (
-                                <>
+                            {!error &&
+                                secondaries.map((secondary) => (
                                     <SecondaryButton
-                                        className={cn(
-                                            "gap-3 w-1/2",
-                                            "tracking-wide",
-                                        )}
-                                        label="Copy Itinerary"
-                                        icon={Copy}
-                                        ariaLabel="Copy Itinerary to Clipboard"
-                                        onClick={handleCopyToClipboard}
+                                        key={secondary.label}
+                                        {...secondary}
                                     />
-                                    <SecondaryButton
-                                        className={cn("w-1/2")}
-                                        label="Send to my WhatsApp"
-                                        icon={WhatsAppIcon}
-                                        ariaLabel="Send to my WhatsApp"
-                                        onClick={() =>
-                                            setShowWhatsAppInput(true)
-                                        }
-                                    />
-                                </>
-                            )}
+                                ))}
                         </div>
                         <div
                             className={cn(
@@ -564,7 +567,12 @@ export default function SearchSection(): JSX.Element {
                                     "md:w-auto",
                                 )}
                                 icon={
-                                    <WhatsAppIcon className="scale-[1.2] icon-shadow-sm" />
+                                    <WhatsAppIcon
+                                        className={cn(
+                                            "scale-[1.2] icon-shadow-sm",
+                                            "text-[#25d366] scale-[1.5]",
+                                        )}
+                                    />
                                 }
                                 iconPosition="right"
                                 textShadow="light"

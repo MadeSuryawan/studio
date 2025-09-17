@@ -4,10 +4,9 @@
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Control } from "react-hook-form";
 import { z } from "zod";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -17,7 +16,6 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import { Loader2, Mail } from "lucide-react";
 import { handleContactRequest } from "@/app/actions";
 import {
     AlertDialog,
@@ -30,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { GradientButton } from "@/components/ui/gradient-button";
 import { cn } from "@/lib/utils";
+import { Mail } from "lucide-react";
 
 // ============================================================================
 // CONSTANTS AND CONFIGURATION
@@ -81,10 +80,9 @@ const ANIMATION_CONFIG = {
 const FORM_STYLES = {
     CONTAINER: "mx-auto w-full max-w-sm md:max-w-lg",
     FORM: "grid gap-3",
-    INPUT_BASE:
-        "bg-bg-alternate text-special-card-fg placeholder:text-white/40",
+    INPUT_BASE: "bg-alternate text-special-card-fg placeholder:text-white/40",
     TEXTAREA:
-        "min-h-[120px] bg-bg-alternate text-special-card-fg placeholder:text-white/40",
+        "min-h-[120px] bg-alternate text-special-card-fg placeholder:text-white/40",
     BUTTON: "w-full",
 } as const;
 
@@ -234,7 +232,7 @@ const useContactForm = () => {
  */
 const FormFieldComponent = memo<{
     name: keyof ContactFormData;
-    control: any;
+    control: Control<ContactFormData>;
     type?: string;
     placeholder: string;
     ariaLabel: string;

@@ -10,7 +10,6 @@ import {
     AnimatePresence,
     useScroll,
     useMotionValue,
-    useTransform,
 } from "framer-motion";
 
 // Constants
@@ -59,7 +58,6 @@ const ScrollToTopButton = memo(
             return () => {
                 unsubscribe();
             };
-            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [scrollY]);
 
         // Animate y value when visibility changes

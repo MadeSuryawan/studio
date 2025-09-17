@@ -19,6 +19,7 @@ export default function ContactSection(): React.JSX.Element {
                     "container grid items-center justify-center",
                     "gap-4 px-4 text-center md:px-6 z-10",
                     "md:max-w-screen-md",
+                    "mx-auto",
                 )}
             >
                 <div className="space-y-3 bg-blue-400/0">

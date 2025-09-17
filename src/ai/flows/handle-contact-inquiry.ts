@@ -71,11 +71,15 @@ const sendEmailTool = ai.defineTool(
         try {
             await transporter.verify();
             console.log("Nodemailer transport verified successfully.");
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Nodemailer transport verification failed:", error);
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred while verifying the email server connection.";
             return {
                 success: false,
-                error: `Failed to connect to email server: ${error.message}`,
+                error: `Failed to connect to email server: ${errorMessage}`,
             };
         }
 
@@ -100,13 +104,15 @@ const sendEmailTool = ai.defineTool(
             const info = await transporter.sendMail(mailOptions);
             console.log("Email sent successfully. Message ID:", info.messageId);
             return { success: true };
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error sending email with Nodemailer:", error);
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "An unknown error occurred while sending the email.";
             return {
                 success: false,
-                error:
-                    `Failed to send email: ${error.message}` ||
-                    "An unknown error occurred while sending the email.",
+                error: `Failed to send email: ${errorMessage}`,
             };
         }
     },

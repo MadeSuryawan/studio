@@ -56,7 +56,7 @@ const Home = (): JSX.Element => {
                 transition={
                     reducedMotion
                         ? { duration: 0 }
-                        : { duration: 0.5, ease: "easeInOut" }
+                        : { duration: 0.2, ease: "easeOut" }
                 }
             >
                 <HeroSection />

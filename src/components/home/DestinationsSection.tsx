@@ -69,7 +69,7 @@ const DestinationCard = memo(
         cardRef,
         destination,
     }: {
-        cardRef: React.RefObject<HTMLDivElement>;
+        cardRef: React.RefObject<HTMLDivElement | null>;
         destination: CardData;
     }) => {
         return (
@@ -119,7 +119,7 @@ export default function DestinationsSection(): JSX.Element {
             {/* Mobile view */}
             <Carousel className="md:hidden mx-auto max-w-xs sm:max-w-sm">
                 <SectionTitle divClass="text-center mb-8" />
-                <CarouselContent paginationMt="mt-32">
+                <CarouselContent paginationMt="mt-36">
                     {destinations.map((destination) => (
                         <CarouselItem key={destination.name}>
                             <DestinationCard

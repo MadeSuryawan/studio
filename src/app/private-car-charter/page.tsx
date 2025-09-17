@@ -11,7 +11,6 @@ import {
 import { Check, Car, Clock, MapPin, UserCheck, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 interface CarOption {
     name: string;
@@ -139,28 +138,6 @@ const features: Feature[] = [
     },
 ];
 
-const HeroSection1 = (): JSX.Element => {
-    return (
-        <section
-            className="relative w-full h-[50vh] flex items-center justify-center text-center bg-cover bg-center"
-            style={{
-                backgroundImage: "url(https://placehold.co/600x400.png)",
-            }}
-        >
-            <div className="absolute top-0 left-0 w-full h-full bg-black/60 z-10" />
-            <div className="relative z-20 container px-4 md:px-6">
-                <h1 className="text-4xl font-bold tracking-normal sm:text-5xl md:text-6xl text-white">
-                    Private Car Charter in Bali
-                </h1>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 md:text-xl">
-                    Explore the Island of the Gods at Your Own Pace. Your Car,
-                    Your Driver, Your Itinerary.
-                </p>
-            </div>
-        </section>
-    );
-};
-
 const HeroSection = (): JSX.Element => {
     return (
         <section className="relative w-full h-[50vh] min-h-[480px]">
@@ -261,7 +238,7 @@ const PricingSection = (): JSX.Element => {
                     {pricingTiers.map((tier) => (
                         <Card
                             key={tier.slug}
-                            className="flex flex-col hover:shadow-xl transition-shadow duration-300 bg-bg-alternate"
+                            className="flex flex-col hover:shadow-xl transition-shadow duration-300 bg-alternate"
                         >
                             <CardHeader className="text-center">
                                 <CardTitle className="text-2xl text-special-card-fg">

@@ -21,7 +21,7 @@ import {
 import {
     ChevronDown,
     ChevronUp as ArrowUp,
-    Link as LinkIcon,
+    // Link as LinkIcon,
 } from "lucide-react";
 import { ACCESSIBILITY_LABELS } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
@@ -250,7 +250,8 @@ export const FeatureItem = memo(
         );
 
         const handleClick = useCallback(
-            (_e: React.MouseEvent) => {
+            (e: React.MouseEvent) => {
+                e.preventDefault();
                 onPress?.();
             },
             [onPress],

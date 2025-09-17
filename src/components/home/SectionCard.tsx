@@ -53,8 +53,8 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     ),
 
                 "bg-card border-t-[0px]",
-                className,
                 "overflow-hidden",
+                className,
             )}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -79,9 +79,9 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     height={400}
                     className={cn(
                         "h-48 object-cover",
-                        data.imageClass && data.imageClass,
                         "brightness-[1.02] dark:brightness-95",
                         "overflow-hidden",
+                        data.imageClass && data.imageClass,
                     )}
                     sizes="(max-width: 768px) 100vw, 33vw"
                     data-ai-hint={data.aiHint}
@@ -107,9 +107,7 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
             </div>
 
             <CardContent
-                className={cn(
-                    "card-content flex flex-col p-3 justify-between flex-grow",
-                )}
+                className={cn("flex flex-col p-3 justify-between flex-grow")}
             >
                 <CardTitle
                     className={cn(
@@ -125,8 +123,9 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                     <p
                         className={cn(
                             "card-description my-3 text-muted-foreground text-sm leading-relaxed",
-                            baliMap && "min-h-[4.5rem]",
+                            baliMap && "min-h-[4.5rem] text-lg",
                             "line-clamp-3",
+                            // "bg-green-800",
                         )}
                     >
                         {data.description}
@@ -150,7 +149,8 @@ const SectionCard = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
                 <div
                     className={cn(
                         "card-button relative flex flex-shrink-0 place-content-start",
-                        "place-items-start bottom-0 mt-auto h-auto",
+                        "place-items-start bottom-0",
+                        "mt-3 md:mt-2 h-auto",
                         baliMap
                             ? "left-1/2 -translate-x-1/2 mr-auto"
                             : "ml-auto",
@@ -197,7 +197,6 @@ export const ButtonFunc = ({
             textShadow="none"
             className={cn(
                 "mx-auto",
-                "mt-8 md:mt-auto",
                 "md:flex flex-row items-center justify-center",
                 "left-1/2 -translate-x-1/2",
                 "border-black/10",

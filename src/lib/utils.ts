@@ -13,15 +13,15 @@ export const cn = (...inputs: ClassValue[]): string => twMerge(clsx(...inputs));
  *
  * Note: The wrapper does not return the original function's return value.
  */
-export function throttle<T extends (...args: any[]) => any>(
-    func: T,
+export function throttle<TArgs extends readonly unknown[], TReturn>(
+    func: (...args: TArgs) => TReturn,
     limit: number,
-): (...args: Parameters<T>) => ReturnType<T> | undefined {
+): ((...args: TArgs) => TReturn | undefined) & { cancel: () => void } {
     let inThrottle = false;
-    let lastResult: ReturnType<T> | undefined;
+    let lastResult: TReturn | undefined;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-    const throttled = (...args: Parameters<T>): ReturnType<T> | undefined => {
+    const throttled = (...args: TArgs): TReturn | undefined => {
         if (!inThrottle) {
             lastResult = func(...args);
             inThrottle = true;
@@ -32,16 +32,18 @@ export function throttle<T extends (...args: any[]) => any>(
         return lastResult;
     };
 
-    // Optionally, you can attach a cancel method for cleanup
-    (throttled as any).cancel = () => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-            timeoutId = null;
-            inThrottle = false;
-        }
-    };
+    // Attach a cancel method for cleanup
+    const throttledWithCancel = Object.assign(throttled, {
+        cancel: () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+                inThrottle = false;
+            }
+        },
+    });
 
-    return throttled;
+    return throttledWithCancel;
 }
 
 export const ScrollToTop = (): void => {

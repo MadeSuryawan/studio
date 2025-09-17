@@ -8,7 +8,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { FloatingButtons } from "@/components/FloatingButtons";
-import { ScrollProvider } from "@/context/ScrollContext";
 import { balibanat, mangusastra } from "./font";
 import { ContactModal } from "@/components/ContactModal";
 
@@ -161,7 +160,7 @@ export default function RootLayout({
                 {/* <ScrollProvider> */}
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
+                    defaultTheme="light"
                     enableSystem
                     disableTransitionOnChange
                 >

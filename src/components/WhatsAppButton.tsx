@@ -1,3 +1,4 @@
+// src/components/WhatsAppButton.tsx
 "use client";
 
 import { type JSX, type RefAttributes, memo } from "react";
@@ -14,12 +15,14 @@ const WhatsAppIcon = memo(
     ({
         className,
         ...props
-    }: { className?: string } & RefAttributes<SVGSVGElement>): JSX.Element => (
+    }: {
+        className?: string;
+        fill?: string;
+    } & RefAttributes<SVGSVGElement>): JSX.Element => (
         <>
             <FontAwesomeIcon
                 icon={faWhatsapp}
                 className={cn("relative", className)}
-                fill="#ffffff"
                 {...props}
             />
         </>
@@ -45,7 +48,9 @@ const WhatsAppButton = ({ className }: { className?: string }): JSX.Element => {
                 "h-[52px] md:h-[64px]",
                 className,
             )}
-            icon={<WhatsAppIcon className="scale-[2.9] md:scale-[3.4]" />}
+            icon={
+                <WhatsAppIcon className="scale-[2.9] md:scale-[3.4] text-[#ffffff]" />
+            }
             iconPosition="right"
             aria-label="Contact Us on WhatsApp"
             aria-describedby="Contact Us on WhatsApp"

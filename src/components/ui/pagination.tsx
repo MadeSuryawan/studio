@@ -50,8 +50,8 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
         {
             className,
             isActive = false,
-            shiny = isActive,
-            shinySpeed = 5,
+            // shiny = isActive,
+            // shinySpeed = 5,
             size = "icon",
             badgeClass,
             variant = isActive ? "default" : "outline",

@@ -11,8 +11,8 @@ import { useTheme } from "next-themes";
 // Animation configuration constants
 const ANIMATION_CONFIG = {
     cardTransition: {
-        duration: 0.4,
-        ease: "easeOut" as const,
+        duration: 0.5,
+        ease: "easeInOut",
     },
     cardVariants: {
         initial: { opacity: 0, y: 10 },
@@ -156,7 +156,7 @@ const mapPins: Location[] = [
         description:
             "Home to the iconic Ulun Danu Beratan Temple, this highland area offers cool weather and stunning lake views.",
         image: "/images/bali_map/beratan_temple.webp",
-        imageClass: "object-[center_-1px] md:object-[center_-23px]", // 23px from top, object-[75%_center] from left
+        imageClass: "object-[center_-21px] md:object-[center_-23px]", // 23px from top, object-[75%_center] from left
         aiHint: "beratan temple bali",
         x: "58%",
         y: "30%",
@@ -224,8 +224,6 @@ const mapPins: Location[] = [
     },
 ] as Location[];
 
-// ===== HELPER FUNCTIONS =====
-
 /**
  * Generates a contact message URL for a specific location
  */
@@ -242,8 +240,6 @@ const handleLocationClick = (
 ) => {
     setActiveLocation(location);
 };
-
-// ===== COMPONENTS =====
 
 /**
  * Interactive pin component for map locations
@@ -314,24 +310,14 @@ const MapSectionCard = memo(
     ({
         activeLocation,
         cardRef,
-        containerHeight,
         isMobile,
     }: {
         activeLocation: Location;
-        cardRef: React.RefObject<HTMLDivElement>;
-        containerHeight: number;
+        cardRef: React.RefObject<HTMLDivElement | null>;
         isMobile: boolean;
     }) => {
         return (
-            <div
-                className={cn("shadow-xl")}
-                style={{
-                    height:
-                        containerHeight > 0 ? `${containerHeight}px` : "auto",
-                    minHeight:
-                        containerHeight > 0 ? `${containerHeight}px` : "auto",
-                }}
-            >
+            <>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeLocation.name}
@@ -339,7 +325,7 @@ const MapSectionCard = memo(
                         animate={ANIMATION_CONFIG.cardVariants.animate}
                         exit={ANIMATION_CONFIG.cardVariants.exit}
                         transition={ANIMATION_CONFIG.cardTransition}
-                        className="w-full flex justify-center"
+                        className={cn("shadow-xl")}
                     >
                         <SectionCard
                             ref={cardRef}
@@ -348,16 +334,16 @@ const MapSectionCard = memo(
                             buttonLink={generateContactMessage(
                                 activeLocation.name,
                             )}
-                            className={
+                            className={cn(
                                 isMobile
-                                    ? "max-w-xs sm:max-w-sm"
-                                    : "md:max-w-sm"
-                            }
+                                    ? "max-w-sm sm:max-w-sm"
+                                    : "md:max-w-sm",
+                            )}
                             baliMap={true}
                         />
                     </motion.div>
                 </AnimatePresence>
-            </div>
+            </>
         );
     },
 );
@@ -366,7 +352,7 @@ MapSectionCard.displayName = "MapSectionCard";
 const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
         <ButtonFunc
-            className={cn(isMobile ? "mt-9" : "left-0 translate-x-0")}
+            className={cn(isMobile ? "-mt-2" : "left-0 translate-x-0")}
             text="Explore All Destinations"
             link="#destinations"
             ariaLabel="Explore all destinations"
@@ -381,7 +367,6 @@ const InteractiveMapSection = () => {
     // Refs for height management
     const cardRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [containerHeight, setContainerHeight] = useState<number>(0);
     const [isMounted, setIsMounted] = useState(false);
     const { resolvedTheme } = useTheme();
     const isDark = resolvedTheme === "dark";
@@ -390,37 +375,6 @@ const InteractiveMapSection = () => {
     useEffect(() => {
         setIsMounted(true);
     }, []);
-
-    // Update container height when card changes
-    useEffect(() => {
-        const updateHeight = () => {
-            if (cardRef.current) {
-                // Use requestAnimationFrame to ensure DOM has updated
-                requestAnimationFrame(() => {
-                    if (cardRef.current) {
-                        const cardHeight = cardRef.current.offsetHeight;
-                        if (cardHeight > 0) {
-                            setContainerHeight(cardHeight);
-                        }
-                    }
-                });
-            }
-        };
-
-        // Use requestAnimationFrame for better performance
-        const frameId = requestAnimationFrame(updateHeight);
-        return () => cancelAnimationFrame(frameId);
-    }, [activeLocation]);
-
-    // Set initial height after first render
-    useEffect(() => {
-        if (cardRef.current && containerHeight === 0) {
-            const cardHeight = cardRef.current.offsetHeight;
-            if (cardHeight > 0) {
-                setContainerHeight(cardHeight);
-            }
-        }
-    }, [containerHeight]);
 
     const MapAndCard = memo(
         ({
@@ -473,7 +427,6 @@ const InteractiveMapSection = () => {
                             <MapSectionCard
                                 activeLocation={activeLocation}
                                 cardRef={cardRef}
-                                containerHeight={containerHeight}
                                 isMobile={isMobile}
                             />
                         </div>
@@ -493,9 +446,14 @@ const InteractiveMapSection = () => {
             <div className={cn("hidden md:block space-y-12")}>
                 <SectionTitle />
                 <MapAndCard
-                    divClass={cn("flex-row-reverse justify-evenly")}
+                    divClass={cn(
+                        "flex-row-reverse items-center justify-evenly",
+                    )}
                     mapConfig={{
                         divClass: cn("relative group scale-[1.4]"),
+                    }}
+                    cardConfig={{
+                        divClass: cn("h-fit scale-[.9]"),
                     }}
                 />
                 <SectionButton />
@@ -508,7 +466,10 @@ const InteractiveMapSection = () => {
                 <MapAndCard
                     divClass={cn("flex-col")}
                     mapConfig={{
-                        divClass: cn("relative group scale-[.8]"),
+                        divClass: cn("relative group scale-[.85] mt-1"),
+                    }}
+                    cardConfig={{
+                        divClass: cn("h-fit scale-[.8] -mt-9"),
                     }}
                     isMobile={true}
                 />

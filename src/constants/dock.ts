@@ -74,7 +74,7 @@ export const DOCK_CLASSES = {
     ),
     CONTENT: cn(
         cn("flex-1 overflow-hidden"),
-        cn("bg-bg-alternate"),
+        cn("bg-alternate"),
         // cn("bg-[#45454594] dark:bg-[#232526ad]"),
         "border nav-border",
         "rounded-xl",

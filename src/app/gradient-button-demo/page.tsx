@@ -13,7 +13,6 @@ import {
     User,
     ShoppingCart,
     Play,
-    Pause,
     Save,
     Trash2,
     Edit,
@@ -35,6 +34,7 @@ export default function GradientButtonDemo() {
         } catch (error) {
             setShowError(true);
             setTimeout(() => setShowError(false), 3000);
+            console.error("Async action error:", error);
         } finally {
             setIsLoading(false);
         }

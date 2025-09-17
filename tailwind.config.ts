@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config = {
-    darkMode: ["class"],
+    darkMode: "selector",
     content: [
         "./pages/**/*.{ts,tsx}",
         "./components/**/*.{ts,tsx}",
@@ -76,9 +77,6 @@ const config = {
                     border: "var(--sidebar-border)",
                     ring: "var(--sidebar-ring)",
                 },
-                "bg-alternate": "var(--bg-alternate)",
-                "special-card-fg": "var(--special-card-fg)",
-                "hero-title": "var(--hero-title)",
             },
             borderRadius: {
                 lg: "var(--radius)",
@@ -101,7 +99,7 @@ const config = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [tailwindcssAnimate],
 } satisfies Config;
 
 export default config;

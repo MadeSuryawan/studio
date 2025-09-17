@@ -5,7 +5,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
+    // PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
@@ -166,7 +166,7 @@ export const CarouselPrevious: React.FC<CarouselControlProps> = ({
             size="icon"
             className={cn(
                 "rounded-full mt-3 scale-[1.1]",
-                "bg-bg-alternate",
+                "bg-alternate",
                 "text-special-card-fg",
                 "border",
                 "border-accent dark:border-primary",
@@ -188,7 +188,7 @@ export const CarouselNext: React.FC<CarouselControlProps> = ({
             disabled={disabled}
             variant="outline"
             size="icon"
-            className="rounded-full mt-3 scale-[1.1] bg-bg-alternate text-special-card-fg border border-accent"
+            className="rounded-full mt-3 scale-[1.1] bg-alternate text-special-card-fg border border-accent"
         >
             <ChevronDown className="h-4 w-4" />
             <span className="sr-only">Next card</span>

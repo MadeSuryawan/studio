@@ -9,12 +9,7 @@ import {
     useMemo,
     memo,
 } from "react";
-import {
-    AnimatePresence,
-    delay,
-    motion,
-    useReducedMotion,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import useIsMobile from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -81,7 +76,6 @@ const getMotionVariants = (reducedMotion: boolean | null) => ({
 const ExpandableDock: React.FC<ExpandableDockProps> = memo(
     ({
         children,
-        className,
         onExpand,
         onCollapse,
         defaultExpanded = false,
@@ -296,7 +290,6 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
             return null;
         }
 
-        const MotionButton = motion.create(Button);
         return (
             <div
                 className={cn(DOCK_CLASSES.CONTAINER)}
@@ -369,7 +362,7 @@ const ExpandableDock: React.FC<ExpandableDockProps> = memo(
                 >
                     {isExpanded && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0, tabIndex: -1 }}
+                            initial={{ opacity: 0, height: 0 }}
                             animate={{
                                 opacity: 1,
                                 height: "auto",

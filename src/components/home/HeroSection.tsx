@@ -12,6 +12,7 @@ import {
     useInView,
     useMotionValue,
     useReducedMotion,
+    type Target,
 } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
 
@@ -22,8 +23,8 @@ interface HeroContentProps {
     lang?: string;
     text: string;
     className?: string;
-    initial: any;
-    animate: any;
+    initial: Target;
+    animate: Target;
     animation?: AnimationType;
     tag: string;
 }
@@ -196,7 +197,7 @@ const HeroImage = memo(
 HeroImage.displayName = "HeroImage";
 
 interface HeroContentComponentProps {
-    activeRef: React.RefObject<HTMLDivElement>;
+    activeRef: React.RefObject<HTMLDivElement | null>;
     reducedMotion: boolean | null;
 }
 

@@ -1,5 +1,5 @@
-import { type SVGProps, useMemo } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { type SVGProps, useMemo, type JSX } from "react";
+import { motion, useAnimation, cubicBezier } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Gradient color definitions
@@ -107,7 +107,7 @@ function getPathProps({
         transform: transform[side][id],
         transition: {
             duration: isScrolled ? 0.5 : duration,
-            ease: "easeOut",
+            ease: cubicBezier(0.25, 0.1, 0.25, 1), // easeOut cubic-bezier
             delay: isScrolled ? 0 : delay,
         },
         focusable: false,
@@ -143,6 +143,7 @@ const NavBarSvg = ({
     // Memoize gradient stops for performance
     // Iterate gradientsToRender to only render certain gradients for tweaking and debugging
     const gradients: JSX.Element[] = useMemo(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         (gradientsToRender: ColorId[] = ["blueGradient"]) =>
             (Object.keys(GRADIENT_COLORS) as ColorId[]).map((id) => (
                 <linearGradient

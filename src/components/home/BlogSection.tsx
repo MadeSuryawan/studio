@@ -68,7 +68,7 @@ const BlogCard = memo(
         cardRef,
         post,
     }: {
-        cardRef: React.RefObject<HTMLDivElement>;
+        cardRef: React.RefObject<HTMLDivElement | null>;
         post: CardData;
     }) => {
         return (
