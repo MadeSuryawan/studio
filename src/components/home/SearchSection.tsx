@@ -178,7 +178,9 @@ export default function SearchSection(): JSX.Element {
     }
 
     const handleCopyToClipboard = () => {
-        if (!itinerary) return;
+        if (!itinerary) {
+            return;
+        }
         navigator.clipboard.writeText(itinerary).then(
             () => {
                 toast({
@@ -297,10 +299,9 @@ export default function SearchSection(): JSX.Element {
                                         className={cn(
                                             "flex flex-col",
                                             "mt-4 -mb-1 md:-mb-0 md:mt-0",
-                                            "bg-green-500/00",
                                         )}
                                     >
-                                        <FormLabel>
+                                        <FormLabel className="mb-1">
                                             Travel Dates (Optional)
                                         </FormLabel>
                                         <Popover>

@@ -241,8 +241,8 @@
     }
     .neumorphic-accent-button {
         box-shadow:
-            -5px -5px 10px #ffffff,
-            5px 5px 10px rgb(77, 77, 81);
+            -3px -3px 5px #ffffff45,
+            3px 3px 5px rgba(77, 77, 81, 0.8);
     }
     .neumorphic-accent-button:hover {
         box-shadow:
@@ -257,8 +257,8 @@
     .dark .neumorphic-accent-button {
         @apply bg-background;
         box-shadow:
-            -5px -5px 10px #44444470,
-            5px 5px 10px #181819ff;
+            -3px -3px 5px #444444d4,
+            2px 3px 5px rgba(24, 24, 25, 0.811);
     }
     .dark .neumorphic-accent-button:hover {
         box-shadow:

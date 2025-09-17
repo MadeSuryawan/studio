@@ -73,17 +73,17 @@ const CarCharterSection = (): JSX.Element => {
                                     famous landmarks, and everything in between at your own pace.`}
                         </p>
                     </div>
-                    <div className="mt-6 flex flex-row flex-0">
+                    <div className="inline-flex">
                         <AnimatedButton
                             className={cn(
-                                "border-none w-54 h-[44px]",
-                                "left-1/2 -translate-x-1/2 -translate-y-[2px]",
+                                "border-[1px]",
+                                "dark:border-cyan-400/40",
+                                "w-54 h-[44px] pointer-events-none",
+                                "neumorphic-accent-button",
                             )}
                             variant="outline"
                             size="default"
                             glow={false}
-                            textEffect="normal"
-                            uppercase={true}
                             rounded="custom"
                             asChild={false}
                             hideAnimations={false}
@@ -105,13 +105,12 @@ const CarCharterSection = (): JSX.Element => {
                             fullWidth={false}
                             hapticFeedback={true}
                             className={cn(
-                                "shadow-md absolute",
-                                // "bg-gradient-to-b from-[#43809b] to-[#2f5a6c]",
-                                // "bg-[#43809b]",
-                                "left-1/2 -translate-x-1/2 translate-y-[1px]",
-                                "neumorphic-accent-button",
+                                "absolute",
+                                "left-1/2 -translate-x-1/2 bottom-0 mb-[3px]",
                                 "brightness-[1.2] dark:brightness-100",
                                 "text-nowrap",
+                                "hover:shadow-[inset_2px_2px_7px_rgba(0,_0,_0,_0.5),_inset_-2px_-2px_7px_rgba(246,_240,_123,_0.749)]",
+                                "hover:transition-none",
                             )}
                             aria-label="View charter options"
                             aria-describedby="charter-options"
