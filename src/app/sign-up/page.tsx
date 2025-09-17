@@ -3,7 +3,6 @@
 import {
     type FC,
     type ChangeEvent,
-    type FormEvent,
     type CSSProperties,
     type ReactNode,
     type InputHTMLAttributes,
@@ -21,13 +20,199 @@ import {
     useInView,
     useMotionTemplate,
     useMotionValue,
+    useReducedMotion,
 } from "framer-motion";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const revealBox = "#5046e6a2";
+
+// Constants for form validation
+const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_REQUIREMENTS = {
+    minLength: PASSWORD_MIN_LENGTH,
+    hasUppercase: /[A-Z]/,
+    hasLowercase: /[a-z]/,
+    hasNumber: /\d/,
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/,
+} as const;
+
+// Zod schema for sign-up form validation
+const signUpSchema = z.object({
+    name: z
+        .string()
+        .min(1, "Full name is required")
+        .min(2, "Full name must be at least 2 characters")
+        .max(50, "Full name must be less than 50 characters")
+        .regex(
+            /^[a-zA-Z\s'-]+$/,
+            "Full name can only contain letters, spaces, hyphens, and apostrophes",
+        ),
+
+    email: z
+        .string()
+        .min(1, "Email is required")
+        .email("Please enter a valid email address")
+        .max(100, "Email must be less than 100 characters"),
+
+    password: z
+        .string()
+        .min(1, "Password is required")
+        .min(
+            PASSWORD_MIN_LENGTH,
+            `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
+        )
+        .max(128, "Password must be less than 128 characters")
+        .regex(
+            PASSWORD_REQUIREMENTS.hasUppercase,
+            "Password must contain at least one uppercase letter",
+        )
+        .regex(
+            PASSWORD_REQUIREMENTS.hasLowercase,
+            "Password must contain at least one lowercase letter",
+        )
+        .regex(
+            PASSWORD_REQUIREMENTS.hasNumber,
+            "Password must contain at least one number",
+        )
+        .regex(
+            PASSWORD_REQUIREMENTS.hasSpecialChar,
+            "Password must contain at least one special character",
+        ),
+});
+
+// Type inference from Zod schema
+type SignUpFormData = z.infer<typeof signUpSchema>;
+
+// Password strength types
+type PasswordStrengthLevel = "weak" | "medium" | "strong";
+
+// Password strength checker utility
+const checkPasswordStrength = (password: string) => {
+    const checks = {
+        length: password.length >= PASSWORD_MIN_LENGTH,
+        uppercase: PASSWORD_REQUIREMENTS.hasUppercase.test(password),
+        lowercase: PASSWORD_REQUIREMENTS.hasLowercase.test(password),
+        number: PASSWORD_REQUIREMENTS.hasNumber.test(password),
+        special: PASSWORD_REQUIREMENTS.hasSpecialChar.test(password),
+    };
+
+    const score = Object.values(checks).filter(Boolean).length;
+    const strength: PasswordStrengthLevel =
+        score <= 2 ? "weak" : score <= 4 ? "medium" : "strong";
+
+    return { checks, score, strength };
+};
+
+// Password Strength Indicator Component
+interface PasswordStrengthProps {
+    password: string;
+    className?: string;
+}
+
+const PasswordStrength: FC<PasswordStrengthProps> = memo(
+    function PasswordStrength({ password, className }) {
+        const { checks, strength } = checkPasswordStrength(password);
+
+        if (!password) {
+            return null;
+        }
+
+        const strengthColors: Record<PasswordStrengthLevel, string> = {
+            weak: "bg-red-500",
+            medium: "bg-yellow-500",
+            strong: "bg-green-500",
+        };
+
+        const strengthWidths: Record<PasswordStrengthLevel, string> = {
+            weak: "w-1/3",
+            medium: "w-2/3",
+            strong: "w-full",
+        };
+
+        return (
+            <div className={cn("space-y-2", className)}>
+                <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">
+                        Password strength:
+                    </span>
+                    <span
+                        className={cn(
+                            "text-xs font-medium capitalize",
+                            strength === "weak" && "text-red-500",
+                            strength === "medium" && "text-yellow-500",
+                            strength === "strong" && "text-green-500",
+                        )}
+                    >
+                        {strength}
+                    </span>
+                </div>
+
+                <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
+                    <div
+                        className={cn(
+                            "h-1.5 rounded-full transition-all duration-300",
+                            strengthColors[strength],
+                            strengthWidths[strength],
+                        )}
+                    />
+                </div>
+
+                <div className="space-y-1">
+                    {Object.entries(checks).map(([key, passed]) => {
+                        const labels = {
+                            length: `At least ${PASSWORD_MIN_LENGTH} characters`,
+                            uppercase: "One uppercase letter",
+                            lowercase: "One lowercase letter",
+                            number: "One number",
+                            special: "One special character",
+                        };
+
+                        return (
+                            <div key={key} className="flex items-center gap-2">
+                                <div
+                                    className={cn(
+                                        "w-3 h-3 rounded-full flex items-center justify-center",
+                                        passed ? "bg-green-500" : "bg-gray-300",
+                                    )}
+                                >
+                                    {passed && (
+                                        <svg
+                                            className="w-2 h-2 text-white"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    )}
+                                </div>
+                                <span
+                                    className={cn(
+                                        "text-xs",
+                                        passed
+                                            ? "text-green-600 dark:text-green-400"
+                                            : "text-gray-500",
+                                    )}
+                                >
+                                    {labels[key as keyof typeof labels]}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    },
+);
 
 // GlowEffect Component
 export type GlowEffectProps = {
@@ -258,7 +443,7 @@ const BoxReveal = memo(function BoxReveal({
     );
 });
 
-// Enhanced Input Component
+// Enhanced Input Component with accessibility improvements
 const EnhancedInput = memo(
     forwardRef(function EnhancedInput(
         { className, type, ...props }: InputHTMLAttributes<HTMLInputElement>,
@@ -266,6 +451,7 @@ const EnhancedInput = memo(
     ) {
         const radius = 100;
         const [visible, setVisible] = useState(false);
+        const prefersReducedMotion = useReducedMotion();
 
         const mouseX = useMotionValue(0);
         const mouseY = useMotionValue(0);
@@ -275,6 +461,11 @@ const EnhancedInput = memo(
             clientX,
             clientY,
         }: MouseEvent<HTMLDivElement>) {
+            // Skip animation if user prefers reduced motion
+            if (prefersReducedMotion) {
+                return;
+            }
+
             const { left, top } = currentTarget.getBoundingClientRect();
             mouseX.set(clientX - left);
             mouseY.set(clientY - top);
@@ -283,17 +474,19 @@ const EnhancedInput = memo(
         return (
             <motion.div
                 style={{
-                    background: useMotionTemplate`
-            radial-gradient(
-              ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
-              #3b82f6,
-              transparent 80%
-            )
-          `,
+                    background: prefersReducedMotion
+                        ? "transparent"
+                        : useMotionTemplate`
+                            radial-gradient(
+                              ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
+                              #3b82f6,
+                              transparent 80%
+                            )
+                          `,
                 }}
                 onMouseMove={handleMouseMove}
-                onMouseEnter={() => setVisible(true)}
-                onMouseLeave={() => setVisible(false)}
+                onMouseEnter={() => !prefersReducedMotion && setVisible(true)}
+                onMouseLeave={() => !prefersReducedMotion && setVisible(false)}
                 className="group/input rounded-lg p-[2px] transition duration-300"
             >
                 <input
@@ -310,7 +503,7 @@ const EnhancedInput = memo(
     }),
 );
 
-// Form Field Component
+// Form Field Component with enhanced accessibility
 interface FormFieldProps {
     label: string;
     type: string;
@@ -323,6 +516,8 @@ interface FormFieldProps {
     showPassword?: boolean;
     required?: boolean;
     error?: string;
+    autoComplete?: string;
+    name?: string;
 }
 
 const FormField: FC<FormFieldProps> = ({
@@ -337,13 +532,21 @@ const FormField: FC<FormFieldProps> = ({
     showPassword,
     required,
     error,
+    autoComplete,
+    name,
 }) => {
+    const fieldId = name || label.toLowerCase().replace(/\s+/g, "-");
+
     return (
         <div className="space-y-2">
             <BoxReveal boxColor={revealBox} duration={0.3}>
-                <Label htmlFor={label.toLowerCase()}>
+                <Label htmlFor={fieldId}>
                     {label}{" "}
-                    {required && <span className="text-red-500">*</span>}
+                    {required && (
+                        <span className="text-red-500" aria-label="required">
+                            *
+                        </span>
+                    )}
                 </Label>
             </BoxReveal>
 
@@ -353,18 +556,27 @@ const FormField: FC<FormFieldProps> = ({
                         {icon}
                     </div>
                     <EnhancedInput
-                        id={label.toLowerCase()}
+                        id={fieldId}
+                        name={name || fieldId}
                         type={type}
                         value={value}
                         onChange={onChange}
                         placeholder={placeholder}
+                        autoComplete={autoComplete}
                         className="pl-10 pr-12"
+                        aria-invalid={error ? "true" : "false"}
+                        aria-describedby={
+                            error ? `${fieldId}-error` : undefined
+                        }
                     />
                     {showToggle && (
                         <button
                             type="button"
                             onClick={onToggle}
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                            aria-label={
+                                showPassword ? "Hide password" : "Show password"
+                            }
                         >
                             {showPassword ? (
                                 <EyeOff size={18} />
@@ -374,18 +586,22 @@ const FormField: FC<FormFieldProps> = ({
                         </button>
                     )}
                 </div>
-                {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+                {error && (
+                    <p
+                        id={`${fieldId}-error`}
+                        className="text-red-500 text-xs mt-1"
+                        role="alert"
+                        aria-live="polite"
+                    >
+                        {error}
+                    </p>
+                )}
             </BoxReveal>
         </div>
     );
 };
 
 // Main Sign Up Form Component
-interface SignUpFormData {
-    name: string;
-    email: string;
-    password: string;
-}
 
 interface SignUpFormProps {
     onSubmit?: (data: SignUpFormData) => void;
@@ -398,64 +614,53 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
     onGoogleSignUp = () => console.log("Google sign up"),
     onSignInClick = () => console.log("Switch to sign in"),
 }) => {
-    const [formData, setFormData] = useState<SignUpFormData>({
-        name: "",
-        email: "",
-        password: "",
-    });
     const [showPassword, setShowPassword] = useState(false);
-    const [errors, setErrors] = useState<Partial<SignUpFormData>>({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // React Hook Form with Zod validation
+    const {
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        watch,
+        setValue,
+        clearErrors,
+    } = useForm<SignUpFormData>({
+        resolver: zodResolver(signUpSchema),
+        mode: "onChange", // Validate on change for better UX
+        defaultValues: {
+            name: "",
+            email: "",
+            password: "",
+        },
+    });
+
+    // Watch form values for controlled components
+    const formValues = watch();
+
+    // Handle form submission with Zod validation
+    const onFormSubmit = async (data: SignUpFormData) => {
+        try {
+            // Simulate API call
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            onSubmit(data);
+        } catch (error) {
+            console.error("Sign up error:", error);
+            // Handle submission errors here
+        }
+    };
+
+    // Handle input changes for controlled components
     const handleInputChange =
         (field: keyof SignUpFormData) => (e: ChangeEvent<HTMLInputElement>) => {
-            setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+            const value = e.target.value;
+            setValue(field, value, { shouldValidate: true });
+            // Clear errors when user starts typing
             if (errors[field]) {
-                setErrors((prev) => ({ ...prev, [field]: "" }));
+                clearErrors(field);
             }
         };
 
-    const validateForm = (): boolean => {
-        const newErrors: Partial<SignUpFormData> = {};
-
-        if (!formData.name.trim()) {
-            newErrors.name = "Name is required";
-        }
-
-        if (!formData.email.trim()) {
-            newErrors.email = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = "Invalid email address";
-        }
-
-        if (!formData.password) {
-            newErrors.password = "Password is required";
-        } else if (formData.password.length < 6) {
-            newErrors.password = "Password must be at least 6 characters";
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-
-        if (!validateForm()) {
-            return;
-        }
-
-        setIsSubmitting(true);
-        try {
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
-            onSubmit(formData);
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
     return (
-        <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
             {/* Background Glow Effect */}
             <div className="absolute inset-0">
                 <GlowEffect
@@ -466,8 +671,8 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                 />
             </div>
 
-            <div className="relative z-10 w-full max-w-md">
-                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl p-8 shadow-2xl">
+            <div className="relative z-10 w-full max-w-md mx-auto">
+                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl p-6 sm:p-8 shadow-2xl">
                     {/* Header */}
                     <div className="text-center mb-8">
                         <BoxReveal boxColor={revealBox} duration={0.3}>
@@ -540,42 +745,69 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                     </BoxReveal>
 
                     {/* Sign Up Form */}
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form
+                        onSubmit={handleSubmit(onFormSubmit)}
+                        className="space-y-6"
+                        noValidate
+                        aria-label="Sign up form"
+                    >
                         <FormField
                             label="Full Name"
+                            name="name"
                             type="text"
                             placeholder="Enter your full name"
-                            value={formData.name}
+                            value={formValues.name}
                             onChange={handleInputChange("name")}
                             icon={<User size={18} />}
+                            autoComplete="name"
                             required
-                            error={errors.name}
+                            error={errors.name?.message}
                         />
 
                         <FormField
                             label="Email"
+                            name="email"
                             type="email"
                             placeholder="Enter your email address"
-                            value={formData.email}
+                            value={formValues.email}
                             onChange={handleInputChange("email")}
                             icon={<Mail size={18} />}
+                            autoComplete="email"
                             required
-                            error={errors.email}
+                            error={errors.email?.message}
                         />
 
-                        <FormField
-                            label="Password"
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Create a password"
-                            value={formData.password}
-                            onChange={handleInputChange("password")}
-                            icon={<Lock size={18} />}
-                            showToggle
-                            onToggle={() => setShowPassword(!showPassword)}
-                            showPassword={showPassword}
-                            required
-                            error={errors.password}
-                        />
+                        <div className="space-y-3">
+                            <FormField
+                                label="Password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Create a password"
+                                value={formValues.password}
+                                onChange={handleInputChange("password")}
+                                icon={<Lock size={18} />}
+                                autoComplete="new-password"
+                                showToggle
+                                onToggle={() => setShowPassword(!showPassword)}
+                                showPassword={showPassword}
+                                required
+                                error={errors.password?.message}
+                            />
+
+                            {/* Password Strength Indicator */}
+                            {formValues.password && (
+                                <BoxReveal
+                                    boxColor={revealBox}
+                                    duration={0.3}
+                                    width="100%"
+                                >
+                                    <PasswordStrength
+                                        password={formValues.password}
+                                        className="mt-2"
+                                    />
+                                </BoxReveal>
+                            )}
+                        </div>
 
                         <BoxReveal
                             boxColor={revealBox}
@@ -586,6 +818,9 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                                 type="submit"
                                 disabled={isSubmitting}
                                 className="w-full relative group bg-primary text-primary-foreground py-3 px-4 rounded-lg font-medium transition-all duration-300 ease-in-out hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden"
+                                aria-describedby={
+                                    isSubmitting ? "submit-loading" : undefined
+                                }
                             >
                                 <span
                                     className={`transition-opacity duration-200 ${isSubmitting ? "opacity-0" : "opacity-100"}`}
@@ -594,7 +829,11 @@ const BaliBlissedSignUpForm: FC<SignUpFormProps> = ({
                                 </span>
 
                                 {isSubmitting && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
+                                    <div
+                                        className="absolute inset-0 flex items-center justify-center"
+                                        id="submit-loading"
+                                        aria-label="Creating account, please wait"
+                                    >
                                         <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                                     </div>
                                 )}
