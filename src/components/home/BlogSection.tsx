@@ -1,6 +1,4 @@
-"use client";
-
-import { JSX, memo, useRef, useEffect } from "react";
+import { type JSX } from "react";
 import {
     Carousel,
     CarouselContent,
@@ -63,27 +61,17 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
 };
 SectionTitle.displayName = "BlogTitle";
 
-const BlogCard = memo(
-    ({
-        cardRef,
-        post,
-    }: {
-        cardRef: React.RefObject<HTMLDivElement | null>;
-        post: CardData;
-    }) => {
-        return (
-            <>
-                <SectionCard
-                    ref={cardRef}
-                    data={post}
-                    buttonText="Read More"
-                    buttonLink={post.link}
-                />
-            </>
-        );
-    },
-);
-BlogCard.displayName = "BlogCard";
+const BlogCard = ({ post }: { post: CardData }) => {
+    return (
+        <>
+            <SectionCard
+                data={post}
+                buttonText="Read More"
+                buttonLink={post.link}
+            />
+        </>
+    );
+};
 
 const SectionButton = () => {
     return (
@@ -98,22 +86,6 @@ const SectionButton = () => {
 SectionButton.displayName = "BlogsButton";
 
 export default function BlogSection(): JSX.Element {
-    const cardRef = useRef<HTMLDivElement>(null);
-    // Apply custom classes to the card example
-    useEffect(() => {
-        if (cardRef.current) {
-            // // Apply custom classes to the card's root element
-            // cardRef.current.classList.add("w-full", "max-w-sm");
-            // // Find the button wrapper and apply custom classes
-            // console.log(cardRef.current);
-            // const buttonWrapper = cardRef.current.querySelector(".card-button");
-            // if (buttonWrapper) {
-            //     console.log(buttonWrapper);
-            //     buttonWrapper.classList.remove("justify-end");
-            //     buttonWrapper.classList.add("justify-center", "mb-12");
-            // }
-        }
-    }, []);
     return (
         <section id="blog">
             {/* Desktop view */}
@@ -121,11 +93,7 @@ export default function BlogSection(): JSX.Element {
                 <SectionTitle divClass="mb-12 text-left" />
                 <div className="grid grid-cols-4 gap-3 mb-12">
                     {blogPosts.map((post) => (
-                        <BlogCard
-                            key={post.name}
-                            cardRef={cardRef}
-                            post={post}
-                        />
+                        <BlogCard key={post.name} post={post} />
                     ))}
                 </div>
                 <SectionButton />
@@ -137,7 +105,7 @@ export default function BlogSection(): JSX.Element {
                 <CarouselContent paginationMt="mt-40">
                     {blogPosts.map((post) => (
                         <CarouselItem key={post.name}>
-                            <BlogCard cardRef={cardRef} post={post} />
+                            <BlogCard post={post} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

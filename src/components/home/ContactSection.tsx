@@ -1,7 +1,7 @@
 // src/components/home/ContactSection.tsx
 "use client";
 
-import * as React from "react";
+import { type JSX } from "react";
 import { Suspense } from "react";
 import ContactForm from "@/components/ContactForm";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  * It provides the title and description for the section and
  * dynamically loads the ContactForm component.
  */
-export default function ContactSection(): React.JSX.Element {
+const ContactSection = (): JSX.Element => {
     return (
         <section id="contact">
             <div
@@ -49,4 +49,6 @@ export default function ContactSection(): React.JSX.Element {
             </div>
         </section>
     );
-}
+};
+
+export default ContactSection;

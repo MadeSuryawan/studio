@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, memo } from "react";
+import { useEffect, useState } from "react";
 import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -304,50 +304,39 @@ const SectionTitle = ({ isMobile = false }: { isMobile?: boolean }) => {
         </div>
     );
 };
-SectionTitle.displayName = "MapSectionTitle";
 
-const MapSectionCard = memo(
-    ({
-        activeLocation,
-        cardRef,
-        isMobile,
-    }: {
-        activeLocation: Location;
-        cardRef: React.RefObject<HTMLDivElement | null>;
-        isMobile: boolean;
-    }) => {
-        return (
-            <>
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeLocation.name}
-                        initial={ANIMATION_CONFIG.cardVariants.initial}
-                        animate={ANIMATION_CONFIG.cardVariants.animate}
-                        exit={ANIMATION_CONFIG.cardVariants.exit}
-                        transition={ANIMATION_CONFIG.cardTransition}
-                        className={cn("shadow-xl")}
-                    >
-                        <SectionCard
-                            ref={cardRef}
-                            data={activeLocation}
-                            buttonText="Plan a Trip Here"
-                            buttonLink={generateContactMessage(
-                                activeLocation.name,
-                            )}
-                            className={cn(
-                                isMobile
-                                    ? "max-w-sm sm:max-w-sm"
-                                    : "md:max-w-sm",
-                            )}
-                            baliMap={true}
-                        />
-                    </motion.div>
-                </AnimatePresence>
-            </>
-        );
-    },
-);
-MapSectionCard.displayName = "MapSectionCard";
+const MapSectionCard = ({
+    activeLocation,
+    isMobile,
+}: {
+    activeLocation: Location;
+    isMobile: boolean;
+}) => {
+    return (
+        <>
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={activeLocation.name}
+                    initial={ANIMATION_CONFIG.cardVariants.initial}
+                    animate={ANIMATION_CONFIG.cardVariants.animate}
+                    exit={ANIMATION_CONFIG.cardVariants.exit}
+                    transition={ANIMATION_CONFIG.cardTransition}
+                    className={cn("shadow-xl")}
+                >
+                    <SectionCard
+                        data={activeLocation}
+                        buttonText="Plan a Trip Here"
+                        buttonLink={generateContactMessage(activeLocation.name)}
+                        className={cn(
+                            isMobile ? "max-w-sm sm:max-w-sm" : "md:max-w-sm",
+                        )}
+                        baliMap={true}
+                    />
+                </motion.div>
+            </AnimatePresence>
+        </>
+    );
+};
 
 const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
     return (
@@ -359,14 +348,9 @@ const SectionButton = ({ isMobile = false }: { isMobile?: boolean }) => {
         />
     );
 };
-SectionButton.displayName = "MapSectionButton";
 
 const InteractiveMapSection = () => {
     const [activeLocation, setActiveLocation] = useState<Location>(mapPins[0]);
-
-    // Refs for height management
-    const cardRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
     const [isMounted, setIsMounted] = useState(false);
     const { resolvedTheme } = useTheme();
     const isDark = resolvedTheme === "dark";
@@ -376,69 +360,61 @@ const InteractiveMapSection = () => {
         setIsMounted(true);
     }, []);
 
-    const MapAndCard = memo(
-        ({
-            divClass,
-            mapConfig,
-            cardConfig,
-            isMobile = false,
-        }: {
+    const MapAndCard = ({
+        divClass,
+        mapConfig,
+        cardConfig,
+        isMobile = false,
+    }: {
+        divClass: string;
+        mapConfig: {
             divClass: string;
-            mapConfig: {
-                divClass: string;
-                mapClass?: string;
-            };
-            cardConfig?: {
-                divClass: string;
-            };
-            isMobile?: boolean;
-        }) => {
-            if (isMounted) {
-                const BaliMap = isDark ? BaliMapDark : BaliMapLight;
-                return (
-                    <div className={cn("flex items-center", divClass)}>
-                        <div
-                            className={cn(
-                                mapConfig.divClass,
-                                "pointer-events-none",
-                            )}
-                        >
-                            <BaliMap
-                                className={cn(mapConfig.mapClass)}
-                                style={{
-                                    filter: isDark
-                                        ? "brightness(1.2) contrast(1.2) drop-shadow(1px 5px 2px #1f1f1fb4)"
-                                        : "brightness(1.7) drop-shadow(2px 3px 2px #1f1f1fa0)",
-                                }}
+            mapClass?: string;
+        };
+        cardConfig?: {
+            divClass: string;
+        };
+        isMobile?: boolean;
+    }) => {
+        if (isMounted) {
+            const BaliMap = isDark ? BaliMapDark : BaliMapLight;
+            return (
+                <div className={cn("flex items-center", divClass)}>
+                    <div
+                        className={cn(
+                            mapConfig.divClass,
+                            "pointer-events-none",
+                        )}
+                    >
+                        <BaliMap
+                            className={cn(mapConfig.mapClass)}
+                            style={{
+                                filter: isDark
+                                    ? "brightness(1.2) contrast(1.2) drop-shadow(1px 5px 2px #1f1f1fb4)"
+                                    : "brightness(1.7) drop-shadow(2px 3px 2px #1f1f1fa0)",
+                            }}
+                        />
+                        {mapPins.map((loc, index) => (
+                            <LocationPin
+                                key={index}
+                                location={loc}
+                                isActive={activeLocation.name === loc.name}
+                                onClick={setActiveLocation}
                             />
-                            {mapPins.map((loc, index) => (
-                                <LocationPin
-                                    key={index}
-                                    location={loc}
-                                    isActive={activeLocation.name === loc.name}
-                                    onClick={setActiveLocation}
-                                />
-                            ))}
-                        </div>
-                        <div
-                            ref={containerRef}
-                            className={cn(cardConfig?.divClass)}
-                        >
-                            <MapSectionCard
-                                activeLocation={activeLocation}
-                                cardRef={cardRef}
-                                isMobile={isMobile}
-                            />
-                        </div>
+                        ))}
                     </div>
-                );
-            } else {
-                return null;
-            }
-        },
-    );
-
-    MapAndCard.displayName = "MapAndCard";
+                    <div className={cn(cardConfig?.divClass)}>
+                        <MapSectionCard
+                            activeLocation={activeLocation}
+                            isMobile={isMobile}
+                        />
+                    </div>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    };
 
     return (
         <section id="map">

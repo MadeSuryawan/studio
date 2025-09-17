@@ -124,7 +124,7 @@ const SecondaryButton = ({
     );
 };
 
-export default function SearchSection(): JSX.Element {
+const SearchSection = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     const [itinerary, setItinerary] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -250,7 +250,6 @@ export default function SearchSection(): JSX.Element {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className={cn(
                                 "grid grid-cols-1 md:grid-cols-3 md:gap-2 items-end",
-                                // "bg-blue-600",
                             )}
                         >
                             <FormField
@@ -265,7 +264,13 @@ export default function SearchSection(): JSX.Element {
                                             name="interests"
                                         >
                                             <FormControl>
-                                                <SelectTrigger className="text-muted-foreground border-[1px] dark:border-white/50 border-blue/60">
+                                                <SelectTrigger
+                                                    className={cn(
+                                                        "text-muted-foreground",
+                                                        "border border-[1px]",
+                                                        "dark:border-white/50 ",
+                                                    )}
+                                                >
                                                     <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -609,4 +614,5 @@ export default function SearchSection(): JSX.Element {
             </AlertDialog>
         </section>
     );
-}
+};
+export default SearchSection;

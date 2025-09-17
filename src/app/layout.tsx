@@ -149,7 +149,6 @@ export default function RootLayout({
                         style={{ display: "none", visibility: "hidden" }}
                     ></iframe>
                 </noscript>
-                {/* <ScrollProvider> */}
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="light"
@@ -167,7 +166,6 @@ export default function RootLayout({
                     <FloatingButtons />
                     <Toaster />
                 </ThemeProvider>
-                {/* </ScrollProvider> */}
                 {/* Google Analytics Scripts - Replace G-XXXXXXXXXX with your Measurement ID */}
                 <Script
                     src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"

@@ -1,6 +1,4 @@
-"use client";
-
-import { JSX, memo, useRef } from "react";
+import { type JSX, type SVGProps } from "react";
 import { Waves, Utensils, Users, BedDouble, Plane } from "lucide-react";
 import {
     Carousel,
@@ -10,7 +8,7 @@ import {
 import SectionCard, { CardData, ButtonFunc } from "./SectionCard";
 import { cn } from "@/lib/utils";
 
-const TempleIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
+const TempleIcon = (props: SVGProps<SVGSVGElement>) => (
     <svg
         aria-hidden="true"
         focusable="false"
@@ -27,10 +25,9 @@ const TempleIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
     >
         <path d="M11.99 2.25L2.69 9.33l-1.39 1.58v1.8l4.6-1.58v6.75h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5v-4.5l1.88-.63v5.13h1.5V11.13l4.6 1.58v-1.8l-1.39-1.58L11.99 2.25zM9.25 11.25H14.75"></path>
     </svg>
-));
-TempleIcon.displayName = "TempleIcon";
+);
 
-const DanceIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
+const DanceIcon = (props: SVGProps<SVGSVGElement>) => (
     <svg
         aria-hidden="true"
         focusable="false"
@@ -50,8 +47,7 @@ const DanceIcon = memo((props: React.SVGProps<SVGSVGElement>) => (
         <path d="M12 14.5a6 6 0 0 0-6-6H4.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5H6" />
         <path d="M12 14.5a6 6 0 0 1 6-6h1.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H18" />
     </svg>
-));
-DanceIcon.displayName = "DanceIcon";
+);
 
 const packages: CardData[] = [
     {
@@ -176,31 +172,25 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
 };
 SectionTitle.displayName = "PackageTitle";
 
-const PackageCard = memo(
-    ({
-        cardRef,
-        pkg,
-        className,
-    }: {
-        cardRef: React.RefObject<HTMLDivElement | null>;
-        pkg: CardData;
-        className?: string;
-    }) => {
-        return (
-            <>
-                <SectionCard
-                    ref={cardRef}
-                    data={pkg}
-                    buttonText="View Details"
-                    buttonLink={pkg.link}
-                    packageCard={true}
-                    className={className}
-                />
-            </>
-        );
-    },
-);
-PackageCard.displayName = "PackageCard";
+const PackageCard = ({
+    pkg,
+    className,
+}: {
+    pkg: CardData;
+    className?: string;
+}) => {
+    return (
+        <>
+            <SectionCard
+                data={pkg}
+                buttonText="View Details"
+                buttonLink={pkg.link}
+                packageCard={true}
+                className={className}
+            />
+        </>
+    );
+};
 
 const SectionButton = ({ buttonClass }: { buttonClass?: string }) => {
     return (
@@ -214,7 +204,6 @@ const SectionButton = ({ buttonClass }: { buttonClass?: string }) => {
 SectionButton.displayName = "PackagesButton";
 
 export default function PackagesSection(): JSX.Element {
-    const cardRef = useRef<HTMLDivElement>(null);
     return (
         <section id="packages">
             {/* Desktop view */}
@@ -224,7 +213,6 @@ export default function PackagesSection(): JSX.Element {
                     {packages.map((pkg) => (
                         <PackageCard
                             key={pkg.name}
-                            cardRef={cardRef}
                             pkg={pkg}
                             className="flex-row"
                         />
@@ -239,7 +227,7 @@ export default function PackagesSection(): JSX.Element {
                 <CarouselContent paginationMt="mt-36">
                     {packages.map((pkg) => (
                         <CarouselItem key={pkg.name}>
-                            <PackageCard cardRef={cardRef} pkg={pkg} />
+                            <PackageCard pkg={pkg} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

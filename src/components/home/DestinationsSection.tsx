@@ -1,6 +1,4 @@
-"use client";
-
-import { JSX, memo, useRef } from "react";
+import { type JSX } from "react";
 import {
     Carousel,
     CarouselContent,
@@ -21,7 +19,7 @@ const destinations: CardData[] = [
     {
         name: "Canggu",
         description:
-            "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs.",
+            "A vibrant coastal town with a laid-back surf culture, trendy cafes, and lively beach clubs. Blend in with the locals and soak up the island vibes.",
         image: "https://placehold.co/600x400.png",
         aiHint: "bali canggu",
         link: "#",
@@ -64,27 +62,17 @@ const SectionTitle = ({ divClass }: { divClass: string }) => {
 };
 SectionTitle.displayName = "DestinationsTitle";
 
-const DestinationCard = memo(
-    ({
-        cardRef,
-        destination,
-    }: {
-        cardRef: React.RefObject<HTMLDivElement | null>;
-        destination: CardData;
-    }) => {
-        return (
-            <>
-                <SectionCard
-                    ref={cardRef}
-                    data={destination}
-                    buttonText="View Details"
-                    buttonLink={destination.link}
-                />
-            </>
-        );
-    },
-);
-DestinationCard.displayName = "DestinationCard";
+const DestinationCard = ({ destination }: { destination: CardData }) => {
+    return (
+        <>
+            <SectionCard
+                data={destination}
+                buttonText="View Details"
+                buttonLink={destination.link}
+            />
+        </>
+    );
+};
 
 const SectionButton = () => {
     return (
@@ -98,7 +86,6 @@ const SectionButton = () => {
 SectionButton.displayName = "DestinationsButton";
 
 export default function DestinationsSection(): JSX.Element {
-    const cardRef = useRef<HTMLDivElement>(null);
     return (
         <section id="destinations">
             {/* Desktop view */}
@@ -108,7 +95,6 @@ export default function DestinationsSection(): JSX.Element {
                     {destinations.map((destination) => (
                         <DestinationCard
                             key={destination.name}
-                            cardRef={cardRef}
                             destination={destination}
                         />
                     ))}
@@ -122,10 +108,7 @@ export default function DestinationsSection(): JSX.Element {
                 <CarouselContent paginationMt="mt-36">
                     {destinations.map((destination) => (
                         <CarouselItem key={destination.name}>
-                            <DestinationCard
-                                cardRef={cardRef}
-                                destination={destination}
-                            />
+                            <DestinationCard destination={destination} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
