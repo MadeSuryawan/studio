@@ -32,6 +32,8 @@ const Slider = forwardRef<
                 "focus-visible:ring-ring focus-visible:ring-offset-1",
                 "disabled:pointer-events-none disabled:opacity-50",
             )}
+            id="slider-thumb"
+            name="slider-thumb"
         >
             <span className="scale-[1.6]">🟠</span>
         </SliderPrimitive.Thumb>

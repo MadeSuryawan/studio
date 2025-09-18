@@ -607,7 +607,7 @@ const FormField: FC<FormFieldProps> = ({
             )}
         >
             <BoxReveal boxColor={revealBox} duration={0.3}>
-                <Label htmlFor={fieldId}>
+                <Label htmlFor={fieldId} id={`label-${fieldId}`}>
                     {label}{" "}
                     {required && (
                         <span className="text-red-500" aria-label="required">

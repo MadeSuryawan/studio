@@ -52,7 +52,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { type DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
-import { Label } from "@/components/ui/label";
 import {
     GradientButton,
     gradientButtonVariants,
@@ -469,14 +468,15 @@ const SearchSection = (): JSX.Element => {
                                         formatCurrency(field.value);
                                     return (
                                         <FormItem className="flex flex-col">
-                                            <FormLabel
+                                            <span
+                                                id="budget-label"
                                                 className={cn(
                                                     "text-sm font-medium -translate-y-[15px]",
                                                     "mt-3 md:mt-0",
                                                 )}
                                             >
                                                 Budget: {currentBudgetFormatted}
-                                            </FormLabel>
+                                            </span>
                                             <FormControl>
                                                 <div className="px-2 my-auto">
                                                     <Slider
@@ -595,10 +595,10 @@ const SearchSection = (): JSX.Element => {
                     <div className="space-y-4">
                         {!error && showWhatsAppInput && (
                             <div className="space-y-2">
-                                <Label htmlFor="whatsapp-input">
+                                <span id="whatsapp-input-label">
                                     Enter your WhatsApp number (with country
                                     code)
-                                </Label>
+                                </span>
                                 <div className="flex gap-2">
                                     <Input
                                         id="whatsapp-input"
