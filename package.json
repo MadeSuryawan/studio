@@ -42,7 +42,7 @@
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.2",
         "embla-carousel-react": "^8.6.0",
-        "framer-motion": "^12.23.13",
+        "framer-motion": "^12.23.14",
         "genkit": "^1.19.2",
         "lucide-react": "^0.544.0",
         "next": "15.5.3",
@@ -61,13 +61,13 @@
         "zustand": "^5.0.8"
     },
     "devDependencies": {
-        "@eslint/eslintrc": "^3",
+        "@eslint/eslintrc": "^3.3.1",
         "@eslint/js": "^9.35.0",
-        "@tailwindcss/postcss": "^4",
-        "@types/node": "^20.19.15",
+        "@tailwindcss/postcss": "^4.1.13",
+        "@types/node": "^20.19.17",
         "@types/nodemailer": "^7.0.1",
         "@types/react": "^19.1.13",
-        "@types/react-dom": "^19",
+        "@types/react-dom": "^19.1.9",
         "@types/three": "^0.180.0",
         "eslint": "^9.35.0",
         "eslint-config-next": "^15.5.3",
@@ -77,9 +77,9 @@
         "globals": "^16.4.0",
         "postcss": "^8.5.6",
         "prettier": "^3.6.2",
-        "tailwindcss": "^4",
+        "tailwindcss": "^4.1.13",
         "typescript": "^5.9.2",
         "typescript-eslint": "^8.44.0"
     },
-    "packageManager": "pnpm@10.16.1+sha512.0e155aa2629db8672b49e8475da6226aa4bdea85fdcdfdc15350874946d4f3c91faaf64cbdc4a5d1ab8002f473d5c3fcedcd197989cf0390f9badd3c04678706"
+    "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef"
 }
