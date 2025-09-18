@@ -37,9 +37,9 @@ const calculateTranslateX = (
     // Normalize the value to a 0-1 range
     const normalizedValue = (value - minValue) / (maxValue - minValue);
 
-    // Interpolate between -16.666667% and -75%
-    const startTranslate = -16.666667;
-    const endTranslate = -75;
+    // Interpolate between -14% and -90%
+    const startTranslate = -14;
+    const endTranslate = -90;
 
     return startTranslate + normalizedValue * (endTranslate - startTranslate);
 };

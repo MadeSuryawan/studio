@@ -170,6 +170,35 @@ const SecondaryButton = ({
     );
 };
 
+const interestClass = cn(
+    "border-b rounded-xl",
+    "flex justify-center w-fit",
+    "mx-auto my-2",
+) as string;
+
+const interest = [
+    {
+        name: "Culture, Temples & Arts 🏛️",
+        value: "culture",
+    },
+    {
+        name: "Adventure & Nature 🏝",
+        value: "adventure",
+    },
+    {
+        name: "Relaxation & Wellness 💆‍♂️",
+        value: "relaxation",
+    },
+    {
+        name: "Culinary Delights & Markets 🍽️",
+        value: "culinary",
+    },
+    {
+        name: "Surfing & Beaches 🏄‍♂️",
+        value: "surfing",
+    },
+] as const;
+
 const SearchSection = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     const [itinerary, setItinerary] = useState<string | null>(null);
@@ -336,22 +365,23 @@ const SearchSection = (): JSX.Element => {
                                                     <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="culture">
-                                                    Culture & Temples
-                                                </SelectItem>
-                                                <SelectItem value="adventure">
-                                                    Adventure & Nature
-                                                </SelectItem>
-                                                <SelectItem value="relaxation">
-                                                    Relaxation & Wellness
-                                                </SelectItem>
-                                                <SelectItem value="culinary">
-                                                    Culinary Delights
-                                                </SelectItem>
-                                                <SelectItem value="surfing">
-                                                    Surfing & Beaches
-                                                </SelectItem>
+                                            <SelectContent
+                                                className={cn(
+                                                    "rounded-xl py-1",
+                                                )}
+                                            >
+                                                {interest.map((item) => (
+                                                    <SelectItem
+                                                        key={item.value}
+                                                        value={item.value}
+                                                        className={cn(
+                                                            interestClass,
+                                                        )}
+                                                        check={false}
+                                                    >
+                                                        {item.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -427,7 +457,7 @@ const SearchSection = (): JSX.Element => {
                                                 </FormControl>
                                             </PopoverTrigger>
                                             <PopoverContent
-                                                className="w-full md:w-auto p-0"
+                                                className="w-full md:w-auto p-1 rounded-lg bg-popover"
                                                 align="center"
                                                 sideOffset={
                                                     isMobile ? -90 : -400
@@ -453,6 +483,7 @@ const SearchSection = (): JSX.Element => {
                                                     autoFocus
                                                     numberOfMonths={2}
                                                     showOutsideDays={false}
+                                                    className="rounded-lg bg-popover"
                                                 />
                                             </PopoverContent>
                                         </Popover>
