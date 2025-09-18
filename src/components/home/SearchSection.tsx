@@ -65,7 +65,7 @@ const BUDGET_CONFIG = {
     MIN: 300,
     MAX: 10000,
     STEP: 100,
-    DEFAULT: 1000,
+    DEFAULT: 300,
 } as const;
 
 // Currency formatting utility
@@ -472,7 +472,7 @@ const SearchSection = (): JSX.Element => {
                                                         className={cn(
                                                             "w-[94%] mx-auto cursor-pointer",
                                                             "touch-none select-none",
-                                                            "-translate-y-[18px]",
+                                                            "-translate-y-[13px]",
                                                         )}
                                                         defaultValue={[
                                                             BUDGET_CONFIG.DEFAULT,
@@ -513,7 +513,7 @@ const SearchSection = (): JSX.Element => {
                                                 className={cn(
                                                     "flex justify-between text-xs",
                                                     "text-muted-foreground",
-                                                    "-translate-y-[10px]",
+                                                    "-translate-y-[4px]",
                                                 )}
                                             >
                                                 <span>

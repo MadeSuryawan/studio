@@ -8,19 +8,46 @@ import {
     SliderThumb as AriaSliderThumb,
     SliderTrack as AriaSliderTrack,
 } from "react-aria-components";
-import { cx, sortCx } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { cn, cx, sortCx } from "@/lib/utils";
 
 const styles = sortCx({
     default: "hidden",
     bottom: "absolute top-2 left-1/2 -translate-x-1/2 translate-y-full text-md font-medium text-primary",
     "top-floating": cx(
-        "absolute -top-2 left-1/2 -translate-x-1/6 -translate-y-full",
+        "absolute -top-2 left-1/2 -translate-y-full",
         "rounded-md",
         "bg-primary",
-        "px-2 py-1 text-xs font-semibold text-black/90",
-        "shadow-lg border-[1px] border-accent",
+        "px-2 py-1 text-xs font-semibold text-black/80",
+        "border-[1px] border-accent dark:border-transparent",
+        "shadow-[1px_2px_3px_rgba(82,_82,_82,_0.4),_-2px_-2px_3px_rgba(255_,255_,255_,0.9)]",
+        "dark:shadow-[2px_2px_5px_rgba(0,_0,_0,_0.8),_-2px_-2px_5px_rgba(255_,255_,255_,0.2)]",
     ),
 });
+
+/**
+ * Calculate the translateX percentage based on slider value
+ * Maps from minValue -> -16.666667% to maxValue -> -75%
+ */
+const calculateTranslateX = (
+    value: number,
+    minValue: number,
+    maxValue: number,
+): number => {
+    // Normalize the value to a 0-1 range
+    const normalizedValue = (value - minValue) / (maxValue - minValue);
+
+    // Interpolate between -16.666667% and -75%
+    const startTranslate = -16.666667;
+    const endTranslate = -75;
+
+    return startTranslate + normalizedValue * (endTranslate - startTranslate);
+};
+
+/**
+ * Animated AriaSliderOutput component that moves horizontally based on slider value
+ */
+const AnimatedOutput = motion.create(AriaSliderOutput);
 
 interface SliderProps extends AriaSliderProps {
     labelPosition?: keyof typeof styles;
@@ -75,12 +102,18 @@ export const Slider = ({
                                 className={cx(
                                     "absolute top-1/2 h-2 w-full -translate-y-1/2",
                                     "rounded-[4px] bg-background",
+                                    "border-[1px] nav-border",
+                                    "shadow-[1px_1px_3px_rgba(82,_82,_82,_0.4),_-2px_-2px_3px_rgba(255_,255_,255_,0.9)]",
+                                    "dark:shadow-[1px_1px_5px_rgba(0,_0,_0,_0.8),_-1px_-1px_5px_rgba(255_,255_,255_,0.1)]",
                                 )}
                             />
                             <span
                                 className={cx(
                                     "absolute top-1/2 h-2 w-full -translate-y-1/2",
                                     "rounded-[4px] bg-accent",
+                                    "border-[1px] nav-border",
+                                    "shadow-[1px_1px_3px_rgba(82,_82,_82,_0.4),_-2px_-2px_3px_rgba(255_,255_,255_,0.9)]",
+                                    "dark:shadow-[1px_1px_5px_rgba(0,_0,_0,_0.8),_-3px_-3px_3px_rgba(255_,255_,255_,0.1)]",
                                 )}
                                 style={{
                                     left: `${left * 100}%`,
@@ -108,12 +141,32 @@ export const Slider = ({
                                             )
                                         }
                                     >
-                                        <span className="scale-[1.5]">🟠</span>
-                                        <AriaSliderOutput
-                                            className={cx(
+                                        <span className="scale-[1.5] pointer-events-none">
+                                            🟠
+                                        </span>
+                                        <AnimatedOutput
+                                            className={cn(
+                                                "pointer-events-auto",
                                                 "whitespace-nowrap",
+                                                labelPosition ===
+                                                    "top-floating" &&
+                                                    "will-change-transform",
                                                 styles[labelPosition],
                                             )}
+                                            animate={
+                                                labelPosition ===
+                                                    "top-floating" && {
+                                                    x: `${calculateTranslateX(
+                                                        getThumbValue(index),
+                                                        minValue,
+                                                        maxValue,
+                                                    )}%`,
+                                                }
+                                            }
+                                            transition={{
+                                                duration: 0.1,
+                                                ease: "linear",
+                                            }}
                                         >
                                             <span id={span}>{span} </span>
                                             {labelFormatter
@@ -124,7 +177,7 @@ export const Slider = ({
                                                       getThumbValue(index) /
                                                           100,
                                                   )}
-                                        </AriaSliderOutput>
+                                        </AnimatedOutput>
                                     </AriaSliderThumb>
                                 );
                             })}
