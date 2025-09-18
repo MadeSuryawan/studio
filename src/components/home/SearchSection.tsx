@@ -17,7 +17,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+import { Slider } from "@/components/ui/aria-slider";
 import {
     Select,
     SelectContent,
@@ -464,66 +464,69 @@ const SearchSection = (): JSX.Element => {
                                 control={form.control}
                                 name="budget"
                                 render={({ field }) => {
-                                    const currentBudgetFormatted =
-                                        formatCurrency(field.value);
                                     return (
-                                        <FormItem className="flex flex-col">
-                                            <span
-                                                id="budget-label"
-                                                className={cn(
-                                                    "text-sm font-medium -translate-y-[15px]",
-                                                    "mt-3 md:mt-0",
-                                                )}
-                                            >
-                                                Budget: {currentBudgetFormatted}
-                                            </span>
+                                        <FormItem className="flex flex-col mt-6 md:mt-0 px-1 md:px-0">
                                             <FormControl>
-                                                <div className="px-2 my-auto">
+                                                <div className="relative">
                                                     <Slider
-                                                        min={BUDGET_CONFIG.MIN}
-                                                        max={BUDGET_CONFIG.MAX}
+                                                        className={cn(
+                                                            "w-[94%] mx-auto cursor-pointer",
+                                                            "touch-none select-none",
+                                                            "-translate-y-[18px]",
+                                                        )}
+                                                        defaultValue={[
+                                                            BUDGET_CONFIG.DEFAULT,
+                                                        ]}
+                                                        labelPosition="top-floating"
+                                                        labelFormatter={
+                                                            formatCurrency
+                                                        }
+                                                        id={field.name}
+                                                        span="Budget: "
+                                                        minValue={
+                                                            BUDGET_CONFIG.MIN
+                                                        }
+                                                        maxValue={
+                                                            BUDGET_CONFIG.MAX
+                                                        }
                                                         step={
                                                             BUDGET_CONFIG.STEP
                                                         }
-                                                        value={[field.value]}
-                                                        onValueChange={(
-                                                            value,
-                                                        ) => {
+                                                        onChange={(value) => {
+                                                            const numericValue =
+                                                                Array.isArray(
+                                                                    value,
+                                                                )
+                                                                    ? value[0]
+                                                                    : value;
                                                             field.onChange(
-                                                                value[0],
+                                                                numericValue,
                                                             );
-                                                            handleBudgetChange(
-                                                                value,
-                                                            );
+                                                            handleBudgetChange([
+                                                                numericValue,
+                                                            ]);
                                                         }}
-                                                        className={cn(
-                                                            "w-full cursor-pointer",
-                                                            "touch-none select-none",
-                                                            "translate-y-[6px]",
-                                                        )}
-                                                        aria-label={`Budget slider, current value ${currentBudgetFormatted}`}
                                                     />
-                                                    <div
-                                                        className={cn(
-                                                            "flex justify-between text-xs",
-                                                            "text-muted-foreground mt-2",
-                                                            "translate-y-[19px]",
-                                                        )}
-                                                    >
-                                                        <span>
-                                                            {formatCurrency(
-                                                                BUDGET_CONFIG.MIN,
-                                                            )}
-                                                        </span>
-                                                        <span>
-                                                            {formatCurrency(
-                                                                BUDGET_CONFIG.MAX,
-                                                            )}
-                                                        </span>
-                                                    </div>
                                                 </div>
                                             </FormControl>
-                                            <FormMessage />
+                                            <div
+                                                className={cn(
+                                                    "flex justify-between text-xs",
+                                                    "text-muted-foreground",
+                                                    "-translate-y-[10px]",
+                                                )}
+                                            >
+                                                <span>
+                                                    {formatCurrency(
+                                                        BUDGET_CONFIG.MIN,
+                                                    )}
+                                                </span>
+                                                <span>
+                                                    {formatCurrency(
+                                                        BUDGET_CONFIG.MAX,
+                                                    )}
+                                                </span>
+                                            </div>
                                         </FormItem>
                                     );
                                 }}
