@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type ComponentProps, useEffect, useRef } from "react";
 import {
     ChevronDownIcon,
     ChevronLeftIcon,
@@ -20,8 +20,8 @@ function Calendar({
     formatters,
     components,
     ...props
-}: React.ComponentProps<typeof DayPicker> & {
-    buttonVariant?: React.ComponentProps<typeof Button>["variant"];
+}: ComponentProps<typeof DayPicker> & {
+    buttonVariant?: ComponentProps<typeof Button>["variant"];
 }) {
     const defaultClassNames = getDefaultClassNames();
 
@@ -103,7 +103,10 @@ function Calendar({
                     defaultClassNames.week_number,
                 ),
                 day: cn(
-                    "relative w-full h-full p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md group/day aspect-square select-none",
+                    "relative w-full h-full p-0 text-center",
+                    "[&:first-child[data-selected=true]_button]:rounded-l-md",
+                    "[&:last-child[data-selected=true]_button]:rounded-r-md group/day",
+                    "aspect-square select-none",
                     defaultClassNames.day,
                 ),
                 range_start: cn(
@@ -119,7 +122,7 @@ function Calendar({
                     defaultClassNames.range_end,
                 ),
                 today: cn(
-                    "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
+                    "bg-transparent text-accent rounded-md data-[selected=true]:rounded-md",
                     defaultClassNames.today,
                 ),
                 outside: cn(
@@ -192,11 +195,11 @@ function CalendarDayButton({
     day,
     modifiers,
     ...props
-}: React.ComponentProps<typeof DayButton>) {
+}: ComponentProps<typeof DayButton>) {
     const defaultClassNames = getDefaultClassNames();
 
-    const ref = React.useRef<HTMLButtonElement>(null);
-    React.useEffect(() => {
+    const ref = useRef<HTMLButtonElement>(null);
+    useEffect(() => {
         if (modifiers.focused) {
             ref.current?.focus();
         }
@@ -218,18 +221,36 @@ function CalendarDayButton({
             data-range-end={modifiers.range_end}
             data-range-middle={modifiers.range_middle}
             className={cn(
-                "data-[selected-single=true]:bg-primary",
+                "hover:bg-sky-700",
+                "dark:hover:text-accent-foreground",
+                "flex aspect-square size-auto w-full min-w-(--cell-size)",
+                "flex-col gap-1 leading-none font-normal",
+                "[&>span]:text-xs [&>span]:opacity-70",
+                "group-data-[focused=true]/day:relative",
+                "group-data-[focused=true]/day:z-10",
+                "data-[selected-single=true]:bg-accent",
+                "data-[selected-single=true]:rounded-md",
                 "data-[selected-single=true]:text-primary-foreground",
-                "data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground",
-                "data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground",
-                "data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground",
-                "group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50",
-                "dark:hover:text-accent-foreground flex aspect-square size-auto w-full min-w-(--cell-size)",
-                "flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative",
-                "group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]",
-                "data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md",
-                "data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md",
-                "data-[range-start=true]:rounded-l-md [&>span]:text-xs [&>span]:opacity-70",
+                // "group-data-[focused=true]/day:border-ring",
+                // "group-data-[focused=true]/day:ring-ring/50",
+                // "group-data-[focused=true]/day:ring-[3px]",
+                "data-[range-start=true]:border",
+                "data-[range-start=true]:border-white/80",
+                "data-[range-start=true]:rounded-md",
+                "data-[range-start=true]:rounded-r-none",
+                "data-[range-start=true]:bg-primary",
+                "data-[range-start=true]:text-primary-foreground",
+                // "data-[range-middle=true]:border",
+                // "data-[range-middle=true]:border-white/80",
+                "data-[range-middle=true]:bg-accent",
+                "data-[range-middle=true]:text-accent-foreground",
+                "data-[range-middle=true]:rounded-none",
+                "data-[range-end=true]:border",
+                "data-[range-end=true]:border-white/80",
+                "data-[range-end=true]:bg-primary",
+                "data-[range-end=true]:text-primary-foreground",
+                "data-[range-end=true]:rounded-md",
+                "data-[range-end=true]:rounded-l-none",
                 defaultClassNames.day,
                 className,
             )}
