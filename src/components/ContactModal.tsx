@@ -1,7 +1,6 @@
 // src/components/ContactModal.tsx
 "use client";
 
-import * as React from "react";
 import {
     Dialog,
     DialogContent,
@@ -22,7 +21,10 @@ export function ContactModal() {
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[480px]">
+            <DialogContent
+                className="sm:max-w-[480px]"
+                closeClassName="neumorphic-button-tight scale-[1.2] p-1"
+            >
                 <DialogHeader>
                     <DialogTitle>Get in Touch</DialogTitle>
                     <DialogDescription>

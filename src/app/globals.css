@@ -269,8 +269,8 @@
     }
     .neumorphic-accent-button {
         box-shadow:
-            -3px -3px 5px #ffffffdd,
-            3px 3px 5px rgba(77, 77, 81, 0.8);
+            -2px -2px 3px #ffffff75,
+            2px 2px 3px rgba(77, 77, 81, 0.8);
     }
     .neumorphic-accent-button:hover {
         box-shadow:
