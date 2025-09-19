@@ -78,11 +78,23 @@ const ANIMATION_CONFIG = {
  * CSS class constants for consistent styling
  */
 const FORM_STYLES = {
-    CONTAINER: "mx-auto w-full max-w-sm md:max-w-lg",
-    FORM: "grid gap-3",
-    INPUT_BASE: "bg-alternate text-special-card-fg placeholder:text-white/40",
-    TEXTAREA:
-        "min-h-[120px] bg-alternate text-special-card-fg placeholder:text-white/40",
+    CONTAINER:
+        "mx-auto w-full max-w-sm md:max-w-xl neumorphic-hero-image rounded-xl",
+    FORM: "grid gap-3 neumorphic-hero-image dark:shadow-none rounded-xl p-3",
+    INPUT_BASE: cn(
+        "neumorphic-input",
+        "h-11",
+        cn("bg-alternate text-special-card-fg"),
+        cn("placeholder:text-black/40"),
+        cn("dark:placeholder:text-white/40"),
+    ),
+    TEXTAREA: cn(
+        "neumorphic-input",
+        cn("min-h-[120px] bg-alternate"),
+        cn("text-special-card-fg"),
+        cn("placeholder:text-black/40"),
+        cn("dark:placeholder:text-white/40"),
+    ),
     BUTTON: "w-full",
 } as const;
 
@@ -488,7 +500,6 @@ const ContactForm = memo(() => {
                                     "mx-auto",
                                     "w-1/2",
                                     "p-1 md:p-2",
-                                    // "shadow-sm",
                                     "transition-none",
                                     "bg-[#fd8e39]",
                                     "dark:bg-[#0c6780]",

@@ -340,7 +340,7 @@ const SearchSection = memo((): JSX.Element => {
                 className={cn(
                     "border-[1px] dark:border-white/00",
                     "border-black/60 dark:border-white/50",
-                    "text-muted-foreground bg-bg-alternate",
+                    "text-muted-foreground bg-alternate",
                 )}
             >
                 <Button
@@ -349,8 +349,7 @@ const SearchSection = memo((): JSX.Element => {
                         "pl-3 text-left font-normal hover:scale-none",
                         "focus:ring-1 focus:ring-ring focus;ring-offset-0",
                         "ring-offset-background",
-                        !field.value?.from &&
-                            "text-muted-foreground bg-bg-alternate",
+                        "neumorphic-button",
                     )}
                 >
                     {field.value?.from ? (
@@ -517,8 +516,8 @@ const SearchSection = memo((): JSX.Element => {
                                                 <SelectTrigger
                                                     className={cn(
                                                         "text-muted-foreground",
-                                                        "border border-[1px]",
                                                         "dark:border-white/50 ",
+                                                        "neumorphic-button",
                                                     )}
                                                 >
                                                     <SelectValue placeholder="e.g., Culture, Adventure, Relaxation" />

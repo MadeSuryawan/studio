@@ -158,7 +158,7 @@
     }
 
     .text-shadow-sm {
-        text-shadow: 1px 2px 5px rgba(31, 31, 31, 0.8);
+        text-shadow: 2px 2px 3px rgba(31, 31, 31, 0.8);
     }
 
     .text-shadow-lg {
@@ -206,7 +206,7 @@
             -4px 8px 10px rgba(0, 0, 0, 0.1);
     }
     .neumorphic-button {
-        @apply bg-background transition-all duration-200;
+        @apply bg-background hover:border-transparent transition-all duration-200;
         box-shadow:
             -5px -5px 10px rgba(255, 255, 255, 0.8),
             5px 5px 10px rgba(129, 140, 155, 0.4);
@@ -225,8 +225,8 @@
     }
     .dark .neumorphic-button {
         box-shadow:
-            -2px -2px 5px rgba(162, 162, 162, 0.05),
-            2px 2px 5px rgba(0, 0, 0, 0.5);
+            -2px -2px 3px rgba(114, 114, 114, 0.139),
+            2px 2px 5px rgba(0, 0, 0, 0.3);
     }
     .dark .neumorphic-button:hover {
         @apply border-transparent transition-none;
@@ -247,8 +247,8 @@
     .neumorphic-button-tight {
         @apply transition-none;
         box-shadow:
-            2px 2px 3px rgba(82, 82, 82, 0.4),
-            -2px -2px 3px rgba(219, 218, 218, 0.4);
+            1px 1px 3px rgba(72, 72, 72, 0.497),
+            -2px -2px 3px rgba(224, 224, 224, 0.777);
     }
     .neumorphic-button-tight:hover {
         @apply border-transparent transition-none;
@@ -269,13 +269,13 @@
     }
     .neumorphic-accent-button {
         box-shadow:
-            -3px -3px 5px #ffffff45,
+            -3px -3px 5px #ffffffdd,
             3px 3px 5px rgba(77, 77, 81, 0.8);
     }
     .neumorphic-accent-button:hover {
         box-shadow:
-            inset 2px 2px 7px rgba(0, 0, 0, 0.5),
-            inset -2px -2px 7px rgba(246, 240, 123, 0.749);
+            inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+            inset -2px -2px 5px rgba(255, 253, 225, 0.749);
     }
     .neumorphic-accent-button:active {
         box-shadow:
@@ -285,13 +285,13 @@
     .dark .neumorphic-accent-button {
         @apply bg-background;
         box-shadow:
-            -3px -3px 5px #444444d4,
-            2px 3px 5px rgba(24, 24, 25, 0.811);
+            -2px -2px 3px rgba(115, 115, 115, 0.4),
+            2px 3px 3px rgba(30, 32, 32, 0.913);
     }
     .dark .neumorphic-accent-button:hover {
         box-shadow:
-            inset 2px 5px 10px rgba(36, 41, 40, 0.799),
-            inset -2px -5px 10px rgba(135, 205, 194, 0.4);
+            inset 2px 5px 5px rgba(36, 41, 40, 0.799),
+            inset -2px -5px 5px rgba(173, 213, 207, 0.4);
     }
     .dark .neumorphic-accent-button:active {
         box-shadow:
@@ -313,13 +313,13 @@
     .neumorphic-input {
         @apply bg-background;
         box-shadow:
-            inset -5px -5px 10px rgba(255, 255, 255, 0.8),
-            inset 5px 5px 10px rgba(129, 140, 155, 0.4);
+            inset -3px -3px 5px rgba(255, 255, 255, 0.8),
+            inset 3px 3px 5px rgba(129, 140, 155, 0.4);
     }
     .dark .neumorphic-input {
         box-shadow:
-            inset -5px -5px 10px rgba(255, 255, 255, 0.05),
-            inset 5px 5px 10px rgba(0, 0, 0, 0.5);
+            inset -3px -3px 5px rgba(255, 255, 255, 0.05),
+            inset 3px 3px 5px rgba(0, 0, 0, 0.5);
     }
     .neumorphic-logo {
         @apply bg-background;

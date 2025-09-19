@@ -1,4 +1,4 @@
-import * as React from "react";
+import { Children, ReactNode, type FC, type HTMLAttributes } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronUp, ChevronDown } from "lucide-react";
@@ -13,18 +13,18 @@ import {
 } from "./pagination";
 import { cn } from "@/lib/utils";
 
-interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CarouselProps extends HTMLAttributes<HTMLDivElement> {
     className?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 interface CarouselContentProps {
-    children?: React.ReactNode;
+    children?: ReactNode;
     paginationMt?: string;
 }
 
 interface CarouselItemProps {
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 interface CarouselControlProps {
@@ -32,7 +32,7 @@ interface CarouselControlProps {
     disabled?: boolean;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({
+export const Carousel: FC<CarouselProps> = ({
     className,
     children,
     ...props
@@ -44,12 +44,12 @@ export const Carousel: React.FC<CarouselProps> = ({
     );
 };
 
-export const CarouselContent: React.FC<CarouselContentProps> = ({
+export const CarouselContent: FC<CarouselContentProps> = ({
     children,
     paginationMt: paginationMt = "mt-24",
 }) => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const childrenArray = React.Children.toArray(children);
+    const childrenArray = Children.toArray(children);
     const totalCards = childrenArray.length;
 
     const goNext = () => {
@@ -150,11 +150,11 @@ export const CarouselContent: React.FC<CarouselContentProps> = ({
     );
 };
 
-export const CarouselItem: React.FC<CarouselItemProps> = ({ children }) => {
+export const CarouselItem: FC<CarouselItemProps> = ({ children }) => {
     return <>{children}</>;
 };
 
-export const CarouselPrevious: React.FC<CarouselControlProps> = ({
+export const CarouselPrevious: FC<CarouselControlProps> = ({
     onClick,
     disabled,
 }) => {
@@ -178,7 +178,7 @@ export const CarouselPrevious: React.FC<CarouselControlProps> = ({
     );
 };
 
-export const CarouselNext: React.FC<CarouselControlProps> = ({
+export const CarouselNext: FC<CarouselControlProps> = ({
     onClick,
     disabled,
 }) => {

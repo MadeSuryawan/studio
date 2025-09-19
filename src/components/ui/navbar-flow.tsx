@@ -795,7 +795,6 @@ const NavbarFlow: FC<NavbarFlowProps> = memo(
                                             "border nav-border",
                                             "neumorphic-button",
                                             "z-50",
-                                            "hover:border-transparent",
                                             reducedMotion
                                                 ? cn(
                                                       "transition-none duration-0",

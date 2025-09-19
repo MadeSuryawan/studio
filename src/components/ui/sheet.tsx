@@ -1,6 +1,11 @@
 "use client";
 
-import * as React from "react";
+import {
+    forwardRef,
+    type ComponentRef,
+    type ComponentPropsWithoutRef,
+    type HTMLAttributes,
+} from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
@@ -15,9 +20,9 @@ const SheetClose = DialogPrimitive.Close;
 
 const SheetPortal = DialogPrimitive.Portal;
 
-const SheetOverlay = React.forwardRef<
-    React.ElementRef<typeof DialogPrimitive.Overlay>,
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+const SheetOverlay = forwardRef<
+    ComponentRef<typeof DialogPrimitive.Overlay>,
+    ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Overlay
         className={cn(
@@ -48,11 +53,11 @@ const sheetVariants = cva(
 );
 
 interface SheetContentProps
-    extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+    extends ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
         VariantProps<typeof sheetVariants> {}
 
-const SheetContent = React.forwardRef<
-    React.ElementRef<typeof DialogPrimitive.Content>,
+const SheetContent = forwardRef<
+    ComponentRef<typeof DialogPrimitive.Content>,
     SheetContentProps
 >(({ side = "right", className, children, ...props }, ref) => (
     <SheetPortal>
@@ -75,7 +80,7 @@ SheetContent.displayName = DialogPrimitive.Content.displayName;
 const SheetHeader = ({
     className,
     ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: HTMLAttributes<HTMLDivElement>) => (
     <div
         className={cn(
             "flex flex-col space-y-2 text-center sm:text-left",
@@ -89,7 +94,7 @@ SheetHeader.displayName = "SheetHeader";
 const SheetFooter = ({
     className,
     ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: HTMLAttributes<HTMLDivElement>) => (
     <div
         className={cn(
             "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
@@ -100,9 +105,9 @@ const SheetFooter = ({
 );
 SheetFooter.displayName = "SheetFooter";
 
-const SheetTitle = React.forwardRef<
-    React.ElementRef<typeof DialogPrimitive.Title>,
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+const SheetTitle = forwardRef<
+    ComponentRef<typeof DialogPrimitive.Title>,
+    ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Title
         ref={ref}
@@ -112,9 +117,9 @@ const SheetTitle = React.forwardRef<
 ));
 SheetTitle.displayName = DialogPrimitive.Title.displayName;
 
-const SheetDescription = React.forwardRef<
-    React.ElementRef<typeof DialogPrimitive.Description>,
-    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+const SheetDescription = forwardRef<
+    ComponentRef<typeof DialogPrimitive.Description>,
+    ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Description
         ref={ref}

@@ -10,13 +10,13 @@ interface ParticlesProps {
     className?: string;
 }
 
-export function Particles({
+export const Particles = ({
     color = "#ff3366",
     particleCount = 10000,
     particleSize = 35,
     animate = true,
     className = "",
-}: ParticlesProps) {
+}: ParticlesProps) => {
     const mountRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -146,4 +146,4 @@ export function Particles({
             className={`absolute top-0 left-0 w-full h-full pointer-events-none ${className}`}
         />
     );
-}
+};

@@ -1,11 +1,15 @@
 "use client";
 
-import * as React from "react";
+import {
+    forwardRef,
+    type ButtonHTMLAttributes,
+    type CSSProperties,
+} from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-interface CustomCSSProperties extends React.CSSProperties {
+interface CustomCSSProperties extends CSSProperties {
     "--shimmer-color"?: string;
     "--radius"?: string;
     "--speed"?: string;
@@ -70,7 +74,7 @@ const buttonVariants = cva(
 );
 
 export interface AnimatedButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    extends ButtonHTMLAttributes<HTMLButtonElement>,
         VariantProps<typeof buttonVariants> {
     asChild?: boolean;
     hideAnimations?: boolean;
@@ -82,7 +86,7 @@ export interface AnimatedButtonProps
     style?: CustomCSSProperties;
 }
 
-const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButtonProps>(
+const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
     (
         {
             className,

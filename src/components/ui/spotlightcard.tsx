@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import { type ComponentProps, type CSSProperties, type ReactNode } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
-interface SpotlightCardProps extends React.ComponentProps<typeof Card> {
+interface SpotlightCardProps extends ComponentProps<typeof Card> {
     spotlightColor?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 export function SpotlightCard({
@@ -43,7 +43,7 @@ export function SpotlightCard({
                 {
                     "--spotlight-color": spotlightColor,
                     ...style,
-                } as React.CSSProperties
+                } as CSSProperties
             }
             onMouseMove={handleMouseMove}
             {...props}

@@ -1,7 +1,12 @@
 // src/components/ui/gradient-button.tsx
 "use client";
 
-import { forwardRef, useMemo } from "react";
+import {
+    forwardRef,
+    useMemo,
+    type ReactNode,
+    type ButtonHTMLAttributes,
+} from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
@@ -116,12 +121,12 @@ const gradientButtonVariants = cva(
 
 // TypeScript interfaces
 export interface GradientButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    extends ButtonHTMLAttributes<HTMLButtonElement>,
         VariantProps<typeof gradientButtonVariants> {
     asChild?: boolean;
     loading?: boolean;
     loadingText?: string;
-    icon?: React.ReactNode;
+    icon?: ReactNode;
     iconPosition?: "left" | "right" | "none";
     fullWidth?: boolean;
     hapticFeedback?: boolean;

@@ -16,7 +16,7 @@ const ContactSection = (): JSX.Element => {
         <section id="contact">
             <div
                 className={cn(
-                    "container grid items-center justify-center",
+                    "container flex flex-col justify-center",
                     "gap-4 px-4 text-center md:px-6 z-10",
                     "md:max-w-screen-md",
                     "mx-auto",

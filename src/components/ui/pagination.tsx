@@ -1,12 +1,12 @@
 "use client";
-import * as React from "react";
+import { forwardRef, type ComponentProps } from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ButtonProps } from "@/components/ui/button";
 import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { motion, HTMLMotionProps } from "framer-motion";
 
-const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
+const Pagination = ({ className, ...props }: ComponentProps<"nav">) => (
     <nav
         role="navigation"
         aria-label="pagination"
@@ -16,24 +16,25 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
 );
 Pagination.displayName = "Pagination";
 
-const PaginationContent = React.forwardRef<
-    HTMLUListElement,
-    React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
-    <ul
-        ref={ref}
-        className={cn("flex flex-row items-center gap-1 sm:gap-2", className)}
-        {...props}
-    />
-));
+const PaginationContent = forwardRef<HTMLUListElement, ComponentProps<"ul">>(
+    ({ className, ...props }, ref) => (
+        <ul
+            ref={ref}
+            className={cn(
+                "flex flex-row items-center gap-1 sm:gap-2",
+                className,
+            )}
+            {...props}
+        />
+    ),
+);
 PaginationContent.displayName = "PaginationContent";
 
-const PaginationItem = React.forwardRef<
-    HTMLLIElement,
-    React.ComponentProps<"li">
->(({ className, ...props }, ref) => (
-    <li ref={ref} className={cn("list-none", className)} {...props} />
-));
+const PaginationItem = forwardRef<HTMLLIElement, ComponentProps<"li">>(
+    ({ className, ...props }, ref) => (
+        <li ref={ref} className={cn("list-none", className)} {...props} />
+    ),
+);
 PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
@@ -42,10 +43,10 @@ type PaginationLinkProps = {
     shinySpeed?: number;
     badgeClass?: string;
 } & Pick<ButtonProps, "size"> &
-    React.ComponentProps<"a"> &
+    ComponentProps<"a"> &
     Pick<BadgeProps, "variant">;
 
-const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
+const PaginationLink = forwardRef<HTMLAnchorElement, PaginationLinkProps>(
     (
         {
             className,
@@ -95,8 +96,9 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
                         size === "icon" ? "p-0" : "px-2 py-1 sm:px-3 sm:py-1",
                     )}
                     whileHover={
-                        !isActive
-                            ? {
+                        isActive
+                            ? {}
+                            : {
                                   scale: 1.05,
                                   transition: {
                                       type: "spring",
@@ -104,11 +106,11 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
                                       damping: 10,
                                   },
                               }
-                            : {}
                     }
                     whileTap={
-                        !isActive
-                            ? {
+                        isActive
+                            ? {}
+                            : {
                                   scale: 0.95,
                                   transition: {
                                       type: "spring",
@@ -116,7 +118,6 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
                                       damping: 10,
                                   },
                               }
-                            : {}
                     }
                     animate={
                         isActive
@@ -140,11 +141,11 @@ const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
 PaginationLink.displayName = "PaginationLink";
 
 interface PaginationNavigationProps
-    extends React.ComponentProps<typeof PaginationLink> {
+    extends ComponentProps<typeof PaginationLink> {
     className?: string;
 }
 
-const PaginationPrevious = React.forwardRef<
+const PaginationPrevious = forwardRef<
     HTMLAnchorElement,
     PaginationNavigationProps
 >(({ className, ...props }, ref) => {
@@ -172,62 +173,60 @@ const PaginationPrevious = React.forwardRef<
 });
 PaginationPrevious.displayName = "PaginationPrevious";
 
-const PaginationNext = React.forwardRef<
-    HTMLAnchorElement,
-    PaginationNavigationProps
->(({ className, ...props }, ref) => {
-    const MotionDiv = motion.div;
+const PaginationNext = forwardRef<HTMLAnchorElement, PaginationNavigationProps>(
+    ({ className, ...props }, ref) => {
+        const MotionDiv = motion.div;
 
-    return (
-        <PaginationLink
-            ref={ref}
-            aria-label="Go to next page"
-            size="default"
-            className={cn("pr-2 sm:pr-2.5", className)}
-            badgeClass={cn(
-                "border-orange-400 dark:border-teal-800 border-[1px]",
-            )}
-            {...props}
-        >
-            <MotionDiv
-                className="flex items-center gap-1"
-                whileHover={{ x: 2 }}
-                whileTap={{ x: 4 }}
+        return (
+            <PaginationLink
+                ref={ref}
+                aria-label="Go to next page"
+                size="default"
+                className={cn("pr-2 sm:pr-2.5", className)}
+                badgeClass={cn(
+                    "border-orange-400 dark:border-teal-800 border-[1px]",
+                )}
+                {...props}
             >
-                <span className="hidden sm:inline">Next</span>
-                <ChevronRight className="h-4 w-4" />
-            </MotionDiv>
-        </PaginationLink>
-    );
-});
+                <MotionDiv
+                    className="flex items-center gap-1"
+                    whileHover={{ x: 2 }}
+                    whileTap={{ x: 4 }}
+                >
+                    <span className="hidden sm:inline">Next</span>
+                    <ChevronRight className="h-4 w-4" />
+                </MotionDiv>
+            </PaginationLink>
+        );
+    },
+);
 PaginationNext.displayName = "PaginationNext";
 
 interface PaginationEllipsisProps extends HTMLMotionProps<"span"> {
     className?: string;
 }
 
-const PaginationEllipsis = React.forwardRef<
-    HTMLSpanElement,
-    PaginationEllipsisProps
->(({ className, ...props }, ref) => {
-    const MotionSpan = motion.span;
+const PaginationEllipsis = forwardRef<HTMLSpanElement, PaginationEllipsisProps>(
+    ({ className, ...props }, ref) => {
+        const MotionSpan = motion.span;
 
-    return (
-        <MotionSpan
-            ref={ref}
-            aria-hidden
-            className={cn(
-                "flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center text-muted-foreground",
-                className,
-            )}
-            whileHover={{ scale: 1.1 }}
-            {...props}
-        >
-            <MoreHorizontal className="h-4 w-4" />
-            <span className="sr-only">More pages</span>
-        </MotionSpan>
-    );
-});
+        return (
+            <MotionSpan
+                ref={ref}
+                aria-hidden
+                className={cn(
+                    "flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center text-muted-foreground",
+                    className,
+                )}
+                whileHover={{ scale: 1.1 }}
+                {...props}
+            >
+                <MoreHorizontal className="h-4 w-4" />
+                <span className="sr-only">More pages</span>
+            </MotionSpan>
+        );
+    },
+);
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
 export {

@@ -8,6 +8,7 @@ import {
     useCallback,
     useMemo,
     memo,
+    type FC,
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -73,7 +74,7 @@ const getMotionVariants = (reducedMotion: boolean | null) => ({
     },
 });
 
-const ExpandableDock: React.FC<ExpandableDockProps> = memo(
+const ExpandableDock: FC<ExpandableDockProps> = memo(
     ({
         children,
         onExpand,
