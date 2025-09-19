@@ -338,8 +338,7 @@ const SearchSection = memo((): JSX.Element => {
         return (
             <FormControl
                 className={cn(
-                    "border-[1px] dark:border-white/00",
-                    "border-black/60 dark:border-white/50",
+                    "border-slate-700/50 dark:border-white/50",
                     "text-muted-foreground bg-alternate",
                 )}
             >
@@ -516,6 +515,7 @@ const SearchSection = memo((): JSX.Element => {
                                                 <SelectTrigger
                                                     className={cn(
                                                         "text-muted-foreground",
+                                                        "border-slate-700/50",
                                                         "dark:border-white/50 ",
                                                         "neumorphic-button",
                                                     )}
@@ -554,7 +554,6 @@ const SearchSection = memo((): JSX.Element => {
                                         className={cn(
                                             "flex flex-col",
                                             "mt-4 -mb-1 md:-mb-0 md:mt-0",
-                                            "bg-purple-600/00",
                                         )}
                                     >
                                         <FormLabel className="mb-1">
@@ -612,6 +611,7 @@ const SearchSection = memo((): JSX.Element => {
                                                             "w-[94%] mx-auto cursor-pointer",
                                                             "touch-none select-none",
                                                             "-translate-y-[13px]",
+                                                            "md: translate-x-[5px]",
                                                         )}
                                                         defaultValue={[
                                                             BUDGET_CONFIG.DEFAULT,
