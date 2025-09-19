@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback, type JSX } from "react";
+import { useState, useCallback, type JSX, memo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type ControllerRenderProps } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { CalendarIcon, Search, Copy } from "lucide-react";
+import { CalendarIcon, Search, Copy, RotateCcw, Check } from "lucide-react";
 import { handleItineraryRequest } from "@/app/actions";
 import {
     AlertDialog,
@@ -199,12 +199,36 @@ const interest = [
     },
 ] as const;
 
-const SearchSection = (): JSX.Element => {
+const calendarBttnClass = cn(
+    "h-7 px-2 text-xs md:h-8 md:px-3",
+    "nav-border",
+    "neumorphic-button-tight",
+    "min-w-0 flex-shrink-0",
+    "disabled:opacity-50 disabled:cursor-not-allowed",
+) as string;
+
+const calendarButtons = [
+    {
+        name: "Reset",
+        icon: <RotateCcw className="h-3 w-3 mr-1 md:mr-1.5" />,
+        ariaInactive: "No dates selected to reset",
+        ariaActive: "Reset calendar selection",
+    },
+
+    {
+        name: "Apply",
+        icon: <Check className="h-3 w-3 mr-1 md:mr-1.5" />,
+        ariaLabel: "Apply calendar selection",
+    },
+];
+
+const SearchSection = memo((): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     const [itinerary, setItinerary] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showWhatsAppInput, setShowWhatsAppInput] = useState(false);
     const [whatsAppNumber, setWhatsAppNumber] = useState("");
+    const [isCalendarOpen, setIsCalendarOpen] = useState(false);
     const { toast } = useToast();
     const isMobile = useIsMobile();
 
@@ -218,16 +242,6 @@ const SearchSection = (): JSX.Element => {
             budget: BUDGET_CONFIG.DEFAULT,
         },
     });
-
-    /**
-     * Closes the result dialog and resets all related state
-     */
-    const closeDialog = () => {
-        setItinerary(null);
-        setError(null);
-        setShowWhatsAppInput(false);
-        setWhatsAppNumber("");
-    };
 
     /**
      * Handles form submission and itinerary generation
@@ -287,6 +301,141 @@ const SearchSection = (): JSX.Element => {
         );
     };
 
+    /**
+     * Handles resetting the calendar date selection
+     * Clears both from and to dates and resets to default state
+     */
+    const handleCalendarReset = () => {
+        form.setValue("date", undefined);
+        // toast({
+        //     title: "Dates cleared",
+        //     description: "Calendar has been reset to default state.",
+        // });
+    };
+
+    /**
+     * Handles applying the current calendar selection
+     * Closes the calendar popover while preserving selected dates
+     */
+    const handleCalendarApply = () => {
+        setIsCalendarOpen(false);
+        const currentDate = form.getValues("date");
+        if (currentDate?.from) {
+            toast({
+                title: "Dates applied",
+                description: currentDate.to
+                    ? `Selected: ${format(currentDate.from, "MMM dd")} - ${format(currentDate.to, "MMM dd, yyyy")}`
+                    : `Selected: ${format(currentDate.from, "MMM dd, yyyy")}`,
+            });
+        }
+    };
+
+    const PopTrigger = ({
+        field,
+    }: {
+        field: ControllerRenderProps<z.infer<typeof searchSchema>, "date">;
+    }) => {
+        return (
+            <FormControl
+                className={cn(
+                    "border-[1px] dark:border-white/00",
+                    "border-black/60 dark:border-white/50",
+                    "text-muted-foreground bg-bg-alternate",
+                )}
+            >
+                <Button
+                    variant={"outline"}
+                    className={cn(
+                        "pl-3 text-left font-normal hover:scale-none",
+                        "focus:ring-1 focus:ring-ring focus;ring-offset-0",
+                        "ring-offset-background",
+                        !field.value?.from &&
+                            "text-muted-foreground bg-bg-alternate",
+                    )}
+                >
+                    {field.value?.from ? (
+                        field.value.to ? (
+                            <>
+                                {format(field.value.from, "LLL dd, y")} -{" "}
+                                {format(field.value.to, "LLL dd, y")}
+                            </>
+                        ) : (
+                            format(field.value.from, "LLL dd, y")
+                        )
+                    ) : (
+                        <span>Pick a date range</span>
+                    )}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                </Button>
+            </FormControl>
+        );
+    };
+
+    const PopCalendar = ({
+        field,
+    }: {
+        field: ControllerRenderProps<z.infer<typeof searchSchema>, "date">;
+    }) => {
+        return (
+            <Calendar
+                mode="range"
+                selected={field.value as DateRange}
+                onSelect={field.onChange}
+                disabled={(date: Date) =>
+                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                }
+                autoFocus
+                numberOfMonths={2}
+                showOutsideDays={false}
+                className="rounded-lg bg-popover"
+            />
+        );
+    };
+
+    const PopButtons = ({
+        field,
+    }: {
+        field: ControllerRenderProps<z.infer<typeof searchSchema>, "date">;
+    }) => {
+        return (
+            <>
+                {calendarButtons.map((button) => {
+                    const reset = button.name === "Reset";
+                    return (
+                        <Button
+                            key={button.name}
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className={cn(
+                                calendarBttnClass,
+                                reset
+                                    ? "bg-background hover:bg-secondary/80"
+                                    : "bg-primary hover:bg-primary/90 text-primary-foreground",
+                            )}
+                            disabled={reset && !field.value?.from}
+                            onClick={
+                                reset
+                                    ? handleCalendarReset
+                                    : handleCalendarApply
+                            }
+                            aria-label={
+                                reset
+                                    ? field.value?.from
+                                        ? button.ariaActive
+                                        : button.ariaInactive
+                                    : button.ariaLabel
+                            }
+                        >
+                            {button.icon}
+                            {button.name}
+                        </Button>
+                    );
+                })}
+            </>
+        );
+    };
+
     // WhatsApp message templates and URL generation
     const businessMessage = `Hello! I created a custom itinerary and would like to ask some questions.`;
     const userMessage = `Here is my Bali itinerary from BaliBlissed:\n\n${itinerary}`;
@@ -311,6 +460,16 @@ const SearchSection = (): JSX.Element => {
             onClick: () => setShowWhatsAppInput(true),
         },
     ];
+
+    /**
+     * Closes the result dialog and resets all related state
+     */
+    const closeDialog = () => {
+        setItinerary(null);
+        setError(null);
+        setShowWhatsAppInput(false);
+        setWhatsAppNumber("");
+    };
 
     return (
         <section id="search" className="mx-5 md:mx-0">
@@ -402,89 +561,39 @@ const SearchSection = (): JSX.Element => {
                                         <FormLabel className="mb-1">
                                             Travel Dates (Optional)
                                         </FormLabel>
-                                        <Popover>
+                                        <Popover
+                                            open={isCalendarOpen}
+                                            onOpenChange={setIsCalendarOpen}
+                                        >
                                             <PopoverTrigger asChild>
-                                                <FormControl
-                                                    className={cn(
-                                                        "border-[1px] dark:border-white/00",
-                                                        "border-black/60 dark:border-white/50",
-                                                        "text-muted-foreground bg-bg-alternate",
-                                                    )}
-                                                >
-                                                    <Button
-                                                        variant={"outline"}
-                                                        className={cn(
-                                                            "pl-3 text-left font-normal hover:scale-none",
-                                                            "focus:ring-1 focus:ring-ring focus;ring-offset-0",
-                                                            "ring-offset-background",
-                                                            !field.value
-                                                                ?.from &&
-                                                                "text-muted-foreground bg-bg-alternate",
-                                                        )}
-                                                    >
-                                                        {field.value?.from ? (
-                                                            field.value.to ? (
-                                                                <>
-                                                                    {format(
-                                                                        field
-                                                                            .value
-                                                                            .from,
-                                                                        "LLL dd, y",
-                                                                    )}{" "}
-                                                                    -{" "}
-                                                                    {format(
-                                                                        field
-                                                                            .value
-                                                                            .to,
-                                                                        "LLL dd, y",
-                                                                    )}
-                                                                </>
-                                                            ) : (
-                                                                format(
-                                                                    field.value
-                                                                        .from,
-                                                                    "LLL dd, y",
-                                                                )
-                                                            )
-                                                        ) : (
-                                                            <span>
-                                                                Pick a date
-                                                                range
-                                                            </span>
-                                                        )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
+                                                {PopTrigger({ field })}
                                             </PopoverTrigger>
                                             <PopoverContent
-                                                className="w-full md:w-auto p-1 rounded-lg bg-popover"
+                                                className={cn(
+                                                    "w-full md:w-auto p-1 rounded-lg bg-popover",
+                                                    "flex flex-col",
+                                                )}
                                                 align="center"
                                                 sideOffset={
-                                                    isMobile ? -90 : -400
+                                                    isMobile ? -300 : -400
                                                 }
                                             >
-                                                <Calendar
-                                                    mode="range"
-                                                    selected={
-                                                        field.value as DateRange
-                                                    }
-                                                    onSelect={field.onChange}
-                                                    disabled={(date: Date) =>
-                                                        date <
-                                                        new Date(
-                                                            new Date().setHours(
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                            ),
-                                                        )
-                                                    }
-                                                    autoFocus
-                                                    numberOfMonths={2}
-                                                    showOutsideDays={false}
-                                                    className="rounded-lg bg-popover"
-                                                />
+                                                {/* Calendar Component */}
+                                                <div className="relative">
+                                                    {PopCalendar({ field })}
+                                                </div>
+
+                                                {/* Calendar Action Buttons */}
+                                                <div
+                                                    className={cn(
+                                                        "flex justify-end",
+                                                        "gap-1 md:gap-3",
+                                                        "z-10 rounded-lg",
+                                                        "border-t-1 py-2 pr-3",
+                                                    )}
+                                                >
+                                                    <PopButtons field={field} />
+                                                </div>
                                             </PopoverContent>
                                         </Popover>
                                         <FormMessage />
@@ -751,5 +860,6 @@ const SearchSection = (): JSX.Element => {
             </AlertDialog>
         </section>
     );
-};
+});
+SearchSection.displayName = "SearchSection";
 export default SearchSection;

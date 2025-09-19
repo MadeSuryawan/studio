@@ -244,6 +244,34 @@
             -3px -3px 5px #ffffff45,
             3px 3px 5px rgba(77, 77, 81, 0.8);
     }
+    .neumorphic-button-tight {
+        @apply transition-none;
+        box-shadow:
+            2px 2px 3px rgba(82, 82, 82, 0.4),
+            -2px -2px 3px rgba(219, 218, 218, 0.4);
+    }
+    .neumorphic-button-tight:hover {
+        @apply border-transparent transition-none;
+        box-shadow:
+            inset -2px -2px 5px rgba(227, 227, 227, 0.8),
+            inset 2px 2px 3px rgba(129, 140, 155, 0.5);
+    }
+    .dark .neumorphic-button-tight {
+        box-shadow:
+            1px 1px 5px rgba(0, 0, 0, 0.8),
+            -1px -1px 5px rgba(255, 255, 255, 0.1);
+    }
+    .dark .neumorphic-button-tight:hover {
+        @apply border-transparent transition-none;
+        box-shadow:
+            inset -2px -2px 5px rgba(255, 255, 255, 0.05),
+            inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .neumorphic-accent-button {
+        box-shadow:
+            -3px -3px 5px #ffffff45,
+            3px 3px 5px rgba(77, 77, 81, 0.8);
+    }
     .neumorphic-accent-button:hover {
         box-shadow:
             inset 2px 2px 7px rgba(0, 0, 0, 0.5),

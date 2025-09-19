@@ -103,8 +103,8 @@ export const Slider = ({
                                     "absolute top-1/2 h-2 w-full -translate-y-1/2",
                                     "rounded-[4px] bg-background",
                                     "border-[1px] nav-border",
-                                    "shadow-[1px_1px_3px_rgba(82,_82,_82,_0.4),_-2px_-2px_3px_rgba(255_,255_,255_,0.9)]",
-                                    "dark:shadow-[1px_1px_5px_rgba(0,_0,_0,_0.8),_-1px_-1px_5px_rgba(255_,255_,255_,0.1)]",
+                                    "pointer-events-none",
+                                    "neumorphic-button-tight",
                                 )}
                             />
                             <span
@@ -112,8 +112,8 @@ export const Slider = ({
                                     "absolute top-1/2 h-2 w-full -translate-y-1/2",
                                     "rounded-[4px] bg-accent",
                                     "border-[1px] nav-border",
-                                    "shadow-[1px_1px_3px_rgba(82,_82,_82,_0.4),_-2px_-2px_3px_rgba(255_,255_,255_,0.9)]",
-                                    "dark:shadow-[1px_1px_5px_rgba(0,_0,_0,_0.8),_-3px_-3px_3px_rgba(255_,255_,255_,0.1)]",
+                                    "pointer-events-none",
+                                    "neumorphic-button-tight",
                                 )}
                                 style={{
                                     left: `${left * 100}%`,
