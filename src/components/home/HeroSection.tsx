@@ -273,6 +273,44 @@ const HeroContentComponent = memo(
 );
 HeroContentComponent.displayName = "HeroContentComponent";
 
+interface IridescenceBgProps {
+    className?: string;
+    color?: [number, number, number];
+    amplitude?: number;
+    speed?: number;
+    mouseReact?: boolean;
+}
+
+const IridescenceBg = memo(
+    ({
+        className,
+        color = [1, 1, 1],
+        amplitude = 0.1,
+        speed = 0.1,
+        mouseReact = false,
+    }: IridescenceBgProps) => {
+        return (
+            <div
+                className={cn(
+                    "absolute inset-0 opacity-30",
+                    "saturate-[70%]",
+                    "dark:brightness-[90%] dark:contrast-[1.3]",
+                    "neumorphic-hero-image",
+                    className,
+                )}
+            >
+                <Iridescence
+                    color={color}
+                    amplitude={amplitude}
+                    speed={speed}
+                    mouseReact={mouseReact}
+                />
+            </div>
+        );
+    },
+);
+IridescenceBg.displayName = "IridescenceBg";
+
 const HeroSection = memo((): JSX.Element => {
     const isMobile = useIsMobile();
     const reducedMotion = useReducedMotion();
@@ -294,7 +332,7 @@ const HeroSection = memo((): JSX.Element => {
                 className={cn(
                     "hidden md:grid grid-cols-3",
                     "relative w-full",
-                    "px-12",
+                    "mx-auto w-[92vw]",
                     "mt-24 mb-16",
                 )}
             >
@@ -303,61 +341,26 @@ const HeroSection = memo((): JSX.Element => {
                     className={cn(
                         "relative",
                         "col-span-2",
-                        "my-8",
-                        "ml-4",
-                        "px-20",
-                        "py-6",
+                        "my-8 px-20 py-6",
                         "rounded-lg rounded-r-none",
                         "neumorphic-hero-image",
+                        "overflow-hidden",
                     )}
                 >
-                    <div
-                        className={cn(
-                            "absolute inset-0",
-                            "rounded-lg overflow-hidden opacity-30",
-                            "saturate-[70%]",
-                            "dark:brightness-[70%] dark:contrast-[1,3]",
-                        )}
-                    >
-                        <Iridescence
-                            color={[1, 1, 1]}
-                            mouseReact={false}
-                            amplitude={0.9}
-                            speed={0.1}
-                        />
-                    </div>
+                    <IridescenceBg />
                     <div
                         ref={desktopHeroContentRef}
                         className={cn(
-                            "relative",
-                            "flex flex-col items-center justify-center gap-6",
-                            "size-full",
-                            "text-center",
-                            "text-hero-title",
+                            "relative size-full",
+                            "flex flex-col place-content-center gap-6",
+                            "text-center text-hero-title",
                             "text-shadow-sm",
-                            "px-4",
-                            "-ml-1",
-                            "neumorphic-cta-card",
-                            "rounded-lg",
+                            "px-4 rounded-xl",
+                            "neumorphic-hero-image",
                             "overflow-hidden",
                         )}
                     >
-                        <div
-                            className={cn(
-                                "absolute inset-0",
-                                "rounded-lg overflow-hidden opacity-30",
-                                "saturate-[70%]",
-                                "neumorphic-cta-card",
-                                "dark:brightness-[90%] dark:contrast-[1.3]",
-                            )}
-                        >
-                            <Iridescence
-                                color={[1, 1, 1]}
-                                mouseReact={false}
-                                amplitude={0.1}
-                                speed={0.1}
-                            />
-                        </div>
+                        <IridescenceBg />
                         <HeroContentComponent
                             activeRef={activeRef}
                             reducedMotion={reducedMotion}
@@ -368,14 +371,10 @@ const HeroSection = memo((): JSX.Element => {
                 {/* Image Container */}
                 <div
                     className={cn(
-                        "col-span-1",
-                        "aspect-[8.5/11]",
-                        "w-full",
-                        "p-1",
-                        "mr-8",
-                        "neumorphic-hero-image",
-                        "rounded-lg",
+                        "relative rounded-lg",
+                        "aspect-[8.5/11] p-1",
                         "flex place-content-center",
+                        "neumorphic-hero-image",
                     )}
                 >
                     <HeroImage reducedMotion={reducedMotion} />

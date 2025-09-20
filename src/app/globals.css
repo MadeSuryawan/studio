@@ -96,7 +96,7 @@
         --popover: hsl(214, 41%, 12%);
         --popover-foreground: hsl(60 9.1% 97.8%);
         --primary: hsl(180 66% 54%);
-        --hero-title: hsl(212, 31%, 77%);
+        --hero-title: hsl(215, 58%, 87%);
         --primary-foreground: hsl(224 71.4% 4.1%);
         --secondary: hsl(197, 56%, 19%);
         --secondary-foreground: hsl(60 9.1% 97.8%);
@@ -342,7 +342,7 @@
     .dark .neumorphic-hero-image {
         box-shadow:
             -7px -7px 7px rgba(150, 150, 150, 0.05),
-            10px 10px 10px rgba(1, 1, 1, 0.4);
+            10px 10px 10px rgba(1, 1, 1, 0.3);
     }
     .neumorphic-nav-link {
         @apply bg-background;
