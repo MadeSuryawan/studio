@@ -15,6 +15,7 @@ import {
     type Target,
 } from "framer-motion";
 import useIsMobile from "@/hooks/use-mobile";
+import { Iridescence } from "@/components/Iridescence";
 
 type AnimationType = "slideLeft" | "slideRight" | "slideDown";
 
@@ -272,7 +273,7 @@ const HeroContentComponent = memo(
 );
 HeroContentComponent.displayName = "HeroContentComponent";
 
-const HeroSection = (): JSX.Element => {
+const HeroSection = memo((): JSX.Element => {
     const isMobile = useIsMobile();
     const reducedMotion = useReducedMotion();
     // Separate refs for desktop and mobile views
@@ -300,6 +301,7 @@ const HeroSection = (): JSX.Element => {
                 {/* Text Container */}
                 <div
                     className={cn(
+                        "relative",
                         "col-span-2",
                         "my-8",
                         "ml-4",
@@ -310,8 +312,24 @@ const HeroSection = (): JSX.Element => {
                     )}
                 >
                     <div
+                        className={cn(
+                            "absolute inset-0",
+                            "rounded-lg overflow-hidden opacity-30",
+                            "saturate-[70%]",
+                            "dark:brightness-[70%] dark:contrast-[1,3]",
+                        )}
+                    >
+                        <Iridescence
+                            color={[1, 1, 1]}
+                            mouseReact={false}
+                            amplitude={0.9}
+                            speed={0.1}
+                        />
+                    </div>
+                    <div
                         ref={desktopHeroContentRef}
                         className={cn(
+                            "relative",
                             "flex flex-col items-center justify-center gap-6",
                             "size-full",
                             "text-center",
@@ -320,11 +338,26 @@ const HeroSection = (): JSX.Element => {
                             "px-4",
                             "-ml-1",
                             "neumorphic-cta-card",
-                            "dark:text-shadow-md",
                             "rounded-lg",
                             "overflow-hidden",
                         )}
                     >
+                        <div
+                            className={cn(
+                                "absolute inset-0",
+                                "rounded-lg overflow-hidden opacity-30",
+                                "saturate-[70%]",
+                                "neumorphic-cta-card",
+                                "dark:brightness-[90%] dark:contrast-[1.3]",
+                            )}
+                        >
+                            <Iridescence
+                                color={[1, 1, 1]}
+                                mouseReact={false}
+                                amplitude={0.1}
+                                speed={0.1}
+                            />
+                        </div>
                         <HeroContentComponent
                             activeRef={activeRef}
                             reducedMotion={reducedMotion}
@@ -405,6 +438,7 @@ const HeroSection = (): JSX.Element => {
             </div>
         </section>
     );
-};
+});
+HeroSection.displayName = "HeroSection";
 
 export default HeroSection;

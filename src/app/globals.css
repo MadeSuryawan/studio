@@ -44,6 +44,7 @@
     --font-balibanat: var(--font-bali-banat);
     --font-mangusastra: var(--font-mangusastra);
 }
+
 @layer base {
     :root {
         /* --radius: 0.625rem; */
@@ -56,7 +57,7 @@
         --popover: hsl(210, 50%, 81%);
         --popover-foreground: hsl(224 71.4% 4.1%);
         --primary: hsl(174 71% 57%);
-        --hero-title: hsl(210, 16%, 19%);
+        --hero-title: hsl(208, 15%, 23%);
         --primary-foreground: hsl(224 71.4% 4.1%);
         --secondary: hsl(60 4.8% 95.9%);
         --secondary-foreground: hsl(222.2 84% 4.9%);
