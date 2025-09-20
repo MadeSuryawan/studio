@@ -16,6 +16,8 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
+.genkit/
+
 # Linux
 *~
 .nfs*
